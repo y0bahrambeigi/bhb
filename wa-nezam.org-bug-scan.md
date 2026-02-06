@@ -27,3 +27,19 @@ connection: close
   - Broken links and 4xx/5xx responses.
   - Missing security headers (CSP, HSTS, X-Frame-Options, etc.).
   - Form validation and localization issues.
+
+## How to Fix Likely Issues (When Access Is Available)
+1. **Connectivity / HTTP errors**
+   - If requests return 4xx/5xx, inspect server logs and ensure the origin service is healthy.
+   - Verify any WAF/CDN rules are not blocking legitimate traffic.
+2. **Broken links**
+   - Crawl the site and update or remove dead links; ensure redirect rules are correct.
+3. **JavaScript / console errors**
+   - Open DevTools and fix missing asset paths, failing API calls, and runtime errors.
+4. **Missing security headers**
+   - Add a baseline header set: `Content-Security-Policy`, `Strict-Transport-Security`,
+     `X-Frame-Options`, `Referrer-Policy`, and `X-Content-Type-Options`.
+5. **Forms & validation**
+   - Validate on both client and server, and ensure error messages are user-friendly.
+6. **Localization & encoding**
+   - Confirm correct charset and RTL/LTR handling where applicable.
