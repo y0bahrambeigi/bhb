@@ -35,7 +35,7 @@ classdef TenBarTrussTopology
 
             z = zRaw >= 0.5;
             A = Araw;
-            A(~z) = 1e-6;            % Near-void members for topology removal
+            A(~z) = 0;               % Remove inactive members exactly
             A(z) = max(A(z), obj.minAreaActive);
 
             nodes = [obj.L*2, 0;
@@ -152,13 +152,21 @@ classdef TenBarTrussTopology
 
             info.activeBars = z;
             info.nActive = nActive;
+            info.area = A;
+            info.stress = sigma;
+            info.displacement = U;
+            info.stressRatio = abs(sigma) / obj.sigmaMax;
             info.maxDisp = maxDisp;
+            info.conditionEstimate = conditionEstimate;
+            info.isStable = singularityPenalty == 0;
+            info.isFeasible = info.isStable && g < 1e-8;
+            info.nodes = nodes;
+            info.elements = elements;
             if any(z)
                 info.maxStress = max(abs(sigma(z)));
             else
                 info.maxStress = 0;
             end
-            info.area = A;
         end
 
         function bounds = getBounds(obj)
