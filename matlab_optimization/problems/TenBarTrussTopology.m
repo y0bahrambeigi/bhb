@@ -104,10 +104,24 @@ classdef TenBarTrussTopology
 
             U = zeros(nDOF, 1);
             singularityPenalty = 0;
-            try
-                U(freeDOFs) = K(freeDOFs, freeDOFs) \ F(freeDOFs);
-            catch
+            Kff = K(freeDOFs, freeDOFs);
+            Ff = F(freeDOFs);
+            conditionEstimate = rcond(Kff);
+
+            if ~isfinite(conditionEstimate) || conditionEstimate < 1e-12
                 singularityPenalty = 50;
+            else
+                try
+                    Ufree = Kff \ Ff;
+                    relativeResidual = norm(Kff * Ufree - Ff) / max(norm(Ff), eps);
+                    if any(~isfinite(Ufree)) || ~isfinite(relativeResidual) || relativeResidual > 1e-8
+                        singularityPenalty = 50;
+                    else
+                        U(freeDOFs) = Ufree;
+                    end
+                catch
+                    singularityPenalty = 50;
+                end
             end
 
             sigma = zeros(nElem, 1);
@@ -125,7 +139,8 @@ classdef TenBarTrussTopology
                 U(:) = 1e3;
             end
 
-            gStress = max(0, abs(sigma) / obj.sigmaMax - 1);
+            gStress = zeros(nElem, 1);
+            gStress(z) = max(0, abs(sigma(z)) / obj.sigmaMax - 1);
             maxDisp = max(abs(U));
             gDisp = max(0, maxDisp / obj.deltaMax - 1);
 
@@ -138,7 +153,11 @@ classdef TenBarTrussTopology
             info.activeBars = z;
             info.nActive = nActive;
             info.maxDisp = maxDisp;
-            info.maxStress = max(abs(sigma));
+            if any(z)
+                info.maxStress = max(abs(sigma(z)));
+            else
+                info.maxStress = 0;
+            end
             info.area = A;
         end
 
