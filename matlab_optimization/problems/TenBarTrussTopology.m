@@ -45,16 +45,17 @@ classdef TenBarTrussTopology
                      obj.L, obj.L;
                      0, obj.L];
 
-            elements = [3, 5;
-                        1, 3;
-                        4, 6;
-                        2, 4;
-                        3, 4;
-                        1, 2;
-                        4, 5;
-                        3, 6;
+            % Classical 10-bar benchmark connectivity
+            elements = [1, 2;
                         2, 3;
-                        1, 4];
+                        4, 5;
+                        5, 6;
+                        2, 5;
+                        1, 4;
+                        2, 4;
+                        1, 5;
+                        3, 5;
+                        2, 6];
 
             nElem = size(elements, 1);
             elemLength = zeros(nElem, 1);
@@ -99,7 +100,8 @@ classdef TenBarTrussTopology
             F(4) = -obj.P;
             F(8) = -obj.P;
 
-            fixedDOFs = [9, 10, 11, 12];
+            % Nodes 3 and 6 are supported in the classical benchmark
+            fixedDOFs = [5, 6, 11, 12];
             freeDOFs = setdiff(1:nDOF, fixedDOFs);
 
             U = zeros(nDOF, 1);
@@ -134,15 +136,16 @@ classdef TenBarTrussTopology
                     B = (obj.E / elemLength(i)) * [-c(i), -s(i), c(i), s(i)];
                     sigma(i) = B * U(dof);
                 end
-            else
-                sigma(:) = 1e3;
-                U(:) = 1e3;
             end
 
             gStress = zeros(nElem, 1);
             gStress(z) = max(0, abs(sigma(z)) / obj.sigmaMax - 1);
             maxDisp = max(abs(U));
-            gDisp = max(0, maxDisp / obj.deltaMax - 1);
+            if singularityPenalty == 0
+                gDisp = max(0, maxDisp / obj.deltaMax - 1);
+            else
+                gDisp = 0;
+            end
 
             % Encourage practical topologies: keep at least 6 active bars
             nActive = sum(z);
