@@ -14,9 +14,18 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
     bounds = problem.getBounds();
     nVar = problem.nVar;
 
-    % Initialize pelicans
+    % Initialize pelicans and include stable all-member seed designs.
     pelicans = repmat(bounds.lb, params.popSize, 1) + ...
                rand(params.popSize, nVar) .* repmat(bounds.ub - bounds.lb, params.popSize, 1);
+
+    topologyIdx = (problem.nBar + 1):nVar;
+    areaIdx = 1:problem.nBar;
+    pelicans(1, areaIdx) = 0.5 * (bounds.lb(areaIdx) + bounds.ub(areaIdx));
+    pelicans(1, topologyIdx) = 1;
+    if params.popSize >= 2
+        pelicans(2, areaIdx) = bounds.ub(areaIdx);
+        pelicans(2, topologyIdx) = 1;
+    end
 
     fitness = zeros(params.popSize, 1);
     for i = 1:params.popSize
@@ -52,12 +61,9 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
                 candidate = bestSol + diveFactor * (Xi - bestSol) .* rand(1, nVar) + localPerturb;
             end
 
-            % Topology-aware perturbation (for binary-like variables in upper half)
-            if nVar > 10
-                topologyIdx = (floor(nVar / 2) + 1):nVar;
-                flipMask = rand(1, numel(topologyIdx)) < (0.15 * (1 - progress));
-                candidate(topologyIdx(flipMask)) = 1 - candidate(topologyIdx(flipMask));
-            end
+            % Topology-aware perturbation of the binary-like variables.
+            flipMask = rand(1, numel(topologyIdx)) < (0.15 * (1 - progress));
+            candidate(topologyIdx(flipMask)) = 1 - candidate(topologyIdx(flipMask));
 
             % Bound correction
             candidate = max(bounds.lb, min(bounds.ub, candidate));
