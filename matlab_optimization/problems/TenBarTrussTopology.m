@@ -129,6 +129,9 @@ classdef TenBarTrussTopology
             sigma = zeros(nElem, 1);
             if singularityPenalty == 0
                 for i = 1:nElem
+                    if ~z(i)
+                        continue;
+                    end
                     n1 = elements(i, 1);
                     n2 = elements(i, 2);
                     dof = [2*n1-1, 2*n1, 2*n2-1, 2*n2];
