@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://y0bahrambeigi.github.io/bhb/sitemap.xml
