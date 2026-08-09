@@ -1,0 +1,22 @@
+{
+  "name": "آکادمی تعاملی پایتون با یوسف بهرام بیگی",
+  "short_name": "آکادمی پایتون",
+  "description": "آموزش پروژه‌محور پایتون از مقدماتی تا هوش مصنوعی و بهینه‌سازی",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f8f2",
+  "theme_color": "#102b31",
+  "categories": ["education", "productivity", "developer"],
+  "icons": [
+    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ],
+  "shortcuts": [
+    {"name":"کارگاه کدنویسی","short_name":"کارگاه","url":"./#workshop","icons":[{"src":"./icon-192.png","sizes":"192x192"}]},
+    {"name":"مسیر یادگیری","short_name":"مسیر","url":"./#roadmap","icons":[{"src":"./icon-192.png","sizes":"192x192"}]}
+  ]
+}
