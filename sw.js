@@ -1,4 +1,4 @@
-const CACHE_NAME = "python-academy-yousef-pages-v5";
+const CACHE_NAME = "python-academy-yousef-pages-v6";
 const BASE_URL = new URL("./", self.registration.scope);
 const CORE = [
   "./", "./index.html", "./manifest.webmanifest", "./favicon.svg",
