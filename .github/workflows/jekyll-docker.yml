@@ -1,27 +1,27 @@
-name: Deploy Python Academy to GitHub Pages
+name: Validate Python Academy
 
 on:
   push:
     branches: ["main"]
     paths:
+      - "index.html"
+      - "404.html"
+      - "assets/**"
       - "academy/**"
+      - "manifest.webmanifest"
+      - "sw.js"
       - ".github/workflows/jekyll-docker.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: "python-academy-pages"
+  group: "python-academy-validation"
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  validate:
     runs-on: ubuntu-latest
     env:
       PYODIDE_VERSION: "314.0.2"
@@ -30,32 +30,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Prepare self-hosted static site
+      - name: Validate static application
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p _site/pyodide
-          rsync -a academy/ _site/
+          test -s index.html
+          test -s manifest.webmanifest
+          test -s sw.js
+          test -s assets/page-CLR9xq8Z.js
+          python -m json.tool manifest.webmanifest >/dev/null
+          node --check sw.js
+          node --check assets/page-CLR9xq8Z.js
 
+      - name: Download pinned Pyodide runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          runtime_dir="${RUNNER_TEMP}/pyodide"
+          mkdir -p "$runtime_dir"
           base_url="https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full"
           for file in pyodide.js pyodide.asm.mjs pyodide.asm.wasm python_stdlib.zip pyodide-lock.json; do
             curl --fail --location --retry 3 --silent --show-error \
-              "${base_url}/${file}" --output "_site/pyodide/${file}"
-            test -s "_site/pyodide/${file}"
+              "${base_url}/${file}" --output "${runtime_dir}/${file}"
+            test -s "${runtime_dir}/${file}"
           done
-
-          find _site -type f ! -name FILE_CHECKSUMS.sha256 -print0 \
-            | sort -z \
-            | xargs -0 sha256sum > _site/FILE_CHECKSUMS.sha256
 
       - name: Smoke-test Python runtime
         shell: bash
-        working-directory: _site
         run: |
-          node - <<'NODE'
-          const { loadPyodide } = require('./pyodide/pyodide.js');
+          PYODIDE_DIR="${RUNNER_TEMP}/pyodide" node - <<'NODE'
+          const { loadPyodide } = require(`${process.env.PYODIDE_DIR}/pyodide.js`);
           (async () => {
-            const pyodide = await loadPyodide({ indexURL: `${process.cwd()}/pyodide/` });
+            const pyodide = await loadPyodide({ indexURL: `${process.env.PYODIDE_DIR}/` });
             const result = await pyodide.runPythonAsync('sum([12.5, 18.2, 9.8, 21.4])');
             if (result !== 61.9) throw new Error(`Unexpected Python result: ${result}`);
             console.log(`Pyodide smoke test passed: ${result}`);
@@ -64,15 +70,3 @@ jobs:
             process.exit(1);
           });
           NODE
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-
-      - name: Deploy to Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
