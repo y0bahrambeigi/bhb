@@ -1,0 +1,3 @@
+Python Academy Offline includes a local Pyodide runtime so Python can execute in a web browser without a remote server.
+Pyodide project information and license notices are available at https://pyodide.org/ and https://github.com/pyodide/pyodide.
+No third-party runtime files are loaded from the internet while using this package.
