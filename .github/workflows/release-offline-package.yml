@@ -1,0 +1,122 @@
+name: Build Full Offline Package
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "academy/**"
+      - "offline-package/**"
+      - ".github/workflows/release-offline-package.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "python-academy-offline-release"
+  cancel-in-progress: true
+
+env:
+  PYODIDE_VERSION: "314.0.2"
+  RELEASE_TAG: "python-academy-v2.0.0"
+  PACKAGE_NAME: "Python_Academy_Yousef_Bahram_Beigi_Offline_v2.0"
+
+jobs:
+  package-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Assemble the cross-platform package
+        shell: bash
+        run: |
+          set -euo pipefail
+          dist_dir="${RUNNER_TEMP}/python-academy-release"
+          package_dir="${dist_dir}/${PACKAGE_NAME}"
+          app_dir="${package_dir}/app"
+          mkdir -p "${app_dir}/pyodide"
+
+          cp -R academy/. "${app_dir}/"
+          rm -rf "${app_dir}/.github" "${app_dir}/scripts"
+          rm -f "${app_dir}/README.md" "${app_dir}/404.html" "${app_dir}/robots.txt" "${app_dir}/sitemap.xml"
+          cp offline-package/sw.js "${app_dir}/sw.js"
+          cp offline-package/README_FA.txt offline-package/THIRD_PARTY_NOTICES.txt \
+            offline-package/VERSION.json offline-package/server.py \
+            offline-package/START_WINDOWS.bat offline-package/Start-Windows.ps1 \
+            offline-package/START_MAC.command offline-package/START_LINUX.sh "${package_dir}/"
+
+          release_url="https://github.com/y0bahrambeigi/bhb/releases/download/${RELEASE_TAG}/${PACKAGE_NAME}.zip"
+          for bundle in "${app_dir}"/assets/page-*.js; do
+            sed -i "s|https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/pyodide.js|./pyodide/pyodide.js|g" "${bundle}"
+            sed -i "s|https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full/|./pyodide/|g" "${bundle}"
+            sed -i "s|${release_url}|#top|g" "${bundle}"
+            sed -i 's|دانلود پکیج کامل چندسیستمی|این نسخه کامل آفلاین روی دستگاه شماست|g' "${bundle}"
+          done
+
+          base_url="https://cdn.jsdelivr.net/pyodide/v${PYODIDE_VERSION}/full"
+          for file in pyodide.js pyodide.asm.mjs pyodide.asm.wasm python_stdlib.zip pyodide-lock.json; do
+            curl --fail --location --retry 3 --silent --show-error \
+              "${base_url}/${file}" --output "${app_dir}/pyodide/${file}"
+            test -s "${app_dir}/pyodide/${file}"
+          done
+
+          chmod +x "${package_dir}/START_MAC.command" "${package_dir}/START_LINUX.sh" "${package_dir}/server.py"
+          node --check "${app_dir}/sw.js"
+          node --check "${app_dir}/assets/page-CLR9xq8Z.js"
+          python -m json.tool "${package_dir}/VERSION.json" >/dev/null
+          test -s "${app_dir}/pyodide/pyodide.asm.wasm"
+          test -s "${app_dir}/pyodide/python_stdlib.zip"
+
+          (
+            cd "${package_dir}"
+            find . -type f ! -name FILE_CHECKSUMS.sha256 -print0 | sort -z | xargs -0 sha256sum > FILE_CHECKSUMS.sha256
+          )
+          (
+            cd "${dist_dir}"
+            zip -q -r "${GITHUB_WORKSPACE}/${PACKAGE_NAME}.zip" "${PACKAGE_NAME}"
+          )
+          sha256sum "${PACKAGE_NAME}.zip" > "${PACKAGE_NAME}.zip.sha256"
+
+      - name: Smoke-test the bundled Python runtime
+        shell: bash
+        run: |
+          package_dir="${RUNNER_TEMP}/python-academy-release/${PACKAGE_NAME}"
+          PYODIDE_DIR="${package_dir}/app/pyodide" node - <<'NODE'
+          const { loadPyodide } = require(`${process.env.PYODIDE_DIR}/pyodide.js`);
+          (async () => {
+            const pyodide = await loadPyodide({ indexURL: `${process.env.PYODIDE_DIR}/` });
+            const result = await pyodide.runPythonAsync('sum([12.5, 18.2, 9.8, 21.4])');
+            if (result !== 61.9) throw new Error(`Unexpected Python result: ${result}`);
+            console.log(`Bundled Pyodide smoke test passed: ${result}`);
+          })().catch(error => {
+            console.error(error);
+            process.exit(1);
+          });
+          NODE
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.PACKAGE_NAME }}
+          path: |
+            ${{ env.PACKAGE_NAME }}.zip
+            ${{ env.PACKAGE_NAME }}.zip.sha256
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Publish permanent GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          notes="بسته کامل آفلاین آکادمی تعاملی پایتون، مدرس و طراح: یوسف بهرام بیگی. شامل ۴ سطح، ۲۴ درس، موتور محلی Pyodide و راه‌اندازهای Windows، macOS و Linux. برای Android، iPhone/iPad و Chromebook راهنمای نصب PWA داخل بسته قرار دارد."
+          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+            gh release edit "${RELEASE_TAG}" --title "Python Academy Offline v2.0" --notes "${notes}"
+          else
+            gh release create "${RELEASE_TAG}" --target "${GITHUB_SHA}" --title "Python Academy Offline v2.0" --notes "${notes}"
+          fi
+          gh release upload "${RELEASE_TAG}" \
+            "${PACKAGE_NAME}.zip" "${PACKAGE_NAME}.zip.sha256" --clobber
