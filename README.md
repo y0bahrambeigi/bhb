@@ -1,77 +1,51 @@
-# Steel Structure Optimization using Metaheuristic Algorithms
+# آکادمی تعاملی پایتون با یوسف بهرام بیگی
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1234567.svg)](https://doi.org/10.5281/zenodo.1234567)
+یک دورهٔ فارسی، تعاملی و پروژه‌محور برای یادگیری Python از سطح مقدماتی تا مباحث پیشرفته، هوش مصنوعی و بهینه‌سازی.
 
-## Overview
+## ویژگی‌ها
 
-This repository contains a comprehensive MATLAB implementation comparing six state-of-the-art metaheuristic optimization algorithms for steel structure design optimization.
+- ۴ سطح آموزشی و ۲۴ درس فعال
+- محیط اجرای واقعی Python در مرورگر با Pyodide
+- تمرین، بازخورد و ذخیرهٔ پیشرفت کاربر
+- پروژه‌های مهندسی، تحلیل داده و بهینه‌سازی خرپا
+- نصب‌پذیر به‌صورت PWA و قابل استفاده پس از بارگذاری اولیه در حالت آفلاین
+- رابط کاملاً فارسی، راست‌به‌چپ و واکنش‌گرا
 
-## Features
+## اجرای سایت
 
-- **6 Metaheuristic Algorithms**: GA, PSO, DE, SA, HS, TLBO
-- **Steel Structure Problem**: 10-bar truss optimization benchmark
-- **Complete Analysis**: Convergence plots, performance metrics, statistical ranking
-- **Easy to Use**: Simple API for running algorithms and comparing results
+نسخهٔ منتشرشده روی GitHub Pages:
 
-## Quick Start
+<https://y0bahrambeigi.github.io/bhb/>
 
-```matlab
-cd matlab_optimization
-CompareMetaheuristics
+در استقرار GitHub Pages، فایل‌های هستهٔ Pyodide نسخهٔ پایدار `314.0.2` هنگام اجرای Workflow رسمی دانلود، آزمون و همراه سایت منتشر می‌شوند؛ بنابراین موتور Python از همان دامنهٔ سایت سرو خواهد شد.
+
+برای اجرای محلی، ابتدا فایل‌های هستهٔ Pyodide را دریافت و سپس یک وب‌سرور استاتیک اجرا کنید. اجرای مستقیم `index.html` با پروتکل `file://` برای Service Worker و WebAssembly مناسب نیست.
+
+```bash
+bash scripts/fetch-pyodide.sh
+python -m http.server 8000
 ```
 
-This will run all 6 algorithms and generate:
-- Comparison plots
-- Performance metrics
-- Best solution with constraint verification
+در Windows PowerShell:
 
-## Algorithms Included
-
-1. **Genetic Algorithm (GA)** - Evolution-inspired optimization
-2. **Particle Swarm Optimization (PSO)** - Swarm intelligence
-3. **Differential Evolution (DE)** - Population-based evolutionary algorithm
-4. **Simulated Annealing (SA)** - Thermodynamic-inspired optimization
-5. **Harmony Search (HS)** - Music-inspired algorithm
-6. **Teaching-Learning-Based Optimization (TLBO)** - Education-inspired approach
-
-## Documentation
-
-See the [detailed documentation](matlab_optimization/README.md) for:
-- Algorithm details and parameters
-- Problem formulation
-- Customization guide
-- Results interpretation
-- References
-
-## Project Structure
-
-```
-matlab_optimization/
-├── CompareMetaheuristics.m     # Main comparison script
-├── ExampleUsage.m              # Usage examples
-├── algorithms/                  # 6 optimization algorithms
-├── problems/                    # 10-bar truss problem
-├── utils/                       # Visualization utilities
-└── README.md                    # Detailed documentation
+```powershell
+.\scripts\fetch-pyodide.ps1
+python -m http.server 8000
 ```
 
-## Requirements
+سپس نشانی `http://localhost:8000` را در مرورگر باز کنید.
 
-- MATLAB R2016b or later
-- No additional toolboxes required
+## ساختار اصلی
 
-## Results
+- `index.html`: صفحهٔ اصلی آکادمی
+- `assets/`: فایل‌های رابط کاربری و فونت‌ها
+- `scripts/`: دریافت نسخهٔ ثابت و رسمی Pyodide برای اجرای محلی
+- `pyodide/`: در زمان استقرار ساخته می‌شود و شامل مفسر Python است
+- `manifest.webmanifest`: تنظیمات نصب برنامه
+- `sw.js`: کش آفلاین و مدیریت Service Worker
 
-The program compares algorithms based on:
-- **Convergence speed**: How quickly they find good solutions
-- **Solution quality**: Best fitness achieved
-- **Computational efficiency**: Time required
-- **Constraint satisfaction**: Feasibility of solutions
+## مدرس و طراح دوره
 
-## License
+**یوسف بهرام بیگی**
 
-MIT License
-
-## Citation
-
-If you use this code in your research, please cite accordingly (see detailed README).
+© 2026 Yousef Bahram Beigi. All rights reserved.
