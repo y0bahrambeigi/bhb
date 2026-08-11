@@ -53,11 +53,10 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: rasa-cell-app/package-lock.json
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
-          cache: gradle
       - run: npm ci
       - run: npm run build:web
       - run: npx cap add android
@@ -106,7 +105,7 @@ jobs:
       - name: Build unsigned iOS Simulator app
         run: >-
           xcodebuild
-          -workspace ios/App/App.xcworkspace
+          -project ios/App/App.xcodeproj
           -scheme App
           -configuration Release
           -sdk iphonesimulator
