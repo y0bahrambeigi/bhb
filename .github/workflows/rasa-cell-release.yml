@@ -1,0 +1,135 @@
+name: RASA Cell — Build Offline Apps
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "rasa-cell-app/**"
+      - ".github/workflows/rasa-cell-release.yml"
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: rasa-cell-app
+
+jobs:
+  quality-and-web:
+    name: Test and package Web/PWA
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: rasa-cell-app/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - name: Create offline web bundle
+        run: zip -r ../RASA-Cell-Web-PWA.zip dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RASA-Cell-Web-PWA
+          path: RASA-Cell-Web-PWA.zip
+          if-no-files-found: error
+
+  android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: rasa-cell-app/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: gradle
+      - run: npm ci
+      - run: npm run build:web
+      - run: npx cap add android
+      - run: npx cap sync android
+      - name: Build debug APK
+        working-directory: rasa-cell-app/android
+        run: ./gradlew assembleDebug --no-daemon
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RASA-Cell-Android-APK
+          path: rasa-cell-app/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+  windows:
+    name: Build Windows installer and portable app
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: rasa-cell-app/package-lock.json
+      - run: npm ci
+      - run: npm run dist:windows
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RASA-Cell-Windows
+          path: rasa-cell-app/release/windows/*
+          if-no-files-found: error
+
+  ios-simulator:
+    name: Validate iOS native project
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: rasa-cell-app/package-lock.json
+      - run: npm ci
+      - run: npm run build:web
+      - run: npx cap add ios
+      - run: npx cap sync ios
+      - name: Build unsigned iOS Simulator app
+        run: >-
+          xcodebuild
+          -workspace ios/App/App.xcworkspace
+          -scheme App
+          -configuration Release
+          -sdk iphonesimulator
+          -derivedDataPath build/ios
+          CODE_SIGNING_ALLOWED=NO
+          build
+      - name: Package Simulator app
+        run: ditto -c -k --sequesterRsrc --keepParent build/ios/Build/Products/Release-iphonesimulator/App.app ../RASA-Cell-iOS-Simulator.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RASA-Cell-iOS-Simulator
+          path: RASA-Cell-iOS-Simulator.zip
+          if-no-files-found: error
+
+  attach-to-release:
+    name: Attach all packages to GitHub Release
+    if: github.event_name == 'release'
+    needs: [quality-and-web, android, windows, ios-simulator]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/**/*
+          fail_on_unmatched_files: true

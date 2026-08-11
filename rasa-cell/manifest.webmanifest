@@ -1,0 +1,44 @@
+{
+  "id": "./",
+  "name": "رَسا–سِل | شبیه‌ساز ساخت",
+  "short_name": "رَسا–سِل",
+  "description": "مدل سه‌بعدی و آفلاین مراحل ساخت سامانه سبک، سریع‌الاجرا، خودمرکز‌شونده و تعمیرپذیر رَسا–سِل",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "شروع انیمیشن ساخت",
+      "short_name": "پخش ساخت",
+      "url": "./?autoplay=1",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
