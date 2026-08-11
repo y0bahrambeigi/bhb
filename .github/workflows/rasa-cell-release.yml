@@ -7,6 +7,11 @@ on:
     paths:
       - "rasa-cell-app/**"
       - ".github/workflows/rasa-cell-release.yml"
+  pull_request:
+    paths:
+      - "rasa-cell-app/**"
+      - "rasa-cell/**"
+      - ".github/workflows/rasa-cell-release.yml"
   release:
     types: [published]
 
