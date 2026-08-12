@@ -4,16 +4,29 @@ import "@fontsource/lalezar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "آزمایشگاه سازه هوشمند BHB",
+  applicationName: "BHB Smart Structure Lab",
+  title: "BHB | مرکز فرمان کسب‌وکار مهندسی",
   description:
-    "نقشه عملی تبدیل تخصص مهندسی سازه، هوش مصنوعی و آموزش به یک کسب‌وکار درآمدزا و پایدار.",
+    "برنامه حرفه‌ای و آفلاین مدیریت مشتری، مالی، محتوا و نقشه رشد کسب‌وکار مهندسی یوسف بهرام‌بیگی.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "BHB Smart",
+  },
   other: {
     "codex-preview": "development",
   },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
+};
+
+export const viewport = {
+  themeColor: "#071d24",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
