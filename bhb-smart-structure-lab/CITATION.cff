@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "BHB Business OS: Smart Structure Engineering Business Operating System"
+abstract: >-
+  A Persian-first, offline-capable business operating system for structural
+  engineers, combining client relationship management, financial tracking,
+  AI-assisted content planning, business strategy, and a 30-day growth roadmap.
+type: software
+authors:
+  - family-names: "Bahram Beigi"
+    given-names: "Yousef"
+    affiliation: "PhD Student in Civil Engineering (Structures), Islamic Azad University"
+version: 3.0.0
+date-released: 2026-08-12
+license: MIT
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/agent/add-bhb-smart-structure-lab/bhb-smart-structure-lab"
+url: "https://bhb-smart-structure-lab.yousefbhb.chatgpt.site"
+keywords:
+  - structural engineering
+  - engineering business
+  - artificial intelligence
+  - CRM
+  - progressive web application
+  - offline-first
+  - Persian software
