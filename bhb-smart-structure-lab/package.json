@@ -1,0 +1,29 @@
+{
+  "name": "bhb-smart-structure-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "نقشه تعاملی فارسی برای تبدیل تخصص مهندسی سازه و هوش مصنوعی به کسب‌وکار درآمدزا",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@fontsource/lalezar": "^5.3.0",
+    "@fontsource-variable/vazirmatn": "^5.3.0",
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "4.2.1",
+    "typescript": "5.9.3"
+  }
+}
