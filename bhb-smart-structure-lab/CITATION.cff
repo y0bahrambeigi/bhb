@@ -13,7 +13,7 @@ authors:
 version: 3.0.0
 date-released: 2026-08-12
 license: MIT
-repository-code: "https://github.com/y0bahrambeigi/bhb/tree/agent/add-bhb-smart-structure-lab/bhb-smart-structure-lab"
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/bhb-smart-structure-lab"
 url: "https://bhb-smart-structure-lab.yousefbhb.chatgpt.site"
 keywords:
   - structural engineering
