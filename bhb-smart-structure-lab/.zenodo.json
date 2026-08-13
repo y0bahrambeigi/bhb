@@ -25,7 +25,7 @@
   "version": "3.0.0",
   "related_identifiers": [
     {
-      "identifier": "https://github.com/y0bahrambeigi/bhb/tree/agent/add-bhb-smart-structure-lab/bhb-smart-structure-lab",
+      "identifier": "https://github.com/y0bahrambeigi/bhb/tree/main/bhb-smart-structure-lab",
       "relation": "isSupplementTo",
       "scheme": "url"
     },
