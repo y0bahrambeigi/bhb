@@ -1,39 +1,92 @@
 # Python Learning Studio Ultra
 
-نسخه پیشرفته محیط تعاملی فارسی آموزش Python با تمرکز ویژه بر برنامه‌نویسی علمی و مهندسی عمران.
+محیط فوق‌مدرن و تعاملی فارسی برای یادگیری Python، برنامه‌نویسی علمی و پروژه‌های مهندسی عمران.
 
-## قابلیت‌های نسخه Ultra
+**طراحی و توسعه:** یوسف بهرام بیگی | Yousef Bahram Beigi
 
-- **Monaco Editor** شبیه VS Code با Syntax Highlighting و تجربه حرفه‌ای کدنویسی
-- **اجرای واقعی Python در مرورگر** با Pyodide
-- بارگذاری **NumPy و Matplotlib**
-- نمایش مستقیم نمودار Matplotlib داخل محیط برنامه
-- تمرین‌های خودکار با **Test Runner**
-- آزمون چندمرحله‌ای با امتیازدهی
-- سیستم **XP / Level / Achievement**
-- پروژه‌های مهندسی عمران:
-  - خمش تیر ساده تحت بار گسترده
-  - ماتریس سختی عضو خرپای دوبعدی
-  - پاسخ ارتعاش آزاد سیستم SDOF
+## قابلیت‌های اصلی
+
+- Monaco Editor شبیه VS Code
+- اجرای واقعی Python با Pyodide
+- NumPy و Matplotlib و نمایش نمودار داخل برنامه
+- Test Runner و تمرین‌های خودکار
+- آزمون چندمرحله‌ای، XP، Level و Achievement
+- پروژه‌های مهندسی عمران: خمش تیر، خرپا و SDOF
+- توضیح صوتی فارسی
 - PWA و Service Worker
 - ذخیره پیشرفت در LocalStorage
-- رابط Responsive برای موبایل، تبلت و دسکتاپ
-- AI Tutor با دو حالت:
-  - دستیار محلی Rule-based
-  - اتصال به **AI Gateway واقعی** از طریق یک endpoint امن سمت سرور
-
-## نکته امنیتی درباره AI واقعی
-
-GitHub Pages یک میزبان استاتیک است و نباید کلید API هوش مصنوعی داخل JavaScript عمومی قرار گیرد. به همین دلیل برنامه فیلد `AI Gateway endpoint` دارد. برای اتصال واقعی، endpoint باید روی یک backend/serverless امن اجرا شود و کلید API در همان سمت سرور نگهداری شود.
+- AI Tutor محلی + امکان اتصال به AI Gateway امن
 
 ## اجرای زنده
 
 https://y0bahrambeigi.github.io/bhb/python-learning-studio-pro/
 
-## مسیر پروژه
+## معماری چندسکویی
 
-`python-learning-studio-pro/`
+این پروژه اکنون چهار مسیر اجرا دارد:
+
+1. **Web/PWA** — اجرا روی Chrome, Edge, Firefox و Safari و نصب به‌صورت وب‌اپ روی بسیاری از دستگاه‌ها.
+2. **Windows / macOS / Linux** — بسته‌بندی با Electron و electron-builder.
+3. **Android** — بسته‌بندی با Capacitor و ساخت APK توسط GitHub Actions.
+4. **iOS** — تولید پروژه Capacitor/Xcode توسط GitHub Actions؛ خروجی IPA نهایی به امضای Apple Developer نیاز دارد.
+
+## ساخت دسکتاپ در سیستم محلی
+
+```bash
+cd python-learning-studio-pro
+npm install
+npm run desktop
+```
+
+برای تولید فایل‌های نصب:
+
+```bash
+npm run desktop:dist
+```
+
+خروجی‌های هدف شامل Windows NSIS/Portable، macOS DMG/ZIP و Linux AppImage/DEB هستند.
+
+## Android
+
+```bash
+npm install
+npm run mobile:prepare
+npx cap add android
+npx cap sync android
+```
+
+Workflow با نام `Build Python Studio Android` به‌صورت خودکار APK دیباگ را به‌عنوان Artifact تولید می‌کند. برای انتشار در Google Play باید keystore و امضای Release جداگانه اضافه شود.
+
+## iOS
+
+```bash
+npm install
+npm run mobile:prepare
+npx cap add ios
+npx cap sync ios
+```
+
+Workflow با نام `Prepare Python Studio iOS` پروژه Xcode را می‌سازد. امضای نهایی و انتشار در App Store نیازمند Apple Developer Account، Certificate و Provisioning Profile است.
+
+## حالت آفلاین
+
+فایل‌های اصلی برنامه، آیکون و منابع بازدیدشده توسط Service Worker کش می‌شوند. Pyodide، Monaco، NumPy و Matplotlib در اولین بارگذاری از CDN دریافت می‌شوند و سپس مرورگر تلاش می‌کند پاسخ‌های دریافت‌شده را برای استفاده آفلاین کش کند. برای بسته کاملاً آفلاین و بدون نیاز به اولین اتصال اینترنت، باید Runtimeهای Pyodide و Monaco به‌صورت محلی Vendor شوند؛ این مرحله حجم مخزن و بسته نهایی را به‌طور قابل‌توجهی افزایش می‌دهد.
+
+## AI واقعی
+
+کلید API نباید داخل GitHub Pages یا JavaScript عمومی قرار گیرد. برنامه یک `AI Gateway endpoint` می‌پذیرد تا ارتباط با مدل AI از طریق backend/serverless امن انجام شود.
+
+## فایل‌های Cross-platform
+
+- `package.json` — Electron و Capacitor
+- `desktop/electron/main.cjs` — پوسته Desktop
+- `capacitor.config.json` — تنظیمات Android/iOS
+- `scripts/prepare-mobile.mjs` — آماده‌سازی Web Assets برای موبایل
+- `.github/workflows/python-studio-desktop.yml`
+- `.github/workflows/python-studio-android.yml`
+- `.github/workflows/python-studio-ios.yml`
 
 ## توسعه‌دهنده
 
-Yousef Bahram Beigi
+**Yousef Bahram Beigi**  
+Civil Engineering • Python • AI • Computational Engineering
