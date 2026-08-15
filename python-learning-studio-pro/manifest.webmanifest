@@ -1,10 +1,24 @@
 {
-  "name":"Python Learning Studio Ultra",
-  "short_name":"Python Studio",
-  "start_url":"./",
-  "scope":"./",
-  "display":"standalone",
-  "background_color":"#06101c",
-  "theme_color":"#07111f",
-  "description":"Advanced Persian interactive Python learning studio with civil engineering labs."
+  "name": "Python Learning Studio Ultra",
+  "short_name": "Python Studio",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "lang": "fa",
+  "dir": "rtl",
+  "background_color": "#06101c",
+  "theme_color": "#07111f",
+  "description": "Advanced Persian interactive Python learning studio with civil engineering labs by Yousef Bahram Beigi.",
+  "categories": ["education", "developer", "productivity"],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
