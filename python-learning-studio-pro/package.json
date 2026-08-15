@@ -1,0 +1,37 @@
+{
+  "name": "python-learning-studio-ultra",
+  "version": "3.0.0",
+  "private": true,
+  "description": "Cross-platform Python Learning Studio Ultra by Yousef Bahram Beigi",
+  "author": "Yousef Bahram Beigi",
+  "main": "desktop/electron/main.cjs",
+  "scripts": {
+    "desktop": "electron .",
+    "desktop:pack": "electron-builder --dir",
+    "desktop:dist": "electron-builder",
+    "mobile:prepare": "node scripts/prepare-mobile.mjs",
+    "android:add": "npm run mobile:prepare && npx cap add android",
+    "android:sync": "npm run mobile:prepare && npx cap sync android",
+    "ios:add": "npm run mobile:prepare && npx cap add ios",
+    "ios:sync": "npm run mobile:prepare && npx cap sync ios"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/ios": "^7.4.3",
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.yousefbahrambeigi.pythonstudio",
+    "productName": "Python Learning Studio Ultra",
+    "directories": { "output": "dist-desktop" },
+    "files": [
+      "index.html", "styles.css", "app.js", "audio.js", "manifest.webmanifest", "sw.js", "icons/**/*", "desktop/electron/**/*"
+    ],
+    "win": { "target": ["nsis", "portable"] },
+    "mac": { "target": ["dmg", "zip"], "category": "public.app-category.education" },
+    "linux": { "target": ["AppImage", "deb"], "category": "Education" }
+  }
+}
