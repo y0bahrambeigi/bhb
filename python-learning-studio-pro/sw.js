@@ -1,5 +1,5 @@
-const CACHE="pls-ultra-v5";
-const CORE=["./","./index.html","./styles.css","./app.js","./audio.js","./manifest.webmanifest","./icons/icon.svg"];
+const CACHE="pls-ultra-v6";
+const CORE=["./","./index.html","./styles.css","./app.js","./audio.js","./manifest.webmanifest","./icons/icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/apple-touch-icon.png"];
 self.addEventListener("install",e=>{
   self.skipWaiting();
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)));
