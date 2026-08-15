@@ -1,0 +1,42 @@
+name: Build Python Studio Desktop
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'python-learning-studio-pro/**'
+      - '.github/workflows/python-studio-desktop.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: python-learning-studio-pro
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: python-learning-studio-pro/package-lock.json
+      - name: Install dependencies
+        run: npm install
+      - name: Build desktop packages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run desktop:dist
+      - name: Upload desktop artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-studio-${{ matrix.os }}
+          path: python-learning-studio-pro/dist-desktop/**
+          if-no-files-found: error
