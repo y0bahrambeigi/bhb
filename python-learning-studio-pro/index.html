@@ -25,6 +25,7 @@
     <p>کدنویسی واقعی با Python، محیط Monaco شبیه VS Code، اجرای Matplotlib، تمرین‌های خودکار، آزمون چندمرحله‌ای، Achievement و پروژه‌های تخصصی مهندسی عمران.</p>
     <div class="actions">
       <button class="btn primary" onclick="scrollToEditor()">شروع کدنویسی</button>
+      <button class="btn ghost" id="audioBtn" aria-pressed="false" onclick="speakLessonAudio()">🔊 پخش توضیح صوتی</button>
       <button class="btn ghost" onclick="openCivilProject('beam')">پروژه تیر</button>
       <button class="btn ghost" onclick="openCivilProject('truss')">پروژه خرپا</button>
     </div>
@@ -135,5 +136,6 @@
 <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
 <script src="app.js"></script>
+<script src="audio.js"></script>
 </body>
 </html>
