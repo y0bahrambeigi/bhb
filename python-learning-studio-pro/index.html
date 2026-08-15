@@ -1,1 +1,139 @@
-<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07111f"><link rel="manifest" href="manifest.webmanifest"><title>Python Learning Studio Pro</title><style>:root{--b:#07111f;--p:#0d2139;--t:#f6f8ff;--m:#9fb3cc;--bl:#2f8cff;--y:#ffd43b;--g:#45e6a2;--bd:rgba(255,255,255,.09)}*{box-sizing:border-box}body{margin:0;font-family:Tahoma,Arial,sans-serif;color:var(--t);background:radial-gradient(circle at 10% 10%,#123a68,#07111f 35%),linear-gradient(#07111f,#091a2d);min-height:100vh}.w{max-width:1450px;margin:auto;padding:12px}.glass{background:rgba(13,33,57,.78);border:1px solid var(--bd);border-radius:22px;backdrop-filter:blur(16px);box-shadow:0 20px 60px #0006}.top{position:sticky;top:8px;z-index:9;display:flex;align-items:center;gap:10px;padding:10px 12px}.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--bl),#174c9c);font-size:22px}.sp{flex:1}.pill,.btn{border:1px solid var(--bd);border-radius:999px;padding:8px 11px;background:#ffffff0b;color:var(--t)}.btn{border-radius:13px;font-weight:700;cursor:pointer}.pri{background:linear-gradient(135deg,var(--y),#ffb703);color:#13213b;border:0}.run{background:linear-gradient(135deg,var(--g),#20c994);color:#042117;border:0}.hero{display:grid;grid-template-columns:1.3fr .7fr;gap:12px;margin-top:12px}.hero>div{padding:22px}.hero h1{font-size:clamp(30px,5vw,56px);margin:8px 0;line-height:1.08}.hero em{font-style:normal;color:var(--y)}p{color:var(--m);line-height:1.8}.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:12px 0}.met{padding:13px}.met b{font-size:23px;display:block}.met span{font-size:12px;color:var(--m)}.grid{display:grid;grid-template-columns:.75fr 1.45fr .8fr;gap:12px}.panel{padding:15px}.lesson{display:flex;gap:9px;padding:10px;border-radius:13px;cursor:pointer}.lesson:hover,.lesson.active{background:#2f8cff18}.n{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:#ffffff0d}.active .n{background:var(--bl)}.lesson small{color:var(--m);display:block}textarea{width:100%;min-height:330px;background:#06101a;color:#dfe9f8;border:0;outline:0;padding:15px;font:14px/1.7 monospace;direction:ltr;text-align:left;resize:vertical}.edtop,.eda{display:flex;align-items:center;gap:8px;padding:10px;border-bottom:1px solid var(--bd)}.eda{border-top:1px solid var(--bd);border-bottom:0;flex-wrap:wrap}.console{margin:0 10px 10px;background:#020810;border-radius:12px;min-height:120px;padding:12px;color:#8fffcf;white-space:pre-wrap;direction:ltr;text-align:left;font:13px/1.7 monospace}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.tab{cursor:pointer}.tab.active{background:#2f8cff22}.task{border:1px solid var(--bd);border-radius:14px;padding:12px}.task code{display:block;direction:ltr;text-align:left;background:#06101a;color:#ffd86f;padding:9px;border-radius:10px}.chat{max-height:250px;overflow:auto}.msg{padding:9px 10px;border-radius:12px;margin:7px 0;background:#2f8cff16}.user{background:#ffffff0b;margin-right:28px}.chatin{display:flex;gap:6px}.chatin input,.field{width:100%;padding:10px;background:#ffffff0b;color:white;border:1px solid var(--bd);border-radius:11px}.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.project{border:1px solid var(--bd);border-radius:13px;padding:11px}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:#10263f;border:1px solid var(--bd);padding:10px 14px;border-radius:12px;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:1000px){.grid{grid-template-columns:1fr 1.5fr}.right{grid-column:1/-1}.hero{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.grid,.bottom{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.projects{grid-template-columns:1fr}.hide{display:none}}</style></head><body><div class="w"><header class="glass top"><div class="logo">🐍</div><b>Python Learning Studio Pro</b><div class="sp"></div><span class="pill hide">🔥 <b id="streak">3</b> روز</span><span class="pill">⭐ <b id="xpt">120 XP</b></span><button id="install" class="btn" hidden>نصب</button></header><section class="hero"><div class="glass"><small style="color:#39d0ff">REAL PYTHON • PWA • INTERACTIVE</small><h1>آموزش پایتون با <em>اجرای واقعی</em> در مرورگر</h1><p>درس، تمرین، اجرای واقعی Python با Pyodide، پروژه، آزمون، XP، صدا و دستیار آموزشی در یک محیط زنده و مدرن.</p><button class="btn pri" onclick="go()">شروع کدنویسی</button> <button class="btn" onclick="speakLesson()">🔊 توضیح صوتی</button></div><div class="glass"><h3>وضعیت Runtime</h3><p id="runtime">در حال آماده‌سازی Python واقعی…</p><div class="pill">Level <b id="level">2</b> • پیشرفت <b id="pct">18%</b></div></div></section><section class="metrics"><div class="glass met"><span>XP</span><b id="xp">120</b></div><div class="glass met"><span>حل‌شده</span><b id="solved">4</b></div><div class="glass met"><span>درس</span><b id="lessonNo">1</b></div><div class="glass met"><span>تمرکز</span><b id="focus">00:00</b></div><div class="glass met"><span>پروژه</span><b id="pc">0</b></div></section><section class="grid"><aside class="glass panel"><h3>مسیر یادگیری</h3><div id="lessons"></div></aside><main class="glass" id="editor"><div class="edtop"><b>main.py</b><div class="sp"></div><span class="pill" id="tag">print()</span></div><textarea id="code">print("سلام دنیا!")</textarea><div class="eda"><button class="btn run" onclick="runPython()">▶ اجرای واقعی</button><button class="btn" onclick="hint()">راهنما</button><button class="btn" onclick="resetCode()">بازنشانی</button><button class="btn" onclick="saveProject()">💾 ذخیره پروژه</button><div class="sp"></div><small id="status">در انتظار Runtime</small></div><pre class="console" id="console">>>> در حال بارگذاری Python...</pre></main><aside class="right"><div class="glass panel"><div class="tabs"><span class="pill tab active" data-tab="challenge">چالش</span><span class="pill tab" data-tab="quiz">آزمون</span><span class="pill tab" data-tab="ai">دستیار AI</span></div><div id="challengePane"><div class="task"><b id="ct">پیام شخصی بساز</b><p id="cd">یک متغیر name تعریف کن و آن را با print نمایش بده.</p><code id="cg">name = "Yousef"</code><button class="btn pri" onclick="checkChallenge()">بررسی پاسخ</button></div></div><div id="quizPane" hidden><div class="task"><b>کدام دستور صحیح است؟</b><p><label><input type="radio" name="q" value="a"> print("Python")</label></p><p><label><input type="radio" name="q" value="b"> Print(Python)</label></p><button class="btn pri" onclick="quiz()">بررسی</button></div></div><div id="aiPane" hidden><div class="chat" id="chat"><div class="msg">سلام! درباره خطا، متغیر، شرط، حلقه یا تابع بپرس.</div></div><div class="chatin"><input id="ai" placeholder="سؤالت را بنویس"><button class="btn" onclick="ask()">ارسال</button></div></div></div></aside></section><section class="bottom"><div class="glass panel"><h3>پروژه‌های من</h3><div class="projects" id="projects"></div></div><div class="glass panel"><h3>پروفایل و تنظیمات</h3><input class="field" id="name" placeholder="نام یادگیرنده"><p><label><input id="sound" type="checkbox" checked> بازخورد صوتی فعال باشد</label></p><button class="btn" onclick="profile()">ذخیره پروفایل</button><p class="pill">پیشرفت و پروژه‌ها در همین مرورگر ذخیره می‌شوند.</p></div></section></div><div class="toast" id="toast"></div><script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script><script>const L=[['شروع و خروجی','print و رشته‌ها','print()','print("سلام دنیا!")','در این درس با تابع پرینت برای نمایش خروجی آشنا می‌شوی.'],['متغیرها','ذخیره داده','variables','name = "Yousef"\nage = 25\nprint(name, age)','متغیرها برای نگهداری داده هستند.'],['شرط‌ها','if / elif / else','if','age = 20\nif age >= 18:\n    print("بزرگسال")','شرط‌ها به برنامه اجازه تصمیم گیری می‌دهند.'],['حلقه‌ها','for و while','loops','for i in range(5):\n    print(i)','حلقه‌ها برای تکرار عملیات استفاده می‌شوند.'],['توابع','def و ورودی','def','def greet(name):\n    print("سلام", name)\n\ngreet("Python")','تابع یک بلوک قابل استفاده مجدد از کد است.'],['پروژه کوچک','ترکیب مفاهیم','project','a = 12\nb = 8\nprint("جمع:", a+b)','در پروژه کوچک مفاهیم را کنار هم می‌گذاریم.']];let S=JSON.parse(localStorage.getItem('plspro')||'{"lesson":0,"xp":120,"solved":4,"streak":3,"name":"Python Learner","projects":[]}'),py=null,start=Date.now(),dp=null;const $=x=>document.getElementById(x),save=()=>localStorage.setItem('plspro',JSON.stringify(S));function toast(m){let t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900)}function render(){ $('lessons').innerHTML=L.map((l,i)=>`<div class="lesson ${i==S.lesson?'active':''}" onclick="selectLesson(${i})"><div class="n">${i+1}</div><div><b>${l[0]}</b><small>${l[1]}</small></div></div>`).join('');$('xp').textContent=S.xp;$('xpt').textContent=S.xp+' XP';$('solved').textContent=S.solved;$('streak').textContent=S.streak;$('level').textContent=Math.floor(S.xp/100)+1;$('pct').textContent=Math.min(100,18+S.solved*3)+'%';$('pc').textContent=S.projects.length;$('projects').innerHTML=S.projects.length?S.projects.map((p,i)=>`<div class="project"><b>${p.title}</b><p>${p.ts}</p><button class="btn" onclick="loadProject(${i})">باز کردن</button></div>`).join(''):'<span class="pill">هنوز پروژه‌ای ذخیره نشده</span>';save()}function selectLesson(i){S.lesson=i;$('lessonNo').textContent=i+1;$('tag').textContent=L[i][2];$('code').value=L[i][3];render()}function resetCode(){$('code').value=L[S.lesson][3]}function hint(){toast(['از print() استفاده کن','متغیر با = ساخته می‌شود','بعد از if از : استفاده کن','range() مفید است','تابع با def ساخته می‌شود','مسئله را به گام‌های کوچک تقسیم کن'][S.lesson])}async function init(){try{py=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/'});$('runtime').textContent='✅ Python واقعی آماده است';$('status').textContent='Runtime آماده';$('console').textContent='>>> Python 3 آماده اجرای کد شماست.'}catch(e){$('runtime').textContent='⚠️ برای اولین بارگذاری اینترنت لازم است';$('console').textContent=String(e)}}async function runPython(){if(!py)return toast('Runtime هنوز آماده نیست');$('status').textContent='در حال اجرا…';try{py.runPython('import sys,io\nsys.stdout=io.StringIO()\nsys.stderr=io.StringIO()');let r=await py.runPythonAsync($('code').value),o=py.runPython('sys.stdout.getvalue()'),er=py.runPython('sys.stderr.getvalue()');$('console').textContent=o||er||String(r??'اجرای موفق بدون خروجی');$('status').textContent='اجرا موفق';S.xp+=10;S.solved++;render();speak('اجرای کد موفق بود')}catch(e){$('console').textContent='>>> ERROR\n'+e;$('status').textContent='خطا در اجرا';speak('کد شما خطا دارد')}}function speak(t){if(!$('sound').checked||!speechSynthesis)return;let u=new SpeechSynthesisUtterance(t);u.lang='fa-IR';u.rate=.92;speechSynthesis.cancel();speechSynthesis.speak(u)}function speakLesson(){speak(L[S.lesson][4])}function checkChallenge(){let c=$('code').value;if(c.includes('name')&&c.includes('print')){S.xp+=25;S.solved++;render();toast('چالش حل شد! +25 XP')}else toast('از name و print استفاده کن')}function quiz(){let q=document.querySelector('input[name=q]:checked');if(!q)return toast('یک گزینه انتخاب کن');if(q.value==='a'){S.xp+=20;S.solved++;render();toast('پاسخ صحیح! +20 XP')}else toast('پاسخ صحیح: print("Python")')}function ask(){let i=$('ai'),q=i.value.trim();if(!q)return;add(q,'user');i.value='';let s=q.toLowerCase(),a='سؤال را دقیق‌تر بنویس تا بهتر راهنمایی کنم.';if(s.includes('خطا')||s.includes('error'))a='پیام Console را بررسی کن. SyntaxError معمولاً از پرانتز، کوتیشن، دونقطه یا تورفتگی است. NameError یعنی نامی را قبل از تعریف استفاده کرده‌ای.';else if(s.includes('متغیر'))a='نمونه متغیر: x = 10 یا name = "Ali".';else if(s.includes('حلقه')||s.includes('for'))a='نمونه حلقه: for i in range(5): print(i)';else if(s.includes('تابع')||s.includes('def'))a='نمونه تابع: def greet(name): print(name)';else if(s.includes('شرط')||s.includes('if'))a='ساختار پایه: if condition: و سپس بلوک تورفته.';setTimeout(()=>{add(a,'msg');speak(a)},250)}function add(t,c){let d=document.createElement('div');d.className='msg '+c;d.textContent=t;$('chat').appendChild(d)}function saveProject(){S.projects.unshift({title:'پروژه '+(S.projects.length+1),code:$('code').value,ts:new Date().toLocaleString('fa-IR')});S.projects=S.projects.slice(0,9);render();toast('پروژه ذخیره شد')}function loadProject(i){$('code').value=S.projects[i].code;go()}function profile(){S.name=$('name').value.trim()||'Python Learner';render();toast('پروفایل ذخیره شد')}function go(){$('editor').scrollIntoView({behavior:'smooth'})}document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');['challenge','quiz','ai'].forEach(n=>$(n+'Pane').hidden=n!==t.dataset.tab)});$('name').value=S.name;setInterval(()=>{let s=Math.floor((Date.now()-start)/1000);$('focus').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},1000);window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('install').hidden=false});$('install').onclick=async()=>{if(dp){dp.prompt();await dp.userChoice;dp=null;$('install').hidden=true}};if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));selectLesson(S.lesson);render();init();</script></body></html>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>Python Learning Studio Ultra</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+<header class="topbar glass">
+  <div class="brand"><div class="logo">🐍</div><div><b>Python Learning Studio Ultra</b><small>Monaco • Pyodide • Civil Engineering Lab</small></div></div>
+  <div class="spacer"></div>
+  <div class="pill">⭐ <b id="xpTop">0 XP</b></div>
+  <div class="pill hideMobile">🏆 <b id="achievementTop">0</b></div>
+  <button class="btn ghost" id="installBtn" hidden>نصب</button>
+</header>
+
+<section class="hero">
+  <div class="glass heroMain">
+    <span class="kicker">ULTRA INTERACTIVE LEARNING ENVIRONMENT</span>
+    <h1>یادگیری پایتون با <em>ویرایشگر حرفه‌ای، نمودار، آزمون و پروژه مهندسی</em></h1>
+    <p>کدنویسی واقعی با Python، محیط Monaco شبیه VS Code، اجرای Matplotlib، تمرین‌های خودکار، آزمون چندمرحله‌ای، Achievement و پروژه‌های تخصصی مهندسی عمران.</p>
+    <div class="actions">
+      <button class="btn primary" onclick="scrollToEditor()">شروع کدنویسی</button>
+      <button class="btn ghost" onclick="openCivilProject('beam')">پروژه تیر</button>
+      <button class="btn ghost" onclick="openCivilProject('truss')">پروژه خرپا</button>
+    </div>
+  </div>
+  <div class="glass runtimeCard">
+    <div class="panelTitle"><h3>وضعیت محیط</h3><span id="runtimeBadge" class="badge">در حال بارگذاری</span></div>
+    <div class="runtimeRows">
+      <div><span>Python</span><b id="pythonState">...</b></div>
+      <div><span>Monaco</span><b id="monacoState">...</b></div>
+      <div><span>Matplotlib</span><b id="mplState">...</b></div>
+      <div><span>AI</span><b id="aiState">محلی</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="metrics">
+ <div class="glass metric"><span>XP</span><b id="xp">0</b></div>
+ <div class="glass metric"><span>Level</span><b id="level">1</b></div>
+ <div class="glass metric"><span>تمرین حل‌شده</span><b id="solved">0</b></div>
+ <div class="glass metric"><span>Achievement</span><b id="achievementCount">0</b></div>
+ <div class="glass metric"><span>زمان تمرکز</span><b id="focus">00:00</b></div>
+</section>
+
+<section class="workspace">
+ <aside class="glass sidebar">
+  <div class="panelTitle"><h3>مسیر یادگیری</h3><span class="badge">Roadmap</span></div>
+  <div id="lessonList"></div>
+  <hr>
+  <div class="panelTitle"><h3>آزمایشگاه عمران</h3></div>
+  <button class="navBtn" onclick="openCivilProject('beam')">📐 خمش تیر</button>
+  <button class="navBtn" onclick="openCivilProject('truss')">🔺 تحلیل خرپا</button>
+  <button class="navBtn" onclick="openCivilProject('sdof')">🌎 پاسخ SDOF</button>
+ </aside>
+
+ <main class="glass editorPanel" id="editorPanel">
+  <div class="editorTop">
+   <span class="traffic"><i></i><i></i><i></i></span><span>main.py</span>
+   <div class="spacer"></div><span id="taskBadge" class="badge">Lesson</span>
+  </div>
+  <div id="monacoEditor"></div>
+  <textarea id="fallbackEditor" hidden></textarea>
+  <div class="editorActions">
+   <button class="btn run" onclick="runPython()">▶ اجرای واقعی</button>
+   <button class="btn ghost" onclick="runTests()">🧪 تست خودکار</button>
+   <button class="btn ghost" onclick="formatCode()">مرتب‌سازی</button>
+   <button class="btn ghost" onclick="resetLesson()">بازنشانی</button>
+   <div class="spacer"></div><span id="statusText">آماده</span>
+  </div>
+  <div class="outputTabs">
+   <button class="tab active" data-output="console">Console</button>
+   <button class="tab" data-output="plot">Plot</button>
+   <button class="tab" data-output="tests">Tests</button>
+  </div>
+  <pre id="consolePane" class="console"></pre>
+  <div id="plotPane" class="plotPane" hidden><img id="plotImage" alt="Matplotlib output"><div id="plotHint">اگر کد Matplotlib رسم کند، نمودار اینجا نمایش داده می‌شود.</div></div>
+  <div id="testsPane" class="testsPane" hidden></div>
+ </main>
+
+ <aside class="rightColumn">
+  <div class="glass panel">
+   <div class="tabs">
+    <button class="tab active" data-pane="exercise">تمرین</button>
+    <button class="tab" data-pane="quiz">آزمون</button>
+    <button class="tab" data-pane="ai">AI Tutor</button>
+   </div>
+   <div id="exercisePane">
+    <h3 id="exerciseTitle"></h3>
+    <p id="exerciseText" class="muted"></p>
+    <div id="exerciseTests" class="codeBox"></div>
+    <button class="btn primary full" onclick="runTests()">ارزیابی تمرین</button>
+   </div>
+   <div id="quizPane" hidden>
+    <div class="quizProgress"><div id="quizProgressBar"></div></div>
+    <div id="quizQuestion"></div>
+    <div id="quizOptions"></div>
+    <div id="quizFeedback"></div>
+    <button class="btn primary full" id="quizNextBtn" onclick="nextQuiz()" hidden>سؤال بعدی</button>
+   </div>
+   <div id="aiPane" hidden>
+    <div class="aiConfig">
+      <input id="aiEndpoint" placeholder="AI Gateway endpoint (اختیاری)">
+      <button class="btn ghost" onclick="saveAIEndpoint()">اتصال</button>
+    </div>
+    <div class="muted tiny">برای AI واقعی، یک endpoint امن سمت‌سرور وارد کن. کلید API داخل GitHub Pages ذخیره نمی‌شود.</div>
+    <div id="chat" class="chat"><div class="msg bot">من دستیار آموزشی هستم. خطا، کد، تمرین یا پروژه عمران را بفرست.</div></div>
+    <div class="chatInput"><input id="aiInput" placeholder="سؤال یا کد را بنویس"><button class="btn ghost" onclick="askTutor()">ارسال</button></div>
+   </div>
+  </div>
+
+  <div class="glass panel achievementsPanel">
+    <div class="panelTitle"><h3>Achievement</h3><span id="achievementProgress" class="badge">0/6</span></div>
+    <div id="achievementGrid"></div>
+  </div>
+ </aside>
+</section>
+
+<section class="glass panel civilProjects">
+ <div class="panelTitle"><h3>پروژه‌های مهندسی عمران</h3><span class="badge">Civil Engineering</span></div>
+ <div class="projectCards">
+  <article><b>خمش تیر ساده</b><p>محاسبه و رسم نمودار خیز تیر تحت بار گسترده یکنواخت.</p><button class="btn ghost" onclick="openCivilProject('beam')">باز کردن</button></article>
+  <article><b>خرپای دوبعدی</b><p>تشکیل ماتریس سختی عضو و نمونه تحلیل مقدماتی خرپا.</p><button class="btn ghost" onclick="openCivilProject('truss')">باز کردن</button></article>
+  <article><b>پاسخ دینامیکی SDOF</b><p>محاسبه پاسخ سیستم یک درجه آزادی و رسم تاریخچه زمانی.</p><button class="btn ghost" onclick="openCivilProject('sdof')">باز کردن</button></article>
+ </div>
+</section>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.52.2/min/vs/loader.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
