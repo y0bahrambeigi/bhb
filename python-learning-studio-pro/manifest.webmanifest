@@ -1,9 +1,10 @@
 {
-  "name": "Python Learning Studio Pro",
-  "short_name": "Python Studio",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#07111f",
-  "theme_color": "#07111f",
-  "icons": []
+  "name":"Python Learning Studio Ultra",
+  "short_name":"Python Studio",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#06101c",
+  "theme_color":"#07111f",
+  "description":"Advanced Persian interactive Python learning studio with civil engineering labs."
 }
