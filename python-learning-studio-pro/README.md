@@ -1,34 +1,39 @@
-# Python Learning Studio Pro
+# Python Learning Studio Ultra
 
-یک محیط فوق‌مدرن و تعاملی فارسی برای یادگیری Python از سطح مقدماتی تا پروژه‌محور.
+نسخه پیشرفته محیط تعاملی فارسی آموزش Python با تمرکز ویژه بر برنامه‌نویسی علمی و مهندسی عمران.
+
+## قابلیت‌های نسخه Ultra
+
+- **Monaco Editor** شبیه VS Code با Syntax Highlighting و تجربه حرفه‌ای کدنویسی
+- **اجرای واقعی Python در مرورگر** با Pyodide
+- بارگذاری **NumPy و Matplotlib**
+- نمایش مستقیم نمودار Matplotlib داخل محیط برنامه
+- تمرین‌های خودکار با **Test Runner**
+- آزمون چندمرحله‌ای با امتیازدهی
+- سیستم **XP / Level / Achievement**
+- پروژه‌های مهندسی عمران:
+  - خمش تیر ساده تحت بار گسترده
+  - ماتریس سختی عضو خرپای دوبعدی
+  - پاسخ ارتعاش آزاد سیستم SDOF
+- PWA و Service Worker
+- ذخیره پیشرفت در LocalStorage
+- رابط Responsive برای موبایل، تبلت و دسکتاپ
+- AI Tutor با دو حالت:
+  - دستیار محلی Rule-based
+  - اتصال به **AI Gateway واقعی** از طریق یک endpoint امن سمت سرور
+
+## نکته امنیتی درباره AI واقعی
+
+GitHub Pages یک میزبان استاتیک است و نباید کلید API هوش مصنوعی داخل JavaScript عمومی قرار گیرد. به همین دلیل برنامه فیلد `AI Gateway endpoint` دارد. برای اتصال واقعی، endpoint باید روی یک backend/serverless امن اجرا شود و کلید API در همان سمت سرور نگهداری شود.
 
 ## اجرای زنده
 
-**Live Demo:** https://y0bahrambeigi.github.io/bhb/python-learning-studio-pro/
-
-GitHub Pages این مخزن از شاخه `main` و مسیر `/` منتشر می‌شود؛ بنابراین این پروژه از زیرمسیر بالا در دسترس است.
-
-## قابلیت‌ها
-
-- اجرای واقعی Python داخل مرورگر با Pyodide
-- مسیر یادگیری مرحله‌ای و Roadmap
-- محیط کدنویسی و Console
-- آزمون و چالش‌های آموزشی
-- XP، Level، Streak و ثبت پیشرفت
-- دستیار آموزشی داخلی
-- توضیح صوتی فارسی با Web Speech API
-- ذخیره پروژه‌ها و پروفایل در LocalStorage
-- طراحی Responsive برای موبایل، تبلت و دسکتاپ
-- پشتیبانی PWA و Service Worker
-
-## اجرا
-
-فایل `index.html` را از طریق یک وب‌سرور یا GitHub Pages اجرا کنید. برای بارگذاری اولیه Pyodide، اتصال اینترنت لازم است.
+https://y0bahrambeigi.github.io/bhb/python-learning-studio-pro/
 
 ## مسیر پروژه
 
 `python-learning-studio-pro/`
 
-## طراح
+## توسعه‌دهنده
 
 Yousef Bahram Beigi
