@@ -1,4 +1,4 @@
-# Steel Structure Optimization using Metaheuristic Algorithms
+If you use this code in your research, please cite accordingly (see detailed README).
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1234567.svg)](https://doi.org/10.5281/zenodo.1234567)
 
@@ -74,4 +74,10 @@ MIT License
 
 ## Citation
 
-If you use this code in your research, please cite accordingly (see detailed README).
+
+## Citation
+
+If you use this software in your research, please cite:
+
+**Yousef Bahram Beigi. Python Learning Studio Ultra. Zenodo.**  
+**DOI: 10.5281/zenodo.21960225**
