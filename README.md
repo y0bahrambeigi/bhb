@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="assets/business-card.jpg" alt="Yousef Bahram Beigi — Professional Business Card" width="100%" />
+</div>
+
+<br>
+
 If you use this code in your research, please cite accordingly (see detailed README).
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1234567.svg)](https://doi.org/10.5281/zenodo.1234567)
