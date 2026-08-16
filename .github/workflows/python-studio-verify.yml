@@ -1,0 +1,51 @@
+name: Verify Python Studio Cross Platform
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'python-learning-studio-pro/**'
+      - '.github/workflows/python-studio-verify.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate web files
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd python-learning-studio-pro
+          test -s index.html
+          test -s app.js
+          test -s audio.js
+          test -s styles.css
+          test -s manifest.webmanifest
+          test -s sw.js
+          test -s package.json
+          test -s capacitor.config.json
+          test -s icons/icon-192.png
+          test -s icons/icon-512.png
+          test -s icons/apple-touch-icon.png
+          node --check app.js
+          node --check audio.js
+          node --check sw.js
+          node --check desktop/electron/main.cjs
+          node --check scripts/prepare-mobile.mjs
+          python -m json.tool manifest.webmanifest >/dev/null
+          python -m json.tool capacitor.config.json >/dev/null
+          python -m json.tool package.json >/dev/null
+      - name: Prepare mobile assets
+        run: |
+          cd python-learning-studio-pro
+          node scripts/prepare-mobile.mjs
+          test -s mobile/www/index.html
+          test -s mobile/www/icons/icon-192.png
