@@ -21,6 +21,20 @@
 
 https://y0bahrambeigi.github.io/bhb/python-learning-studio-pro/
 
+## Citation / DOI
+
+نسخه `1.0.0` برای آرشیو علمی و دریافت DOI رسمی آماده شده است.
+
+- `CITATION.cff` — فراداده استاندارد استناد نرم‌افزار
+- `.zenodo.json` — فراداده آماده Zenodo
+- `RELEASE_NOTES_v1.0.0.md` — یادداشت انتشار نسخه مرجع
+
+**وضعیت DOI:** Pending Zenodo registration. شماره DOI رسمی فقط پس از آرشیو Release توسط Zenodo/DataCite درج خواهد شد و هیچ DOI ساختگی در پروژه استفاده نمی‌شود.
+
+عنوان استناد پیشنهادی:
+
+> Yousef Bahram Beigi. *Python Learning Studio Ultra: An Interactive Python and Computational Civil Engineering Learning Environment*. Version 1.0.0, 2026.
+
 ## معماری چندسکویی
 
 این پروژه اکنون چهار مسیر اجرا دارد:
