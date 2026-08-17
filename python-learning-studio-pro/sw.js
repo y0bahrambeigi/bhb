@@ -1,5 +1,5 @@
-const CACHE="pls-ultra-v7";
-const CORE=["./","./index.html","./styles.css","./app.js","./audio.js","./manifest.webmanifest","./icons/icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/apple-touch-icon.png"];
+const CACHE="pls-ultra-v8-ai-tutor";
+const CORE=["./","./index.html","./styles.css","./app.js","./audio.js","./ai-tutor.js","./manifest.webmanifest","./icons/icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/apple-touch-icon.png"];
 
 self.addEventListener("install",event=>{
   self.skipWaiting();
