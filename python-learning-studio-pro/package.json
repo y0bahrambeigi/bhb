@@ -3,7 +3,10 @@
   "version": "3.0.0",
   "private": true,
   "description": "Cross-platform Python Learning Studio Ultra by Yousef Bahram Beigi",
-  "author": "Yousef Bahram Beigi",
+  "author": {
+    "name": "Yousef Bahram Beigi",
+    "email": "miketherippa@gmail.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/y0bahrambeigi/bhb.git",
@@ -38,6 +41,12 @@
     ],
     "win": { "target": ["nsis", "portable"] },
     "mac": { "target": ["dmg", "zip"], "category": "public.app-category.education" },
-    "linux": { "target": ["AppImage", "deb"], "category": "Education" }
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Education",
+      "maintainer": "Yousef Bahram Beigi <miketherippa@gmail.com>",
+      "desktopName": "Python Learning Studio Ultra",
+      "icon": "icons/icon-512.png"
+    }
   }
 }
