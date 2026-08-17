@@ -4,20 +4,20 @@
 
 <br>
 
-If you use this code in your research, please cite accordingly (see detailed README).
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1234567.svg)](https://doi.org/10.5281/zenodo.1234567)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21960225.svg)](https://doi.org/10.5281/zenodo.21960225)
 
 ## Overview
 
-This repository contains a comprehensive MATLAB implementation comparing six state-of-the-art metaheuristic optimization algorithms for steel structure design optimization.
+This repository contains a comprehensive MATLAB implementation comparing six state-of-the-art metaheuristic optimization algorithms for steel structure design optimization, together with the Python Learning Studio Ultra educational software project and related computational engineering resources.
 
 ## Features
 
 - **6 Metaheuristic Algorithms**: GA, PSO, DE, SA, HS, TLBO
 - **Steel Structure Problem**: 10-bar truss optimization benchmark
 - **Complete Analysis**: Convergence plots, performance metrics, statistical ranking
-- **Easy to Use**: Simple API for running algorithms and comparing results
+- **Python Learning Studio Ultra**: Interactive cross-platform learning environment
+- **Scientific Computing**: Python, NumPy and Matplotlib-oriented learning workflows
+- **Civil Engineering Lab**: Structural and computational engineering examples
 
 ## Quick Start
 
@@ -42,37 +42,12 @@ This will run all 6 algorithms and generate:
 
 ## Documentation
 
-See the [detailed documentation](matlab_optimization/README.md) for:
-- Algorithm details and parameters
-- Problem formulation
-- Customization guide
-- Results interpretation
-- References
-
-## Project Structure
-
-```
-matlab_optimization/
-├── CompareMetaheuristics.m     # Main comparison script
-├── ExampleUsage.m              # Usage examples
-├── algorithms/                  # 6 optimization algorithms
-├── problems/                    # 10-bar truss problem
-├── utils/                       # Visualization utilities
-└── README.md                    # Detailed documentation
-```
+See the [detailed documentation](matlab_optimization/README.md) for algorithm details, parameters, problem formulation, customization guidance, results interpretation, and references.
 
 ## Requirements
 
-- MATLAB R2016b or later
-- No additional toolboxes required
-
-## Results
-
-The program compares algorithms based on:
-- **Convergence speed**: How quickly they find good solutions
-- **Solution quality**: Best fitness achieved
-- **Computational efficiency**: Time required
-- **Constraint satisfaction**: Feasibility of solutions
+- MATLAB R2016b or later for MATLAB optimization modules
+- Modern web browser for browser-based educational components
 
 ## License
 
@@ -80,10 +55,9 @@ MIT License
 
 ## Citation
 
+If you use Python Learning Studio Ultra in research, please cite:
 
-## Citation
+**Bahram Beigi, Yousef. (2026). Python Learning Studio Ultra (Version 1.0.1) [Computer software]. Zenodo.**  
+**DOI: [10.5281/zenodo.21960225](https://doi.org/10.5281/zenodo.21960225)**
 
-If you use this software in your research, please cite:
-
-**Yousef Bahram Beigi. Python Learning Studio Ultra. Zenodo.**  
-**DOI: 10.5281/zenodo.21960225**
+A technical paper describing the architecture, educational design, scientific-computing workflow, and computational civil-engineering applications is being prepared as a separate scholarly record. The software DOI above identifies the archived software release.
