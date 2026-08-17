@@ -4,11 +4,17 @@
   "private": true,
   "description": "Cross-platform Python Learning Studio Ultra by Yousef Bahram Beigi",
   "author": "Yousef Bahram Beigi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/y0bahrambeigi/bhb.git",
+    "directory": "python-learning-studio-pro"
+  },
+  "homepage": "https://y0bahrambeigi.github.io/bhb/python-learning-studio-pro/",
   "main": "desktop/electron/main.cjs",
   "scripts": {
     "desktop": "electron .",
     "desktop:pack": "electron-builder --dir",
-    "desktop:dist": "electron-builder",
+    "desktop:dist": "electron-builder --publish never",
     "mobile:prepare": "node scripts/prepare-mobile.mjs",
     "android:add": "npm run mobile:prepare && npx cap add android",
     "android:sync": "npm run mobile:prepare && npx cap sync android",
