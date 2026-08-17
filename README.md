@@ -4,7 +4,8 @@
 
 <br>
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21960225.svg)](https://doi.org/10.5281/zenodo.21960225)
+[![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21960225.svg)](https://doi.org/10.5281/zenodo.21960225)
+[![Technical Report DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21971320.svg)](https://doi.org/10.5281/zenodo.21971320)
 
 ## Overview
 
@@ -55,9 +56,25 @@ MIT License
 
 ## Citation
 
-If you use Python Learning Studio Ultra in research, please cite:
+### Software
+
+If you use **Python Learning Studio Ultra** itself in research or teaching, please cite the archived software release:
 
 **Bahram Beigi, Yousef. (2026). Python Learning Studio Ultra (Version 1.0.1) [Computer software]. Zenodo.**  
-**DOI: [10.5281/zenodo.21960225](https://doi.org/10.5281/zenodo.21960225)**
+**Software DOI: [10.5281/zenodo.21960225](https://doi.org/10.5281/zenodo.21960225)**
 
-A technical paper describing the architecture, educational design, scientific-computing workflow, and computational civil-engineering applications is being prepared as a separate scholarly record. The software DOI above identifies the archived software release.
+### Technical Report
+
+If you cite the architecture, educational design, scientific-computing workflow, or computational civil-engineering discussion, please cite the accompanying technical report:
+
+**Bahrambeigi, Y. (2026). Python Learning Studio Ultra: An Interactive Cross-Platform Environment for Python, Scientific Computing, Artificial Intelligence, and Computational Civil Engineering (Version 1.0.1). Zenodo.**  
+**Technical Report DOI: [10.5281/zenodo.21971320](https://doi.org/10.5281/zenodo.21971320)**
+
+## Scholarly Record Relationship
+
+The software archive and the technical report are separate but related scholarly records:
+
+- **Software archive:** [10.5281/zenodo.21960225](https://doi.org/10.5281/zenodo.21960225)
+- **Technical report:** [10.5281/zenodo.21971320](https://doi.org/10.5281/zenodo.21971320)
+
+The technical report is registered in Zenodo as a related work that supplements the software record. This separation preserves a clear distinction between the executable/source artifact and the scholarly document describing its architecture and educational use.
