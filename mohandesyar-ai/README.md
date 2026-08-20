@@ -1,108 +1,74 @@
-# vinext-starter
+# مهندس‌یار AI
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+دستیار هوشمند تخصصی عمران و معماری برای ثبت تحویل زمین، مدیریت پرونده پروژه، نگهداری شواهد میدانی دارای تاریخ و زمان، و تهیه گزارش رسمی قابل چاپ یا ذخیره به‌صورت PDF.
 
-## Prerequisites
+## نسخه آنلاین
 
-- Node.js `>=22.13.0`
-- Linux with `flock`, `curl`, and GNU `timeout`
+[اجرای مهندس‌یار AI](https://mohandesyar-ai.yousefbhb.chatgpt.site)
 
-## Sites Lifecycle
+## امکانات فعلی
 
-The Sites lifecycle CLI runs the locked dependency install before returning this checkout. Edit the source under `app/`, then checkpoint when a coherent milestone is ready to inspect or share. The remote Sites builder runs `npm run build` against the pushed commit. Do not repeat install or build as a normal pre-checkpoint step.
+- تشکیل پرونده پروژه و ثبت مشخصات پایه
+- ثبت شواهد میدانی و اطلاعات تحویل زمین
+- پشتیبانی از ساختار ذخیره‌سازی D1 و فایل‌های R2 در محیط Sites
+- تولید گزارش رسمی راست‌به‌چپ
+- چاپ مستقیم و ذخیره گزارش به‌صورت PDF
+- رابط واکنش‌گرا برای موبایل، تبلت و دسکتاپ
+- مسیرهای API برای پروژه‌ها و شواهد
 
-This starter does not use `wrangler.jsonc`.
+## ساختار مهم پروژه
 
-`install:ci` is intentionally a single, non-retrying `npm ci`. It refuses a concurrent install for the same project, consumes a matching image-seeded npm cache with `--prefer-offline` while retaining registry fallback for a missing cache object, otherwise downloads and verifies the complete vinext tarball recorded in `package-lock.json`, limits npm to one socket, and terminates a stalled install. `build` applies a short timeout and then validates the Sites artifact. These helpers target Linux and use GNU `timeout`; they are not native macOS scripts.
+- `app/page.tsx`: صفحه اصلی و گردش کار پرونده
+- `app/report/official/page.tsx`: گزارش رسمی و چاپ PDF
+- `app/api/projects/route.ts`: API پروژه‌ها
+- `app/api/evidence/route.ts`: API شواهد
+- `db/schema.ts`: مدل داده
+- `drizzle/`: مهاجرت پایگاه‌داده
+- `.openai/hosting.json`: اتصال پروژه به Sites، D1 و R2
 
-Scripts that need writable project-scoped home, npm, XDG, and temporary paths use `scripts/sites-env.sh`. The `dev` and `start` scripts honor the caller's runtime environment and keep Wrangler logs inside the checkout. The generated `.sites-runtime/` directory is disposable and ignored by Git.
+## اجرای محلی
 
-## Included Shape
+### پیش‌نیازها
 
-- edit site code under `app/`
-- `app/chatgpt-auth.ts` provides optional dispatch-owned ChatGPT sign-in helpers
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
+- Node.js نسخه `22.13.0` یا جدیدتر
+- npm
+- Linux یا WSL2 در ویندوز
 
-## Workspace Auth Headers
+### دستورات
 
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```bash
+git clone https://github.com/y0bahrambeigi/bhb.git
+cd bhb/mohandesyar-ai
+npm ci
+npm run dev
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+سپس نشانی نمایش‌داده‌شده در ترمینال را در مرورگر باز کنید.
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+برای کنترل کامل نسخه تولید:
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+```bash
+npm test
+npm run build
+npm run start
+```
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+## اجرا در آیفون
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+نیازی به نصب Node.js روی آیفون نیست. لینک نسخه آنلاین را در Safari باز کنید:
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+https://mohandesyar-ai.yousefbhb.chatgpt.site
 
-## Diagnostic Commands
+برای نصب شبیه اپ، در Safari گزینه **Share** و سپس **Add to Home Screen** را بزنید.
 
-- `npm run install:ci`: perform the one bounded lockfile install
-- `npm run dev`: start the Vite/Vinext development server
-- `npm run build`: build and validate the deployable Sites artifact
-- `npm run start`: start the built Vinext application
-- `npm test`: build, validate, and verify the rendered development-preview metadata
-- `npm run validate:artifact`: recheck an existing artifact's manifest and ESM `default.fetch` export
-- `npm run db:generate`: generate Drizzle migrations after schema changes
+## چاپ یا ذخیره PDF
 
-Use build and validation commands for targeted diagnosis after a remote failure, not as part of the normal checkpoint path.
+پرونده فعال را باز کنید، وارد «گزارش رسمی» شوید و کلید «چاپ / ذخیره PDF» را بزنید. در آیفون، پنجره چاپ را باز کنید، پیش‌نمایش را با حرکت دو انگشت بزرگ کنید و از Share گزینه Save to Files را انتخاب کنید. اگر هیچ پنجره‌ای باز نشد، اجازه Pop-up را برای سایت فعال کنید.
 
-The timeout defaults can be overridden for a controlled canary with `SITES_INSTALL_TIMEOUT`, `SITES_INSTALL_KILL_AFTER`, `SITES_BUILD_TIMEOUT`, and `SITES_BUILD_KILL_AFTER`. A timeout fails the command; the helpers never retry an unchanged install or build.
+## حریم خصوصی
 
-## Learn More
+فایل‌های محلی محیط توسعه، متغیرهای `.env`، خروجی ساخت و داده‌های موقت در مخزن نگهداری نمی‌شوند. برای استقرار مستقل، دسترسی D1/R2 و سیاست دسترسی کاربران را در محیط میزبانی خود تنظیم کنید.
 
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+## وضعیت اعتبارسنجی
+
+نسخه بارگذاری‌شده با `npm test` بررسی شده و ساخت Worker، مسیر اصلی، APIها و صفحه گزارش رسمی با موفقیت تولید می‌شوند.
