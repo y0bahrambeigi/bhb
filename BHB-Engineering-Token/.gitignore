@@ -5,3 +5,5 @@ coverage/
 types/
 *.log
 .env
+ignition/parameters/sepolia.json
+ignition/parameters/sepolia.test.json

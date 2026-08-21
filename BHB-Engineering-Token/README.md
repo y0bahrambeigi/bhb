@@ -95,7 +95,16 @@ npm run sync:sepolia
 
 Hardhat Ignition آدرس قرارداد را پس از انتشار نمایش می‌دهد. فرمان `sync:sepolia` همان آدرس را از نتیجه رسمی انتشار استخراج و در داشبورد ثبت می‌کند.
 
-راهنمای کامل در [docs/DEPLOYMENT_FA.md](docs/DEPLOYMENT_FA.md)، دستورالعمل بهره‌برداری در [docs/OPERATIONS_FA.md](docs/OPERATIONS_FA.md)، گزارش شفافیت در [docs/TRANSPARENCY_FA.md](docs/TRANSPARENCY_FA.md)، نقشه راه در [docs/ROADMAP_FA.md](docs/ROADMAP_FA.md) و نتیجه اعتبارسنجی واقعی در [VALIDATION.md](VALIDATION.md) قرار دارد.
+اسناد اصلی پروژه:
+
+- [لایت‌پیپر فارسی](docs/LITEPAPER_FA.md)؛
+- [سیاست تخصیص و صدور](docs/TOKEN_ALLOCATION_FA.md)؛
+- [سیاست مالکیت چندامضایی](docs/MULTISIG_GOVERNANCE_FA.md)؛
+- [یادداشت دامنه حقوقی EU/آلمان](docs/LEGAL_SCOPING_EU_DE_FA.md)؛
+- [درخواست ممیزی مستقل](docs/INDEPENDENT_AUDIT_RFP_FA.md)؛
+- [بازبینی امنیتی خودکار](SECURITY_REVIEW.md)؛
+- [فرم تأیید استقرار Sepolia](docs/DEPLOYMENT_SIGNOFF_FA.md)؛
+- [راهنمای انتشار](docs/DEPLOYMENT_FA.md)، [بهره‌برداری](docs/OPERATIONS_FA.md)، [شفافیت](docs/TRANSPARENCY_FA.md)، [نقشه راه](docs/ROADMAP_FA.md) و [اعتبارسنجی](VALIDATION.md).
 
 ## عملیات مدیریتی مهم
 
@@ -111,7 +120,7 @@ Hardhat Ignition آدرس قرارداد را پس از انتشار نمایش 
 
 ## آزمون‌های موجود
 
-مجموعه هشت‌گانه آزمون، هویت و عرضه اولیه، انتقال ERC-20، محدودیت دسترسی صدور، سقف تجمعی ۲۰ میلیون، عدم بازگشت سهمیه پس از سوزاندن، توقف اضطراری، انتقال مالکیت دومرحله‌ای و جلوگیری از قفل دائمی هنگام صرف‌نظرکردن از مالکیت را پوشش می‌دهد. گردش CI نیز در `.github/workflows/contract-ci.yml` قرار دارد.
+مجموعه ۱۳ آزمون، هویت و عرضه، آدرس صفر، انتقال ERC-20، کنترل دسترسی، سقف تجمعی، invariantهای mint/burn، atomicity تراکنش ناموفق، توقف اضطراری، انتقال دومرحله‌ای مالکیت و جلوگیری از قفل دائمی در حالت توقف را پوشش می‌دهد. گردش CI نیز در `.github/workflows/contract-ci.yml` قرار دارد.
 
 ## ساختار پروژه
 

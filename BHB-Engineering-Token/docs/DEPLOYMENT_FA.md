@@ -16,7 +16,13 @@ npm test
 
 یک حساب تازه در MetaMask بسازید، شبکه‌های آزمایشی را فعال کنید و مقدار کمی Sepolia ETH از faucet معتبر بگیرید. عبارت بازیابی و کلید خصوصی را برای هیچ‌کس ارسال نکنید.
 
-### ۳. ذخیره امن اطلاعات اتصال
+### ۳. ایجاد Safe مالک
+
+پیش از استقرار، Safe آزمایشی با پنج مالک و threshold سه امضا روی Sepolia ایجاد کنید. آدرس عمومی Safe را در یک کپی محلی از `ignition/parameters/sepolia.example.json` قرار دهید و فایل را با نام `ignition/parameters/sepolia.json` ذخیره کنید. فایل واقعی از Git مستثنا شده است تا استقرار تصادفی با آدرس قدیمی رخ ندهد.
+
+مالک اولیه و تمام ۱۰۰ میلیون BHB از لحظه استقرار متعلق به Safe خواهند بود. سیاست کامل در [MULTISIG_GOVERNANCE_FA.md](MULTISIG_GOVERNANCE_FA.md) آمده است.
+
+### ۴. ذخیره امن اطلاعات اتصال
 
 ```bash
 npx hardhat keystore set SEPOLIA_RPC_URL
@@ -26,7 +32,7 @@ npx hardhat keystore set ETHERSCAN_API_KEY
 
 Hardhat مقادیر را به‌صورت رمزگذاری‌شده دریافت می‌کند. کلید را در فایل پروژه یا GitHub قرار ندهید.
 
-### ۴. شبیه‌سازی انتشار
+### ۵. شبیه‌سازی انتشار
 
 ```bash
 npm run deploy:local
@@ -34,21 +40,21 @@ npm run deploy:local
 
 این مرحله هزینه‌ای ندارد و ماژول انتشار را روی شبکه محلی آزمایش می‌کند.
 
-### ۵. انتشار واقعی روی Sepolia
+### ۶. انتشار واقعی روی Sepolia با Safe
 
 ```bash
-npm run deploy:sepolia
+npm run deploy:sepolia:safe
 ```
 
 رمز مخزن امن Hardhat را وارد و تراکنش را تأیید کنید. نتیجه در پوشه `ignition/deployments/chain-11155111` ثبت می‌شود.
 
-### ۶. تأیید کد در Etherscan
+### ۷. تأیید کد در Etherscan
 
 ```bash
-npm run verify:sepolia
+npm run verify:sepolia:safe
 ```
 
-### ۷. اتصال خودکار داشبورد به قرارداد
+### ۸. اتصال خودکار داشبورد به قرارداد
 
 ```bash
 npm run sync:sepolia
@@ -69,7 +75,7 @@ node tools/serve-dashboard.mjs --host 0.0.0.0 --port 4173
 
 ## مسیر جایگزین: Remix
 
-اگر نصب Node.js دشوار است، فایل `contracts/BHBEngineeringToken.sol` را در Remix باز کنید، Compiler را روی `0.8.28` قرار دهید و با محیط Injected Provider روی Sepolia منتشر کنید. پارامتر سازنده `initialOwner` باید آدرس عمومی کیف پول شما باشد. پس از انتشار، آدرس قرارداد را در داشبورد وارد کنید.
+اگر نصب Node.js دشوار است، فایل `contracts/BHBEngineeringToken.sol` را در Remix باز کنید، Compiler را روی `0.8.28` قرار دهید و با محیط Injected Provider روی Sepolia منتشر کنید. پارامتر سازنده `initialOwner` باید آدرس عمومی Safe تأییدشده باشد، نه کیف پول شخصی. پس از انتشار، آدرس قرارداد را در داشبورد وارد کنید.
 
 ## کنترل‌های ضروری پس از انتشار
 
@@ -77,7 +83,8 @@ node tools/serve-dashboard.mjs --host 0.0.0.0 --port 4173
 2. `totalSupply` باید برابر ۱۰۰ میلیون و `cap` برابر ۱۲۰ میلیون BHB باشد.
 3. ابتدا یک انتقال کوچک آزمایشی انجام دهید.
 4. عملکرد توقف و رفع توقف را با مقدار ناچیز بررسی کنید.
-5. پیش از توزیع گسترده، مالکیت را فقط با برنامه مصوب و ترجیحاً به کیف پول چندامضایی منتقل کنید.
+5. `owner()` و موجودی اولیه باید از همان لحظه استقرار متعلق به Safe باشند.
+6. تراکنش‌های pause و unpause را یک‌بار با حدنصاب سه امضا آزمایش کنید.
 
 ## موارد ممنوع
 
