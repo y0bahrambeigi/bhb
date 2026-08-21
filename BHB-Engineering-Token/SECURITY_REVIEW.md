@@ -40,9 +40,10 @@ The reviewed code is suitable for a **Sepolia-only pilot after multisig ownershi
 
 ### GOV-01 — Centralised privileged control until Safe activation
 
-Severity: High governance risk; not a code exploit.  
-Impact: a single owner can pause all transfers and mint the remaining allowance.  
-Required action: deploy with a verified 3-of-5 Sepolia Safe as `initialOwner`, or complete the two-step transfer before distributing pilot tokens. Publish the Safe address, owners and threshold.
+Severity: High governance risk if the release process is bypassed; not a code exploit.
+Impact: a single owner could pause all transfers, control the initial treasury and mint the remaining allowance.
+Implemented control: the production Ignition module now requires an explicit `initialOwner`, all Sepolia scripts pass the Safe parameter file, the network is pinned to chain ID 11155111, and preflight verifies deployed bytecode, five distinct owners and threshold three before deployment. A separate module preserves local-only deployer ownership. CI proves the production module fails closed without `initialOwner`.
+Remaining action: publish the verified Safe address, owners and threshold and complete the signed post-deployment checks before distributing pilot tokens.
 
 ### GOV-02 — No on-chain delay or rate limit below the lifetime cap
 

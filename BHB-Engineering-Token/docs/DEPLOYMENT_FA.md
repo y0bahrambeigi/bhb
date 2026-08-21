@@ -22,6 +22,8 @@ npm test
 
 مالک اولیه و تمام ۱۰۰ میلیون BHB از لحظه استقرار متعلق به Safe خواهند بود. سیاست کامل در [MULTISIG_GOVERNANCE_FA.md](MULTISIG_GOVERNANCE_FA.md) آمده است.
 
+ماژول اصلی استقرار هیچ fallback به deployer ندارد. اگر فایل پارامتر یا `initialOwner` حذف شود، Ignition پیش از ارسال تراکنش متوقف خواهد شد. مسیر ساده توسعه محلی در ماژول جداگانه `BHBEngineeringTokenLocal.ts` نگهداری می‌شود و هرگز در فرمان Sepolia استفاده نمی‌شود.
+
 ### ۴. ذخیره امن اطلاعات اتصال
 
 ```bash
@@ -43,15 +45,15 @@ npm run deploy:local
 ### ۶. انتشار واقعی روی Sepolia با Safe
 
 ```bash
-npm run deploy:sepolia:safe
+npm run deploy:sepolia
 ```
 
-رمز مخزن امن Hardhat را وارد و تراکنش را تأیید کنید. نتیجه در پوشه `ignition/deployments/chain-11155111` ثبت می‌شود.
+این فرمان ابتدا chain ID، bytecode آدرس Safe، پنج مالک متمایز و threshold سه را روی Sepolia کنترل می‌کند. فقط پس از موفقیت preflight، رمز مخزن امن Hardhat دریافت و تراکنش استقرار ارسال می‌شود. نتیجه در پوشه `ignition/deployments/chain-11155111` ثبت می‌شود.
 
 ### ۷. تأیید کد در Etherscan
 
 ```bash
-npm run verify:sepolia:safe
+npm run verify:sepolia
 ```
 
 ### ۸. اتصال خودکار داشبورد به قرارداد

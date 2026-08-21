@@ -22,7 +22,8 @@
 - [ ] Safe با threshold سه از پنج روی explorer مشاهده می‌شود؛
 - [ ] deployer فقط Sepolia ETH لازم برای gas دارد؛
 - [ ] `initialOwner` دقیقاً آدرس checksum شده Safe است؛
-- [ ] `npm ci`, build, typecheck و 13 آزمون روی commit نهایی موفق‌اند؛
+- [ ] `npm ci`, build, typecheck، 17 آزمون قرارداد/preflight و `npm run test:deployment` روی commit نهایی موفق‌اند؛
+- [ ] `npm run preflight:sepolia` آدرس Safe، پنج مالک متمایز و threshold سه را تأیید کرده است؛
 - [ ] `npm audit` دوباره اجرا و نتیجه ثبت شده است؛
 - [ ] خروجی compile و bytecode با artifact مورد انتظار مطابقت دارد؛
 - [ ] هیچ private key، seed phrase یا API key در مخزن/چت وجود ندارد.
@@ -39,7 +40,7 @@
 }
 ```
 
-پارامتر واقعی باید با گزینه `--parameters` به Ignition داده شود. پیش از اجرا، راهنمای همان نسخه Hardhat کنترل شود.
+پارامتر واقعی به‌طور اجباری با گزینه `--parameters` به Ignition داده می‌شود. ماژول اصلی در نبود این پارامتر fail-closed است و deployer را به‌عنوان مالک جایگزین نمی‌کند.
 
 ## فرمان‌های استقرار
 
@@ -51,7 +52,7 @@ npx hardhat keystore set SEPOLIA_PRIVATE_KEY
 npx hardhat keystore set ETHERSCAN_API_KEY
 ```
 
-سپس استقرار و verify با پارامتر Safe انجام می‌شود و آدرس در داشبورد همگام می‌گردد. فرمان دقیق باید نام فایل پارامتر نهایی را داشته باشد.
+سپس `npm run deploy:sepolia` و `npm run verify:sepolia` اجرا می‌شوند. هر دو فرمان preflight زنجیره و Safe را اجرا و فایل پارامتر نهایی را به‌صورت اجباری به Ignition می‌دهند؛ در پایان آدرس با `npm run sync:sepolia` در داشبورد همگام می‌شود.
 
 ## کنترل پس از استقرار
 

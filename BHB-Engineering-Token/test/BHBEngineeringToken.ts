@@ -29,6 +29,17 @@ describe("BHBEngineeringToken", function () {
     expect(await token.remainingMintAllowance()).to.equal(ADDITIONAL_LIMIT);
   });
 
+  it("assigns ownership and the complete initial treasury to the designated address", async function () {
+    const { ethers } = await network.create();
+    const [deployer, designatedSafe] = await ethers.getSigners();
+    const token = await ethers.deployContract("BHBEngineeringToken", [designatedSafe.address]) as unknown as BHBEngineeringToken;
+    await token.waitForDeployment();
+
+    expect(await token.owner()).to.equal(designatedSafe.address);
+    expect(await token.balanceOf(designatedSafe.address)).to.equal(INITIAL_SUPPLY);
+    expect(await token.balanceOf(deployer.address)).to.equal(0n);
+  });
+
   it("rejects deployment with the zero address as owner", async function () {
     const { ethers } = await network.create();
 
