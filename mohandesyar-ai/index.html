@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#082c3b">
+  <meta name="description" content="مهندس‌یار AI؛ دستیار مستندسازی میدانی و گزارش‌دهی عمران و معماری">
+  <title>مهندس‌یار AI | دستیار عمران و معماری</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./app-icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="مهندس‌یار AI">
+        <span class="brand-mark">M</span>
+        <span><strong>مهندس‌یار AI</strong><small>CIVIL &amp; ARCHITECTURE</small></span>
+      </a>
+      <p class="nav-label">فضای کاری</p>
+      <nav>
+        <a class="active" href="#dashboard">داشبورد</a>
+        <a href="#project">پرونده پروژه</a>
+        <a href="#evidence">شواهد میدانی</a>
+        <a href="./report/">گزارش رسمی</a>
+        <a href="#compliance">کنترل و انطباق</a>
+      </nav>
+      <div class="sidebar-card">
+        <span class="eyebrow">وضعیت پرونده فعال</span>
+        <strong>بازدید تحویل زمین</strong>
+        <div class="progress"><i></i></div>
+        <small>۶۷٪ مستندسازی تکمیل شده</small>
+      </div>
+      <p class="credit">طراحی و توسعه<br><b>Yousef Bahrambeigi</b></p>
+    </aside>
+
+    <main class="content" id="dashboard">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">سامانه یکپارچه مستندسازی و گزارش‌دهی</p>
+          <h1>مهندس‌یار AI</h1>
+          <span>پرونده فعال: پروژه مسکونی آریا · تحویل زمین</span>
+        </div>
+        <a class="button primary" href="./report/">نسخه PDF / چاپ گزارش</a>
+      </header>
+
+      <div class="connection" id="connection" role="status">در حال بررسی اتصال…</div>
+
+      <section class="notice">
+        <span class="ai-dot">AI</span>
+        <p><b>دستیار مهندسی:</b> پیش‌نویس گزارش رسمی پرونده فعال آماده بررسی، تکمیل و امضا است.</p>
+      </section>
+
+      <section class="stats" aria-label="خلاصه وضعیت">
+        <article><small>پرونده‌های فعال</small><b>۱۲</b><em>۳ مورد نیازمند پیگیری</em></article>
+        <article><small>شواهد ثبت‌شده</small><b id="evidence-count">۳</b><em>دارای زنجیره زمان و مکان</em></article>
+        <article><small>گزارش‌های آماده</small><b>۰۴</b><em>قابل خروجی PDF اداری</em></article>
+        <article><small>هشدارهای انطباق</small><b>۰۲</b><em>نیازمند تأیید ناظر</em></article>
+      </section>
+
+      <section class="workspace-grid" id="project">
+        <article class="panel dossier">
+          <div class="panel-head">
+            <div><p class="eyebrow">پرونده فعال</p><h2>پروژه مسکونی آریا</h2></div>
+            <span class="status-pill">در حال بازدید</span>
+          </div>
+          <div class="dossier-meta"><span>ارومیه، قطعه ۱۴، منطقه ۲</span><span>شروع بازدید: ۰۹:۳۰</span></div>
+          <div class="timeline">
+            <div><i></i><b>تحویل زمین</b><small>صورت‌جلسه اولیه ثبت شد</small></div>
+            <div><i></i><b>برداشت شواهد</b><small>۳ مدرک ضمیمه شد</small></div>
+            <div><i></i><b>گزارش رسمی</b><small>آماده بررسی و شماره‌گذاری</small></div>
+            <div class="pending"><i></i><b>ارسال مرجع</b><small>پس از تأیید مسئول فنی</small></div>
+          </div>
+        </article>
+
+        <article class="panel action-card">
+          <p class="eyebrow">ثبت میدانی روی دستگاه</p>
+          <h2>شواهد را همان‌جا ثبت کنید</h2>
+          <p>عکس یا ویدئو را انتخاب کنید. در نسخه GitHub Pages، مشخصات مدرک روی همین دستگاه نگهداری می‌شود و فایل به سرور ارسال نمی‌شود.</p>
+          <label class="upload">افزودن عکس یا ویدئو
+            <input id="file-input" type="file" accept="image/*,video/*" multiple>
+          </label>
+          <div class="integrity"><b>حریم خصوصی محلی</b><small>بدون بارگذاری فایل روی GitHub</small></div>
+        </article>
+      </section>
+
+      <section class="panel evidence-panel" id="evidence">
+        <div class="panel-head">
+          <div><p class="eyebrow">دفتر شواهد پروژه</p><h2>آخرین مستندات</h2></div>
+          <button class="button ghost" id="clear-local" type="button">پاک‌کردن موارد محلی</button>
+        </div>
+        <div class="evidence-table" id="evidence-table">
+          <div class="table-row table-title"><span>مدرک</span><span>زمان ثبت</span><span>موقعیت</span><span>وضعیت</span></div>
+          <div class="table-row"><span>تصویر · نمای شمالی پیش از گودبرداری</span><span>۱۴۰۵/۰۵/۲۳ · ۰۹:۴۲</span><span>قطعه ۱۴، محور A</span><span class="ok">ثبت‌شده</span></div>
+          <div class="table-row"><span>ویدئو · بازدید تحویل زمین</span><span>۱۴۰۵/۰۵/۲۳ · ۱۰:۰۶</span><span>ورودی کارگاه</span><span class="ok">ثبت‌شده</span></div>
+          <div class="table-row"><span>تصویر · مجاورت ملک شرقی</span><span>۱۴۰۵/۰۵/۲۳ · ۱۰:۱۸</span><span>پلاک مجاور</span><span class="review">نیازمند بررسی</span></div>
+        </div>
+      </section>
+
+      <section class="panel compliance" id="compliance">
+        <div><p class="eyebrow">کنترل پیش از ارسال</p><h2>اعتبار گزارش با تأیید مهندس مسئول</h2></div>
+        <ul>
+          <li>کنترل تطابق اطلاعات پروژه با پروانه و نقشه‌های مصوب</li>
+          <li>بررسی شماره دبیرخانه، مرجع گیرنده، مهر و امضا</li>
+          <li>بازبینی موارد مشکوک و شواهد نیازمند کنترل حضوری</li>
+        </ul>
+        <a class="button primary" href="./report/">بازکردن گزارش رسمی</a>
+      </section>
+
+      <footer class="footer">
+        <span>مهندس‌یار AI · نسخه عمومی GitHub Pages</span>
+        <a href="https://doi.org/10.5281/zenodo.22035833" rel="noopener">DOI: 10.5281/zenodo.22035833</a>
+      </footer>
+    </main>
+  </div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
