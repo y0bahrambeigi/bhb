@@ -1,0 +1,37 @@
+{
+  "name": "bhb-engineering-token",
+  "version": "1.1.0",
+  "private": true,
+  "description": "BHB Engineering Token ERC-20 prototype for the Ethereum Sepolia testnet",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "build": "hardhat build",
+    "typecheck": "tsc --noEmit",
+    "test": "hardhat test",
+    "coverage": "hardhat test --coverage",
+    "deploy:local": "hardhat ignition deploy ignition/modules/BHBEngineeringToken.ts",
+    "deploy:sepolia": "hardhat ignition deploy ignition/modules/BHBEngineeringToken.ts --network sepolia",
+    "verify:sepolia": "hardhat ignition deploy ignition/modules/BHBEngineeringToken.ts --network sepolia --verify",
+    "sync:sepolia": "node tools/sync-deployment-address.mjs",
+    "dashboard": "node tools/serve-dashboard.mjs"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "3.0.7",
+    "@openzeppelin/contracts": "5.6.1",
+    "@types/chai": "5.2.3",
+    "@types/mocha": "10.0.10",
+    "@types/node": "26.2.0",
+    "ethers": "6.17.0",
+    "hardhat": "3.14.0",
+    "solc": "0.8.28",
+    "typescript": "7.0.2"
+  },
+  "overrides": {
+    "diff": "9.0.0",
+    "serialize-javascript": "7.1.0",
+    "tmp": "0.2.7"
+  }
+}
