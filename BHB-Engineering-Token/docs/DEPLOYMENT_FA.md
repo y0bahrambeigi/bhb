@@ -18,7 +18,7 @@ npm test
 
 ### ۳. ایجاد Safe مالک
 
-پیش از استقرار، Safe آزمایشی با پنج مالک و threshold سه امضا روی Sepolia ایجاد کنید. آدرس عمومی Safe را در یک کپی محلی از `ignition/parameters/sepolia.example.json` قرار دهید و فایل را با نام `ignition/parameters/sepolia.json` ذخیره کنید. فایل واقعی از Git مستثنا شده است تا استقرار تصادفی با آدرس قدیمی رخ ندهد.
+پیش از استقرار، Safe رسمی نسخه 1.5.0 را با پنج مالک و threshold سه امضا روی Sepolia ایجاد کنید. آدرس عمومی Safe و hash تراکنش ایجاد آن را در یک کپی محلی از `ignition/parameters/sepolia.example.json` قرار دهید و فایل را با نام `ignition/parameters/sepolia.json` ذخیره کنید. فایل واقعی از Git مستثنا شده است تا استقرار تصادفی با آدرس یا مدرک قدیمی رخ ندهد.
 
 مالک اولیه و تمام ۱۰۰ میلیون BHB از لحظه استقرار متعلق به Safe خواهند بود. سیاست کامل در [MULTISIG_GOVERNANCE_FA.md](MULTISIG_GOVERNANCE_FA.md) آمده است.
 
@@ -48,7 +48,7 @@ npm run deploy:local
 npm run deploy:sepolia
 ```
 
-این فرمان ابتدا chain ID، bytecode آدرس Safe، پنج مالک متمایز و threshold سه را روی Sepolia کنترل می‌کند. فقط پس از موفقیت preflight، رمز مخزن امن Hardhat دریافت و تراکنش استقرار ارسال می‌شود. نتیجه در پوشه `ignition/deployments/chain-11155111` ثبت می‌شود.
+این فرمان ابتدا chain ID، آدرس و code hashهای singleton/factory رسمی Safe نسخه 1.5.0، رویداد `ProxyCreation` در تراکنش ایجاد Safe، پنج مالک متمایز و threshold سه را روی Sepolia کنترل می‌کند. فقط پس از موفقیت preflight، رمز مخزن امن Hardhat دریافت و تراکنش استقرار ارسال می‌شود. نتیجه در پوشه `ignition/deployments/chain-11155111` ثبت می‌شود.
 
 ### ۷. تأیید کد در Etherscan
 
@@ -75,9 +75,9 @@ node tools/serve-dashboard.mjs --host 0.0.0.0 --port 4173
 
 سپس آدرس IP رایانه را همراه پورت `4173` در مرورگر داخلی MetaMask آیفون باز کنید. برای استفاده عمومی، داشبورد باید روی HTTPS میزبانی شود.
 
-## مسیر جایگزین: Remix
+## Remix فقط برای مطالعه و کامپایل محلی
 
-اگر نصب Node.js دشوار است، فایل `contracts/BHBEngineeringToken.sol` را در Remix باز کنید، Compiler را روی `0.8.28` قرار دهید و با محیط Injected Provider روی Sepolia منتشر کنید. پارامتر سازنده `initialOwner` باید آدرس عمومی Safe تأییدشده باشد، نه کیف پول شخصی. پس از انتشار، آدرس قرارداد را در داشبورد وارد کنید.
+Remix می‌تواند برای مشاهده یا کامپایل آموزشی قرارداد استفاده شود، اما استقرار Sepolia از Remix یا هر فرمانی که `npm run preflight:sepolia` را دور بزند، برای این انتشار مجاز نیست. تنها مسیر تأییدشده `npm run deploy:sepolia` است.
 
 ## کنترل‌های ضروری پس از انتشار
 

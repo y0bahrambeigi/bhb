@@ -14,9 +14,11 @@ The reviewed code is suitable for a **Sepolia-only pilot after multisig ownershi
 |---|---|
 | Solidity 0.8.28 forced compile | Passed; no compiler warning |
 | TypeScript typecheck | Passed |
-| Mocha tests | 13/13 passed |
+| Mocha tests | 19/19 passed; 14 contract and 5 Safe-policy tests |
 | Contract line coverage | 100% |
 | Contract statement coverage | 100% |
+| Safe authenticity policy | Registry/code-hash/factory-receipt checks passed in tests; live Safe evidence remains pending sign-off |
+| CI dependency gate | Passed for Critical/High/Moderate; 11 Low in development verification tooling |
 | Lifetime mint/supply invariant sequence | Passed |
 | Zero owner/recipient cases | Passed |
 | Paused revert atomicity | Passed |
@@ -42,7 +44,7 @@ The reviewed code is suitable for a **Sepolia-only pilot after multisig ownershi
 
 Severity: High governance risk if the release process is bypassed; not a code exploit.
 Impact: a single owner could pause all transfers, control the initial treasury and mint the remaining allowance.
-Implemented control: the production Ignition module now requires an explicit `initialOwner`, all Sepolia scripts pass the Safe parameter file, the network is pinned to chain ID 11155111, and preflight verifies deployed bytecode, five distinct owners and threshold three before deployment. A separate module preserves local-only deployer ownership. CI proves the production module fails closed without `initialOwner`.
+Implemented control: the production Ignition module requires an explicit `initialOwner`, all Sepolia scripts pass the Safe parameter file, and the network is pinned to chain ID 11155111. Preflight pins Safe v1.5.0 singleton/factory addresses and runtime code hashes to `@safe-global/safe-deployments` 1.37.56, verifies the factory creation transaction, and then checks five distinct owners and threshold three. A separate module preserves local-only deployer ownership. Direct Remix deployment is explicitly outside the approved release path. CI proves the production module fails closed without `initialOwner` and runs tests, coverage and an audit gate for Moderate-or-higher advisories.
 Remaining action: publish the verified Safe address, owners and threshold and complete the signed post-deployment checks before distributing pilot tokens.
 
 ### GOV-02 — No on-chain delay or rate limit below the lifetime cap

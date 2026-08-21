@@ -1,9 +1,15 @@
-import { getAddress } from "ethers";
+import { getAddress, isHexString, keccak256 } from "ethers";
 
 export const EXPECTED_CHAIN_ID = 11155111n;
 export const EXPECTED_OWNER_COUNT = 5;
 export const EXPECTED_THRESHOLD = 3n;
+export const APPROVED_SAFE_VERSION = "1.5.0";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
+export interface SafeCreationEvent {
+  proxy: string;
+  singleton: string;
+}
 
 export function validateSafeTarget(safeInput: string, chainId: bigint, code: string): string {
   const safeAddress = getAddress(safeInput);
@@ -31,4 +37,68 @@ export function validateSafeGovernance(owners: string[], threshold: bigint): str
     throw new Error(`Safe threshold must be ${EXPECTED_THRESHOLD}; received ${threshold}.`);
   }
   return normalizedOwners;
+}
+
+export function validateRegistryContract(
+  label: string,
+  reportedAddress: string,
+  code: string,
+  expectedAddress: string,
+  expectedCodeHash: string,
+): string {
+  const normalizedAddress = getAddress(reportedAddress);
+  const normalizedExpectedAddress = getAddress(expectedAddress);
+  if (normalizedAddress !== normalizedExpectedAddress) {
+    throw new Error(`${label} ${normalizedAddress} is not the approved Safe deployment ${normalizedExpectedAddress}.`);
+  }
+  if (code === "0x") {
+    throw new Error(`${label} ${normalizedAddress} has no deployed bytecode.`);
+  }
+  const actualCodeHash = keccak256(code);
+  if (actualCodeHash.toLowerCase() !== expectedCodeHash.toLowerCase()) {
+    throw new Error(`${label} ${normalizedAddress} does not match the Safe deployment registry code hash.`);
+  }
+  return normalizedAddress;
+}
+
+export function validateSafeImplementation(
+  reportedSingleton: string,
+  reportedVersion: string,
+  expectedSingleton: string,
+  expectedVersion = APPROVED_SAFE_VERSION,
+): string {
+  const normalizedSingleton = getAddress(reportedSingleton);
+  const normalizedExpectedSingleton = getAddress(expectedSingleton);
+  if (normalizedSingleton !== normalizedExpectedSingleton) {
+    throw new Error(`Safe proxy uses unapproved singleton ${normalizedSingleton}; expected ${normalizedExpectedSingleton}.`);
+  }
+  if (reportedVersion !== expectedVersion) {
+    throw new Error(`Safe proxy reports version ${reportedVersion}; expected ${expectedVersion}.`);
+  }
+  return normalizedSingleton;
+}
+
+export function validateSafeCreationTransaction(transactionHash: string, status: number | null): string {
+  if (!isHexString(transactionHash, 32)) {
+    throw new Error("safeCreationTransactionHash must be a 32-byte transaction hash.");
+  }
+  if (status !== 1) {
+    throw new Error("Safe creation transaction is missing or was not successful.");
+  }
+  return transactionHash;
+}
+
+export function validateFactoryProvenance(
+  events: SafeCreationEvent[],
+  safeAddress: string,
+  singletonAddress: string,
+): void {
+  const expectedSafe = getAddress(safeAddress);
+  const expectedSingleton = getAddress(singletonAddress);
+  const matchingEvent = events.some((event) =>
+    getAddress(event.proxy) === expectedSafe && getAddress(event.singleton) === expectedSingleton
+  );
+  if (!matchingEvent) {
+    throw new Error("Safe creation transaction was not emitted by the approved factory for this proxy and singleton.");
+  }
 }

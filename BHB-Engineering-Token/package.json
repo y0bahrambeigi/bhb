@@ -13,6 +13,7 @@
     "test": "hardhat test",
     "test:deployment": "node tools/test-deployment-config.mjs",
     "coverage": "hardhat test --coverage",
+    "audit:ci": "npm audit --audit-level=moderate",
     "deploy:local": "hardhat ignition deploy ignition/modules/BHBEngineeringTokenLocal.ts",
     "preflight:sepolia": "hardhat run tools/preflight-sepolia-safe.ts --network sepolia",
     "deploy:sepolia": "npm run preflight:sepolia && hardhat ignition deploy ignition/modules/BHBEngineeringToken.ts --network sepolia --parameters ignition/parameters/sepolia.json",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox-mocha-ethers": "3.0.7",
     "@openzeppelin/contracts": "5.6.1",
+    "@safe-global/safe-deployments": "1.37.56",
     "@types/chai": "5.2.3",
     "@types/mocha": "10.0.10",
     "@types/node": "26.2.0",

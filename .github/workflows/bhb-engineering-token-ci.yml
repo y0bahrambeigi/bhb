@@ -33,11 +33,15 @@ jobs:
           cache-dependency-path: BHB-Engineering-Token/package-lock.json
       - name: Install pinned dependencies
         run: npm ci
+      - name: Audit dependencies (moderate and above)
+        run: npm run audit:ci
       - name: Compile contracts
         run: npm run build
       - name: Check TypeScript
         run: npm run typecheck
       - name: Run contract tests
         run: npm test
+      - name: Generate contract coverage
+        run: npm run coverage
       - name: Test deployment safety gates
         run: npm run test:deployment

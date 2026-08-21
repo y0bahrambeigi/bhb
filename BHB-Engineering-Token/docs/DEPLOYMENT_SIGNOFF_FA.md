@@ -8,6 +8,8 @@
 |---|---|
 | آدرس deployer در Sepolia | `PENDING` |
 | آدرس Safe در Sepolia | `PENDING` |
+| تراکنش ایجاد Safe | `PENDING` |
+| نسخه Safe و singleton | `1.5.0 / PENDING` |
 | تعداد مالکان Safe | ۵ |
 | threshold | ۳ |
 | پنج آدرس عمومی مالکان | `PENDING` |
@@ -19,23 +21,25 @@
 - [ ] هر پنج مالک Safe آدرس را روی دستگاه خود کنترل کرده‌اند؛
 - [ ] هیچ دو مالک از یک seed phrase استفاده نمی‌کنند؛
 - [ ] شبکه Safe و deployer هر دو Sepolia با chain ID 11155111 هستند؛
-- [ ] Safe با threshold سه از پنج روی explorer مشاهده می‌شود؛
+- [ ] Safe رسمی نسخه 1.5.0 با threshold سه از پنج روی explorer مشاهده می‌شود؛
+- [ ] تراکنش ایجاد Safe از factory رسمی و singleton/code hash رجیستری قفل‌شده تأیید شده است؛
 - [ ] deployer فقط Sepolia ETH لازم برای gas دارد؛
 - [ ] `initialOwner` دقیقاً آدرس checksum شده Safe است؛
-- [ ] `npm ci`, build, typecheck، 17 آزمون قرارداد/preflight و `npm run test:deployment` روی commit نهایی موفق‌اند؛
-- [ ] `npm run preflight:sepolia` آدرس Safe، پنج مالک متمایز و threshold سه را تأیید کرده است؛
-- [ ] `npm audit` دوباره اجرا و نتیجه ثبت شده است؛
+- [ ] `npm ci`, build, typecheck، 19 آزمون قرارداد/preflight و `npm run test:deployment` روی commit نهایی موفق‌اند؛
+- [ ] `npm run preflight:sepolia` هویت رسمی Safe، سابقه factory، پنج مالک متمایز و threshold سه را تأیید کرده است؛
+- [ ] `npm run coverage` و `npm run audit:ci` روی commit نهایی موفق‌اند؛
 - [ ] خروجی compile و bytecode با artifact مورد انتظار مطابقت دارد؛
 - [ ] هیچ private key، seed phrase یا API key در مخزن/چت وجود ندارد.
 
 ## پارامتر مالک اولیه
 
-یک کپی محلی از فایل نمونه بسازید و فقط آدرس عمومی Safe را جایگزین کنید:
+یک کپی محلی از فایل نمونه بسازید و آدرس عمومی Safe و تراکنش ایجاد آن را جایگزین کنید:
 
 ```json
 {
   "BHBEngineeringTokenModule": {
-    "initialOwner": "0xCHECKSUMMED_SAFE_ADDRESS"
+    "initialOwner": "0xCHECKSUMMED_SAFE_ADDRESS",
+    "safeCreationTransactionHash": "0xSAFE_CREATION_TRANSACTION_HASH"
   }
 }
 ```
