@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سوالات درس علوم کامپیوتر</title>
+
+    <!-- Cross-Platform PWA & Web App Meta Tags (iOS, Android, Windows) -->
+    <meta name="theme-color" content="#0b0f19">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="علوم کامپیوتر">
+    <meta name="application-name" content="علوم کامپیوتر">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234f46e5'/><text x='50' y='65' font-size='45' font-weight='bold' text-anchor='middle' fill='white'>CS</text></svg>">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- KaTeX for formulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <!-- Vazirmatn Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css">
+
+    <style>
+        * {
+            font-family: 'Vazirmatn', sans-serif;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .canvas-container {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            touch-action: none;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dir-ltr {
+            direction: ltr;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <!-- Header Section -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800 px-4 py-4 mb-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-3 bg-indigo-600/20 rounded-2xl border border-indigo-500/30">
+                    <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black gradient-text">سوالات درس علوم کامپیوتر</h1>
+                    <p class="text-xs text-slate-400 mt-0.5">تهیه و تنظیم : مانی چودار رضاییه</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <div class="flex flex-wrap justify-center gap-1.5 bg-slate-900/80 p-1.5 rounded-xl border border-slate-800">
+                <button onclick="switchTab('all')" id="btn-all" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-600/30">همه</button>
+                <button onclick="switchTab(1)" id="btn-1" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۱</button>
+                <button onclick="switchTab(2)" id="btn-2" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۲</button>
+                <button onclick="switchTab(3)" id="btn-3" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۳</button>
+                <button onclick="switchTab(4)" id="btn-4" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۴</button>
+                <button onclick="switchTab(5)" id="btn-5" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۵</button>
+                <button onclick="switchTab(6)" id="btn-6" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۶</button>
+                <button onclick="switchTab(7)" id="btn-7" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۷</button>
+                <button onclick="switchTab(8)" id="btn-8" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۸</button>
+                <button onclick="switchTab(9)" id="btn-9" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۹</button>
+                <button onclick="switchTab(10)" id="btn-10" class="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white transition-all">۱۰</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 space-y-10">
+
+        <!-- QUESTION 1 -->
+        <section id="card-q1" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">سوال ۱</span>
+                            <span class="text-xs text-slate-400">مفهوم حافظه و بیت/بایت</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">هر بایت چند بیت دارد؟</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            بایت (Byte) واحد اصلی اندازه‌گیری داده در علوم کامپیوتر است. هر بایت از ترکیب دقیقاً <strong class="text-cyan-400 font-bold">۸ بیت (Bit)</strong> تشکیل شده است.
+                        </p>
+                    </div>
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-cyan-400 mb-2">فرمولاسیون ریاضی و ساختاری:</div>
+                        <div class="font-mono text-center py-2 text-lg text-slate-200 dir-ltr" id="formula-q1"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50">
+                            <span class="text-slate-400 block mb-1">تعداد حالات ممکن:</span>
+                            <span class="text-white font-bold text-sm">2<sup>8</sup> = 256 حالت</span>
+                        </div>
+                        <div class="bg-slate-800/40 p-3 rounded-xl border border-slate-700/50">
+                            <span class="text-slate-400 block mb-1">پاسخ قطعی:</span>
+                            <span class="text-emerald-400 font-bold text-sm">۸ بیت (8 Bits)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-1">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">مدل سه‌بعدی ۱ بایت</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 flex items-center justify-between">
+                        <span class="text-xs text-slate-400">تغییر مقدار بیت‌ها:</span>
+                        <div id="bit-values-display" class="font-mono text-xs text-cyan-300 font-bold tracking-widest dir-ltr">00000000 = 0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 2 -->
+        <section id="card-q2" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-purple-500/20 text-purple-400 border border-purple-500/30">سوال ۲</span>
+                            <span class="text-xs text-slate-400">سیستم‌های عددی و مبنای ۲</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">رقم‌های مجاز در مبنای ۲ کدام‌اند؟</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            در هر سیستم عددی با مبنای N، رقم‌های مجاز از 0 تا N−1 هستند. بنابراین در مبنای 2، تنها <strong>دو رقم مجاز</strong> وجود دارد.
+                        </p>
+                    </div>
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-purple-400 mb-2">تعریف ریاضی مجموعه رقم‌های مبنای B:</div>
+                        <div class="font-mono text-center py-2 text-lg text-slate-200 dir-ltr" id="formula-q2"></div>
+                    </div>
+                    <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
+                        <span class="text-xs text-slate-400 block mb-2">تست اعتبار رقم در مبنای ۲:</span>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="checkDigit(0)" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold">رقم ۰ (مجاز ✓)</button>
+                            <button onclick="checkDigit(1)" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold">رقم ۱ (مجاز ✓)</button>
+                            <button onclick="checkDigit(2)" class="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/40 text-xs font-bold">رقم ۲ (غیرمجاز ✕)</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-2">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">ارقام ۰ و ۱ سه‌بعدی</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-xs text-purple-300 font-bold">پاسخ نهایی: رقم‌های ۰ و ۱</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 3 -->
+        <section id="card-q3" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-400 border border-amber-500/30">سوال ۳</span>
+                            <span class="text-xs text-slate-400">محاسبات نمایی و توان</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">مقدار 2<sup>5</sup> چقدر است؟</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            عبارت 2<sup>5</sup> به معنی ضرب عدد پایه (2) در خودش به تعداد توان (5 بار) است.
+                        </p>
+                    </div>
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-amber-400 mb-2">گام‌های محاسبه ریاضی:</div>
+                        <div class="font-mono text-center py-2 text-lg text-slate-200 dir-ltr" id="formula-q3"></div>
+                    </div>
+                    <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50 space-y-2">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-slate-400">تغییر توان:</span>
+                            <span class="text-amber-400 font-bold font-mono" id="power-display">2^5 = 32</span>
+                        </div>
+                        <input type="range" min="1" max="6" value="5" id="power-slider" oninput="updatePowerVisualization(this.value)" class="w-full accent-amber-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-3">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">آرایه مکعب‌های ۳۲ تایی</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-xs text-amber-300 font-bold">پاسخ نهایی: ۳۲</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 4 -->
+        <section id="card-q4" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-pink-500/20 text-pink-400 border border-pink-500/30">سوال ۴</span>
+                            <span class="text-xs text-slate-400">انواع داده در پایتون</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">نوع داده "25" چیست؟</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            در پایتون، هر مقداری که داخل کوتیشن قرار گیرد (<code>"..."</code>) به عنوان <strong class="text-pink-400">رشته متنی (String یا <code>str</code>)</strong> شناخته می‌شود.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-pink-500/30">
+                            <div class="text-xs text-pink-400 font-bold mb-1">"25" (با کوتیشن)</div>
+                            <div class="text-xs text-slate-300">نوع داده: <span class="text-pink-300 font-mono font-bold">str</span></div>
+                        </div>
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-blue-500/30">
+                            <div class="text-xs text-blue-400 font-bold mb-1">25 (بدون کوتیشن)</div>
+                            <div class="text-xs text-slate-300">نوع داده: <span class="text-blue-300 font-mono font-bold">int</span></div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-pink-400 mb-2">خروجی تابع type در پایتون:</div>
+                        <div class="font-mono text-center py-2 text-base text-slate-200 dir-ltr" id="formula-q4"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-4">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">کپسول متنی سه‌بعدی</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-xs text-pink-300 font-bold">پاسخ نهایی: رشته یا String (<code>str</code>)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 5 -->
+        <section id="card-q5" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">سوال ۵</span>
+                            <span class="text-xs text-slate-400">اولویت عملگرها</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">خروجی دستور <code>print(5 + 2 * 3)</code> چیست؟</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            عملگر ضرب (<code>*</code>) اولویت بالاتری نسبت به جمع (<code>+</code>) دارد؛ ابتدا ضرب انجام شده و سپس جمع می‌شود.
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
+                            <span class="text-slate-300">گام ۱: ضرب</span>
+                            <span class="font-mono text-emerald-400 font-bold dir-ltr">2 * 3 = 6</span>
+                        </div>
+                        <div class="bg-slate-900/90 p-3 rounded-xl border border-slate-800 flex items-center justify-between text-xs">
+                            <span class="text-slate-300">گام ۲: جمع</span>
+                            <span class="font-mono text-emerald-400 font-bold dir-ltr">5 + 6 = 11</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-emerald-400 mb-2">فرمولاسیون اولویت:</div>
+                        <div class="font-mono text-center py-2 text-base text-slate-200 dir-ltr" id="formula-q5"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-5">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">گراف درخت اولویت</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center">
+                        <span class="text-xs text-emerald-300 font-bold">خروجی نهایی: ۱۱</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 6 -->
+        <section id="card-q6" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-blue-500/20 text-blue-400 border border-blue-500/30">سوال ۶</span>
+                            <span class="text-xs text-slate-400">تبدیل مبنا (دودویی به دهدهی)</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">عدد (101101)<sub>2</sub> در مبنای دو را به دهدهی تبدیل کنید.</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            برای تبدیل از مبنای ۲ به مبنای ۱۰، هر رقم از راست به چپ در ارزش مکانی خود یعنی توان‌های عدد ۲ ضرب شده و حاصل‌جمع آنها ارزش دهدهی را مشخص می‌کند.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-blue-400 mb-2">فرمول و بسط ارزش مکانی:</div>
+                        <div class="font-mono text-center py-2 text-sm md:text-base text-slate-200 dir-ltr" id="formula-q6"></div>
+                    </div>
+
+                    <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
+                        <span class="text-xs text-slate-400 block mb-2">جدول تفکیک ارزش مکانی بیت‌ها:</span>
+                        <div class="grid grid-cols-6 gap-1 text-center font-mono text-xs">
+                            <div class="bg-blue-900/40 p-2 rounded-lg border border-blue-500/30"><span class="text-slate-400 block text-[10px]">2^5 = 32</span><span class="text-cyan-400 font-bold text-sm">1</span></div>
+                            <div class="bg-slate-900/40 p-2 rounded-lg border border-slate-700"><span class="text-slate-400 block text-[10px]">2^4 = 16</span><span class="text-slate-500 font-bold text-sm">0</span></div>
+                            <div class="bg-blue-900/40 p-2 rounded-lg border border-blue-500/30"><span class="text-slate-400 block text-[10px]">2^3 = 8</span><span class="text-cyan-400 font-bold text-sm">1</span></div>
+                            <div class="bg-blue-900/40 p-2 rounded-lg border border-blue-500/30"><span class="text-slate-400 block text-[10px]">2^2 = 4</span><span class="text-cyan-400 font-bold text-sm">1</span></div>
+                            <div class="bg-slate-900/40 p-2 rounded-lg border border-slate-700"><span class="text-slate-400 block text-[10px]">2^1 = 2</span><span class="text-slate-500 font-bold text-sm">0</span></div>
+                            <div class="bg-blue-900/40 p-2 rounded-lg border border-blue-500/30"><span class="text-slate-400 block text-[10px]">2^0 = 1</span><span class="text-cyan-400 font-bold text-sm">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-6">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">مدل ۶ بیت فعال (ارزش ۴۵)</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center"><span class="text-xs text-blue-300 font-bold">پاسخ نهایی: ۴۵ (45)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 7 -->
+        <section id="card-q7" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-teal-500/20 text-teal-400 border border-teal-500/30">سوال ۷</span>
+                            <span class="text-xs text-slate-400">تبدیل مبنا (دهدهی به دودویی)</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">عدد 57<sub>10</sub> را به دودویی تبدیل کنید.</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            برای تبدیل از مبنای ۱۰ به ۲، عدد را متوالیاً بر ۲ تقسیم می‌کنیم و باقیمانده‌ها را از آخرین خارج‌قسمت به اولین باقیمانده کنار هم می‌چینیم. همچنین می‌توان از تجزیه به توان‌های ۲ استفاده کرد.
+                        </p>
+                    </div>
+
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-teal-400 mb-2">روش سریع تجزیه به توان‌های ۲:</div>
+                        <div class="font-mono text-center py-2 text-sm md:text-base text-slate-200 dir-ltr" id="formula-q7"></div>
+                    </div>
+
+                    <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50 space-y-1.5 text-xs">
+                        <div class="flex justify-between border-b border-slate-700/50 pb-1"><span>57 ÷ 2 = 28</span><span class="text-teal-400 font-bold">باقیمانده: ۱</span></div>
+                        <div class="flex justify-between border-b border-slate-700/50 pb-1"><span>28 ÷ 2 = 14</span><span class="text-slate-400">باقیمانده: ۰</span></div>
+                        <div class="flex justify-between border-b border-slate-700/50 pb-1"><span>14 ÷ 2 = 7</span><span class="text-slate-400">باقیمانده: ۰</span></div>
+                        <div class="flex justify-between border-b border-slate-700/50 pb-1"><span>7 ÷ 2 = 3</span><span class="text-teal-400 font-bold">باقیمانده: ۱</span></div>
+                        <div class="flex justify-between border-b border-slate-700/50 pb-1"><span>3 ÷ 2 = 1</span><span class="text-teal-400 font-bold">باقیمانده: ۱</span></div>
+                        <div class="flex justify-between"><span>1 ÷ 2 = 0</span><span class="text-teal-400 font-bold">باقیمانده: ۱</span></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-7">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">ستون‌های وزن ۵۷ در مبنای ۲</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center"><span class="text-xs text-teal-300 font-bold">پاسخ نهایی: (111001)<sub>2</sub></span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 8 -->
+        <section id="card-q8" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-orange-500/20 text-orange-400 border border-orange-500/30">سوال ۸</span>
+                            <span class="text-xs text-slate-400">عملگرهای تقسیم در پایتون</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">تفاوت عملگر <code>/</code> و <code>//</code> چیست؟</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            عملگر <code>/</code> تقسیم اعشاری را انجام می‌دهد و همیشه خروجی از نوع <strong>اعشاری (Float)</strong> برمی‌گرداند. اما عملگر <code>//</code> تقسیم صحیح (Floor Division) انجام داده و نتیجه را به سمت پایین گرد می‌کند.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-orange-500/30">
+                            <div class="text-xs text-orange-400 font-bold mb-1">عملگر / (Float Division)</div>
+                            <div class="text-xs font-mono text-slate-200 dir-ltr">7 / 2 ➔ 3.5</div>
+                            <p class="text-[11px] text-slate-400 mt-2">خروجی همراه با اعشار دقیق است.</p>
+                        </div>
+                        <div class="bg-slate-900/90 rounded-2xl p-4 border border-amber-500/30">
+                            <div class="text-xs text-amber-400 font-bold mb-1">عملگر // (Floor Division)</div>
+                            <div class="text-xs font-mono text-slate-200 dir-ltr">7 // 2 ➔ 3</div>
+                            <p class="text-[11px] text-slate-400 mt-2">خروجی بخش صحیح گردشده به پایین است.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-orange-400 mb-2">فرمول ریاضی تقسیم صحیح (Floor):</div>
+                        <div class="font-mono text-center py-2 text-base text-slate-200 dir-ltr" id="formula-q8"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-8">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">مقایسه سه‌بعدی ارتفاع ۳.۵ و ۳</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center"><span class="text-xs text-orange-300 font-bold">تقسیم اعشاری (Float) در برابر تقسیم صحیح (Integer Floor)</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 9 -->
+        <section id="card-q9" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">سوال ۹</span>
+                            <span class="text-xs text-slate-400">برنامه‌نویسی پایتون</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">برنامه‌ای بنویسید که طول ضلع مربع را دریافت و محیط و مساحت آن را محاسبه کند.</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">برای محاسبه محیط مربع فرمول P = 4 × a و برای مساحت فرمول A = a<sup>2</sup> استفاده می‌شود.</p>
+                    </div>
+
+                    <!-- Python Code Block -->
+                    <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800 font-mono text-xs dir-ltr overflow-x-auto text-emerald-400 space-y-1">
+                        <div class="text-slate-500"># Python Program for Square Area &amp; Perimeter</div>
+                        <div>side = <span class="text-yellow-300">float</span>(<span class="text-blue-300">input</span>(<span class="text-amber-200">"Enter side length: "</span>))</div>
+                        <div>perimeter = <span class="text-purple-300">4</span> * side</div>
+                        <div>area = side ** <span class="text-purple-300">2</span></div>
+                        <div><span class="text-blue-300">print</span>(<span class="text-amber-200">f"محیط: {perimeter}"</span>)</div>
+                        <div><span class="text-blue-300">print</span>(<span class="text-amber-200">f"مساحت: {area}"</span>)</div>
+                    </div>
+
+                    <!-- Interactive Slider -->
+                    <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50 space-y-2">
+                        <div class="flex justify-between items-center text-xs"><span class="text-slate-400">تست طول ضلع (a):</span><span class="text-indigo-400 font-bold font-mono" id="square-side-display">a = 5</span></div>
+                        <input type="range" min="1" max="10" value="5" id="square-slider" oninput="updateSquareVisualization(this.value)" class="w-full accent-indigo-500 bg-slate-700 h-2 rounded-lg cursor-pointer">
+                        <div class="flex justify-between text-xs pt-2 text-slate-300 border-t border-slate-700/50">
+                            <span>محیط (4a): <strong class="text-cyan-400" id="sq-perim">20</strong></span>
+                            <span>مساحت (a<sup>2</sup>): <strong class="text-pink-400" id="sq-area">25</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-9">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">مربع سه‌بعدی تعاملی</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center"><span class="text-xs text-indigo-300 font-bold">محاسبه آنلاین محیط و مساحت مربع</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 10 -->
+        <section id="card-q10" class="q-card glass-card rounded-3xl p-6 md:p-8 transition-all hover:border-slate-700">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black bg-red-500/20 text-red-400 border border-red-500/30">سوال ۱۰</span>
+                            <span class="text-xs text-slate-400">الگوریتم و فلوچارت</span>
+                        </div>
+                        <h2 class="text-xl md:text-2xl font-bold text-white mb-2">فلوچارت تشخیص مثبت، منفی یا صفر بودن یک عدد را رسم کنید.</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">این فلوچارت عدد N را دریافت کرده و با شرط N &gt; 0 مثبت بودن، با شرط N &lt; 0 منفی بودن و در غیر این صورت صفر بودن عدد را خروجی می‌دهد.</p>
+                    </div>
+
+                    <!-- Flowchart Interactive Execution -->
+                    <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="flowchart-input" value="7" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white w-28 dir-ltr focus:outline-none focus:border-red-500" placeholder="عدد را وارد کنید">
+                            <button onclick="testFlowchart()" class="px-4 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition-all">ارزیابی فلوچارت</button>
+                        </div>
+                        <div id="flowchart-result-box" class="p-3 bg-slate-900/90 rounded-xl border border-slate-800 text-xs font-bold text-red-400">نتیجه: عدد ۷ مثبت است (N &gt; 0)</div>
+                    </div>
+
+                    <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                        <div class="text-xs font-semibold text-red-400 mb-2">دستور شرطی معادل در ریاضی و کد:</div>
+                        <div class="font-mono text-center py-2 text-xs md:text-sm text-slate-200 dir-ltr" id="formula-q10"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 flex flex-col justify-between">
+                    <div class="canvas-container shadow-inner" id="canvas-container-10">
+                        <div class="absolute top-3 right-3 bg-slate-900/80 px-3 py-1 rounded-full text-[10px] text-slate-300 border border-slate-700 z-10">مدل گراف درخت تصمیم‌گیری فلوچارت</div>
+                    </div>
+                    <div class="mt-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 text-center"><span class="text-xs text-red-300 font-bold">گراف سه‌بعدی مسیر تصمیم‌گیری فلوچارت</span></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-16 text-center text-xs text-slate-500 py-6 border-t border-slate-800">تهیه و تنظیم : مانی چودار رضاییه • طراحی‌شده در قالب استاندارد علمی و تعاملی</footer>
+
+    <!-- SCRIPT SECTION -->
+    <script>
+        // Render Formulas with KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            katex.render("1\\text{ Byte} = 8\\text{ Bits} = \\{b_7, b_6, b_5, b_4, b_3, b_2, b_1, b_0\\}", document.getElementById('formula-q1'));
+            katex.render("\\text{Digits}(B) = \\{x \\in \\mathbb{N}_0 \\mid 0 \\le x < B\\} \\implies \\text{Digits}(2) = \\{0, 1\\}", document.getElementById('formula-q2'));
+            katex.render("2^5 = 2 \\times 2 \\times 2 \\times 2 \\times 2 = 32", document.getElementById('formula-q3'));
+            katex.render("\\text{type}(\\\"25\\\") \\longrightarrow <\\text{class 'str'}>", document.getElementById('formula-q4'));
+            katex.render("5 + (2 \\times 3) \\xrightarrow{\\text{Step 1}} 5 + 6 \\xrightarrow{\\text{Step 2}} 11", document.getElementById('formula-q5'));
+            katex.render("(101101)_2 = 1(2^5) + 0(2^4) + 1(2^3) + 1(2^2) + 0(2^1) + 1(2^0) = 32 + 8 + 4 + 1 = 45_{10}", document.getElementById('formula-q6'));
+            katex.render("57_{10} = 32 + 16 + 8 + 1 = 2^5 + 2^4 + 2^3 + 2^0 \\implies (111001)_2", document.getElementById('formula-q7'));
+            katex.render("a // b = \\lfloor a / b \\rfloor \\quad (\\text{e.g. } 7 // 2 = 3)", document.getElementById('formula-q8'));
+            katex.render("f(N) = \\begin{cases} \\text{\\\"مثبت\\\"} & N > 0 \\\\ \\text{\\\"منفی\\\"} & N < 0 \\\\ \\text{\\\"صفر\\\"} & N = 0 \\end{cases}", document.getElementById('formula-q10'));
+            init3DScenes();
+        });
+
+        // Tab Switcher
+        function switchTab(tab) {
+            const cards = document.querySelectorAll('.q-card');
+            const buttons = [
+                document.getElementById('btn-all'), document.getElementById('btn-1'),
+                document.getElementById('btn-2'), document.getElementById('btn-3'),
+                document.getElementById('btn-4'), document.getElementById('btn-5'),
+                document.getElementById('btn-6'), document.getElementById('btn-7'),
+                document.getElementById('btn-8'), document.getElementById('btn-9'),
+                document.getElementById('btn-10')
+            ];
+
+            buttons.forEach(btn => {
+                if (btn) {
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-lg', 'shadow-indigo-600/30');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+
+            if (tab === 'all') {
+                cards.forEach(card => card.style.display = 'block');
+                document.getElementById('btn-all').classList.add('bg-indigo-600', 'text-white', 'shadow-lg', 'shadow-indigo-600/30');
+                document.getElementById('btn-all').classList.remove('text-slate-400');
+            } else {
+                cards.forEach(card => card.style.display = 'none');
+                const target = document.getElementById(`card-q${tab}`);
+                if (target) target.style.display = 'block';
+                const activeBtn = document.getElementById(`btn-${tab}`);
+                if (activeBtn) {
+                    activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-lg', 'shadow-indigo-600/30');
+                    activeBtn.classList.remove('text-slate-400');
+                }
+            }
+        }
+
+        // Q1 Bit Toggle
+        let bitArray = [0, 0, 0, 0, 0, 0, 0, 0];
+        let bitCubes = [];
+        function toggleBit(index) {
+            bitArray[index] = bitArray[index] === 0 ? 1 : 0;
+            const strValue = bitArray.join('');
+            const intValue = parseInt(strValue, 2);
+            document.getElementById('bit-values-display').innerText = `${strValue} = ${intValue}`;
+            if (bitCubes[index]) {
+                bitCubes[index].position.y = bitArray[index] === 1 ? 0.4 : 0;
+                bitCubes[index].material.color.setHex(bitArray[index] === 1 ? 0x06b6d4 : 0x334155);
+            }
+        }
+
+        function checkDigit(digit) {
+            if (digit === 0 || digit === 1) alert(`رقم ${digit} در مبنای ۲ کاملاً مجاز است.`);
+            else alert(`خطا! رقم ${digit} در مبنای ۲ غیرمجاز است.`);
+        }
+
+        // Q3 Powers
+        let q3Group;
+        function updatePowerVisualization(val) {
+            const power = parseInt(val);
+            const result = Math.pow(2, power);
+            document.getElementById('power-display').innerText = `2^${power} = ${result}`;
+            if (q3Group) {
+                while (q3Group.children.length > 0) q3Group.remove(q3Group.children[0]);
+                const count = Math.min(result, 32);
+                const cols = 4;
+                const rows = Math.ceil(count / cols);
+                for (let i = 0; i < count; i++) {
+                    const geom = new THREE.BoxGeometry(0.35, 0.35, 0.35);
+                    const mat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.2, metalness: 0.8 });
+                    const cube = new THREE.Mesh(geom, mat);
+                    const r = Math.floor(i / cols);
+                    const c = i % cols;
+                    cube.position.set((c - (cols - 1) / 2) * 0.45, (r - (rows - 1) / 2) * 0.45, 0);
+                    q3Group.add(cube);
+                }
+            }
+        }
+
+        // Q9 Square update
+        let q9Mesh;
+        function updateSquareVisualization(val) {
+            const side = parseFloat(val);
+            document.getElementById('square-side-display').innerText = `a = ${side}`;
+            document.getElementById('sq-perim').innerText = (4 * side);
+            document.getElementById('sq-area').innerText = (side * side);
+            if (q9Mesh) {
+                const scale = side / 5;
+                q9Mesh.scale.set(scale, scale, scale);
+            }
+        }
+
+        // Q10 Flowchart evaluation
+        let q10ActiveLight;
+        function testFlowchart() {
+            const val = parseFloat(document.getElementById('flowchart-input').value);
+            const resBox = document.getElementById('flowchart-result-box');
+            if (isNaN(val)) {
+                resBox.innerText = "لطفاً یک عدد معتبر وارد کنید.";
+                return;
+            }
+            if (val > 0) {
+                resBox.innerText = `نتیجه: عدد ${val} مثبت است (N > 0)`;
+                resBox.className = "p-3 bg-slate-900/90 rounded-xl border border-slate-800 text-xs font-bold text-emerald-400";
+                if (q10ActiveLight) q10ActiveLight.position.set(-1.2, -0.8, 0);
+            } else if (val < 0) {
+                resBox.innerText = `نتیجه: عدد ${val} منفی است (N < 0)`;
+                resBox.className = "p-3 bg-slate-900/90 rounded-xl border border-slate-800 text-xs font-bold text-rose-400";
+                if (q10ActiveLight) q10ActiveLight.position.set(1.2, -0.8, 0);
+            } else {
+                resBox.innerText = `نتیجه: عدد برابر صفر است (N = 0)`;
+                resBox.className = "p-3 bg-slate-900/90 rounded-xl border border-slate-800 text-xs font-bold text-amber-400";
+                if (q10ActiveLight) q10ActiveLight.position.set(0, -0.8, 0);
+            }
+        }
+
+        // THREE.JS Helper
+        function createBaseScene(containerId) {
+            const container = document.getElementById(containerId);
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+            dirLight.position.set(5, 10, 7);
+            scene.add(dirLight);
+
+            let isDragging = false;
+            let previousMousePosition = { x: 0, y: 0 };
+            renderer.domElement.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.offsetX, y: e.offsetY };
+            });
+            renderer.domElement.addEventListener('mouseup', () => isDragging = false);
+            renderer.domElement.addEventListener('mouseleave', () => isDragging = false);
+            renderer.domElement.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaMove = { x: e.offsetX - previousMousePosition.x, y: e.offsetY - previousMousePosition.y };
+                scene.rotation.y += deltaMove.x * 0.01;
+                scene.rotation.x += deltaMove.y * 0.01;
+                previousMousePosition = { x: e.offsetX, y: e.offsetY };
+            });
+
+            renderer.domElement.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, { passive: true });
+            renderer.domElement.addEventListener('touchend', () => isDragging = false, { passive: true });
+            renderer.domElement.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const deltaMove = { x: e.touches[0].clientX - previousMousePosition.x, y: e.touches[0].clientY - previousMousePosition.y };
+                scene.rotation.y += deltaMove.x * 0.01;
+                scene.rotation.x += deltaMove.y * 0.01;
+                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            }, { passive: true });
+
+            window.addEventListener('resize', () => {
+                if (container.clientWidth > 0) {
+                    camera.aspect = container.clientWidth / container.clientHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                }
+            });
+            return { scene, camera, renderer };
+        }
+
+        function init3DScenes() {
+            initScene1(); initScene2(); initScene3(); initScene4(); initScene5();
+            initScene6(); initScene7(); initScene8(); initScene9(); initScene10();
+        }
+
+        function initScene1() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-1');
+            camera.position.set(0, 2.5, 5); camera.lookAt(0, 0, 0);
+            const tray = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.2, 0.8), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
+            tray.position.y = -0.3; scene.add(tray);
+            bitCubes = [];
+            const raycaster = new THREE.Raycaster(); const mouse = new THREE.Vector2();
+            for (let i = 0; i < 8; i++) {
+                const cube = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0x334155 }));
+                cube.position.x = (i - 3.5) * 0.48; cube.userData = { index: i };
+                scene.add(cube); bitCubes.push(cube);
+            }
+            renderer.domElement.addEventListener('click', (event) => {
+                const rect = renderer.domElement.getBoundingClientRect();
+                mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(bitCubes);
+                if (intersects.length > 0) toggleBit(intersects[0].object.userData.index);
+            });
+            function animate() { requestAnimationFrame(animate); scene.rotation.y += 0.003; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene2() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-2');
+            camera.position.set(0, 0, 4);
+            const digit0 = new THREE.Mesh(new THREE.TorusGeometry(0.7, 0.2, 16, 50), new THREE.MeshStandardMaterial({ color: 0xa855f7 }));
+            digit0.position.x = -1.1; scene.add(digit0);
+            const digit1 = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 1.4, 32), new THREE.MeshStandardMaterial({ color: 0xc084fc }));
+            digit1.position.x = 1.1; scene.add(digit1);
+            function animate() { requestAnimationFrame(animate); digit0.rotation.x += 0.01; digit1.rotation.y += 0.015; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene3() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-3');
+            camera.position.set(0, 0, 4.5);
+            q3Group = new THREE.Group(); scene.add(q3Group);
+            updatePowerVisualization(5);
+            function animate() { requestAnimationFrame(animate); q3Group.rotation.y += 0.005; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene4() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-4');
+            camera.position.set(0, 0, 4);
+            const capsule = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 1.2, 32), new THREE.MeshPhysicalMaterial({ color: 0xec4899, transparent: true, opacity: 0.35 }));
+            capsule.rotation.z = Math.PI / 2; scene.add(capsule);
+            const core = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.6, 0.6), new THREE.MeshStandardMaterial({ color: 0xf43f5e }));
+            scene.add(core);
+            function animate() { requestAnimationFrame(animate); capsule.rotation.x += 0.01; core.rotation.y += 0.01; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene5() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-5');
+            camera.position.set(0, 0, 4.5);
+            const group = new THREE.Group(); scene.add(group);
+            const root = new THREE.Mesh(new THREE.SphereGeometry(0.35, 32, 32), new THREE.MeshStandardMaterial({ color: 0x10b981 }));
+            root.position.set(0, 0.8, 0); group.add(root);
+            [-1, 1].forEach((x, index) => {
+                const child = new THREE.Mesh(new THREE.SphereGeometry(0.28, 32, 32), new THREE.MeshStandardMaterial({ color: index === 0 ? 0x06b6d4 : 0x8b5cf6 }));
+                child.position.set(x, -0.6, 0); group.add(child);
+                const points = [new THREE.Vector3(0, 0.55, 0), new THREE.Vector3(x, -0.35, 0)];
+                group.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x94a3b8 })));
+            });
+            function animate() { requestAnimationFrame(animate); group.rotation.y += 0.005; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene6() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-6');
+            camera.position.set(0, 0, 4.5);
+            const group = new THREE.Group(); scene.add(group);
+            [1, 0, 1, 1, 0, 1].forEach((b, idx) => {
+                const cube = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4 + (b * 0.4), 0.4), new THREE.MeshStandardMaterial({ color: b ? 0x3b82f6 : 0x334155, roughness: 0.2 }));
+                cube.position.x = (idx - 2.5) * 0.55; group.add(cube);
+            });
+            function animate() { requestAnimationFrame(animate); group.rotation.y += 0.006; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene7() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-7');
+            camera.position.set(0, 0, 4.5);
+            const group = new THREE.Group(); scene.add(group);
+            [1, 1, 1, 0, 0, 1].forEach((b, idx) => {
+                const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.2 + (b * 0.8), 32), new THREE.MeshStandardMaterial({ color: b ? 0x14b8a6 : 0x475569 }));
+                cyl.position.x = (idx - 2.5) * 0.55; group.add(cyl);
+            });
+            function animate() { requestAnimationFrame(animate); group.rotation.y += 0.006; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene8() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-8');
+            camera.position.set(0, 0, 4.5);
+            const floatBar = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 1.75, 32), new THREE.MeshStandardMaterial({ color: 0xf97316 }));
+            floatBar.position.x = -0.8; scene.add(floatBar);
+            const intBar = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 1.5, 32), new THREE.MeshStandardMaterial({ color: 0xf59e0b }));
+            intBar.position.x = 0.8; scene.add(intBar);
+            function animate() { requestAnimationFrame(animate); floatBar.rotation.y += 0.01; intBar.rotation.y += 0.01; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene9() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-9');
+            camera.position.set(0, 0, 4.5);
+            q9Mesh = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.5, 0.2), new THREE.MeshStandardMaterial({ color: 0x6366f1, metalness: 0.5, roughness: 0.2 }));
+            scene.add(q9Mesh);
+            function animate() { requestAnimationFrame(animate); q9Mesh.rotation.y += 0.008; q9Mesh.rotation.x += 0.004; renderer.render(scene, camera); }
+            animate();
+        }
+
+        function initScene10() {
+            const { scene, camera, renderer } = createBaseScene('canvas-container-10');
+            camera.position.set(0, 0, 4.5);
+            const group = new THREE.Group(); scene.add(group);
+            const decision = new THREE.Mesh(new THREE.OctahedronGeometry(0.5), new THREE.MeshStandardMaterial({ color: 0xef4444 }));
+            decision.position.set(0, 0.8, 0); group.add(decision);
+            const posNode = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0x10b981 }));
+            posNode.position.set(-1.2, -0.8, 0); group.add(posNode);
+            const negNode = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0xf43f5e }));
+            negNode.position.set(1.2, -0.8, 0); group.add(negNode);
+            const zeroNode = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0xf59e0b }));
+            zeroNode.position.set(0, -0.8, 0); group.add(zeroNode);
+            q10ActiveLight = new THREE.Mesh(new THREE.SphereGeometry(0.15, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+            q10ActiveLight.position.set(-1.2, -0.8, 0); group.add(q10ActiveLight);
+            function animate() { requestAnimationFrame(animate); group.rotation.y += 0.005; renderer.render(scene, camera); }
+            animate();
+        }
+    </script>
+</body>
+</html>
