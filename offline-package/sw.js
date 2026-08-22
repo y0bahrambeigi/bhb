@@ -1,4 +1,5 @@
-const CACHE_NAME = "python-academy-yousef-offline-v2";
+const CACHE_PREFIX = "python-academy-yousef-offline-";
+const CACHE_NAME = `${CACHE_PREFIX}v2`;
 const CORE = [
   "/", "/index.html", "/manifest.webmanifest", "/favicon.svg",
   "/icon-192.png", "/icon-512.png", "/apple-touch-icon.png",
@@ -20,7 +21,7 @@ self.addEventListener("install", event => {
 });
 
 self.addEventListener("activate", event => {
-  event.waitUntil(caches.keys().then(names => Promise.all(names.filter(name => name !== CACHE_NAME).map(name => caches.delete(name)))).then(() => self.clients.claim()));
+  event.waitUntil(caches.keys().then(names => Promise.all(names.filter(name => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME).map(name => caches.delete(name)))).then(() => self.clients.claim()));
 });
 
 self.addEventListener("fetch", event => {

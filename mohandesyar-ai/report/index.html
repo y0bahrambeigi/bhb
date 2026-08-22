@@ -2,33 +2,59 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#082c3b">
-  <title>گزارش رسمی بازدید و تحویل زمین | مهندس‌یار AI</title>
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self' data:; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="robots" content="noindex">
+  <title>گزارش پروژه | مهندس‌یار AI</title>
   <link rel="icon" href="../app-icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="../print.css">
 </head>
 <body class="report-body">
   <div class="screen-actions">
-    <a class="button ghost" href="../">بازگشت به داشبورد</a>
-    <button class="button primary" type="button" onclick="window.print()">چاپ / ذخیره PDF</button>
+    <a class="button ghost" href="../">بازگشت به پرونده</a>
+    <span id="report-load-state" role="status">در حال آماده‌سازی گزارش…</span>
+    <button class="button primary" id="print-report" type="button" disabled>چاپ / ذخیره PDF</button>
   </div>
-  <main class="print-document">
+  <main class="print-document" id="report-document" aria-busy="true">
+    <div class="watermark" id="report-watermark">پیش‌نویس</div>
     <header>
-      <div><span class="report-kicker">مهندس‌یار AI · نسخه اداری</span><h1>گزارش رسمی بازدید و تحویل زمین</h1></div>
-      <div class="report-number"><b>MY-1405-021</b><span>شماره پیش‌نویس</span></div>
+      <div>
+        <span class="report-kicker">مهندس‌یار AI · گزارش تولیدشده از داده‌های محلی</span>
+        <h1 id="report-title">گزارش بازدید پروژه</h1>
+      </div>
+      <div class="report-number"><b id="report-number">بدون شماره</b><span id="report-status">پیش‌نویس</span></div>
     </header>
+
     <section class="doc-info">
-      <p><b>پروژه:</b> پروژه مسکونی آریا</p><p><b>تاریخ بازدید:</b> ۲۳ مرداد ۱۴۰۵</p>
-      <p><b>نشانی:</b> ارومیه، قطعه ۱۴، منطقه ۲</p><p><b>مرجع پیشنهادی:</b> شهرداری / نظام مهندسی / کارفرما</p>
+      <p><b>پروژه:</b> <span id="project-name">—</span></p>
+      <p><b>تاریخ بازدید:</b> <span id="visit-date">—</span></p>
+      <p><b>کد پروژه:</b> <span id="project-code">—</span></p>
+      <p><b>نوع بازدید:</b> <span id="visit-type">—</span></p>
+      <p><b>نشانی:</b> <span id="project-address">—</span></p>
+      <p><b>پلاک/قطعه:</b> <span id="project-parcel">—</span></p>
+      <p><b>شماره پروانه:</b> <span id="permit-number">—</span></p>
+      <p><b>کارفرما/مالک:</b> <span id="owner-name">—</span></p>
+      <p><b>مهندس مسئول:</b> <span id="responsible-engineer">—</span></p>
+      <p><b>مرجع گیرنده:</b> <span id="report-recipient">—</span></p>
     </section>
-    <section><h2>شرح بازدید</h2><p>این گزارش بر مبنای صورت‌جلسه بازدید، شواهد تصویری و ویدئویی زمان‌دار و اطلاعات ثبت‌شده در پرونده پروژه تهیه شده است.</p></section>
-    <section><h2>فهرست مستندات پیوست</h2><ol><li>نمای شمالی ـ پیش از گودبرداری، ساعت ۰۹:۴۲</li><li>ویدئوی بازدید تحویل زمین، ساعت ۱۰:۰۶</li><li>تصویر مجاورت ملک شرقی، ساعت ۱۰:۱۸</li></ol></section>
-    <section class="doc-alert"><b>یادداشت کنترلی:</b> پیش از ارسال رسمی، مسئول فنی باید موارد نیازمند بررسی، شماره دبیرخانه، مهر و امضا را تأیید کند.</section>
-    <section><h2>نتیجه و پیشنهاد اقدام</h2><p>پس از کنترل نهایی مدارک، رفع موارد نیازمند بررسی و تأیید مسئول فنی، گزارش قابل شماره‌گذاری و ارسال به مرجع ذی‌صلاح خواهد بود.</p></section>
+
+    <section><h2>شرح بازدید</h2><p class="preserve-lines" id="report-description">—</p></section>
+    <section><h2>یافته‌ها و نواقص</h2><p class="preserve-lines" id="report-findings">—</p></section>
+    <section><h2>پیشنهاد اقدام</h2><p class="preserve-lines" id="report-recommendations">—</p></section>
+
+    <section>
+      <div class="report-section-head"><h2>فهرست شواهد پیوست</h2><span id="report-evidence-count">۰ مدرک</span></div>
+      <div class="report-evidence-list" id="report-evidence-list"></div>
+      <p class="report-empty hidden" id="report-evidence-empty">هیچ مدرکی برای این پرونده ثبت نشده است.</p>
+    </section>
+
+    <section class="doc-alert"><b>یادداشت کنترلی:</b> اعتبار اداری این گزارش منوط به کنترل نهایی محتوا، احراز هویت امضاکننده، شماره دبیرخانه، مهر و امضای مجاز است.</section>
     <footer><div>نام و امضای بازرس / ناظر</div><div>مهر و شماره دبیرخانه</div><div>تأیید مسئول فنی</div></footer>
-    <p class="document-credit">طراحی و توسعه: Yousef Bahrambeigi · DOI: 10.5281/zenodo.22035833</p>
+    <p class="document-credit">طراحی و توسعه: Yousef Bahrambeigi · <span id="generated-at"></span> · DOI: 10.5281/zenodo.22035833</p>
   </main>
+  <script type="module" src="./report.js"></script>
 </body>
 </html>
