@@ -1,4 +1,5 @@
-const CACHE="pls-ultra-v8-ai-tutor";
+const CACHE_PREFIX="pls-ultra-";
+const CACHE=`${CACHE_PREFIX}v8-ai-tutor`;
 const CORE=["./","./index.html","./styles.css","./app.js","./audio.js","./ai-tutor.js","./manifest.webmanifest","./icons/icon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/apple-touch-icon.png"];
 
 self.addEventListener("install",event=>{
@@ -9,7 +10,7 @@ self.addEventListener("install",event=>{
 self.addEventListener("activate",event=>{
   event.waitUntil(
     caches.keys()
-      .then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key))))
+      .then(keys=>Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE).map(key=>caches.delete(key))))
       .then(()=>self.clients.claim())
   );
 });

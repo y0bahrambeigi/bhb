@@ -1,0 +1,10 @@
+{
+  "name": "mohandesyar-ai-pwa",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline-first field evidence and civil engineering reporting PWA",
+  "scripts": {
+    "verify": "node --check app.js && node --check db.js && node --check sw.js && node --check report/report.js && node tests/static-validation.mjs"
+  }
+}

@@ -1,0 +1,60 @@
+name: Verify MohandesYar AI PWA
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'mohandesyar-ai/**'
+      - 'sw.js'
+      - 'academy/sw.js'
+      - 'offline-package/sw.js'
+      - 'python-learning-studio-pro/sw.js'
+      - '.github/workflows/mohandesyar-verify.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'mohandesyar-ai/**'
+      - 'sw.js'
+      - 'academy/sw.js'
+      - 'offline-package/sw.js'
+      - 'python-learning-studio-pro/sw.js'
+      - '.github/workflows/mohandesyar-verify.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate source and PWA contract
+        working-directory: mohandesyar-ai
+        run: npm run verify
+      - name: Validate JSON manifests
+        run: |
+          python -m json.tool mohandesyar-ai/manifest.webmanifest >/dev/null
+          python -m json.tool mohandesyar-ai/package.json >/dev/null
+      - name: Verify all public routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m http.server 4173 >/tmp/mohandesyar-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for path in \
+            /mohandesyar-ai/ \
+            /mohandesyar-ai/index.html \
+            /mohandesyar-ai/app.js \
+            /mohandesyar-ai/db.js \
+            /mohandesyar-ai/styles.css \
+            /mohandesyar-ai/manifest.webmanifest \
+            /mohandesyar-ai/sw.js \
+            /mohandesyar-ai/offline.html \
+            /mohandesyar-ai/report/ \
+            /mohandesyar-ai/report/report.js; do
+            curl --retry 5 --retry-connrefused --fail --silent --show-error "http://127.0.0.1:4173${path}" >/dev/null
+          done

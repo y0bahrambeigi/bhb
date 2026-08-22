@@ -19,6 +19,13 @@ This repository contains a comprehensive MATLAB implementation comparing six sta
 - **Python Learning Studio Ultra**: Interactive cross-platform learning environment
 - **Scientific Computing**: Python, NumPy and Matplotlib-oriented learning workflows
 - **Civil Engineering Lab**: Structural and computational engineering examples
+- **MohandesYar AI 2.0**: Offline-first Persian RTL field evidence, project dossiers, SHA-256 integrity metadata, GPS capture, backup/restore, and dynamic A4 reports
+
+## MohandesYar AI
+
+- **Live PWA:** [y0bahrambeigi.github.io/bhb/mohandesyar-ai](https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/)
+- **Documentation:** [mohandesyar-ai/README.md](mohandesyar-ai/README.md)
+- Data and evidence files remain on the user's device in the public GitHub Pages edition.
 
 ## Quick Start
 
