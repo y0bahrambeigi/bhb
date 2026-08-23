@@ -1,0 +1,28 @@
+name: Validate Enhanced Pelican MATLAB workflow
+
+on:
+  pull_request:
+    paths:
+      - "matlab_optimization/**"
+      - ".github/workflows/validate-pelican-octave.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  octave-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+
+      - name: Run topology and optimizer regression tests
+        run: |
+          octave --no-gui --quiet --eval "cd('matlab_optimization'); addpath('tests'); TestTenBarTrussTopology;"
