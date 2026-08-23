@@ -12,6 +12,23 @@ tol = 1e-10;
 
 fprintf('Running TenBarTrussTopology regression tests...\n');
 
+%% 0) Reject malformed or out-of-range decision vectors
+rejected = false;
+try
+    p.evaluate(ones(1, p.nVar - 1));
+catch
+    rejected = true;
+end
+assert(rejected, 'Evaluator must reject a decision vector with the wrong length.');
+
+rejected = false;
+try
+    p.evaluate([35 * ones(1, p.nBar), 2 * ones(1, p.nBar)]);
+catch
+    rejected = true;
+end
+assert(rejected, 'Evaluator must reject decision variables outside declared bounds.');
+
 %% 1) Stable all-member baseline
 xFull = [35 * ones(1, p.nBar), ones(1, p.nBar)];
 [fFull, gFull, infoFull] = p.evaluate(xFull);
@@ -114,6 +131,20 @@ assert(abs(fit1 - (obj1 + params.penaltyCoef * viol1)) <= max(1e-6, 1e-10 * abs(
 assert(info1.isFeasible == (info1.isStable && viol1 < 1e-8), ...
     'Final optimizer feasibility flag is inconsistent.');
 assert(abs(d2.objective - d1.objective) <= 1e-10, 'Seeded details are not reproducible.');
+assert(d1.evaluationCount == params.popSize * (params.maxIter + 1), ...
+    'Objective evaluation count is inconsistent.');
+assert(d1.isFeasible == info1.isFeasible, 'Optimizer feasibility detail mismatch.');
+assert(d1.parameters.popSize == params.popSize, 'Optimizer parameter audit trail mismatch.');
+
+rejected = false;
+try
+    badParams = params;
+    badParams.popSize = 1;
+    EnhancedPelicanOptimization(p, badParams);
+catch
+    rejected = true;
+end
+assert(rejected, 'Optimizer must reject a population smaller than two.');
 
 fprintf('All TenBarTrussTopology regression tests PASSED.\n');
 end
