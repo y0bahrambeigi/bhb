@@ -26,8 +26,14 @@ classdef TenBarTrussTopology
         end
 
         function [f, g, info] = evaluate(obj, x)
-            if size(x, 1) > 1
-                x = x';
+            validateattributes(x, {'numeric'}, {'real', 'finite', 'vector', 'numel', obj.nVar}, ...
+                mfilename, 'x');
+            x = reshape(x, 1, []);
+
+            bounds = obj.getBounds();
+            if any(x < bounds.lb) || any(x > bounds.ub)
+                error('TenBarTrussTopology:OutOfBounds', ...
+                    'Decision variables must remain inside the declared problem bounds.');
             end
 
             Araw = x(1:obj.nBar);
