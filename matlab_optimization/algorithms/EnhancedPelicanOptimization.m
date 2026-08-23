@@ -11,6 +11,15 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
     if ~isfield(params, 'penaltyCoef'), params.penaltyCoef = 1e7; end
     if ~isfield(params, 'levyScale'), params.levyScale = 0.02; end
 
+    validateattributes(params.popSize, {'numeric'}, {'scalar', 'integer', '>=', 2}, ...
+        mfilename, 'params.popSize');
+    validateattributes(params.maxIter, {'numeric'}, {'scalar', 'integer', 'positive'}, ...
+        mfilename, 'params.maxIter');
+    validateattributes(params.penaltyCoef, {'numeric'}, {'scalar', 'real', 'finite', 'positive'}, ...
+        mfilename, 'params.penaltyCoef');
+    validateattributes(params.levyScale, {'numeric'}, {'scalar', 'real', 'finite', 'nonnegative'}, ...
+        mfilename, 'params.levyScale');
+
     bounds = problem.getBounds();
     nVar = problem.nVar;
 
@@ -28,8 +37,10 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
     end
 
     fitness = zeros(params.popSize, 1);
+    evaluationCount = 0;
     for i = 1:params.popSize
         [f, g] = problem.evaluate(pelicans(i, :));
+        evaluationCount = evaluationCount + 1;
         fitness(i) = f + params.penaltyCoef * g;
     end
 
@@ -69,6 +80,7 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
             candidate = max(bounds.lb, min(bounds.ub, candidate));
 
             [candF, candG] = problem.evaluate(candidate);
+            evaluationCount = evaluationCount + 1;
             candFit = candF + params.penaltyCoef * candG;
 
             if candFit < fitness(i)
@@ -93,4 +105,7 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
     details.objective = objective;
     details.constraintViolation = violation;
     details.info = info;
+    details.evaluationCount = evaluationCount;
+    details.isFeasible = info.isFeasible;
+    details.parameters = params;
 end
