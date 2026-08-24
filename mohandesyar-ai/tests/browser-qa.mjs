@@ -96,6 +96,10 @@ try {
   assert.equal(await page.locator(".evidence-location").count(), 7, "GPS metadata must persist with every captured file");
   assert.equal(await page.locator(".evidence-hash").count(), 7, "Every evidence file must retain a SHA-256 value");
 
+  const immediateProjectName = "نام فوری پیش از پشتیبان";
+  const immediateBackupNote = "یادداشت فوری پیش از پشتیبان";
+  await page.locator('[name="name"]').fill(immediateProjectName);
+  await page.locator(".evidence-note-input").first().fill(immediateBackupNote);
   const downloadEvent = page.waitForEvent("download");
   await page.locator("#export-backup").click();
   const download = await downloadEvent;
@@ -103,19 +107,42 @@ try {
   const backup = JSON.parse(await readFile(backupPath, "utf8"));
   assert.equal(backup.evidence.length, 7);
   assert.ok(backup.evidence.every(item => item.dataUrl?.startsWith("data:")), "Backup must include every evidence blob");
+  assert.equal(backup.projects.find(project => project.id === backup.activeProjectId)?.name, immediateProjectName, "Backup must flush the visible project form");
+  assert.equal(backup.evidence.some(item => item.note === immediateBackupNote), true, "Backup must flush pending evidence notes");
+
+  const tamperedBackup = structuredClone(backup);
+  const [dataUrlPrefix, encodedEvidence] = tamperedBackup.evidence[0].dataUrl.split(",");
+  const tamperedBytes = Buffer.from(encodedEvidence, "base64");
+  tamperedBytes[Math.min(20, tamperedBytes.length - 1)] ^= 1;
+  tamperedBackup.evidence[0].dataUrl = `${dataUrlPrefix},${tamperedBytes.toString("base64")}`;
+  const integrityError = await page.evaluate(async value => {
+    const {restoreBackup} = await import("./db.js");
+    try {
+      await restoreBackup(value);
+      return "";
+    } catch (error) {
+      return error.message;
+    }
+  }, tamperedBackup);
+  assert.match(integrityError, /هش|تطابق/, "Restore must reject evidence whose bytes do not match its SHA-256 hash");
 
   await page.locator("#delete-project").click();
   await page.waitForFunction(() => document.querySelectorAll(".evidence-card").length === 0);
   await page.locator("#replace-on-import").check();
   await page.locator("#import-backup").setInputFiles(backupPath);
   await page.waitForFunction(() => document.querySelectorAll(".evidence-card").length === 7);
-  assert.equal(await page.locator('[name="name"]').inputValue(), "آزمون انتشار مهندس‌یار ۲");
+  assert.equal(await page.locator('[name="name"]').inputValue(), immediateProjectName);
 
-  await page.goto(`${baseUrl}report/`, {waitUntil: "networkidle"});
+  const immediateReportNote = "یادداشت فوری پیش از گزارش";
+  await page.locator(".evidence-note-input").first().fill(immediateReportNote);
+  await page.locator('a[href="./report/"]').first().click();
+  await page.waitForURL(`${baseUrl}report/`);
+  await page.waitForLoadState("networkidle");
   await page.locator("#print-report:not([disabled])").waitFor();
   assert.equal(await page.locator("html").getAttribute("dir"), "rtl");
   assert.equal(await page.locator(".report-evidence-preview img").count(), 6);
   assert.equal(await page.locator(".report-evidence-preview img").evaluateAll(images => images.filter(image => image.complete && image.naturalWidth > 0).length), 6, "Printed thumbnails must not be blank");
+  assert.equal(await page.locator(".report-note").filter({hasText: immediateReportNote}).count(), 1, "Report navigation must flush pending evidence notes");
   assert.equal(await page.locator("#report-watermark").isVisible(), true, "Report watermark must remain visible");
   await page.pdf({path: pdfPath, format: "A4", printBackground: true});
   const pdf = await PDFDocument.load(await readFile(pdfPath));
@@ -139,7 +166,7 @@ try {
   });
   await page.reload({waitUntil: "networkidle"});
   await page.waitForFunction(() => document.querySelectorAll(".evidence-card").length === 7);
-  assert.equal(await page.locator('[name="name"]').inputValue(), "آزمون انتشار مهندس‌یار ۲", "Service-worker updates must preserve IndexedDB projects");
+  assert.equal(await page.locator('[name="name"]').inputValue(), immediateProjectName, "Service-worker updates must preserve IndexedDB projects");
 
   await context.setOffline(true);
   const offlinePage = await context.newPage();

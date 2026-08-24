@@ -303,7 +303,18 @@ export async function restoreBackup(backup, {replace = false} = {}) {
 
   const evidence = await Promise.all(backup.evidence.map(async item => {
     const {dataUrl, ...metadata} = item;
-    return {...metadata, blob: await dataUrlToBlob(dataUrl)};
+    const blob = await dataUrlToBlob(dataUrl);
+    if (!blob) {
+      if (metadata.hash && !metadata.missingFile) {
+        throw new Error(`فایل مدرک «${metadata.fileName || "بدون نام"}» در نسخه پشتیبان وجود ندارد`);
+      }
+      return {...metadata, blob};
+    }
+    const restoredHash = await sha256(blob);
+    if (metadata.hash && restoredHash !== metadata.hash) {
+      throw new Error(`هش فایل «${metadata.fileName || "مدرک"}» با نسخه پشتیبان تطابق ندارد`);
+    }
+    return {...metadata, hash: restoredHash, blob};
   }));
 
   const db = await openDatabase();
