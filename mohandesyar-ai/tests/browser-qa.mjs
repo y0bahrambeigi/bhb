@@ -74,7 +74,7 @@ try {
 
   await page.locator('[name="name"]').fill("آزمون انتشار مهندس‌یار ۲");
   const longPersian = "این بند برای کنترل صفحه‌بندی گزارش فارسی، راست‌به‌چپ بودن متن و خوانایی خروجی PDF ثبت شده است. ".repeat(90);
-  await page.locator('[name="description"]').fill(longPersian);
+  await page.locator('#project-form [name="description"]').fill(longPersian);
   await page.locator('[name="findings"]').fill(longPersian);
   await page.locator('[name="recommendations"]').fill(longPersian);
   await page.locator("#capture-location").check();
