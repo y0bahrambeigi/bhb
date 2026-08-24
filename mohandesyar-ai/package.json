@@ -5,6 +5,11 @@
   "type": "module",
   "description": "Offline-first field evidence and civil engineering reporting PWA",
   "scripts": {
-    "verify": "node --check app.js && node --check db.js && node --check sw.js && node --check report/report.js && node tests/static-validation.mjs"
+    "verify": "node --check app.js && node --check db.js && node --check sw.js && node --check report/report.js && node --check tests/browser-qa.mjs && node tests/static-validation.mjs",
+    "qa:browser": "node tests/browser-qa.mjs"
+  },
+  "devDependencies": {
+    "pdf-lib": "1.17.1",
+    "playwright": "1.62.1"
   }
 }

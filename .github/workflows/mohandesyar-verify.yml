@@ -31,9 +31,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: npm
+          cache-dependency-path: mohandesyar-ai/package-lock.json
+      - name: Install QA dependencies
+        working-directory: mohandesyar-ai
+        run: npm ci
       - name: Validate source and PWA contract
         working-directory: mohandesyar-ai
         run: npm run verify
+      - name: Install Chromium for release QA
+        working-directory: mohandesyar-ai
+        run: npx playwright install --with-deps chromium
+      - name: Run browser release QA
+        working-directory: mohandesyar-ai
+        run: npm run qa:browser
       - name: Validate JSON manifests
         run: |
           python -m json.tool mohandesyar-ai/manifest.webmanifest >/dev/null

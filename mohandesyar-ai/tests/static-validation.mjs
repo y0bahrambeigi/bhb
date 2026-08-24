@@ -13,8 +13,8 @@ const requiredFiles = [
 ];
 await Promise.all(requiredFiles.map(file => access(path.join(root, file))));
 
-const [index, app, db, serviceWorker, report, manifestText] = await Promise.all([
-  read("index.html"), read("app.js"), read("db.js"), read("sw.js"), read("report/index.html"), read("manifest.webmanifest")
+const [index, app, db, serviceWorker, report, printCss, manifestText] = await Promise.all([
+  read("index.html"), read("app.js"), read("db.js"), read("sw.js"), read("report/index.html"), read("print.css"), read("manifest.webmanifest")
 ]);
 const manifest = JSON.parse(manifestText);
 
@@ -26,6 +26,10 @@ assert.match(db, /blob:\s*file/, "Evidence file blobs must be persisted");
 assert.match(db, /SHA-256/, "Evidence hashing must be SHA-256");
 assert.match(app, /navigator\.geolocation/, "Optional geolocation capture must be implemented");
 assert.match(report, /src="\.\/report\.js"/, "The report must load the dynamic report module");
+assert.match(report, /<html lang="fa" dir="rtl">/, "The printable report must remain Persian RTL");
+assert.match(report, /id="report-watermark"/, "The printable report must include its review-status watermark");
+assert.match(printCss, /@page\{size:A4/, "The print contract must explicitly target A4");
+assert.match(printCss, /break-inside:avoid/, "Evidence and report sections must avoid clipping across pages");
 assert.equal(manifest.start_url, "/bhb/mohandesyar-ai/", "Installed offline launch must use the cached canonical URL");
 assert.equal(manifest.scope, "/bhb/mohandesyar-ai/");
 assert.equal(manifest.dir, "rtl");
@@ -34,6 +38,8 @@ assert.ok(manifest.icons.some(icon => icon.sizes === "192x192"));
 assert.ok(manifest.icons.some(icon => icon.sizes === "512x512"));
 assert.match(serviceWorker, /key\.startsWith\(CACHE_PREFIX\)/, "Cache cleanup must be namespace-scoped");
 assert.doesNotMatch(serviceWorker, /filter\(key\s*=>\s*key\s*!==\s*CACHE\)/, "Global origin cache deletion is forbidden");
+assert.match(db, /const DB_NAME = "mohandesyar-production-v2"/, "The v2 IndexedDB identity must remain stable across application updates");
+assert.doesNotMatch(serviceWorker, /deleteDatabase/, "Application updates must never delete local IndexedDB evidence");
 
 for (const asset of ["db.js", "report/report.js", "offline.html", "manifest.webmanifest"]) {
   assert.ok(serviceWorker.includes(asset), `${asset} must be available offline`);
