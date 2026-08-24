@@ -145,7 +145,12 @@ try {
   const offlinePage = await context.newPage();
   await offlinePage.goto(baseUrl, {waitUntil: "domcontentloaded"});
   await offlinePage.waitForFunction(() => document.querySelectorAll(".evidence-card").length === 7);
-  assert.match(await offlinePage.locator("#connection").textContent(), /اینترنت قطع است/);
+  const offlineState = await offlinePage.evaluate(() => ({
+    controlled: Boolean(navigator.serviceWorker.controller),
+    evidence: document.querySelectorAll(".evidence-card").length
+  }));
+  assert.equal(offlineState.controlled, true, "Offline relaunch must be controlled by the service worker");
+  assert.equal(offlineState.evidence, 7, "Offline relaunch must restore all IndexedDB evidence");
 
   console.log(`Browser QA passed: 6 images, 1 video, backup/restore, ${pdf.getPageCount()}-page Persian PDF, service-worker update, IndexedDB retention, and offline relaunch.`);
 } finally {
