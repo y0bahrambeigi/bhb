@@ -29,6 +29,8 @@ let activeProject = null;
 let projects = [];
 let evidence = [];
 let saveTimer = null;
+const pendingEvidenceNotes = new Map();
+const evidenceNoteWrites = new Set();
 let deferredInstallPrompt = null;
 let offlineReady = false;
 let previewUrls = [];
@@ -107,6 +109,51 @@ function scheduleAutosave() {
   $("#save-state").textContent = "تغییر ذخیره‌نشده";
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => persistProject({silent: true}).catch(handleError), 900);
+}
+
+function trackEvidenceNoteWrite(promise) {
+  evidenceNoteWrites.add(promise);
+  promise.then(
+    () => evidenceNoteWrites.delete(promise),
+    () => evidenceNoteWrites.delete(promise)
+  );
+  return promise;
+}
+
+function scheduleEvidenceNoteSave(id, value) {
+  const pending = pendingEvidenceNotes.get(id);
+  if (pending) clearTimeout(pending.timer);
+  const entry = {value, timer: null};
+  entry.timer = setTimeout(() => {
+    if (pendingEvidenceNotes.get(id) !== entry) return;
+    pendingEvidenceNotes.delete(id);
+    trackEvidenceNoteWrite(updateEvidence(id, {note: entry.value})).catch(handleError);
+  }, 600);
+  pendingEvidenceNotes.set(id, entry);
+}
+
+async function flushPendingEvidenceNotes() {
+  const pending = [...pendingEvidenceNotes.entries()];
+  pendingEvidenceNotes.clear();
+  pending.forEach(([, entry]) => clearTimeout(entry.timer));
+  await Promise.all([...evidenceNoteWrites]);
+  await Promise.all(pending.map(([id, entry]) => updateEvidence(id, {note: entry.value})));
+}
+
+async function discardPendingEvidenceNotes(id) {
+  const entries = id ? [[id, pendingEvidenceNotes.get(id)]] : [...pendingEvidenceNotes.entries()];
+  for (const [evidenceId, entry] of entries) {
+    if (!entry) continue;
+    clearTimeout(entry.timer);
+    pendingEvidenceNotes.delete(evidenceId);
+  }
+  await Promise.all([...evidenceNoteWrites]);
+}
+
+async function flushPendingWrites() {
+  clearTimeout(saveTimer);
+  if (activeProject) await persistProject({silent: true});
+  await flushPendingEvidenceNotes();
 }
 
 function updateProjectHeader() {
@@ -205,10 +252,8 @@ function renderEvidence() {
     note.maxLength = 500;
     note.placeholder = "توضیح این مدرک برای درج در گزارش…";
     note.value = item.note || "";
-    let noteTimer;
     note.addEventListener("input", () => {
-      clearTimeout(noteTimer);
-      noteTimer = setTimeout(() => updateEvidence(item.id, {note: note.value.trim()}).catch(handleError), 600);
+      scheduleEvidenceNoteSave(item.id, note.value.trim());
     });
     details.appendChild(note);
     if (item.missingFile) details.appendChild(createElement("p", "evidence-warning", item.note));
@@ -223,6 +268,7 @@ function renderEvidence() {
     remove.type = "button";
     remove.addEventListener("click", async () => {
       if (!confirm(`مدرک «${item.fileName}» برای همیشه از این دستگاه حذف شود؟`)) return;
+      await discardPendingEvidenceNotes(item.id);
       await deleteEvidence(item.id);
       await refreshEvidence();
       setNotice("مدرک انتخاب‌شده حذف شد.", "success");
@@ -298,8 +344,7 @@ async function handleFiles(fileList) {
 }
 
 async function switchProject(projectId) {
-  clearTimeout(saveTimer);
-  if (activeProject) await persistProject({silent: true});
+  if (activeProject) await flushPendingWrites();
   activeProject = projects.find(project => project.id === projectId) || await ensureActiveProject();
   await setActiveProject(activeProject.id);
   fillProjectForm(activeProject);
@@ -310,8 +355,7 @@ async function switchProject(projectId) {
 }
 
 async function createNewProject() {
-  clearTimeout(saveTimer);
-  if (activeProject) await persistProject({silent: true});
+  if (activeProject) await flushPendingWrites();
   activeProject = await saveProject(createBlankProject());
   await setActiveProject(activeProject.id);
   fillProjectForm(activeProject);
@@ -326,6 +370,7 @@ async function removeActiveProject() {
   if (!activeProject) return;
   if (!confirm(`پرونده «${activeProject.name}» و همه فایل‌های شواهد آن برای همیشه حذف شوند؟`)) return;
   clearTimeout(saveTimer);
+  await discardPendingEvidenceNotes();
   await deleteProject(activeProject.id);
   activeProject = await ensureActiveProject();
   await setActiveProject(activeProject.id);
@@ -366,6 +411,7 @@ async function exportBackup() {
   button.disabled = true;
   button.textContent = "در حال آماده‌سازی…";
   try {
+    await flushPendingWrites();
     const backup = await createBackup();
     const date = new Date().toISOString().slice(0, 10);
     downloadJson(backup, `mohandesyar-backup-${date}.json`);
@@ -436,6 +482,7 @@ function bindEvents() {
   });
   $("#clear-evidence").addEventListener("click", async () => {
     if (!evidence.length || !confirm("همه شواهد این پرونده برای همیشه از دستگاه حذف شوند؟")) return;
+    await discardPendingEvidenceNotes();
     await clearProjectEvidence(activeProject.id);
     await refreshEvidence();
     setNotice("همه شواهد پرونده حذف شدند.", "success");
@@ -459,8 +506,7 @@ function bindEvents() {
   window.addEventListener("appinstalled", () => setNotice("مهندس‌یار AI روی دستگاه نصب شد.", "success"));
   document.querySelectorAll('a[href="./report/"]').forEach(link => link.addEventListener("click", event => {
     event.preventDefault();
-    clearTimeout(saveTimer);
-    persistProject({silent: true})
+    flushPendingWrites()
       .then(() => window.location.assign(link.href))
       .catch(handleError);
   }));
