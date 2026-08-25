@@ -1,0 +1,9 @@
+{
+  "appId": "com.yousefbahrambeigi.pythonstudio",
+  "appName": "Python Learning Studio Ultra",
+  "webDir": "mobile/www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#082c3b">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self' data:; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="description" content="مهندس‌یار AI؛ نرم‌افزار آفلاین مستندسازی میدانی و گزارش‌دهی پروژه‌های عمرانی">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="مهندس‌یار AI">
+  <title>مهندس‌یار AI | مستندسازی میدانی</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./app-icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#dashboard" aria-label="مهندس‌یار AI">
+        <span class="brand-mark" aria-hidden="true">M</span>
+        <span><strong>مهندس‌یار AI</strong><small>FIELD DOCUMENTATION</small></span>
+      </a>
+      <p class="nav-label">فضای کاری</p>
+      <nav aria-label="ناوبری اصلی">
+        <a class="active" href="#dashboard">داشبورد</a>
+        <a href="#project">پرونده پروژه</a>
+        <a href="#evidence">شواهد میدانی</a>
+        <a href="./report/">گزارش و PDF</a>
+        <a href="#backup">پشتیبان‌گیری</a>
+      </nav>
+      <div class="sidebar-card">
+        <span class="eyebrow">ذخیره‌سازی</span>
+        <strong id="storage-summary">در حال محاسبه…</strong>
+        <div class="progress" aria-hidden="true"><i id="storage-progress"></i></div>
+        <small>اطلاعات و فایل‌ها فقط روی همین دستگاه نگهداری می‌شوند.</small>
+      </div>
+      <p class="credit">طراحی و توسعه<br><b>Yousef Bahrambeigi</b></p>
+    </aside>
+
+    <main class="content" id="dashboard">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">سامانه آفلاین مستندسازی و گزارش‌دهی</p>
+          <h1>مهندس‌یار AI</h1>
+          <span id="active-project-label">در حال بارگذاری پرونده…</span>
+        </div>
+        <div class="top-actions">
+          <button class="button ghost hidden" id="install-app" type="button">نصب برنامه</button>
+          <a class="button primary" href="./report/">گزارش / ذخیره PDF</a>
+        </div>
+      </header>
+
+      <div class="connection checking" id="connection" role="status" aria-live="polite">در حال آماده‌سازی نسخه آفلاین…</div>
+
+      <section class="notice" id="app-notice" aria-live="polite">
+        <span class="ai-dot" aria-hidden="true">✓</span>
+        <p><b>وضعیت:</b> <span id="notice-text">در حال راه‌اندازی پایگاه داده محلی…</span></p>
+      </section>
+
+      <section class="stats" aria-label="خلاصه وضعیت">
+        <article><small>پرونده‌ها</small><b id="project-count">۰</b><em>ذخیره‌شده روی دستگاه</em></article>
+        <article><small>شواهد پرونده</small><b id="evidence-count">۰</b><em>فایل واقعی همراه با SHA-256</em></article>
+        <article><small>حجم شواهد</small><b id="evidence-size">۰</b><em>در حافظه محلی مرورگر</em></article>
+        <article><small>وضعیت گزارش</small><b class="status-stat" id="report-status">پیش‌نویس</b><em>قابل بازبینی پیش از چاپ</em></article>
+      </section>
+
+      <section class="workspace-grid" id="project">
+        <article class="panel project-switcher">
+          <div class="panel-head">
+            <div><p class="eyebrow">پرونده فعال</p><h2>انتخاب و مدیریت پروژه</h2></div>
+            <span class="status-pill" id="project-status-pill">پیش‌نویس</span>
+          </div>
+          <label class="field full">
+            <span>پرونده فعال</span>
+            <select id="project-select" aria-label="انتخاب پرونده پروژه"></select>
+          </label>
+          <div class="inline-actions">
+            <button class="button primary" id="new-project" type="button">پرونده جدید</button>
+            <button class="button danger" id="delete-project" type="button">حذف پرونده</button>
+          </div>
+          <p class="privacy-note">هیچ فایل یا اطلاعات پروژه‌ای به GitHub یا سرور دیگری ارسال نمی‌شود.</p>
+        </article>
+
+        <article class="panel action-card">
+          <p class="eyebrow">ثبت میدانی محلی</p>
+          <h2>عکس و ویدئو را واقعاً ذخیره کنید</h2>
+          <p>محتوای فایل، مشخصات فنی، زمان، هش SHA-256 و در صورت انتخاب شما موقعیت GPS در پایگاه داده محلی نگهداری می‌شود.</p>
+          <div class="capture-actions">
+            <label class="upload">انتخاب عکس یا ویدئو
+              <input id="file-input" type="file" accept="image/*,video/*" multiple>
+            </label>
+            <label class="upload secondary-upload">گرفتن عکس با دوربین
+              <input id="camera-input" type="file" accept="image/*" capture="environment">
+            </label>
+          </div>
+          <label class="check-row light-check"><input id="capture-location" type="checkbox"> ثبت موقعیت GPS همراه مدرک</label>
+          <small id="location-status">موقعیت فقط پس از انتخاب شما و تأیید دسترسی خوانده می‌شود.</small>
+        </article>
+      </section>
+
+      <section class="panel form-panel">
+        <div class="panel-head">
+          <div><p class="eyebrow">اطلاعات گزارش</p><h2>مشخصات پرونده و بازدید</h2></div>
+          <span class="autosave-state" id="save-state">ذخیره محلی</span>
+        </div>
+        <form id="project-form">
+          <div class="form-grid">
+            <label class="field"><span>نام پروژه *</span><input name="name" required maxlength="120"></label>
+            <label class="field"><span>کد پروژه</span><input name="projectCode" maxlength="50" dir="auto"></label>
+            <label class="field"><span>نوع بازدید</span>
+              <select name="visitType">
+                <option>بازدید عمومی</option><option>تحویل زمین</option><option>کنترل گودبرداری</option>
+                <option>بازدید سازه</option><option>کنترل ایمنی</option><option>تحویل موقت</option><option>سایر</option>
+              </select>
+            </label>
+            <label class="field"><span>تاریخ و ساعت بازدید</span><input name="visitAt" type="datetime-local"></label>
+            <label class="field full"><span>نشانی پروژه</span><input name="address" maxlength="300"></label>
+            <label class="field"><span>پلاک/قطعه</span><input name="parcel" maxlength="80"></label>
+            <label class="field"><span>شماره پروانه</span><input name="permitNumber" maxlength="80" dir="auto"></label>
+            <label class="field"><span>نام کارفرما/مالک</span><input name="ownerName" maxlength="120"></label>
+            <label class="field"><span>مهندس مسئول</span><input name="responsibleEngineer" maxlength="120"></label>
+            <label class="field"><span>مرجع گیرنده</span><input name="recipient" maxlength="150"></label>
+            <label class="field"><span>شماره گزارش</span><input name="reportNumber" maxlength="80" dir="auto"></label>
+            <label class="field"><span>وضعیت گزارش</span>
+              <select name="status"><option value="draft">پیش‌نویس</option><option value="review">نیازمند بازبینی</option><option value="approved">تأییدشده</option></select>
+            </label>
+            <label class="field full"><span>شرح بازدید</span><textarea name="description" rows="4" maxlength="4000"></textarea></label>
+            <label class="field full"><span>یافته‌ها و نواقص</span><textarea name="findings" rows="4" maxlength="4000"></textarea></label>
+            <label class="field full"><span>پیشنهاد اقدام</span><textarea name="recommendations" rows="4" maxlength="4000"></textarea></label>
+          </div>
+          <div class="form-actions">
+            <button class="button primary" type="submit">ذخیره پرونده</button>
+            <a class="button ghost" href="./report/">پیش‌نمایش گزارش</a>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel evidence-panel" id="evidence">
+        <div class="panel-head">
+          <div><p class="eyebrow">دفتر شواهد پروژه</p><h2>فایل‌های ثبت‌شده</h2></div>
+          <button class="button danger" id="clear-evidence" type="button">حذف همه شواهد این پرونده</button>
+        </div>
+        <div class="upload-progress hidden" id="upload-progress" role="status" aria-live="polite"></div>
+        <div class="evidence-list" id="evidence-list"></div>
+        <div class="empty-state" id="evidence-empty">
+          <b>هنوز مدرکی ثبت نشده است</b>
+          <span>با دکمه‌های بالا عکس یا ویدئو را به این پرونده اضافه کنید.</span>
+        </div>
+      </section>
+
+      <section class="panel compliance" id="backup">
+        <div><p class="eyebrow">پایداری و انتقال داده</p><h2>پشتیبان‌گیری و بازیابی</h2></div>
+        <div class="backup-copy">
+          <p>فایل پشتیبان شامل پرونده‌ها، مشخصات و خود فایل‌های شواهد است. آن را در محل امن نگهداری کنید.</p>
+          <label class="check-row"><input id="replace-on-import" type="checkbox"> هنگام بازیابی، داده‌های فعلی جایگزین شوند</label>
+        </div>
+        <div class="backup-actions">
+          <button class="button primary" id="export-backup" type="button">دریافت پشتیبان</button>
+          <label class="button ghost import-button">بازیابی پشتیبان<input id="import-backup" type="file" accept="application/json,.json"></label>
+        </div>
+      </section>
+
+      <section class="panel privacy-panel">
+        <div><p class="eyebrow">حریم خصوصی</p><h2>کنترل داده در اختیار شماست</h2></div>
+        <ul>
+          <li>تمام اطلاعات در IndexedDB همین مرورگر ذخیره می‌شود.</li>
+          <li>پاک‌کردن داده‌های سایت یا حذف مرورگر می‌تواند اطلاعات را از بین ببرد؛ پشتیبان بگیرید.</li>
+          <li>برای ارسال رسمی، محتوا، مهر، امضا و مرجع گیرنده را شخصاً کنترل کنید.</li>
+        </ul>
+      </section>
+
+      <footer class="footer">
+        <span>مهندس‌یار AI · نسخه ۲.۰.۰ آفلاین‌محور</span>
+        <a href="./publication/">گزارش فنی و استناد علمی</a>
+        <a href="https://doi.org/10.5281/zenodo.22035833" rel="noopener">DOI: 10.5281/zenodo.22035833</a>
+      </footer>
+    </main>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

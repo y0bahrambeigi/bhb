@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use Python Learning Studio Ultra in research, teaching, or software, please cite it using the metadata below."
+title: "Python Learning Studio Ultra: An Interactive Python and Computational Civil Engineering Learning Environment"
+type: software
+authors:
+  - family-names: "Bahram Beigi"
+    given-names: "Yousef"
+version: "1.0.0"
+date-released: "2026-08-16"
+url: "https://y0bahrambeigi.github.io/bhb/python-learning-studio-pro/"
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/python-learning-studio-pro"
+abstract: >-
+  Python Learning Studio Ultra is a Persian-first interactive learning environment
+  for Python programming, scientific computing, and computational civil engineering.
+  It combines Monaco Editor, browser-based Python execution with Pyodide, NumPy,
+  Matplotlib, automated exercises and tests, multi-stage quizzes, achievements,
+  civil-engineering examples, text-to-speech learning support, PWA capabilities,
+  and cross-platform packaging workflows.
+keywords:
+  - Python
+  - civil engineering
+  - structural engineering
+  - scientific computing
+  - engineering education
+  - Pyodide
+  - NumPy
+  - Matplotlib
+  - PWA
+  - computational engineering

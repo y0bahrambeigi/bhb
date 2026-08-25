@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use MohandesYar AI in research, teaching, or professional studies, please cite this release."
+title: "MohandesYar AI"
+type: software
+authors:
+  - family-names: "Bahrambeigi"
+    given-names: "Yousef"
+doi: "10.5281/zenodo.22035833"
+version: "2.0.0"
+date-released: "2026-08-25"
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai"
+url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/"
+license: MIT
+abstract: >-
+  MohandesYar AI 2.0 is an offline-first Persian progressive web application
+  for civil engineering field documentation. It stores original image and
+  video evidence locally in IndexedDB, records optional geolocation and
+  SHA-256 integrity metadata, supports backup and restore, and generates
+  multi-page Persian A4 reports.
+keywords:
+  - civil engineering
+  - field documentation
+  - progressive web application
+  - offline-first
+  - Persian RTL
+  - IndexedDB
+  - SHA-256
+  - geolocation
+  - evidence integrity
+preferred-citation:
+  type: report
+  title: "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting"
+  authors:
+    - family-names: "Bahrambeigi"
+      given-names: "Yousef"
+  year: 2026
+  doi: "10.5281/zenodo.22035833"
+  publisher:
+    name: "Zenodo"

@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use Python Learning Studio Ultra in research or teaching, please cite it as below."
+title: "Python Learning Studio Ultra"
+type: software
+authors:
+  - family-names: "Bahram Beigi"
+    given-names: "Yousef"
+doi: "10.5281/zenodo.21960225"
+version: "1.0.1"
+date-released: "2026-08-17"
+repository-code: "https://github.com/y0bahrambeigi/bhb"
+url: "https://doi.org/10.5281/zenodo.21960225"
+license: MIT
+keywords:
+  - Python
+  - scientific computing
+  - artificial intelligence
+  - civil engineering
+  - structural engineering
+  - engineering education
+  - computational engineering
+  - PWA

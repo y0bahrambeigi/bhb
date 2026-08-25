@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="Technical report for MohandesYar AI 2.0, an offline-first Persian PWA for civil engineering field documentation, evidence integrity, and reporting.">
+  <meta name="citation_title" content="MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting">
+  <meta name="citation_author" content="Yousef Bahrambeigi">
+  <meta name="citation_publication_date" content="2026/08/25">
+  <meta name="citation_technical_report_institution" content="BHB Smart Structures Lab">
+  <meta name="citation_technical_report_number" content="MYAI-TR-2026-02">
+  <meta name="citation_pdf_url" content="https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/mohandesyar-ai-v2-technical-report.pdf">
+  <meta name="citation_doi" content="10.5281/zenodo.22035833">
+  <meta name="citation_language" content="en">
+  <meta name="citation_keywords" content="civil engineering; field documentation; PWA; offline-first; Persian RTL; IndexedDB; SHA-256; geolocation; evidence integrity">
+  <meta name="DC.title" content="MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting">
+  <meta name="DC.creator" content="Yousef Bahrambeigi">
+  <meta name="DC.issued" content="2026-08-25">
+  <meta name="DC.identifier" content="https://doi.org/10.5281/zenodo.22035833">
+  <meta name="DC.type" content="Technical Report">
+  <link rel="canonical" href="https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/">
+  <title>MohandesYar AI 2.0 - Technical Report</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --navy: #082c3b;
+      --teal: #0f9f83;
+      --mint: #e9f6f2;
+      --ink: #17323c;
+      --muted: #586d75;
+      --line: #c7d9d5;
+      --paper: #ffffff;
+      --wash: #f3f8f7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--wash);
+      color: var(--ink);
+      font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    a { color: #087a68; }
+    .hero {
+      background: var(--navy);
+      color: white;
+      border-top: 10px solid var(--teal);
+      padding: 64px 24px 56px;
+    }
+    .hero-inner, article { width: min(940px, calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow { color: #79dfcc; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 13px; }
+    h1 { max-width: 900px; margin: 14px 0 18px; font-size: clamp(32px, 6vw, 58px); line-height: 1.08; letter-spacing: -.035em; }
+    .lead { max-width: 780px; margin: 0; color: #d5e5e3; font-size: 19px; }
+    .author { margin-top: 28px; color: #d5e5e3; }
+    .author strong { color: white; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .button {
+      display: inline-flex;
+      padding: 11px 15px;
+      border: 1px solid #55d1bb;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      font-weight: 750;
+    }
+    .button.primary { background: var(--teal); border-color: var(--teal); }
+    article {
+      margin-top: 30px;
+      margin-bottom: 50px;
+      padding: clamp(24px, 5vw, 54px);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      box-shadow: 0 22px 70px rgba(8,44,59,.08);
+    }
+    h2 { margin: 34px 0 10px; color: var(--navy); line-height: 1.2; }
+    h2:first-child { margin-top: 0; }
+    .metadata, .validation { width: 100%; border-collapse: collapse; margin: 18px 0 28px; }
+    th, td { padding: 10px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--navy); color: white; }
+    tr:nth-child(even) td { background: var(--wash); }
+    .status { color: var(--teal); font-weight: 850; }
+    .citation { padding: 18px; background: var(--mint); border-left: 4px solid var(--teal); }
+    .notice { color: var(--muted); font-size: 14px; }
+    .references { padding-left: 22px; }
+    code { overflow-wrap: anywhere; }
+    footer { padding: 24px; text-align: center; color: var(--muted); font-size: 14px; }
+    @media (max-width: 640px) {
+      .hero { padding-top: 42px; }
+      .validation { display: block; overflow-x: auto; }
+      article { width: min(100% - 20px, 940px); padding: 22px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Technical report - Version 2.0.0</div>
+      <h1>MohandesYar AI 2.0</h1>
+      <p class="lead">An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting</p>
+      <p class="author"><strong>Yousef Bahrambeigi</strong><br>PhD Student in Civil Engineering (Structures), Islamic Azad University, Iran<br>Released 25 August 2026</p>
+      <nav class="actions" aria-label="Publication links">
+        <a class="button primary" href="./mohandesyar-ai-v2-technical-report.pdf">Download technical report (PDF)</a>
+        <a class="button" href="https://doi.org/10.5281/zenodo.22035833">DOI record</a>
+        <a class="button" href="https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai">Source code</a>
+        <a class="button" href="../">Open software</a>
+      </nav>
+    </div>
+  </header>
+
+  <article>
+    <h2>Abstract</h2>
+    <p>MohandesYar AI 2.0 is an offline-first progressive web application designed for Persian right-to-left field documentation in civil engineering projects. The public edition supports multiple project dossiers, storage of original image and video evidence in the browser, optional geolocation capture, SHA-256 integrity metadata, project backup and restoration, and generation of multi-page Persian A4 reports. The architecture intentionally follows a local-first model: project data and evidence remain in IndexedDB on the user's device and are not transmitted to the public hosting service. Release validation combines static contract checks with browser-based end-to-end tests covering persistence, evidence hashing, backup and restore, report rendering, service-worker updates, IndexedDB retention, and offline relaunch. The validated scenario retained six images and one video, recorded geolocation metadata for all seven items, restored evidence from backup, generated an eight-page report, and preserved data through a service-worker update and an offline restart. The software is intended as a practical documentation aid rather than an institutional record system. It does not provide server-side identity, role-based access control, digital signatures, organizational audit trails, or automatic submission to authorities. This report documents the software scope, architecture, validation evidence, limitations, and reproducibility information for version 2.0.0.</p>
+
+    <p><strong>Keywords:</strong> civil engineering; field documentation; progressive web application; offline-first; Persian RTL; IndexedDB; SHA-256; geolocation; evidence integrity; technical reporting</p>
+
+    <h2>Publication record</h2>
+    <table class="metadata">
+      <tbody>
+        <tr><th>Title</th><td>MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting</td></tr>
+        <tr><th>Author</th><td>Yousef Bahrambeigi</td></tr>
+        <tr><th>Resource</th><td>Technical report and computer software</td></tr>
+        <tr><th>Version</th><td>2.0.0</td></tr>
+        <tr><th>Publication date</th><td>25 August 2026</td></tr>
+        <tr><th>Report number</th><td>MYAI-TR-2026-02</td></tr>
+        <tr><th>DOI</th><td><a href="https://doi.org/10.5281/zenodo.22035833">10.5281/zenodo.22035833</a></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Technical scope</h2>
+    <ul>
+      <li>Multiple project dossiers with Persian RTL forms and local autosave.</li>
+      <li>Original image and video blobs stored in IndexedDB on the user's device.</li>
+      <li>Optional latitude, longitude, and reported accuracy after user permission.</li>
+      <li>SHA-256 content fingerprint stored for each evidence file.</li>
+      <li>JSON backup and restore including projects, metadata, and evidence payloads.</li>
+      <li>Dynamic Persian A4 report with evidence images, GPS, hashes, and status watermark.</li>
+      <li>Installable PWA with scoped caching, service-worker updates, and offline relaunch.</li>
+    </ul>
+
+    <h2>Recorded release validation</h2>
+    <table class="validation">
+      <thead><tr><th>Validation target</th><th>Observed result</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Evidence persistence</td><td>Six images and one video stored and reopened from IndexedDB</td><td class="status">PASS</td></tr>
+        <tr><td>Geolocation</td><td>Coordinates recorded for all seven test items</td><td class="status">PASS</td></tr>
+        <tr><td>Backup and restore</td><td>Payload exported, data removed, and all evidence restored</td><td class="status">PASS</td></tr>
+        <tr><td>Persian PDF</td><td>Eight-page RTL report with six non-empty images and watermark</td><td class="status">PASS</td></tr>
+        <tr><td>Update retention</td><td>Project and evidence preserved through service-worker update</td><td class="status">PASS</td></tr>
+        <tr><td>Offline relaunch</td><td>Application reopened offline with all seven evidence items</td><td class="status">PASS</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Limitations</h2>
+    <p>The public edition is local-only and single-device. It does not provide server-side identity, cloud synchronization, organizational permissions, trusted timestamps, digital signatures, immutable audit trails, legal chain of custody, or automatic submission to public authorities. Browser storage quotas and the device lifecycle remain outside the application's control. The term AI is part of the product name; version 2.0.0 does not transmit project data to an external AI inference service.</p>
+
+    <h2>Recommended citation</h2>
+    <p class="citation">Bahrambeigi, Y. (2026). <em>MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting</em> (Version 2.0.0) [Computer software and technical report]. Zenodo. <a href="https://doi.org/10.5281/zenodo.22035833">https://doi.org/10.5281/zenodo.22035833</a></p>
+
+    <h2>Reproducibility</h2>
+    <p>Static verification can be run with <code>cd mohandesyar-ai &amp;&amp; npm run verify</code>. The browser release scenario can be run with <code>cd mohandesyar-ai &amp;&amp; npm run qa:browser</code>. Source code and release documentation are available in the public repository linked above.</p>
+
+    <h2>References</h2>
+    <ol class="references">
+      <li>Bahrambeigi, Y. MohandesYar AI source repository and release documentation. GitHub, 2026.</li>
+      <li>Bahrambeigi, Y. MohandesYar AI software record. Zenodo, 2026. DOI: 10.5281/zenodo.22035833.</li>
+      <li>National Institute of Standards and Technology. FIPS PUB 180-4: Secure Hash Standard (SHS). 2015.</li>
+      <li>World Wide Web Consortium. Indexed Database API 3.0.</li>
+      <li>World Wide Web Consortium. Geolocation API.</li>
+    </ol>
+
+    <p class="notice">Disclosure: This technical report documents the public software release and its recorded validation evidence. It does not certify regulatory compliance or confer legal validity on reports produced by the application.</p>
+  </article>
+
+  <footer>Designed and developed by Yousef Bahrambeigi - BHB Smart Structures Lab</footer>
+</body>
+</html>
