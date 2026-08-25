@@ -34,6 +34,10 @@ This repository contains a comprehensive MATLAB implementation comparing six sta
 - **Civil Engineering Lab**: Structural and computational engineering examples
 - **MohandesYar AI 2.0**: Offline-first Persian RTL field evidence, project dossiers, SHA-256 integrity metadata, GPS capture, backup/restore, and dynamic A4 reports
 
+## Publications
+
+- **Smart Structures and Seismic Response Control** — Persian academic book, currently packaged as a version 1.0.0 release candidate. See the [publication README](publications/smart-structures/README.md) for the tagged digital PDF, embedded-font DOCX source, print-candidate limitations, citation metadata, and release gates.
+
 ## MohandesYar AI
 
 - **Live PWA:** [y0bahrambeigi.github.io/bhb/mohandesyar-ai](https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/)
@@ -72,7 +76,7 @@ See the [detailed documentation](matlab_optimization/README.md) for algorithm de
 
 ## License
 
-MIT License
+Repository code is covered by the MIT License unless a component states otherwise. The Smart Structures book and its original figures, tables, and code examples are separately licensed under [CC BY 4.0](publications/smart-structures/LICENSE.md); identified third-party material and embedded fonts remain under their respective terms.
 
 ## Citation
 
