@@ -90,4 +90,11 @@ npm run verify
 
 طراحی و توسعه: **Yousef Bahrambeigi**
 
-DOI: <https://doi.org/10.5281/zenodo.22035833>
+- صفحه علمی و فراداده Google Scholar: [publication/index.html](publication/index.html)
+- گزارش فنی نسخه ۲ (PDF): [mohandesyar-ai-v2-technical-report.pdf](publication/mohandesyar-ai-v2-technical-report.pdf)
+- فراداده استناد نرم‌افزار: [CITATION.cff](CITATION.cff)
+- DOI: <https://doi.org/10.5281/zenodo.22035833>
+
+### استناد پیشنهادی
+
+Bahrambeigi, Y. (2026). *MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting* (Version 2.0.0) [Computer software and technical report]. Zenodo. <https://doi.org/10.5281/zenodo.22035833>
