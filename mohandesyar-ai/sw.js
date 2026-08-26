@@ -1,4 +1,4 @@
-const VERSION = "2.0.0";
+const VERSION = "2.0.1";
 const CACHE_PREFIX = "mohandesyar-pages-";
 const CACHE = `${CACHE_PREFIX}${VERSION}`;
 const BASE = "/bhb/mohandesyar-ai/";
@@ -17,7 +17,11 @@ const PRECACHE = [
   OFFLINE_URL,
   `${BASE}report/`,
   `${BASE}report/index.html`,
-  `${BASE}report/report.js`
+  `${BASE}report/report.js`,
+  `${BASE}publication/`,
+  `${BASE}publication/index.html`,
+  `${BASE}publication/mohandesyar-ai-v2-technical-report.pdf`,
+  `${BASE}publication/SHA256SUMS`
 ];
 
 self.addEventListener("install", event => {
@@ -48,6 +52,7 @@ async function navigationResponse(request) {
     if (exact) return exact;
     const url = new URL(request.url);
     if (url.pathname.startsWith(`${BASE}report`)) return cache.match(`${BASE}report/`);
+    if (url.pathname.startsWith(`${BASE}publication`)) return cache.match(`${BASE}publication/`);
     if (url.pathname.startsWith(BASE)) return cache.match(BASE);
     return cache.match(OFFLINE_URL);
   }

@@ -1,11 +1,10 @@
 cff-version: 1.2.0
-message: "If you use MohandesYar AI in research, teaching, or professional studies, please cite this release."
+message: "If you use MohandesYar AI in research, teaching, or professional studies, cite this public release. An archival DOI will be added only after it is publicly resolvable."
 title: "MohandesYar AI"
 type: software
 authors:
   - family-names: "Bahrambeigi"
     given-names: "Yousef"
-doi: "10.5281/zenodo.22035833"
 version: "2.0.0"
 date-released: "2026-08-25"
 repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai"
@@ -34,6 +33,6 @@ preferred-citation:
     - family-names: "Bahrambeigi"
       given-names: "Yousef"
   year: 2026
-  doi: "10.5281/zenodo.22035833"
+  url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/"
   publisher:
-    name: "Zenodo"
+    name: "BHB Smart Structures Lab"
