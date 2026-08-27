@@ -1,0 +1,38 @@
+name: Prepare Python Studio iOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'python-learning-studio-pro/**'
+      - '.github/workflows/python-studio-ios.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  ios-project:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: python-learning-studio-pro
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install
+      - name: Prepare web assets
+        run: npm run mobile:prepare
+      - name: Create iOS project
+        run: npx cap add ios
+      - name: Sync iOS project
+        run: npx cap sync ios
+      - name: Upload Xcode project
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-studio-ios-xcode-project
+          path: python-learning-studio-pro/ios/**
+          if-no-files-found: error

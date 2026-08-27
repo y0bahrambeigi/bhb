@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071016">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="مرکز نصب هوشمند مهندس‌یار AI برای ویندوز، آیفون، اندروید و نسخه تحت وب.">
+  <meta name="application-name" content="نصب مهندس‌یار AI">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fa_IR">
+  <meta property="og:title" content="نصب مهندس‌یار AI">
+  <meta property="og:description" content="راه‌اندازی سریع مهندس‌یار در ویندوز، آیفون، اندروید و وب">
+  <meta property="og:url" content="https://y0bahrambeigi.github.io/bhb/mohandesyar-installer/">
+  <meta property="og:image" content="https://y0bahrambeigi.github.io/bhb/mohandesyar-installer/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="نصب مهندس‌یار AI">
+  <meta name="twitter:description" content="راه‌اندازی سریع مهندس‌یار در ویندوز، آیفون، اندروید و وب">
+  <meta name="twitter:image" content="https://y0bahrambeigi.github.io/bhb/mohandesyar-installer/og.jpg">
+  <link rel="canonical" href="https://y0bahrambeigi.github.io/bhb/mohandesyar-installer/">
+  <link rel="icon" href="../mohandesyar-ai/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../mohandesyar-ai/app-icon-192.png">
+  <title>نصب مهندس‌یار AI | ویندوز، آیفون، اندروید و وب</title>
+  <style>
+    :root {
+      --ink-950: #071016;
+      --ink-900: #0b171f;
+      --ink-850: #0f1d26;
+      --ink-800: #14242e;
+      --line: #29404b;
+      --line-soft: #1d313b;
+      --cyan: #3ee5d4;
+      --cyan-soft: #153d3d;
+      --amber: #f4b860;
+      --white: #f4f8f9;
+      --muted: #9fb1b9;
+      --muted-2: #70848e;
+      --danger: #ff8d82;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--ink-950);
+      color: var(--white);
+      font-family: Tahoma, "Segoe UI", Arial, sans-serif;
+      font-synthesis: none;
+    }
+    button, a { font: inherit; }
+    button { color: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid rgba(62, 229, 212, .45);
+      outline-offset: 3px;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    .structural-lines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .32;
+      overflow: hidden;
+    }
+    .structural-lines::before,
+    .structural-lines::after,
+    .structural-lines span {
+      content: "";
+      position: absolute;
+      display: block;
+      border-color: #18303b;
+      border-style: solid;
+    }
+    .structural-lines::before {
+      width: 42vw; height: 42vw; left: -18vw; top: 18vh;
+      border-width: 1px; transform: rotate(42deg);
+    }
+    .structural-lines::after {
+      width: 36vw; height: 36vw; right: -15vw; bottom: -10vw;
+      border-width: 1px; transform: rotate(30deg);
+    }
+    .structural-lines span:nth-child(1) {
+      width: 1px; height: 100vh; border-width: 0 0 0 1px;
+      right: 22%; top: 0; transform: rotate(22deg);
+    }
+    .structural-lines span:nth-child(2) {
+      width: 75vw; border-width: 1px 0 0;
+      right: -10vw; top: 28%; transform: rotate(-11deg);
+    }
+    .structural-lines span:nth-child(3) {
+      width: 52vw; border-width: 1px 0 0;
+      left: -5vw; bottom: 19%; transform: rotate(16deg);
+    }
+
+    .topbar {
+      position: relative;
+      z-index: 2;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .brand-mark, .setup-icon {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      background: var(--cyan);
+      color: var(--ink-950);
+      border: 1px solid #81f4e8;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.24);
+      font-size: 20px;
+      font-weight: 900;
+    }
+    .brand-mark img { width: 28px; height: 28px; }
+    .brand b, .brand small { display: block; }
+    .brand b { font-size: 15px; }
+    .brand small { color: var(--muted); font-size: 10px; margin-top: 3px; }
+    .verified-chip, .version {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--cyan);
+      border: 1px solid #24534f;
+      background: #0d2528;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .status-symbol { font-size: 15px; line-height: 1; }
+
+    .workspace {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 40px));
+      margin: 36px auto 24px;
+      display: grid;
+      grid-template-columns: 285px minmax(0, 1fr);
+      gap: 20px;
+      direction: ltr;
+    }
+    .readiness-panel, .setup-panel {
+      direction: rtl;
+      border: 1px solid var(--line);
+      background: var(--ink-900);
+      box-shadow: 0 26px 80px rgba(0,0,0,.25);
+    }
+    .readiness-panel {
+      padding: 22px;
+      align-self: start;
+      border-radius: 18px;
+    }
+    .panel-heading, .setup-head, .selection-heading,
+    .setup-actions, .setup-footer, .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--cyan);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+    }
+    .panel-heading h2, .selection-heading h2, .instruction-title h2 {
+      margin: 0;
+      font-size: 16px;
+    }
+    .score {
+      display: grid;
+      place-items: center;
+      min-width: 44px;
+      height: 32px;
+      border: 1px solid #31505b;
+      color: var(--amber);
+      background: var(--ink-850);
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .device-detected {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 11px;
+      margin: 22px 0 18px;
+      padding: 13px;
+      border: 1px solid #28525a;
+      border-radius: 13px;
+      background: var(--cyan-soft);
+    }
+    .device-glyph { font-size: 21px; }
+    .device-detected small, .device-detected strong { display: block; }
+    .device-detected small { font-size: 9px; color: #8fb7ba; margin-bottom: 4px; }
+    .device-detected strong { font-size: 12px; }
+    .cyan { color: var(--cyan); }
+    .check-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: grid;
+      gap: 5px;
+    }
+    .check-list li {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 54px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .check-icon {
+      width: 31px;
+      height: 31px;
+      display: grid;
+      place-items: center;
+      background: var(--ink-800);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--muted);
+    }
+    .check-list b, .check-list small { display: block; }
+    .check-list b { font-size: 11px; margin-bottom: 4px; }
+    .check-list small { font-size: 9px; color: var(--muted-2); }
+    .item-state { color: var(--cyan); font-weight: 900; }
+    .not-ready .item-state { color: var(--danger); }
+    .privacy-note {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 20px;
+      padding: 13px;
+      border-right: 2px solid var(--amber);
+      background: #211e19;
+      color: #d7c4a6;
+    }
+    .privacy-note p { margin: 0; font-size: 9px; line-height: 1.9; }
+
+    .setup-panel { border-radius: 22px; padding: 26px 28px 20px; }
+    .setup-head { padding-bottom: 21px; border-bottom: 1px solid var(--line-soft); }
+    .setup-title { display: flex; align-items: center; gap: 14px; }
+    .setup-title h1 {
+      margin: 0;
+      font-size: clamp(21px, 2.4vw, 31px);
+      letter-spacing: -.8px;
+    }
+    .version { color: var(--amber); border-color: #5a482d; background: #241d14; }
+    .progress-steps {
+      margin: 22px 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .progress-steps li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 45px;
+      color: var(--muted-2);
+      font-size: 10px;
+      border-left: 1px solid var(--line-soft);
+      background: #0c1820;
+    }
+    .progress-steps li:last-child { border-left: 0; }
+    .progress-steps li span {
+      width: 21px;
+      height: 21px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #3a4d55;
+      border-radius: 50%;
+      font-size: 9px;
+    }
+    .progress-steps li.active { color: var(--white); background: #10242b; }
+    .progress-steps li.active span {
+      background: var(--cyan);
+      border-color: var(--cyan);
+      color: var(--ink-950);
+      font-weight: 900;
+    }
+    .selection-heading { margin-bottom: 14px; }
+    .selection-heading p { margin: 6px 0 0; color: var(--muted); font-size: 10px; }
+    .help-mark { color: var(--muted-2); font-size: 18px; }
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+    }
+    .platform-card {
+      position: relative;
+      min-height: 105px;
+      padding: 13px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 10px;
+      text-align: right;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: var(--ink-850);
+      cursor: pointer;
+      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    }
+    .platform-card:hover { transform: translateY(-2px); border-color: #48616d; }
+    .platform-card.selected { border-color: var(--cyan); background: #102a30; }
+    .platform-card b, .platform-card small { display: block; }
+    .platform-card b { font-size: 12px; margin-bottom: 5px; }
+    .platform-card small { color: var(--muted-2); font-size: 8px; direction: ltr; text-align: right; }
+    .platform-icon {
+      width: 43px;
+      height: 43px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #304650;
+      background: #0a171e;
+      border-radius: 11px;
+      color: var(--muted);
+      font-size: 23px;
+      font-weight: 800;
+    }
+    .selected .platform-icon { color: var(--cyan); border-color: #28645f; }
+    .platform-card em {
+      position: absolute;
+      right: 11px;
+      top: 8px;
+      color: var(--cyan);
+      font-size: 7px;
+      font-style: normal;
+      font-weight: 800;
+      display: none;
+    }
+    .platform-card.detected em { display: block; }
+    .radio-dot {
+      position: absolute;
+      left: 9px;
+      top: 9px;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #40535d;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+    }
+    .selected .radio-dot { background: var(--cyan); border-color: var(--cyan); color: var(--ink-950); }
+    .instruction-box {
+      margin-top: 17px;
+      border: 1px solid var(--line-soft);
+      background: #0a161d;
+      padding: 17px;
+    }
+    .instruction-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--line-soft);
+      color: var(--cyan);
+    }
+    .instruction-title .dynamic-icon { font-size: 22px; }
+    .instruction-title p { margin: 0 0 3px; color: var(--muted); font-size: 8px; }
+    .instruction-title h2 { color: var(--white); font-size: 13px; }
+    .instruction-box ol {
+      margin: 14px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .instruction-box li { display: flex; gap: 9px; align-items: flex-start; }
+    .instruction-box li > span {
+      flex: 0 0 auto;
+      width: 23px;
+      height: 23px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #31505b;
+      color: var(--amber);
+      border-radius: 6px;
+      font-size: 9px;
+      font-weight: 800;
+    }
+    .instruction-box li p { margin: 0; color: #b6c4ca; font-size: 9px; line-height: 1.9; }
+    .success-message {
+      display: none;
+      margin-top: 13px;
+      padding: 12px 14px;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #236359;
+      background: #102c2c;
+      color: var(--cyan);
+    }
+    .success-message.show { display: flex; }
+    .success-message b, .success-message span { display: block; }
+    .success-message b { font-size: 11px; margin-bottom: 3px; }
+    .success-message span { color: #a7c6c3; font-size: 8px; }
+    .setup-actions { justify-content: flex-start; gap: 9px; margin-top: 17px; }
+    .primary-action, .secondary-action {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+    .primary-action {
+      min-width: 230px;
+      padding: 0 18px;
+      border: 1px solid #76f5e7;
+      background: var(--cyan);
+      color: var(--ink-950);
+    }
+    .secondary-action {
+      min-width: 140px;
+      padding: 0 15px;
+      border: 1px solid var(--line);
+      background: var(--ink-800);
+      color: var(--white);
+    }
+    .primary-action:hover, .secondary-action:hover { transform: translateY(-1px); }
+    .primary-action:hover { background: #7af0e4; }
+    .setup-footer {
+      margin-top: 18px;
+      padding-top: 15px;
+      border-top: 1px solid var(--line-soft);
+      justify-content: flex-start;
+      gap: 22px;
+      color: var(--muted-2);
+      font-size: 8px;
+    }
+    .setup-footer span, .setup-footer a { display: inline-flex; align-items: center; gap: 5px; }
+    .setup-footer a { margin-right: auto; color: var(--cyan); text-decoration: none; }
+    .page-footer {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      min-height: 58px;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted-2);
+      font-size: 9px;
+    }
+    .footer-separator { width: 3px; height: 3px; border-radius: 50%; background: #3d535e; }
+    .footer-copy {
+      border: 0;
+      background: transparent;
+      color: var(--cyan);
+      cursor: pointer;
+      margin-right: 10px;
+      font-size: 9px;
+    }
+
+    @media (max-width: 980px) {
+      .workspace { grid-template-columns: 1fr; max-width: 760px; }
+      .readiness-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 0 22px; }
+      .panel-heading, .privacy-note { grid-column: 1 / -1; }
+      .device-detected { margin-bottom: 0; }
+    }
+    @media (max-width: 720px) {
+      .topbar, .workspace, .page-footer { width: min(100% - 24px, 600px); }
+      .topbar { min-height: 72px; }
+      .verified-chip .chip-label { display: none; }
+      .verified-chip { padding: 9px; }
+      .workspace { margin-top: 18px; }
+      .readiness-panel { display: block; }
+      .device-detected { margin-bottom: 18px; }
+      .setup-panel { padding: 20px 15px 16px; border-radius: 17px; }
+      .version { display: none; }
+      .setup-title h1 { font-size: 20px; }
+      .setup-icon { width: 39px; height: 39px; }
+      .progress-steps li { font-size: 0; }
+      .progress-steps li span { font-size: 9px; }
+      .platform-grid { grid-template-columns: repeat(2, 1fr); }
+      .platform-card { min-height: 94px; }
+      .instruction-box ol { grid-template-columns: 1fr; gap: 10px; }
+      .instruction-box li { align-items: center; }
+      .setup-actions { display: grid; grid-template-columns: 1fr; }
+      .primary-action, .secondary-action { width: 100%; min-width: 0; }
+      .setup-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .setup-footer a { grid-column: 1 / -1; margin-right: 0; }
+      .page-footer { padding: 16px 0 24px; flex-wrap: wrap; line-height: 1.7; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell" id="top">
+    <div class="structural-lines" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="مهندس‌یار AI">
+        <span class="brand-mark"><img src="../mohandesyar-ai/app-icon.svg" alt=""></span>
+        <span><b>مهندس‌یار AI</b><small>مرکز نصب رسمی</small></span>
+      </a>
+      <div class="verified-chip"><span class="status-symbol">✓</span><span class="chip-label">نصب امن از مرورگر</span></div>
+    </header>
+
+    <section class="workspace">
+      <aside class="readiness-panel" aria-label="وضعیت آمادگی دستگاه">
+        <div class="panel-heading">
+          <div><p class="eyebrow">پیش‌نیازهای نصب</p><h2>آمادگی دستگاه</h2></div>
+          <span class="score" id="ready-score">4/4</span>
+        </div>
+
+        <div class="device-detected">
+          <span class="device-glyph" aria-hidden="true">▣</span>
+          <span><small>دستگاه شناسایی‌شده</small><strong id="detected-device">مرورگر وب</strong></span>
+          <span class="cyan" aria-hidden="true">●</span>
+        </div>
+
+        <ul class="check-list">
+          <li id="check-online">
+            <span class="check-icon" aria-hidden="true">⌁</span>
+            <span><b>اتصال اینترنت</b><small>برقرار</small></span><span class="item-state">✓</span>
+          </li>
+          <li id="check-secure">
+            <span class="check-icon" aria-hidden="true">⌾</span>
+            <span><b>اتصال امن</b><small>HTTPS فعال</small></span><span class="item-state">✓</span>
+          </li>
+          <li id="check-storage">
+            <span class="check-icon" aria-hidden="true">▤</span>
+            <span><b>ذخیره‌سازی محلی</b><small>در دسترس</small></span><span class="item-state">✓</span>
+          </li>
+          <li id="check-pwa">
+            <span class="check-icon" aria-hidden="true">◫</span>
+            <span><b>پشتیبانی مرورگر</b><small>سازگار با PWA</small></span><span class="item-state">✓</span>
+          </li>
+        </ul>
+
+        <div class="privacy-note"><span aria-hidden="true">◆</span><p>نسخه فعلی به‌صورت PWA نصب می‌شود؛ سبک، به‌روزرسانی‌پذیر و بدون فایل اجرایی ناشناس.</p></div>
+      </aside>
+
+      <section class="setup-panel" aria-label="مراحل نصب مهندس‌یار">
+        <div class="setup-head">
+          <div class="setup-title">
+            <span class="setup-icon" aria-hidden="true">↓</span>
+            <div><p class="eyebrow">MOHANDESYAR SETUP</p><h1>نصب مهندس‌یار روی دستگاه شما</h1></div>
+          </div>
+          <div class="version">نسخه 2.0 PWA</div>
+        </div>
+
+        <ol class="progress-steps" aria-label="مراحل راه‌اندازی">
+          <li class="active"><span>1</span>انتخاب دستگاه</li>
+          <li class="active"><span>2</span>راهنمای نصب</li>
+          <li id="finish-step"><span id="finish-number">3</span>اجرای برنامه</li>
+        </ol>
+
+        <div class="selection-heading">
+          <div><h2>سیستم‌عامل را انتخاب کنید</h2><p>بهترین روش نصب به‌صورت خودکار پیشنهاد شده است.</p></div>
+          <span class="help-mark" title="دستگاه خود را از گزینه‌های زیر انتخاب کنید">؟</span>
+        </div>
+
+        <div class="platform-grid" aria-label="انتخاب سیستم‌عامل">
+          <button type="button" class="platform-card" data-platform="windows" aria-pressed="false">
+            <span class="platform-icon" aria-hidden="true">▣</span><span><b>ویندوز</b><small>Windows 10 / 11</small></span><em>پیشنهادی</em><span class="radio-dot"></span>
+          </button>
+          <button type="button" class="platform-card" data-platform="ios" aria-pressed="false">
+            <span class="platform-icon" aria-hidden="true">◉</span><span><b>آیفون و آیپد</b><small>iOS / iPadOS</small></span><em>پیشنهادی</em><span class="radio-dot"></span>
+          </button>
+          <button type="button" class="platform-card" data-platform="android" aria-pressed="false">
+            <span class="platform-icon" aria-hidden="true">◆</span><span><b>اندروید</b><small>Android 9+</small></span><em>پیشنهادی</em><span class="radio-dot"></span>
+          </button>
+          <button type="button" class="platform-card" data-platform="web" aria-pressed="false">
+            <span class="platform-icon" aria-hidden="true">◎</span><span><b>نسخه تحت وب</b><small>بدون نیاز به نصب</small></span><em>پیشنهادی</em><span class="radio-dot"></span>
+          </button>
+        </div>
+
+        <section class="instruction-box" aria-live="polite">
+          <div class="instruction-title"><span class="dynamic-icon" id="instruction-icon">◎</span><div><p>راهنمای نصب روی</p><h2 id="instruction-title">نسخه تحت وب</h2></div></div>
+          <ol id="instruction-steps"></ol>
+        </section>
+
+        <div class="success-message" id="success-message" role="status">
+          <span aria-hidden="true">✓</span><div><b>مرحله بعدی در مرورگر باز شد</b><span>اگر صفحه جدید باز نشد، لینک را کپی و مستقیماً در مرورگر دستگاه وارد کنید.</span></div>
+        </div>
+
+        <div class="setup-actions">
+          <button type="button" class="primary-action" id="open-app">اجرای نسخه تحت وب <span aria-hidden="true">‹</span></button>
+          <button type="button" class="secondary-action" id="copy-link"><span aria-hidden="true">▢</span><span>کپی لینک نصب</span></button>
+        </div>
+
+        <div class="setup-footer">
+          <span>☁ همیشه آخرین نسخه</span><span>◆ بدون نیاز به ثبت‌نام برای نصب</span>
+          <a href="../mohandesyar-ai/">مشاهده نشانی برنامه ↗</a>
+        </div>
+      </section>
+    </section>
+
+    <footer class="page-footer">
+      <span>طراحی و توسعه: یوسف بهرام‌بیگی</span><span class="footer-separator" aria-hidden="true"></span><span>مهندس‌یار AI؛ دستیار هوشمند مهندسان</span>
+      <button type="button" class="footer-copy" id="footer-copy">▢ کپی نشانی</button>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const appUrl = "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/";
+      const platforms = {
+        windows: {
+          title: "ویندوز", icon: "▣", action: "ادامه نصب در ویندوز",
+          steps: [
+            "مهندس‌یار را با Microsoft Edge یا Google Chrome باز کنید.",
+            "نماد نصب را در نوار آدرس بزنید یا از منو گزینه Install app را انتخاب کنید.",
+            "Install را تأیید کنید؛ میانبر برنامه در Start و دسکتاپ ساخته می‌شود."
+          ]
+        },
+        ios: {
+          title: "آیفون و آیپد", icon: "◉", action: "باز کردن برای نصب در آیفون",
+          steps: [
+            "لینک برنامه را حتماً در مرورگر Safari باز کنید.",
+            "دکمه Share را بزنید و Add to Home Screen را انتخاب کنید.",
+            "گزینه Add را تأیید کنید تا مهندس‌یار مانند یک اپ اجرا شود."
+          ]
+        },
+        android: {
+          title: "اندروید", icon: "◆", action: "ادامه نصب در اندروید",
+          steps: [
+            "برنامه را با Google Chrome باز کنید.",
+            "از منوی مرورگر، Install app یا Add to Home screen را بزنید.",
+            "Install را تأیید کنید و برنامه را از صفحه اصلی اجرا کنید."
+          ]
+        },
+        web: {
+          title: "نسخه تحت وب", icon: "◎", action: "اجرای نسخه تحت وب",
+          steps: [
+            "دکمه اجرای نسخه وب را انتخاب کنید.",
+            "برای دسترسی کامل، مجوزهای دوربین و موقعیت مکانی را در صورت نیاز تأیید کنید.",
+            "اطلاعات روی همان دستگاه می‌ماند؛ از بخش پشتیبان، خروجی دوره‌ای بگیرید."
+          ]
+        }
+      };
+
+      const cards = [...document.querySelectorAll(".platform-card")];
+      const instructionTitle = document.getElementById("instruction-title");
+      const instructionIcon = document.getElementById("instruction-icon");
+      const instructionSteps = document.getElementById("instruction-steps");
+      const openButton = document.getElementById("open-app");
+      const successMessage = document.getElementById("success-message");
+      const finishStep = document.getElementById("finish-step");
+      const finishNumber = document.getElementById("finish-number");
+      let selectedPlatform = "web";
+
+      function detectPlatform() {
+        const ua = navigator.userAgent.toLowerCase();
+        const isIPad = navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
+        if (/iphone|ipad|ipod/.test(ua) || isIPad) return "ios";
+        if (ua.includes("android")) return "android";
+        if (ua.includes("windows")) return "windows";
+        return "web";
+      }
+
+      function selectPlatform(id) {
+        selectedPlatform = id;
+        const selected = platforms[id];
+        cards.forEach(card => {
+          const active = card.dataset.platform === id;
+          card.classList.toggle("selected", active);
+          card.setAttribute("aria-pressed", String(active));
+          card.querySelector(".radio-dot").textContent = active ? "✓" : "";
+        });
+        instructionTitle.textContent = selected.title;
+        instructionIcon.textContent = selected.icon;
+        openButton.childNodes[0].textContent = selected.action + " ";
+        instructionSteps.replaceChildren(...selected.steps.map((step, index) => {
+          const li = document.createElement("li");
+          const number = document.createElement("span");
+          const text = document.createElement("p");
+          number.textContent = String(index + 1);
+          text.textContent = step;
+          li.append(number, text);
+          return li;
+        }));
+        successMessage.classList.remove("show");
+        finishStep.classList.remove("active");
+        finishNumber.textContent = "3";
+      }
+
+      function setCheck(id, ready, detail) {
+        const item = document.getElementById(id);
+        item.classList.toggle("not-ready", !ready);
+        item.querySelector("small").textContent = detail;
+        item.querySelector(".item-state").textContent = ready ? "✓" : "!";
+        return ready;
+      }
+
+      function updateReadiness() {
+        let storage = false;
+        try {
+          localStorage.setItem("mohandesyar-install-check", "ready");
+          localStorage.removeItem("mohandesyar-install-check");
+          storage = true;
+        } catch (_) { storage = false; }
+
+        const results = [
+          setCheck("check-online", navigator.onLine, navigator.onLine ? "برقرار" : "قطع است"),
+          setCheck("check-secure", window.isSecureContext, window.isSecureContext ? "HTTPS فعال" : "نیازمند HTTPS"),
+          setCheck("check-storage", storage, storage ? "در دسترس" : "مسدود شده"),
+          setCheck("check-pwa", "serviceWorker" in navigator, "serviceWorker" in navigator ? "سازگار با PWA" : "اجرای وب ممکن است")
+        ];
+        document.getElementById("ready-score").textContent = results.filter(Boolean).length + "/4";
+      }
+
+      async function copyAppLink(button) {
+        try {
+          await navigator.clipboard.writeText(appUrl);
+          const label = button.querySelector("span:last-child");
+          if (label) {
+            const original = label.textContent;
+            label.textContent = "لینک کپی شد";
+            setTimeout(() => { label.textContent = original; }, 2200);
+          } else {
+            const original = button.textContent;
+            button.textContent = "✓ لینک کپی شد";
+            setTimeout(() => { button.textContent = original; }, 2200);
+          }
+        } catch (_) {
+          window.prompt("لینک نصب را کپی کنید:", appUrl);
+        }
+      }
+
+      const detected = detectPlatform();
+      document.getElementById("detected-device").textContent = platforms[detected].title;
+      const detectedCard = document.querySelector(`[data-platform="${detected}"]`);
+      if (detectedCard) detectedCard.classList.add("detected");
+      selectPlatform(detected);
+      updateReadiness();
+
+      cards.forEach(card => card.addEventListener("click", () => selectPlatform(card.dataset.platform)));
+      openButton.addEventListener("click", () => {
+        successMessage.classList.add("show");
+        finishStep.classList.add("active");
+        finishNumber.textContent = "✓";
+        window.open(appUrl, "_blank", "noopener,noreferrer");
+      });
+      document.getElementById("copy-link").addEventListener("click", event => copyAppLink(event.currentTarget));
+      document.getElementById("footer-copy").addEventListener("click", event => copyAppLink(event.currentTarget));
+      window.addEventListener("online", updateReadiness);
+      window.addEventListener("offline", updateReadiness);
+    })();
+  </script>
+</body>
+</html>
