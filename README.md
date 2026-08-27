@@ -49,7 +49,7 @@ CompareMetaheuristics
 
 ## RASA‑Cell Offline Construction Simulator
 
-The repository also includes **RASA‑Cell**, a Persian-first interactive 3D simulator for a lightweight, rapid, self-centering modular construction concept. It is delivered as an offline-capable PWA and includes build pipelines for Android, iOS Simulator, and Windows.
+The repository also includes **RASA‑Cell**, a Persian-first interactive 3D simulator for a lightweight, rapid, self-centering modular construction concept. It is delivered as an offline-capable PWA and includes build pipelines for an Android debug APK, an unsigned iOS Simulator app, and unsigned Windows Setup/portable packages. A physical-iPhone native IPA is outside this release scope; the PWA remains installable from Safari.
 
 - Live PWA: `https://y0bahrambeigi.github.io/bhb/rasa-cell/`
 - Source and Persian guide: [`rasa-cell-app/`](rasa-cell-app/README_FA.md)

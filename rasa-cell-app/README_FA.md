@@ -8,9 +8,9 @@
 |---|---|---|
 | وب | اجرای پوشه `dist` روی هر وب‌سرور استاتیک | پس از نخستین بازدید، Service Worker همه دارایی‌ها را ذخیره می‌کند |
 | آیفون و آیپد | بازکردن نسخه وب در Safari و انتخاب **Add to Home Screen** | پس از نخستین بازشدن از صفحه اصلی، بدون اینترنت اجرا می‌شود |
-| اندروید | نصب PWA از Chrome یا دریافت APK ساخته‌شده در GitHub Actions | PWA پس از نصب و APK از ابتدا آفلاین است |
-| Windows | نصب PWA از Edge/Chrome یا دریافت Setup/Portable از GitHub Actions | هر دو حالت بدون اینترنت اجرا می‌شوند |
-| iOS Native | پروژه Capacitor در گردش macOS ساخته و برای Simulator آزموده می‌شود | دارایی‌ها داخل برنامه هستند؛ نصب روی دستگاه واقعی به امضای Apple Developer نیاز دارد |
+| اندروید | نصب PWA از Chrome یا دریافت APK آزمایشی `debug` از GitHub Actions | PWA پس از نصب و APK از ابتدا آفلاین است؛ APK فعلی خروجی فروشگاهی امضاشده نیست |
+| Windows | نصب PWA از Edge/Chrome یا دریافت Setup و ZIP قابل‌حمل از GitHub Actions | هر دو بسته آفلاین و فعلاً بدون گواهی ناشر Windows هستند |
+| iOS Simulator | دریافت برنامه بدون امضا و اجرای آن در Simulator | گردش CI برنامه را در Simulator نصب و اجرا می‌کند؛ این بسته روی آیفون واقعی نصب نمی‌شود |
 
 ## اجرای محلی
 
@@ -27,6 +27,8 @@ npm run dev
 
 ```bash
 npm run check
+npx playwright install chromium
+npm run test:browser
 ```
 
 این فرمان موارد زیر را کنترل می‌کند:
@@ -35,7 +37,9 @@ npm run check
 2. ساخت Production با Three.js و فونت‌های فارسی محلی؛
 3. وجود Manifest، آیکون‌ها و Service Worker؛
 4. قرارگرفتن همه فایل‌ها در Precache؛
-5. نبود هرگونه URL اجرایی خارجی در بسته نهایی.
+5. نبود هرگونه URL اجرایی خارجی در بسته نهایی؛
+6. تغییر نسخه Cache هنگام تغییر محتوای فایل، حتی اگر نام فایل ثابت بماند؛
+7. بارگذاری آنلاین، فعال‌شدن Service Worker و اجرای مجدد کامل در حالت قطع شبکه.
 
 ## ساخت نسخه وب قابل انتشار
 
@@ -57,7 +61,9 @@ npx cap add ios
 npx cap sync
 ```
 
-پروژه Android با Android Studio و پروژه iOS با Xcode باز می‌شود. گردش GitHub Actions همین فرایند را در سیستم‌عامل‌های رسمی هر سکو تکرار و Android APK، نسخه iOS Simulator، بسته وب و Windows را به‌عنوان Artifact منتشر می‌کند.
+پروژه Android با Android Studio و پروژه iOS با Xcode باز می‌شود. گردش GitHub Actions همین فرایند را در سیستم‌عامل‌های رسمی هر سکو تکرار و APK آزمایشی Android، نسخه iOS Simulator، بسته وب و Windows را به‌عنوان Artifact منتشر می‌کند.
+
+نسخه iOS موجود با SDK مربوط به Simulator و با `CODE_SIGNING_ALLOWED=NO` ساخته می‌شود. نبود IPA امضاشده برای آیفون فیزیکی، محدودیت دامنه انتشار فعلی است و به‌معنای خرابی PWA نیست. برای نسخه Native دستگاه واقعی باید یک گردش جداگانه `iphoneos archive/export` با App ID، گواهی و Provisioning Profile مالک مخزن ایجاد شود. معیارهای آزمون دستی در [`tests/MANUAL_QA.md`](tests/MANUAL_QA.md) ثبت شده‌اند.
 
 ## ساخت Windows
 
@@ -68,7 +74,7 @@ npm ci
 npm run dist:windows
 ```
 
-دو خروجی ساخته می‌شود: نصب‌کننده NSIS و بسته ZIP قابل‌حمل.
+دو خروجی مجزا ساخته می‌شود: نصب‌کننده NSIS با پسوند EXE و بسته ZIP قابل‌حمل. گردش CI تعداد خروجی‌ها را کنترل می‌کند، ZIP را باز می‌کند و اجرای آفلاین برنامه را نیز می‌آزماید.
 
 ## نکته مهندسی
 

@@ -1,4 +1,4 @@
-const CACHE = "rasa-cell-1e9baebbcde6";
+const CACHE = "rasa-cell-aa4766908641";
 const PRECACHE = [
   "./assets/estedad-arabic-400-normal-C3QT4wBo.woff",
   "./assets/estedad-arabic-400-normal-DBEZ0XVf.woff2",

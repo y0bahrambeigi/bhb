@@ -16,7 +16,7 @@ on:
     types: [published]
 
 permissions:
-  contents: write
+  contents: read
 
 defaults:
   run:
@@ -27,33 +27,43 @@ jobs:
     name: Test and package Web/PWA
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: rasa-cell-app/package-lock.json
       - run: npm ci
+      - name: Audit high and critical vulnerabilities
+        run: npm audit --audit-level=high
+      - name: Install browser used by the offline smoke test
+        run: npx playwright install --with-deps chromium
       - run: npm run check
+      - run: npm run test:browser
+      - name: Rebuild the committed GitHub Pages bundle
+        run: npm run build:deploy
+      - name: Verify the deployment bundle matches source
+        working-directory: .
+        run: git diff --exit-code -- rasa-cell
       - name: Create offline web bundle
-        run: zip -r ../RASA-Cell-Web-PWA.zip dist
-      - uses: actions/upload-artifact@v4
+        run: cd dist && zip -r ../../RASA-Cell-Web-PWA.zip .
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: RASA-Cell-Web-PWA
           path: RASA-Cell-Web-PWA.zip
           if-no-files-found: error
 
   android:
-    name: Build Android APK
+    name: Build Android debug APK
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: rasa-cell-app/package-lock.json
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
         with:
           distribution: temurin
           java-version: "21"
@@ -64,36 +74,68 @@ jobs:
       - name: Build debug APK
         working-directory: rasa-cell-app/android
         run: ./gradlew assembleDebug --no-daemon
-      - uses: actions/upload-artifact@v4
+      - name: Validate and name the debug APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_apk="android/app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$source_apk"
+          unzip -tq "$source_apk"
+          version="$(node -p "require('./package.json').version")"
+          mkdir -p release/android
+          cp "$source_apk" "release/android/RASA-Cell-Android-${version}-debug.apk"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: RASA-Cell-Android-APK
-          path: rasa-cell-app/android/app/build/outputs/apk/debug/app-debug.apk
+          path: rasa-cell-app/release/android/RASA-Cell-Android-*-debug.apk
           if-no-files-found: error
 
   windows:
-    name: Build Windows installer and portable app
+    name: Build unsigned Windows installer and portable ZIP
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: rasa-cell-app/package-lock.json
       - run: npm ci
       - run: npm run dist:windows
-      - uses: actions/upload-artifact@v4
+      - name: Verify installer, portable ZIP, and offline launch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $setups = @(Get-ChildItem release/windows -File -Filter "RASA-Cell-*.exe")
+          $archives = @(Get-ChildItem release/windows -File -Filter "RASA-Cell-*.zip")
+          if ($setups.Count -ne 1) { throw "Expected exactly one NSIS installer, found $($setups.Count)." }
+          if ($archives.Count -ne 1) { throw "Expected exactly one portable ZIP, found $($archives.Count)." }
+
+          $smokeDirectory = Join-Path $env:RUNNER_TEMP "rasa-cell-windows-smoke"
+          Expand-Archive -LiteralPath $archives[0].FullName -DestinationPath $smokeDirectory -Force
+          $application = Get-ChildItem $smokeDirectory -Recurse -File -Filter "RASA Cell.exe" | Select-Object -First 1
+          if (-not $application) { throw "Portable ZIP does not contain RASA Cell.exe." }
+
+          $process = Start-Process -FilePath $application.FullName -ArgumentList "--disable-gpu" -PassThru
+          Start-Sleep -Seconds 8
+          if ($process.HasExited) { throw "Portable Windows app exited during the launch smoke test." }
+          Stop-Process -Id $process.Id -Force
+          Write-Host "Windows artifact inventory and offline launch passed."
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: RASA-Cell-Windows
-          path: rasa-cell-app/release/windows/*
+          path: |
+            rasa-cell-app/release/windows/RASA-Cell-*.exe
+            rasa-cell-app/release/windows/RASA-Cell-*.zip
+            rasa-cell-app/release/windows/*.blockmap
           if-no-files-found: error
 
   ios-simulator:
-    name: Validate iOS native project
+    name: Build and launch unsigned iOS Simulator app
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: npm
@@ -112,12 +154,44 @@ jobs:
           -derivedDataPath build/ios
           CODE_SIGNING_ALLOWED=NO
           build
+      - name: Install and launch in an iOS Simulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          runtime="$(xcrun simctl list runtimes --json | node -e '
+            const fs = require("fs");
+            const data = JSON.parse(fs.readFileSync(0, "utf8"));
+            const runtime = data.runtimes.filter((item) => item.isAvailable && item.identifier.includes("iOS")).at(-1);
+            if (!runtime) process.exit(1);
+            process.stdout.write(runtime.identifier);
+          ')"
+          device_type="$(xcrun simctl list devicetypes --json | node -e '
+            const fs = require("fs");
+            const data = JSON.parse(fs.readFileSync(0, "utf8"));
+            const device = data.devicetypes.find((item) => item.name.startsWith("iPhone"));
+            if (!device) process.exit(1);
+            process.stdout.write(device.identifier);
+          ')"
+          udid="$(xcrun simctl create "RASA Cell CI" "$device_type" "$runtime")"
+          cleanup() {
+            xcrun simctl shutdown "$udid" >/dev/null 2>&1 || true
+            xcrun simctl delete "$udid" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+          xcrun simctl boot "$udid"
+          xcrun simctl bootstatus "$udid" -b
+          xcrun simctl install "$udid" build/ios/Build/Products/Release-iphonesimulator/App.app
+          xcrun simctl launch "$udid" ir.ybb.rasacell
+          sleep 5
+          xcrun simctl io "$udid" screenshot ../RASA-Cell-iOS-Simulator.png
       - name: Package Simulator app
         run: ditto -c -k --sequesterRsrc --keepParent build/ios/Build/Products/Release-iphonesimulator/App.app ../RASA-Cell-iOS-Simulator.zip
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: RASA-Cell-iOS-Simulator
-          path: RASA-Cell-iOS-Simulator.zip
+          path: |
+            RASA-Cell-iOS-Simulator.zip
+            RASA-Cell-iOS-Simulator.png
           if-no-files-found: error
 
   attach-to-release:
@@ -125,15 +199,22 @@ jobs:
     if: github.event_name == 'release'
     needs: [quality-and-web, android, windows, ios-simulator]
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
     defaults:
       run:
         working-directory: .
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           path: release-assets
           merge-multiple: true
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
         with:
-          files: release-assets/**/*
+          files: |
+            release-assets/*.apk
+            release-assets/*.blockmap
+            release-assets/*.exe
+            release-assets/*.zip
           fail_on_unmatched_files: true

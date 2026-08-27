@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const dist = path.resolve("dist");
 
@@ -13,13 +14,25 @@ async function walk(directory) {
   return files.flat();
 }
 
-const files = (await walk(dist))
-  .filter((file) => !file.endsWith("sw.js"))
-  .map((file) => `./${path.relative(dist, file).split(path.sep).join("/")}`)
-  .sort();
+export async function collectPrecacheEntries(directory = dist) {
+  const files = (await walk(directory)).filter((file) => !file.endsWith("sw.js"));
+  const entries = await Promise.all(files.map(async (file) => ({
+    url: `./${path.relative(directory, file).split(path.sep).join("/")}`,
+    digest: createHash("sha256").update(await fs.readFile(file)).digest("hex")
+  })));
+  return entries.sort((left, right) => left.url.localeCompare(right.url));
+}
 
-const hash = createHash("sha256").update(files.join("\n")).digest("hex").slice(0, 12);
-const source = `const CACHE = "rasa-cell-${hash}";
+export function createCacheVersion(entries) {
+  const fingerprint = entries.map(({ url, digest }) => `${url}:${digest}`).join("\n");
+  return createHash("sha256").update(fingerprint).digest("hex").slice(0, 12);
+}
+
+export async function generateServiceWorker(directory = dist) {
+  const entries = await collectPrecacheEntries(directory);
+  const files = entries.map(({ url }) => url);
+  const hash = createCacheVersion(entries);
+  const source = `const CACHE = "rasa-cell-${hash}";
 const PRECACHE = ${JSON.stringify(files, null, 2)};
 
 self.addEventListener("install", (event) => {
@@ -52,5 +65,10 @@ self.addEventListener("fetch", (event) => {
 });
 `;
 
-await fs.writeFile(path.join(dist, "sw.js"), source);
-console.log(`Generated offline cache rasa-cell-${hash} with ${files.length} assets.`);
+  await fs.writeFile(path.join(directory, "sw.js"), source);
+  console.log(`Generated offline cache rasa-cell-${hash} with ${files.length} assets.`);
+  return { cache: `rasa-cell-${hash}`, files };
+}
+
+const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
+if (invokedPath === fileURLToPath(import.meta.url)) await generateServiceWorker();
