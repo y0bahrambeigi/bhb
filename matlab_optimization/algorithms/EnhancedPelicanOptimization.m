@@ -23,17 +23,33 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
     bounds = problem.getBounds();
     nVar = problem.nVar;
 
-    % Initialize pelicans and include stable all-member seed designs.
+    % Initialize pelicans and include stable upper-bound seed designs.
     pelicans = repmat(bounds.lb, params.popSize, 1) + ...
                rand(params.popSize, nVar) .* repmat(bounds.ub - bounds.lb, params.popSize, 1);
 
-    topologyIdx = (problem.nBar + 1):nVar;
-    areaIdx = 1:problem.nBar;
+    % Mixed sizing/topology problems use [areas, topology] with exactly
+    % 2*nBar variables. Grouped sizing problems (for example the 25-bar
+    % benchmark) have fewer variables than members and therefore skip the
+    % topology-specific bit flips.
+    topologyIdx = [];
+    areaIdx = 1:nVar;
+    if isprop(problem, 'nBar') && nVar == 2 * problem.nBar
+        areaIdx = 1:problem.nBar;
+        topologyIdx = (problem.nBar + 1):nVar;
+    end
+
     pelicans(1, areaIdx) = 0.5 * (bounds.lb(areaIdx) + bounds.ub(areaIdx));
-    pelicans(1, topologyIdx) = 1;
+    if ~isempty(topologyIdx)
+        pelicans(1, topologyIdx) = 1;
+    end
     if params.popSize >= 2
-        pelicans(2, areaIdx) = bounds.ub(areaIdx);
-        pelicans(2, topologyIdx) = 1;
+        pelicans(2, :) = bounds.ub;
+    end
+
+    if ismethod(problem, 'projectDecision')
+        for i = 1:params.popSize
+            pelicans(i, :) = problem.projectDecision(pelicans(i, :));
+        end
     end
 
     fitness = zeros(params.popSize, 1);
@@ -73,11 +89,16 @@ function [bestSol, bestFit, convergence, details] = EnhancedPelicanOptimization(
             end
 
             % Topology-aware perturbation of the binary-like variables.
-            flipMask = rand(1, numel(topologyIdx)) < (0.15 * (1 - progress));
-            candidate(topologyIdx(flipMask)) = 1 - candidate(topologyIdx(flipMask));
+            if ~isempty(topologyIdx)
+                flipMask = rand(1, numel(topologyIdx)) < (0.15 * (1 - progress));
+                candidate(topologyIdx(flipMask)) = 1 - candidate(topologyIdx(flipMask));
+            end
 
             % Bound correction
             candidate = max(bounds.lb, min(bounds.ub, candidate));
+            if ismethod(problem, 'projectDecision')
+                candidate = problem.projectDecision(candidate);
+            end
 
             [candF, candG] = problem.evaluate(candidate);
             evaluationCount = evaluationCount + 1;

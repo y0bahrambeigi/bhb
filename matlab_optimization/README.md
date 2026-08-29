@@ -35,6 +35,7 @@ This project provides a complete framework for comparing different metaheuristic
 matlab_optimization/
 ├── CompareMetaheuristics.m     # Main comparison script
 ├── RunPelicanTrussTopology.m   # Pelican-based topology optimization
+├── RunTwentyFiveBarPelican.m   # Discrete grouped sizing of the 25-bar space truss
 ├── algorithms/                  # Optimization algorithms
 │   ├── EnhancedPelicanOptimization.m
 │   ├── GeneticAlgorithm.m
@@ -45,7 +46,11 @@ matlab_optimization/
 │   └── TLBO.m
 ├── problems/                    # Problem definitions
 │   ├── TenBarTruss.m
-│   └── TenBarTrussTopology.m
+│   ├── TenBarTrussTopology.m
+│   └── TwentyFiveBarSpaceTruss.m
+├── benchmarks/                  # Locked benchmark registry and run protocol
+├── surrogate/                   # Reproducible FE-labelled data protocol
+├── tests/                       # GNU Octave regression tests
 ├── utils/                       # Utility functions
 │   └── plotComparison.m
 └── README.md
@@ -87,6 +92,22 @@ This script uses an enhanced Pelican metaheuristic and provides:
 - Convergence, optimized-topology, and area/stress figures
 - CSV summary/member tables and a complete MAT results file in
   `results/pelican_topology/`
+
+### Run the 25-Bar Discrete Sizing Benchmark
+
+```matlab
+RunTwentyFiveBarPelican
+```
+
+The 25-bar model uses eight grouped discrete section variables, a 3D direct
+stiffness analysis, two load cases, group-dependent compression limits, a
+common tension limit, and a 0.35-inch displacement limit. Its regression test
+checks geometry/grouping, the upper-bound reference weight, feasibility,
+discrete projection, optimizer reproducibility, and surrogate-dataset export.
+
+The four-benchmark dissertation status is defined in
+`benchmarks/BenchmarkRegistry.m`. The 72- and 100-bar entries intentionally
+remain `specification-pending` until their source definitions are locked.
 
 3. The script will:
    - Run all 6 algorithms on the 10-bar truss problem

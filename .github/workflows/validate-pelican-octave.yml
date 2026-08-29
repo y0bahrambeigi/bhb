@@ -26,3 +26,7 @@ jobs:
       - name: Run topology and optimizer regression tests
         run: |
           octave --no-gui --quiet --eval "cd('matlab_optimization'); addpath('tests'); TestTenBarTrussTopology;"
+
+      - name: Run dissertation benchmark framework tests
+        run: |
+          octave --no-gui --quiet --eval "cd('matlab_optimization'); addpath('tests'); TestDissertationBenchmarkFramework;"
