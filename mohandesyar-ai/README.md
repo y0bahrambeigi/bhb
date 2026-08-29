@@ -92,9 +92,10 @@ npm run verify
 
 - صفحه علمی و فراداده Google Scholar: [publication/index.html](publication/index.html)
 - گزارش فنی نسخه ۲ (PDF): [mohandesyar-ai-v2-technical-report.pdf](publication/mohandesyar-ai-v2-technical-report.pdf)
+- کنترل یکپارچگی PDF: [SHA256SUMS](publication/SHA256SUMS)
 - فراداده استناد نرم‌افزار: [CITATION.cff](CITATION.cff)
-- DOI: <https://doi.org/10.5281/zenodo.22035833>
+- وضعیت DOI: **در انتظار انتشار عمومی و فعال‌شدن در Zenodo/DOI.org**؛ هیچ شناسه رزروشده یا غیرفعالی نباید استناد شود.
 
-### استناد پیشنهادی
+### استناد پیشنهادی گزارش فنی
 
-Bahrambeigi, Y. (2026). *MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting* (Version 2.0.0) [Computer software and technical report]. Zenodo. <https://doi.org/10.5281/zenodo.22035833>
+Bahrambeigi, Y. (2026). *MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting* (Version 2.0.0) [Technical report]. BHB Smart Structures Lab, Report MYAI-TR-2026-02. <https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/>

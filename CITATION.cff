@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use Python Learning Studio Ultra in research or teaching, please cite it as below."
+message: "This root citation describes Python Learning Studio Ultra only. For MohandesYar AI, use mohandesyar-ai/CITATION.cff."
 title: "Python Learning Studio Ultra"
 type: software
 authors:
@@ -8,7 +8,7 @@ authors:
 doi: "10.5281/zenodo.21960225"
 version: "1.0.1"
 date-released: "2026-08-17"
-repository-code: "https://github.com/y0bahrambeigi/bhb"
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/python-learning-studio-pro"
 url: "https://doi.org/10.5281/zenodo.21960225"
 license: MIT
 keywords:
