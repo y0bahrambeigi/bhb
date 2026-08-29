@@ -15,6 +15,7 @@ const mimeTypes = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".pdf": "application/pdf",
   ".png": "image/png",
   ".svg": "image/svg+xml",
   ".webmanifest": "application/manifest+json; charset=utf-8"
@@ -35,7 +36,7 @@ const server = createServer(async (request, response) => {
     const filename = localPath(url.pathname);
     let content = await readFile(filename);
     if (serveUpdatedWorker && url.pathname === "/bhb/mohandesyar-ai/sw.js") {
-      content = Buffer.from(content.toString("utf8").replace('const VERSION = "2.0.0";', 'const VERSION = "2.0.1-qa";'));
+      content = Buffer.from(content.toString("utf8").replace(/const VERSION = "[^"]+";/, 'const VERSION = "2.0.2-qa";'));
     }
     response.writeHead(200, {
       "Content-Type": mimeTypes[path.extname(filename)] || "application/octet-stream",
@@ -178,6 +179,23 @@ try {
   }));
   assert.equal(offlineState.controlled, true, "Offline relaunch must be controlled by the service worker");
   assert.equal(offlineState.evidence, 7, "Offline relaunch must restore all IndexedDB evidence");
+
+  const offlinePublication = await offlinePage.evaluate(async () => {
+    const [pageResponse, pdfResponse] = await Promise.all([
+      fetch("./publication/"),
+      fetch("./publication/mohandesyar-ai-v2-technical-report.pdf")
+    ]);
+    return {
+      html: await pageResponse.text(),
+      pageOk: pageResponse.ok,
+      pdfBytes: (await pdfResponse.arrayBuffer()).byteLength,
+      pdfOk: pdfResponse.ok
+    };
+  });
+  assert.equal(offlinePublication.pageOk, true, "The scholarly landing page must be cached for offline access");
+  assert.match(offlinePublication.html, /MohandesYar AI 2\.0 - Technical Report/);
+  assert.equal(offlinePublication.pdfOk, true, "The technical-report PDF must be cached for offline access");
+  assert.ok(offlinePublication.pdfBytes > 10_000, "The cached technical-report PDF must not be empty");
 
   console.log(`Browser QA passed: 6 images, 1 video, backup/restore, ${pdf.getPageCount()}-page Persian PDF, service-worker update, IndexedDB retention, and offline relaunch.`);
 } finally {
