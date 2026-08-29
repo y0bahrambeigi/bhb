@@ -34,7 +34,9 @@ This project provides a complete framework for comparing different metaheuristic
 ```
 matlab_optimization/
 ├── CompareMetaheuristics.m     # Main comparison script
+├── RunPelicanTrussTopology.m   # Pelican-based topology optimization
 ├── algorithms/                  # Optimization algorithms
+│   ├── EnhancedPelicanOptimization.m
 │   ├── GeneticAlgorithm.m
 │   ├── ParticleSwarmOptimization.m
 │   ├── DifferentialEvolution.m
@@ -42,7 +44,8 @@ matlab_optimization/
 │   ├── HarmonySearch.m
 │   └── TLBO.m
 ├── problems/                    # Problem definitions
-│   └── TenBarTruss.m
+│   ├── TenBarTruss.m
+│   └── TenBarTrussTopology.m
 ├── utils/                       # Utility functions
 │   └── plotComparison.m
 └── README.md
@@ -66,6 +69,24 @@ matlab_optimization/
    ```matlab
    CompareMetaheuristics
    ```
+
+
+### Run the Enhanced Pelican Topology Optimizer
+
+For simultaneous **size + topology** optimization of the 10-bar truss, run:
+
+```matlab
+RunPelicanTrussTopology
+```
+
+This script uses an enhanced Pelican metaheuristic and provides:
+- Reproducible execution with random seed 2026
+- Active/inactive members and optimized member areas
+- Per-member stresses and stress ratios
+- Weight, displacement, stability, feasibility, and stiffness conditioning
+- Convergence, optimized-topology, and area/stress figures
+- CSV summary/member tables and a complete MAT results file in
+  `results/pelican_topology/`
 
 3. The script will:
    - Run all 6 algorithms on the 10-bar truss problem
