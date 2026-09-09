@@ -11,9 +11,9 @@
 
 ## Gate 2 — reproducible release
 
-- [ ] Run `npm ci` in `mohandesyar-ai`.
-- [ ] Run `npm run verify`.
-- [ ] Run `npm run qa:browser` in the supported release environment.
+- [x] Run `npm ci` in `mohandesyar-ai` ([GitHub Actions run 17](https://github.com/y0bahrambeigi/bhb/actions/runs/34418861786)).
+- [x] Run `npm run verify` ([GitHub Actions run 17](https://github.com/y0bahrambeigi/bhb/actions/runs/34418861786)).
+- [x] Run `npm run qa:browser` in the supported release environment ([GitHub Actions run 17](https://github.com/y0bahrambeigi/bhb/actions/runs/34418861786)).
 - [ ] Complete the physical Windows PWA test and update `tests/MANUAL-QA.md`.
 - [ ] Create the version-specific tag `mohandesyar-ai-v2.0.0` from the verified commit.
 - [ ] Publish a GitHub release with source archives, release notes, and SHA-256 evidence.
