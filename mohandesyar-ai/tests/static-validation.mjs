@@ -14,13 +14,16 @@ const requiredFiles = [
   "report/index.html", "report/report.js", "print.css", "README.md", "CITATION.cff",
   "publication/index.html", "publication/mohandesyar-ai-v2-technical-report.pdf",
   "publication/SHA256SUMS", "publication/zenodo-metadata.json",
-  "RELEASE_NOTES.md", "tests/MANUAL-QA.md"
+  "RELEASE_NOTES.md", "LICENSE", "tests/MANUAL-QA.md",
+  "paper/paper.md", "paper/paper.bib", "paper/AI_USAGE_DISCLOSURE.md",
+  "paper/SUBMISSION_CHECKLIST.md"
 ];
 await Promise.all(requiredFiles.map(file => access(path.join(root, file))));
 
-const [index, app, db, serviceWorker, report, printCss, manifestText, publication, citation, readme] = await Promise.all([
+const [index, app, db, serviceWorker, report, printCss, manifestText, publication, citation, readme, license, manuscript] = await Promise.all([
   read("index.html"), read("app.js"), read("db.js"), read("sw.js"), read("report/index.html"), read("print.css"), read("manifest.webmanifest"),
-  read("publication/index.html"), read("CITATION.cff"), read("README.md")
+  read("publication/index.html"), read("CITATION.cff"), read("README.md"),
+  read("LICENSE"), read("paper/paper.md")
 ]);
 const manifest = JSON.parse(manifestText);
 const zenodoMetadata = JSON.parse(await read("publication/zenodo-metadata.json"));
@@ -55,6 +58,11 @@ assert.equal(zenodoMetadata.metadata.creators[0].name, "Bahrambeigi, Yousef");
 assert.equal(zenodoMetadata.metadata.creators[0].affiliation, "Islamic Azad University, Iran");
 assert.match(citation, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 assert.match(citation, /affiliation: "Islamic Azad University, Iran"/);
+assert.match(license, /^MIT License/m, "The software directory must contain the actual MIT license text");
+assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);
+assert.match(manuscript, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")));
+assert.match(manuscript, /A comparable\s+physical Windows installation test is pending/);
+assert.match(manuscript, /does\s+not\s+transmit project data to an external AI inference service/);
 assert.match(printCss, /@page\{size:A4/, "The print contract must explicitly target A4");
 assert.match(printCss, /break-inside:avoid/, "Evidence and report sections must avoid clipping across pages");
 assert.equal(manifest.start_url, "/bhb/mohandesyar-ai/", "Installed offline launch must use the cached canonical URL");
