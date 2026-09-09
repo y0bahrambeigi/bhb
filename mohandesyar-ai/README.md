@@ -94,6 +94,9 @@ npm run verify
 - گزارش فنی نسخه ۲ (PDF): [mohandesyar-ai-v2-technical-report.pdf](publication/mohandesyar-ai-v2-technical-report.pdf)
 - کنترل یکپارچگی PDF: [SHA256SUMS](publication/SHA256SUMS)
 - فراداده استناد نرم‌افزار: [CITATION.cff](CITATION.cff)
+- پیش‌نویس مقاله نرم‌افزاری: [paper/paper.md](paper/paper.md)
+- چک‌لیست آمادگی ارسال: [paper/SUBMISSION_CHECKLIST.md](paper/SUBMISSION_CHECKLIST.md)
+- مجوز نرم‌افزار: [MIT License](LICENSE)
 - وضعیت DOI: **در انتظار انتشار عمومی و فعال‌شدن در Zenodo/DOI.org**؛ هیچ شناسه رزروشده یا غیرفعالی نباید استناد شود.
 
 ### استناد پیشنهادی گزارش فنی
