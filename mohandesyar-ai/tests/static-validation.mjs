@@ -13,7 +13,8 @@ const requiredFiles = [
   "manifest.webmanifest", "app-icon.svg", "app-icon-192.png", "app-icon-512.png",
   "report/index.html", "report/report.js", "print.css", "README.md", "CITATION.cff",
   "publication/index.html", "publication/mohandesyar-ai-v2-technical-report.pdf",
-  "publication/SHA256SUMS"
+  "publication/SHA256SUMS", "publication/zenodo-metadata.json",
+  "RELEASE_NOTES.md", "tests/MANUAL-QA.md"
 ];
 await Promise.all(requiredFiles.map(file => access(path.join(root, file))));
 
@@ -22,6 +23,7 @@ const [index, app, db, serviceWorker, report, printCss, manifestText, publicatio
   read("publication/index.html"), read("CITATION.cff"), read("README.md")
 ]);
 const manifest = JSON.parse(manifestText);
+const zenodoMetadata = JSON.parse(await read("publication/zenodo-metadata.json"));
 const [publicationPdf, checksumText] = await Promise.all([
   readBinary("publication/mohandesyar-ai-v2-technical-report.pdf"),
   read("publication/SHA256SUMS")
@@ -45,6 +47,14 @@ assert.match(publication, /citation_technical_report_institution/, "The publicat
 assert.match(publication, /MYAI-TR-2026-02/, "The publication page must expose the stable report identifier");
 assert.doesNotMatch(publication, /citation_doi/, "An inactive DOI must not be advertised to scholarly crawlers");
 assert.match(publication, /Pending public Zenodo publication/, "The archival status must be explicit");
+const canonicalTitle = "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting";
+assert.equal(zenodoMetadata.metadata.title, canonicalTitle);
+assert.equal(zenodoMetadata.metadata.version, "2.0.0");
+assert.equal(zenodoMetadata.metadata.publication_date, "2026-08-25");
+assert.equal(zenodoMetadata.metadata.creators[0].name, "Bahrambeigi, Yousef");
+assert.equal(zenodoMetadata.metadata.creators[0].affiliation, "Islamic Azad University, Iran");
+assert.match(citation, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+assert.match(citation, /affiliation: "Islamic Azad University, Iran"/);
 assert.match(printCss, /@page\{size:A4/, "The print contract must explicitly target A4");
 assert.match(printCss, /break-inside:avoid/, "Evidence and report sections must avoid clipping across pages");
 assert.equal(manifest.start_url, "/bhb/mohandesyar-ai/", "Installed offline launch must use the cached canonical URL");
