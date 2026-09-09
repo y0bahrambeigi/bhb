@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "title": "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting",
+    "upload_type": "software",
+    "publication_date": "2026-08-25",
+    "description": "MohandesYar AI 2.0 is an offline-first Persian progressive web application for civil-engineering field documentation. It stores original image and video evidence locally in IndexedDB, records optional geolocation and SHA-256 integrity metadata, supports verified backup and restore, and generates multi-page Persian A4 reports.",
+    "creators": [
+      {
+        "name": "Bahrambeigi, Yousef",
+        "affiliation": "Islamic Azad University, Iran"
+      }
+    ],
+    "version": "2.0.0",
+    "language": "eng",
+    "license": "mit-license",
+    "keywords": [
+      "civil engineering",
+      "field documentation",
+      "progressive web application",
+      "offline-first",
+      "Persian RTL",
+      "IndexedDB",
+      "SHA-256",
+      "geolocation",
+      "evidence integrity"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai",
+        "relation": "isSupplementTo",
+        "scheme": "url"
+      },
+      {
+        "identifier": "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/",
+        "relation": "isSupplementTo",
+        "scheme": "url"
+      }
+    ],
+    "notes": "Technical report MYAI-TR-2026-02. The DOI field must be populated only by Zenodo after public publication."
+  }
+}
