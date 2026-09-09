@@ -1,10 +1,11 @@
 cff-version: 1.2.0
 message: "If you use MohandesYar AI in research, teaching, or professional studies, cite this public release. An archival DOI will be added only after it is publicly resolvable."
-title: "MohandesYar AI"
+title: "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting"
 type: software
 authors:
   - family-names: "Bahrambeigi"
     given-names: "Yousef"
+    affiliation: "Islamic Azad University, Iran"
 version: "2.0.0"
 date-released: "2026-08-25"
 repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai"
@@ -32,6 +33,7 @@ preferred-citation:
   authors:
     - family-names: "Bahrambeigi"
       given-names: "Yousef"
+      affiliation: "Islamic Azad University, Iran"
   year: 2026
   url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/"
   publisher:
