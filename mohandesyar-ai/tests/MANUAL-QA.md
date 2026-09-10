@@ -6,10 +6,11 @@
 |---|---|---|---|---|---|---|---|
 | Android | Not provided | Not provided | Chrome, version not provided | 2026-08-24 | Yousef Bahram Beigi | PASS (user-confirmed) | PR #23 release-gate statement |
 | iPhone | iPhone 13 Pro Max | Version not recorded at test time | Safari, version not recorded | 2026-08-24 | Yousef Bahram Beigi | PASS (user-confirmed) | PR #21 and PR #23 release-gate statements |
-| Windows | Not provided | Not provided | Not provided | Not provided | Yousef Bahram Beigi | PASS (user-confirmed) | Physical Windows PWA test confirmed complete on 2026-09-10; environment details were not supplied |
+| Windows | Not provided | Windows, version not provided | Not provided | Not provided | Independent user (name not provided) | PASS (user-confirmed) | Author confirmed on 2026-09-10 that another user completed the Windows PWA test successfully; detailed environment evidence was not supplied |
 
-The Android, iPhone, and Windows results reflect the user's explicit confirmation that the
-physical-device tests passed. Missing device, operating-system, browser-version, or test-date
+The Android and iPhone results reflect the author's own physical-device confirmations. The
+Windows result reflects the author's confirmation that a separate independent user performed
+the Windows test successfully. Missing device, operating-system, browser-version, or test-date
 fields are retained as `Not provided`; they must not be inferred after the fact. For journal
 evidence, any later-supplied Windows environment details should be appended without changing
 the recorded PASS unless a rerun produces a different result.
