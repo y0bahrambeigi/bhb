@@ -11,19 +11,19 @@ before upload because journal requirements can change.
 | Title and authorship | `paper.md` | Draft complete; email/ORCID pending verification |
 | Abstract | `paper.md` | Complete |
 | Keywords | `paper.md` | Complete |
-| Code/software metadata | README, CFF, package.json, release metadata | Release URL and DOI pending |
+| Code/software metadata | `paper.md`, README, CFF, package.json, release metadata | Two SoftwareX metadata tables complete; DOI pending |
 | Motivation / statement of need | `paper.md` | Complete |
 | Software description/functionality | `paper.md` | Complete |
 | Controlled illustrative example | `paper.md`, `tests/browser-qa.mjs` | Complete and automated |
 | Related-tool comparison | `paper.md`, `paper.bib` | Complete |
 | Impact/research use | `paper.md` | Complete with conservative claims |
 | Limitations | `paper.md` | Complete |
-| Data/software availability | release + Zenodo metadata | Pending public release/DOI |
+| Data/software availability | release + Zenodo metadata | GitHub release/checksum complete; Zenodo DOI pending |
 | AI declaration | `AI_USAGE_DISCLOSURE.md` | Draft complete; author verification required |
 | CRediT contribution roles | submission declarations | Author verification required |
 | Funding statement | submission declarations | Author verification required |
 | Competing-interest statement | submission declarations | Author verification required |
-| Independent-user evidence | `INDEPENDENT_USER_TEST.md` | Pending external tester |
+| Independent-user evidence | `INDEPENDENT_USER_TEST.md` | PASS; author-confirmed independent Windows user |
 | Highlights | `HIGHLIGHTS.md` | Draft complete |
 | Cover letter | `COVER_LETTER.md` | Draft complete |
 | Release notes | `RELEASE_NOTES_2.0.0.md` | Complete |
@@ -31,19 +31,17 @@ before upload because journal requirements can change.
 
 ## Final freeze sequence
 
-1. Obtain and archive independent-user validation.
-2. Run the repository verification workflow and require PASS.
-3. Freeze the verified commit.
-4. Create tag `mohandesyar-ai-v2.0.0`.
-5. Publish a version-specific GitHub release.
-6. Independently download the release asset and verify its SHA-256 digest.
-7. Publish the Zenodo software record.
-8. Confirm public DOI resolution.
-9. Insert the DOI/release URL into README, CFF, publication page, Zenodo
+1. Independent-user validation: COMPLETE.
+2. Repository verification: COMPLETE.
+3. Frozen software release/tag: COMPLETE.
+4. Version-specific GitHub release: COMPLETE.
+5. Independent SHA-256 re-download verification: COMPLETE.
+6. Publish the Zenodo software record.
+7. Confirm public DOI resolution.
+8. Insert the DOI into README, CFF, publication page, Zenodo
    metadata, manuscript, and release notes.
-10. Re-run metadata/static checks.
-11. Apply the current SoftwareX template/Guide for Authors.
-12. Export the final manuscript/submission files and complete the journal portal.
+9. Re-run metadata/static checks.
+10. Export the final manuscript/submission files and complete the journal portal.
 
 ## Submission-stop conditions
 
