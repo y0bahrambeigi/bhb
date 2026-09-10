@@ -6,13 +6,14 @@
 |---|---|---|---|---|---|---|---|
 | Android | Not provided | Not provided | Chrome, version not provided | 2026-08-24 | Yousef Bahram Beigi | PASS (user-confirmed) | PR #23 release-gate statement |
 | iPhone | iPhone 13 Pro Max | Version not recorded at test time | Safari, version not recorded | 2026-08-24 | Yousef Bahram Beigi | PASS (user-confirmed) | PR #21 and PR #23 release-gate statements |
-| Windows | Not recorded | Not recorded | Not recorded | Not run | Not recorded | PENDING | Automated Chromium QA is not a physical Windows-device test |
+| Windows | Not provided | Windows, version not provided | Not provided | Not provided | Independent user (name not provided) | PASS (user-confirmed) | Author confirmed on 2026-09-10 that another user completed the Windows PWA test successfully; detailed environment evidence was not supplied |
 
-The Android and iPhone results reflect the user's explicit confirmation that both
-physical-device tests passed. Missing model and software-version fields are retained
-as `Not provided`; they must not be inferred after the fact. The Windows row remains
-open until the same install, offline relaunch, persistence, backup/restore, and PDF
-scenario is executed on a physical Windows machine.
+The Android and iPhone results reflect the author's own physical-device confirmations. The
+Windows result reflects the author's confirmation that a separate independent user performed
+the Windows test successfully. Missing device, operating-system, browser-version, or test-date
+fields are retained as `Not provided`; they must not be inferred after the fact. For journal
+evidence, any later-supplied Windows environment details should be appended without changing
+the recorded PASS unless a rerun produces a different result.
 
 Automated browser QA covers IndexedDB image/video persistence, GPS metadata, backup/restore, a multi-page Persian A4 PDF with six nonblank thumbnails, service-worker update, retained local data, and offline relaunch.
 

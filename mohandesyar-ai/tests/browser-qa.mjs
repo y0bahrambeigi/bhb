@@ -73,11 +73,12 @@ try {
   await page.waitForFunction(() => document.querySelector("#project-count")?.textContent !== "۰");
   await page.waitForFunction(() => navigator.serviceWorker.controller);
 
-  await page.locator('[name="name"]').fill("آزمون انتشار مهندس‌یار ۲");
-  const longPersian = "این بند برای کنترل صفحه‌بندی گزارش فارسی، راست‌به‌چپ بودن متن و خوانایی خروجی PDF ثبت شده است. ".repeat(90);
-  await page.locator('#project-form [name="description"]').fill(longPersian);
-  await page.locator('[name="findings"]').fill(longPersian);
-  await page.locator('[name="recommendations"]').fill(longPersian);
+  await page.locator('[name="name"]').fill("DEMO-RC-B01 — بازرسی کنترل‌شده تیر بتن‌آرمه");
+  await page.locator('[name="projectCode"]').fill("DEMO-RC-B01");
+  const controlledCivilText = "این سناریو کاملاً مصنوعی و غیرحساس است و برای ارزیابی گردش‌کار مستندسازی یک بازدید آموزشی از تیر بتن‌آرمه تهیه شده است؛ هیچ پروژه واقعی، اطلاعات شخصی یا نشانی خصوصی در آن وجود ندارد. ".repeat(70);
+  await page.locator('#project-form [name="description"]').fill(controlledCivilText);
+  await page.locator('[name="findings"]').fill("مشاهده آموزشی: ثبت سطح تیر، وضعیت ظاهری و مدارک تصویری صرفاً برای آزمون عملکرد نرم‌افزار انجام می‌شود. " + controlledCivilText);
+  await page.locator('[name="recommendations"]').fill("توصیه آموزشی: داده‌ها فقط برای کنترل ذخیره‌سازی محلی، هش SHA-256، پشتیبان‌گیری، بازیابی، گزارش فارسی و اجرای آفلاین استفاده شوند. " + controlledCivilText);
   await page.locator("#capture-location").check();
 
   const images = Array.from({length: 6}, (_, index) => ({

@@ -1,0 +1,125 @@
+name: Publish MohandesYar AI 2.0.0
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "mohandesyar-ai/paper/INDEPENDENT_USER_TEST.md"
+      - ".github/workflows/mohandesyar-release.yml"
+    tags:
+      - "mohandesyar-ai-v2.0.0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "mohandesyar-ai-v2-release"
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: "mohandesyar-ai-v2.0.0"
+  PACKAGE_NAME: "mohandesyar-ai-2.0.0"
+
+jobs:
+  verify-package-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Require main or the canonical release tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_REF}" != "refs/heads/main" && "${GITHUB_REF}" != "refs/tags/${RELEASE_TAG}" ]]; then
+            echo "Release must run from main or ${RELEASE_TAG}."
+            exit 1
+          fi
+
+      - name: Require independent-user validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          file="mohandesyar-ai/paper/INDEPENDENT_USER_TEST.md"
+          grep -Fq "INDEPENDENT_TEST_STATUS: PASS" "${file}" || {
+            echo "Independent-user validation is not recorded as PASS."
+            exit 1
+          }
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: mohandesyar-ai/package-lock.json
+
+      - name: Install QA dependencies
+        working-directory: mohandesyar-ai
+        run: npm ci
+
+      - name: Static release validation
+        working-directory: mohandesyar-ai
+        run: npm run verify
+
+      - name: Install Chromium for browser QA
+        working-directory: mohandesyar-ai
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser release QA
+        working-directory: mohandesyar-ai
+        run: npm run qa:browser
+
+      - name: Build version-specific source archive and checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          git archive --format=zip             --prefix="${PACKAGE_NAME}/"             "${GITHUB_SHA}:mohandesyar-ai"             > "${PACKAGE_NAME}.zip"
+          sha256sum "${PACKAGE_NAME}.zip" > "${PACKAGE_NAME}.zip.sha256"
+          test -s "${PACKAGE_NAME}.zip"
+          test -s "${PACKAGE_NAME}.zip.sha256"
+          cat "${PACKAGE_NAME}.zip.sha256"
+
+      - name: Upload release evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ env.PACKAGE_NAME }}-release-evidence"
+          path: |
+            ${{ env.PACKAGE_NAME }}.zip
+            ${{ env.PACKAGE_NAME }}.zip.sha256
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Publish version-specific GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          notes_file="mohandesyar-ai/paper/RELEASE_NOTES_2.0.0.md"
+
+          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
+            echo "Release ${RELEASE_TAG} already exists; refusing to rewrite a frozen release."
+            exit 1
+          fi
+
+          gh release create "${RELEASE_TAG}"             --target "${GITHUB_SHA}"             --title "MohandesYar AI 2.0.0"             --notes-file "${notes_file}"
+
+          gh release upload "${RELEASE_TAG}"             "${PACKAGE_NAME}.zip"             "${PACKAGE_NAME}.zip.sha256"
+
+      - name: Re-download and independently verify release asset checksum
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/verify-release"
+          gh release download "${RELEASE_TAG}"             --pattern "${PACKAGE_NAME}.zip"             --dir "${RUNNER_TEMP}/verify-release"
+          expected="$(cut -d' ' -f1 "${PACKAGE_NAME}.zip.sha256")"
+          actual="$(sha256sum "${RUNNER_TEMP}/verify-release/${PACKAGE_NAME}.zip" | cut -d' ' -f1)"
+          test "${expected}" = "${actual}"
+          echo "Release asset SHA-256 verified: ${actual}"
