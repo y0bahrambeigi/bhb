@@ -13,7 +13,7 @@ authors:
   - name: Yousef Bahrambeigi
     affiliation: 1
 affiliations:
-  - name: Islamic Azad University, Iran
+  - name: Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran
     index: 1
 date: 10 September 2026
 bibliography: paper.bib
