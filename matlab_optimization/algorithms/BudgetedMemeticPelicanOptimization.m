@@ -14,10 +14,16 @@ if ~isfield(params, 'areaMoveProbability'), params.areaMoveProbability = 0.80; e
 if ~isfield(params, 'shrinkProbability'), params.shrinkProbability = 0.65; end
 if ~isfield(params, 'localSearchMinScale'), params.localSearchMinScale = 0.01; end
 if ~isfield(params, 'localSearchMaxScale'), params.localSearchMaxScale = 0.05; end
+if ~isfield(params, 'restartFraction'), params.restartFraction = 0.0; end
+if ~isfield(params, 'stagnationEvaluations')
+    params.stagnationEvaluations = max(params.popSize, round(0.06 * params.maxEvaluations));
+end
 
 validateattributes(params.popSize, {'numeric'}, {'scalar','integer','>=',2});
 validateattributes(params.maxEvaluations, {'numeric'}, {'scalar','integer','>=',params.popSize});
 validateattributes(params.localSearchTrials, {'numeric'}, {'scalar','integer','nonnegative'});
+validateattributes(params.restartFraction, {'numeric'}, {'scalar','real','finite','>=',0,'<',1});
+validateattributes(params.stagnationEvaluations, {'numeric'}, {'scalar','integer','nonnegative'});
 
 bounds = problem.getBounds();
 nVar = problem.nVar;
@@ -53,6 +59,9 @@ end
 
 [bestFit, bestIdx] = min(fitness);
 bestSol = pelicans(bestIdx, :);
+lastImprovementEvaluation = evaluationCount;
+restartCount = 0;
+restartEvaluationHistory = [];
 
 convergence = [];
 evaluationHistory = [];
@@ -101,6 +110,7 @@ while evaluationCount < params.maxEvaluations
             if candFit < bestFit
                 bestFit = candFit;
                 bestSol = candidate;
+                lastImprovementEvaluation = evaluationCount;
             end
         end
     end
@@ -152,10 +162,46 @@ while evaluationCount < params.maxEvaluations
         if candFit < bestFit
             bestFit = candFit;
             bestSol = candidate;
+            lastImprovementEvaluation = evaluationCount;
             [~, worstIdx] = max(fitness);
             pelicans(worstIdx, :) = candidate;
             fitness(worstIdx) = candFit;
         end
+    end
+
+    % Stagnation-triggered diversity restart. Restart evaluations consume the
+    % same finite-element budget, so restart variants remain directly comparable.
+    if params.restartFraction > 0 && ...
+            (evaluationCount - lastImprovementEvaluation) >= params.stagnationEvaluations
+        nRestart = max(1, round(params.restartFraction * params.popSize));
+        [~, order] = sort(fitness, 'descend');
+        restartIdx = order(1:min(nRestart, numel(order)));
+
+        for k = 1:numel(restartIdx)
+            if evaluationCount >= params.maxEvaluations, break; end
+            idx = restartIdx(k);
+            candidate = bounds.lb + rand(1, nVar) .* (bounds.ub - bounds.lb);
+            if ismethod(problem, 'projectDecision')
+                candidate = problem.projectDecision(candidate);
+            end
+
+            [candF, candG] = problem.evaluate(candidate);
+            evaluationCount = evaluationCount + 1;
+            candFit = candF + params.penaltyCoef * candG;
+
+            % Replace unconditionally to inject diversity; the elite is protected
+            % because only the current worst population members are restarted.
+            pelicans(idx, :) = candidate;
+            fitness(idx) = candFit;
+            if candFit < bestFit
+                bestFit = candFit;
+                bestSol = candidate;
+            end
+        end
+
+        restartCount = restartCount + 1;
+        restartEvaluationHistory(end + 1, 1) = evaluationCount; %#ok<AGROW>
+        lastImprovementEvaluation = evaluationCount;
     end
 
     convergence(end + 1, 1) = bestFit; %#ok<AGROW>
@@ -169,6 +215,8 @@ details.info = info;
 details.evaluationCount = evaluationCount;
 details.iterationsCompleted = iteration;
 details.evaluationHistory = evaluationHistory;
+details.restartCount = restartCount;
+details.restartEvaluationHistory = restartEvaluationHistory;
 details.isFeasible = info.isFeasible;
 details.parameters = params;
 end
