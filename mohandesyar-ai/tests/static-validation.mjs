@@ -61,7 +61,7 @@ assert.match(citation, /affiliation: "Civil Engineering, Islamic Azad University
 assert.match(license, /^MIT License/m, "The software directory must contain the actual MIT license text");
 assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);
 assert.match(manuscript, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")));
-assert.match(manuscript, /A comparable\s+physical Windows installation test is pending/);
+assert.match(manuscript, /Windows test was confirmed complete by\s+the author/);
 assert.match(manuscript, /does\s+not\s+transmit project data to an external AI inference service/);
 assert.match(printCss, /@page\{size:A4/, "The print contract must explicitly target A4");
 assert.match(printCss, /break-inside:avoid/, "Evidence and report sections must avoid clipping across pages");
