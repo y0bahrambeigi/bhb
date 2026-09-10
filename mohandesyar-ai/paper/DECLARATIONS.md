@@ -1,4 +1,4 @@
-# Publication declarations — author verification required
+# Publication declarations — author verified
 
 ## Corresponding author
 
@@ -10,20 +10,10 @@
 
 ## Funding
 
-Select and verify exactly one final statement before submission.
-
-### No specific external funding
-
 > This research did not receive any specific grant from funding agencies in the
 > public, commercial, or not-for-profit sectors.
 
-### Funded work
-
-Replace the no-funding statement with the exact funder, grant number, and role.
-
 ## Competing interests
-
-Use only if accurate:
 
 > The author declares that he has no known competing financial interests or
 > personal relationships that could have appeared to influence the work
@@ -31,7 +21,7 @@ Use only if accurate:
 
 ## CRediT authorship
 
-Proposed roles, subject to author verification:
+Author-verified roles:
 
 - Conceptualization
 - Methodology
@@ -43,8 +33,6 @@ Proposed roles, subject to author verification:
 - Writing – review & editing
 - Visualization
 - Project administration
-
-Remove any role that was not actually performed.
 
 ## Data/software availability
 
@@ -63,5 +51,4 @@ published and independently confirmed to resolve through DOI.org.
 ## Generative AI declaration
 
 The repository's canonical wording is maintained in
-`AI_USAGE_DISCLOSURE.md`. The author must verify that statement before
-submission.
+`AI_USAGE_DISCLOSURE.md` and was verified by the author on 10 September 2026.
