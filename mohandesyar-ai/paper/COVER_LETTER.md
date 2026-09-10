@@ -43,5 +43,5 @@ Sincerely,
 
 Yousef Bahrambeigi  
 Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran  
-[VERIFIED CORRESPONDING-AUTHOR EMAIL]  
-[VERIFIED ORCID]
+yousef.bahrambeigi@iau.ac.ir  
+ORCID: 0000-0002-3421-8679
