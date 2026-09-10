@@ -59,7 +59,7 @@ TAGS = [
     "software engineering",
     "technical reporting",
 ]
-CATEGORY_NAMES = ["Civil engineering", "Software engineering"]
+CATEGORY_NAMES = ["Civil engineering"]
 
 
 def fail(message: str) -> None:
