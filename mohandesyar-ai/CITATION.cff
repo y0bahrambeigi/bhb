@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use MohandesYar AI in research, teaching, or professional studies, cite this public release. An archival DOI will be added only after it is publicly resolvable."
+message: "If you use MohandesYar AI in research, teaching, or professional studies, cite the archived version 2.0.0 release using DOI 10.6084/m9.figshare.33511795.v1."
 title: "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting"
 type: software
 authors:
@@ -10,6 +10,7 @@ authors:
     orcid: "https://orcid.org/0000-0002-3421-8679"
 version: "2.0.0"
 date-released: "2026-09-10"
+doi: "10.6084/m9.figshare.33511795.v1"
 repository-code: "https://github.com/y0bahrambeigi/bhb/tree/mohandesyar-ai-v2.0.0/mohandesyar-ai"
 url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/"
 license: MIT
@@ -30,7 +31,7 @@ keywords:
   - geolocation
   - evidence integrity
 preferred-citation:
-  type: report
+  type: software
   title: "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting"
   authors:
     - family-names: "Bahrambeigi"
@@ -38,7 +39,7 @@ preferred-citation:
       affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
       email: "yousef.bahrambeigi@iau.ac.ir"
       orcid: "https://orcid.org/0000-0002-3421-8679"
+  version: "2.0.0"
   year: 2026
-  url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/"
-  publisher:
-    name: "BHB Smart Structures Lab"
+  doi: "10.6084/m9.figshare.33511795.v1"
+  url: "https://doi.org/10.6084/m9.figshare.33511795.v1"
