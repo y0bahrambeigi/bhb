@@ -63,6 +63,10 @@ assert.equal(zenodoMetadata.metadata.creators[0].affiliation, "Civil Engineering
 assert.match(citation, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 assert.match(citation, /affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"/);
 assert.match(citation, /mohandesyar-ai-v2\.0\.0/, "CITATION.cff must point to the frozen release");
+assert.match(citation, /0000-0002-3421-8679/, "Verified ORCID must remain in CITATION.cff");
+assert.match(citation, /yousef\.bahrambeigi@iau\.ac\.ir/, "Verified academic email must remain in CITATION.cff");
+assert.match(manuscript, /0000-0002-3421-8679/, "Verified ORCID must remain in manuscript metadata");
+assert.match(manuscript, /yousef\.bahrambeigi@iau\.ac\.ir/, "Verified academic email must remain in manuscript metadata");
 assert.match(manuscript, /9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173/, "Manuscript must record the verified release SHA-256");
 assert.match(license, /^MIT License/m, "The software directory must contain the actual MIT license text");
 assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);

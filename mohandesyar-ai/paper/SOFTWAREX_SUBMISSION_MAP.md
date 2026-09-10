@@ -8,7 +8,7 @@ before upload because journal requirements can change.
 
 | Submission element | Repository source | Status |
 |---|---|---|
-| Title and authorship | `paper.md` | Draft complete; email/ORCID pending verification |
+| Title and authorship | `paper.md` | Complete; corresponding email and ORCID verified |
 | Abstract | `paper.md` | Complete |
 | Keywords | `paper.md` | Complete |
 | Code/software metadata | `paper.md`, README, CFF, package.json, release metadata | Two SoftwareX metadata tables complete; DOI pending |
@@ -27,7 +27,7 @@ before upload because journal requirements can change.
 | Highlights | `HIGHLIGHTS.md` | Draft complete |
 | Cover letter | `COVER_LETTER.md` | Draft complete |
 | Release notes | `RELEASE_NOTES_2.0.0.md` | Complete |
-| Zenodo metadata | `ZENODO_METADATA.md` and publication JSON | Complete except DOI/ORCID |
+| Zenodo metadata | `ZENODO_METADATA.md` and publication JSON | Complete except public DOI |
 
 ## Final freeze sequence
 

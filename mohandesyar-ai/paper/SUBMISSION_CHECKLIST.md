@@ -7,7 +7,7 @@
 - [x] Version is 2.0.0.
 - [x] An actual MIT `LICENSE` file is present in the submitted software directory.
 - [x] Affiliation cross-checked against public academic profiles: Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran.
-- [ ] Add author email and ORCID where required by the selected journal.
+- [x] Verified corresponding-author email added: `yousef.bahrambeigi@iau.ac.ir`; verified ORCID added: `0000-0002-3421-8679`.
 
 ## Gate 2 — reproducible release
 
