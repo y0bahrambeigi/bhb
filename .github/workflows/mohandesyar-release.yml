@@ -3,6 +3,11 @@ name: Publish MohandesYar AI 2.0.0
 on:
   workflow_dispatch:
   push:
+    branches:
+      - "main"
+    paths:
+      - "mohandesyar-ai/paper/INDEPENDENT_USER_TEST.md"
+      - ".github/workflows/mohandesyar-release.yml"
     tags:
       - "mohandesyar-ai-v2.0.0"
 
@@ -98,12 +103,13 @@ jobs:
           notes_file="mohandesyar-ai/paper/RELEASE_NOTES_2.0.0.md"
 
           if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
-            gh release edit "${RELEASE_TAG}"               --title "MohandesYar AI 2.0.0"               --notes-file "${notes_file}"
-          else
-            gh release create "${RELEASE_TAG}"               --target "${GITHUB_SHA}"               --title "MohandesYar AI 2.0.0"               --notes-file "${notes_file}"
+            echo "Release ${RELEASE_TAG} already exists; refusing to rewrite a frozen release."
+            exit 1
           fi
 
-          gh release upload "${RELEASE_TAG}"             "${PACKAGE_NAME}.zip"             "${PACKAGE_NAME}.zip.sha256"             --clobber
+          gh release create "${RELEASE_TAG}"             --target "${GITHUB_SHA}"             --title "MohandesYar AI 2.0.0"             --notes-file "${notes_file}"
+
+          gh release upload "${RELEASE_TAG}"             "${PACKAGE_NAME}.zip"             "${PACKAGE_NAME}.zip.sha256"
 
       - name: Re-download and independently verify release asset checksum
         env:
