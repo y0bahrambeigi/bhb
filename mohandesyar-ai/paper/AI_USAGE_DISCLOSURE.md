@@ -35,7 +35,10 @@ external AI inference service. The term "AI" is part of the product name.
 
 ## Pre-submission author verification
 
-- [ ] Verify that the description above matches the author's actual use.
-- [ ] Confirm that every reported software result is supported by test evidence.
-- [ ] Confirm originality, licensing, privacy, and research-integrity compliance.
-- [ ] Keep unverified model versions or dates out of the submitted statement.
+- [x] Author verified that the description above matches the actual use.
+- [x] Author confirmed that reported software results are supported by the recorded test evidence.
+- [x] Author confirmed originality, licensing, privacy, and research-integrity responsibility.
+- [x] Unverified model versions or dates remain excluded from the submitted statement.
+
+
+Author verification date: 10 September 2026.
