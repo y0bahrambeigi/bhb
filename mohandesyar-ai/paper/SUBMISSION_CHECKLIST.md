@@ -28,7 +28,7 @@
 - [x] Configure the private `FIGSHARE_TOKEN` secret in GitHub Actions; the value remains masked and is not committed.
 - [x] Run the Figshare workflow with publication enabled; item 33511795 published successfully with version DOI `10.6084/m9.figshare.33511795.v1`.
 - [x] Confirm publication-side metadata and the account-assigned Structural engineering category; Figshare returned the public item and version DOI.
-- [ ] Confirm that the DataCite DOI resolves through `doi.org` without authentication.
+- [x] Confirmed the version DOI resolves through `doi.org` without authentication (HTTP 200 in GitHub Actions run 34433833072 on 10 September 2026).
 - [x] Propagate version DOI `10.6084/m9.figshare.33511795.v1` to `CITATION.cff`, README, publication page, release notes, declarations, cover letter, and manuscript.
 - [x] Preserve the frozen release ZIP checksum unchanged; no archived ZIP or technical-report PDF bytes were modified by DOI metadata synchronization.
 - [ ] Optionally publish a matching Zenodo archive later as a secondary archive; do not cite any reserved or draft DOI.
@@ -56,7 +56,7 @@
 - [x] Cover letter, highlights, independent-user protocol, and SoftwareX submission map are drafted.
 - [x] Final English-language and technical review completed after DOI/release freeze; abstract, metadata tables, terminology, limitations, highlights, and software citation were checked.
 - [x] Author confirmed that no private project data, precise private GPS coordinates, credentials, or personal media are included in the public submission materials.
-- [ ] Submit through the SoftwareX portal after independent DOI.org resolution is confirmed and the final upload files are exported.
+- [x] Submission package is technically ready: DOI.org resolution confirmed and editable Word upload files generated/verified. Final portal submission remains an author action.
 
 ## Recommended venue order
 
