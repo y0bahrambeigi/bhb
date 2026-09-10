@@ -96,6 +96,13 @@ npm run verify
 - فراداده استناد نرم‌افزار: [CITATION.cff](CITATION.cff)
 - پیش‌نویس مقاله نرم‌افزاری: [paper/paper.md](paper/paper.md)
 - چک‌لیست آمادگی ارسال: [paper/SUBMISSION_CHECKLIST.md](paper/SUBMISSION_CHECKLIST.md)
+- نقشه ارسال SoftwareX: [paper/SOFTWAREX_SUBMISSION_MAP.md](paper/SOFTWAREX_SUBMISSION_MAP.md)
+- پروتکل آزمون کاربر مستقل: [paper/INDEPENDENT_USER_TEST.md](paper/INDEPENDENT_USER_TEST.md)
+- Highlights مقاله: [paper/HIGHLIGHTS.md](paper/HIGHLIGHTS.md)
+- Cover Letter: [paper/COVER_LETTER.md](paper/COVER_LETTER.md)
+- اظهارنامه‌های انتشار: [paper/DECLARATIONS.md](paper/DECLARATIONS.md)
+- Release Notes نسخه 2.0.0: [paper/RELEASE_NOTES_2.0.0.md](paper/RELEASE_NOTES_2.0.0.md)
+- بسته فراداده Zenodo: [paper/ZENODO_METADATA.md](paper/ZENODO_METADATA.md)
 - مجوز نرم‌افزار: [MIT License](LICENSE)
 - وضعیت DOI: **در انتظار انتشار عمومی و فعال‌شدن در Zenodo/DOI.org**؛ هیچ شناسه رزروشده یا غیرفعالی نباید استناد شود.
 
