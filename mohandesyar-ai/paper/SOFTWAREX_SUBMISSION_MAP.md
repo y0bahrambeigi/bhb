@@ -19,10 +19,10 @@ before upload because journal requirements can change.
 | Impact/research use | `paper.md` | Complete with conservative claims |
 | Limitations | `paper.md` | Complete |
 | Data/software availability | release + Zenodo metadata | GitHub release/checksum complete; Zenodo DOI pending |
-| AI declaration | `AI_USAGE_DISCLOSURE.md` | Draft complete; author verification required |
-| CRediT contribution roles | submission declarations | Author verification required |
-| Funding statement | submission declarations | Author verification required |
-| Competing-interest statement | submission declarations | Author verification required |
+| AI declaration | `AI_USAGE_DISCLOSURE.md` | Complete; author verified |
+| CRediT contribution roles | submission declarations | Complete; author verified |
+| Funding statement | submission declarations | Complete; no specific external funding, author verified |
+| Competing-interest statement | submission declarations | Complete; no known competing interests, author verified |
 | Independent-user evidence | `INDEPENDENT_USER_TEST.md` | PASS; author-confirmed independent Windows user |
 | Highlights | `HIGHLIGHTS.md` | Draft complete |
 | Cover letter | `COVER_LETTER.md` | Draft complete |
@@ -52,5 +52,4 @@ Do not submit while any of the following is true:
 - the DOI is reserved/draft or fails public resolution;
 - the release checksum has not been independently verified;
 - the corresponding-author email or ORCID is guessed rather than verified;
-- funding, conflict-of-interest, CRediT, or AI declarations remain unreviewed;
 - repository CI is failing.

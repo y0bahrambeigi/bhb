@@ -42,14 +42,14 @@
 ## Gate 5 — declarations and submission
 
 - [x] Elsevier-ready AI declaration drafted with tool/service, purpose, human oversight, responsibility, and research-process disclosure where code assistance is material.
-- [ ] Author must verify the declaration before submission; unrecorded model versions or dates must not be invented.
+- [x] Author verified the AI declaration on 10 September 2026; unrecorded model versions or dates remain excluded.
 - [x] Funding, conflict-of-interest, data-availability, and CRediT statement templates are drafted in `paper/DECLARATIONS.md`.
-- [ ] Author must verify the final funding, conflict-of-interest, data-availability, and CRediT statements.
+- [x] Author verified the final no-specific-funding statement, no-known-competing-interests statement, data/software availability statement, and proposed CRediT roles on 10 September 2026.
 - [x] Primary journal selected: SoftwareX.
 - [x] Manuscript structure aligned with the current SoftwareX OSP template: separate code/software metadata tables plus Motivation and significance, Software description, Illustrative example, Impact, and Conclusions. Final DOI field remains pending.
 - [x] Cover letter, highlights, independent-user protocol, and SoftwareX submission map are drafted.
 - [ ] Run the final English-language and technical review after DOI/release fields are frozen.
-- [ ] Confirm that no private project data, precise GPS coordinates, credentials, or personal media are included.
+- [x] Author confirmed that no private project data, precise private GPS coordinates, credentials, or personal media are included in the public submission materials.
 - [ ] Submit only after all mandatory items above are checked and supporting evidence is public.
 
 ## Recommended venue order

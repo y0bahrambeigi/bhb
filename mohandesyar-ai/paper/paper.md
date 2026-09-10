@@ -254,6 +254,24 @@ The release ZIP SHA-256 is
 A Zenodo DOI will be inserted only after the archival record is publicly
 published and independently confirmed to resolve through DOI.org.
 
+
+# CRediT authorship contribution statement
+
+**Yousef Bahrambeigi:** Conceptualization; Methodology; Software; Validation;
+Investigation; Data curation; Writing - original draft; Writing - review &
+editing; Visualization; Project administration.
+
+# Funding
+
+This research did not receive any specific grant from funding agencies in the
+public, commercial, or not-for-profit sectors.
+
+# Declaration of competing interest
+
+The author declares that he has no known competing financial interests or
+personal relationships that could have appeared to influence the work reported
+in this paper.
+
 # Declaration of generative AI and AI-assisted technologies in the manuscript preparation process
 
 During the preparation of this work, the author used OpenAI ChatGPT and Codex
