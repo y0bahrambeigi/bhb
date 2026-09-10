@@ -19,8 +19,8 @@ testing, a controlled synthetic civil-engineering example, and an
 author-confirmed independent-user Windows validation. The exact software
 version described by the manuscript is frozen in the public GitHub Release
 `mohandesyar-ai-v2.0.0`; its published ZIP was independently re-downloaded and
-verified against its SHA-256 checksum. A Zenodo archival DOI will be added only
-after the public record resolves successfully.
+verified against its SHA-256 checksum. The same version is publicly archived
+on Figshare as item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1**.
 
 The manuscript explicitly documents important limitations. The application does
 not provide trusted timestamps, organizational identity management, server-side
@@ -37,7 +37,7 @@ interpretation, originality, licensing, and final text.
 The manuscript is original and is not intended for simultaneous submission
 elsewhere. The software and non-sensitive supporting materials described in the
 article are publicly available under the MIT License in the version-specific
-GitHub release.
+GitHub release and the Figshare archival record.
 
 Sincerely,
 
