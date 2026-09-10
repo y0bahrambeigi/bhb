@@ -36,6 +36,21 @@ management system, a trusted timestamping service, or a legally recognized
 chain of custody. The term *AI* is part of the product name; version 2.0.0 does
 not transmit project data to an external AI inference service.
 
+# Code and software metadata
+
+| Metadata item | MohandesYar AI 2.0 |
+|---|---|
+| Current code/software version | 2.0.0 |
+| Permanent version-specific repository link | To be inserted after the frozen GitHub release is published |
+| Archival record | To be inserted only after the public Zenodo DOI resolves |
+| License | MIT |
+| Version control | Git / GitHub |
+| Languages and web technologies | HTML5, CSS, JavaScript, IndexedDB, Service Worker, Web Crypto, Geolocation |
+| Test/development dependencies | Playwright 1.62.1 and pdf-lib 1.17.1 |
+| Runtime environment | Modern browser with required PWA, IndexedDB and Service Worker support |
+| User/developer documentation | Repository README, manual QA record, release notes and submission package |
+| Support contact | Verified corresponding-author/support email to be inserted before submission |
+
 # Statement of need
 
 Field documentation in civil engineering may have to be performed where
