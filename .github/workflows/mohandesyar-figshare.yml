@@ -16,6 +16,7 @@ on:
       - "main"
     paths:
       - ".github/workflows/mohandesyar-figshare.yml"
+      - "mohandesyar-ai/scripts/publish_figshare.py"
 
 permissions:
   contents: read
