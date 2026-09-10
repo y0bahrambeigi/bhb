@@ -6,7 +6,7 @@
 - [x] Author is listed as Yousef Bahrambeigi.
 - [x] Version is 2.0.0.
 - [x] An actual MIT `LICENSE` file is present in the submitted software directory.
-- [ ] Confirm the precise university branch/campus and department for the affiliation.
+- [x] Affiliation cross-checked against public academic profiles: Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran.
 - [ ] Add author email and ORCID where required by the selected journal.
 
 ## Gate 2 — reproducible release
@@ -14,7 +14,8 @@
 - [x] Run `npm ci` in `mohandesyar-ai` ([GitHub Actions run 17](https://github.com/y0bahrambeigi/bhb/actions/runs/34418861786)).
 - [x] Run `npm run verify` ([GitHub Actions run 17](https://github.com/y0bahrambeigi/bhb/actions/runs/34418861786)).
 - [x] Run `npm run qa:browser` in the supported release environment ([GitHub Actions run 17](https://github.com/y0bahrambeigi/bhb/actions/runs/34418861786)).
-- [ ] Complete the physical Windows PWA test and update `tests/MANUAL-QA.md`.
+- [x] Physical Windows PWA test completed and recorded as user-confirmed PASS in `tests/MANUAL-QA.md`.
+- [ ] Append exact Windows device/OS/browser version and original test date if those details become available; do not infer them.
 - [ ] Create the version-specific tag `mohandesyar-ai-v2.0.0` from the verified commit.
 - [ ] Publish a GitHub release with source archives, release notes, and SHA-256 evidence.
 - [ ] Download the release independently and verify its SHA-256 digest.
@@ -33,16 +34,18 @@
 - [x] Software architecture and limitations are described without legal or safety overclaiming.
 - [x] Automated QA scope is described.
 - [x] Android and iPhone results are distinguished from the pending Windows test.
-- [ ] Add at least one controlled civil-engineering example with shareable, non-sensitive test data.
-- [ ] Add a compact comparison table covering at least three relevant alternatives.
+- [x] Controlled synthetic reinforced-concrete inspection example added to the browser QA workflow and manuscript (`DEMO-RC-B01`).
+- [x] Compact comparison table added for QField, ODK Collect, and KoboCollect with official-documentation references.
 - [ ] Obtain an independent installation/test report from a user outside the development workflow.
 - [ ] Verify every reference, URL, version, and access date.
 
 ## Gate 5 — declarations and submission
 
-- [ ] Complete the AI usage disclosure with exact tools, model versions, dates, and scope.
+- [x] Elsevier-ready AI declaration drafted with tool/service, purpose, human oversight, responsibility, and research-process disclosure where code assistance is material.
+- [ ] Author must verify the declaration before submission; unrecorded model versions or dates must not be invented.
 - [ ] Complete funding, conflict-of-interest, data-availability, and author-contribution statements.
-- [ ] Select the journal and apply its exact template and word limit.
+- [x] Primary journal selected: SoftwareX.
+- [ ] Apply the current SoftwareX submission template after release/DOI fields are frozen.
 - [ ] Run a final English-language and technical review.
 - [ ] Confirm that no private project data, precise GPS coordinates, credentials, or personal media are included.
 - [ ] Submit only after all mandatory items above are checked and supporting evidence is public.
