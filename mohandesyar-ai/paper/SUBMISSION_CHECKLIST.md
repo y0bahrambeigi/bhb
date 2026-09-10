@@ -46,7 +46,7 @@
 - [x] Funding, conflict-of-interest, data-availability, and CRediT statement templates are drafted in `paper/DECLARATIONS.md`.
 - [ ] Author must verify the final funding, conflict-of-interest, data-availability, and CRediT statements.
 - [x] Primary journal selected: SoftwareX.
-- [ ] Apply the current SoftwareX submission template after release/DOI fields are frozen.
+- [x] Manuscript structure aligned with the current SoftwareX OSP template: separate code/software metadata tables plus Motivation and significance, Software description, Illustrative example, Impact, and Conclusions. Final DOI field remains pending.
 - [x] Cover letter, highlights, independent-user protocol, and SoftwareX submission map are drafted.
 - [ ] Run the final English-language and technical review after DOI/release fields are frozen.
 - [ ] Confirm that no private project data, precise GPS coordinates, credentials, or personal media are included.
