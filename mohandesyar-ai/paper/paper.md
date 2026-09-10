@@ -32,7 +32,7 @@ Persian A4 reports. The public release is a static web application with no
 runtime server dependency and does not transmit project data to an external AI
 inference service. Release validation combines automated static checks,
 browser-based end-to-end tests, physical-device checks, and an
-author-confirmed independent Windows-user test. A controlled reinforced-concrete
+independent-user Windows test confirmed by the author. A controlled reinforced-concrete
 inspection scenario demonstrates evidence persistence, hash verification,
 backup/restore, Persian reporting, service-worker update retention, and offline
 relaunch. The software is intended for research, teaching, and practical
@@ -48,7 +48,7 @@ application; offline-first; Persian RTL; evidence integrity
 |---|---|---|
 | C1 | Current code version | 2.0.0 |
 | C2 | Permanent link to code/repository used for this code version | https://github.com/y0bahrambeigi/bhb/tree/mohandesyar-ai-v2.0.0/mohandesyar-ai |
-| C3 | Permanent link to Reproducible Capsule | N/A; version-specific GitHub release and public CI evidence are used instead |
+| C3 | Permanent link to Reproducible Capsule | N/A |
 | C4 | Legal Code License | MIT License |
 | C5 | Code versioning system used | Git |
 | C6 | Software code languages, tools, and services used | HTML5, CSS, JavaScript, IndexedDB, Service Worker, Web Crypto API, Geolocation API |
@@ -164,7 +164,7 @@ reconstructed after the fact. The evidence is described as author-confirmed
 independent-user validation, not as signed third-party certification.
 
 The frozen release is `mohandesyar-ai-v2.0.0`, published on 10 September
-2026. Its version-specific ZIP has SHA-256
+2026 [@mohandesyar2026software]. Its version-specific ZIP has SHA-256
 `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
 The release workflow independently re-downloaded the published archive and
 verified the checksum.
@@ -259,9 +259,9 @@ notes, and checksum evidence are included in the public repository.
 The release ZIP SHA-256 is
 `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
 The same frozen version 2.0.0 software archive is published on Figshare as
-item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1**. The version-specific DOI is used
-here so that the software artifact described by this manuscript remains
-unambiguous if later Figshare versions are created.
+item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1** [@mohandesyar2026software].
+The version-specific DOI is used so that the software artifact described by
+this manuscript remains unambiguous if later Figshare versions are created.
 
 
 # CRediT authorship contribution statement
@@ -295,7 +295,6 @@ inference service.
 
 # Acknowledgements
 
-The author acknowledges the civil-engineering and software-testing context used
-to refine and validate the public release.
+No additional acknowledgements.
 
 # References

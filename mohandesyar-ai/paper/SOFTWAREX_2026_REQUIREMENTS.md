@@ -85,9 +85,15 @@ following explicit:
 
 ## Current unresolved items
 
-- Publicly resolving Zenodo DOI.
-- Verified corresponding-author/support email.
-- Verified ORCID if available/required.
-- Author verification of final funding, competing-interest, CRediT, and AI
-  declarations.
+- Independent confirmation that DOI.org resolves `10.6084/m9.figshare.33511795.v1` after registry propagation.
 - Final submission-portal entry and upload.
+
+## Final preparation checks completed
+
+- Corresponding-author/support email verified.
+- ORCID verified.
+- Funding, competing-interest, CRediT, and AI declarations author-verified.
+- Five highlights are within Elsevier's 85-character limit.
+- Abstract is concise and contains no citations.
+- SoftwareX code and software metadata tables are complete.
+- Frozen GitHub release and Figshare archival DOI are recorded.

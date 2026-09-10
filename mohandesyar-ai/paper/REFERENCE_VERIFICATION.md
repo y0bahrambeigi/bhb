@@ -16,6 +16,8 @@ The comparison table remains deliberately conservative. Features not directly
 evaluated for the comparison tools are stated as `Not evaluated` rather than
 being treated as absent.
 
-No Zenodo DOI for MohandesYar AI 2.0 was publicly discoverable during the same
-check. Do not replace the pending DOI text with a reserved, draft, or inferred
-identifier.
+MohandesYar AI 2.0.0 was subsequently archived on Figshare as item 33511795.
+The repository publication workflow returned the version DOI
+`10.6084/m9.figshare.33511795.v1`. Independent DOI.org resolution remains a separate propagation check;
+the manuscript uses the version-specific Figshare DOI rather than a reserved or
+inferred identifier.
