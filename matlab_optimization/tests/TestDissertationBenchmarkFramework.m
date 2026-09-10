@@ -58,6 +58,33 @@ assert(all(best1 == best2) && abs(fit1 - fit2) < 1e-10, ...
 assert(max(abs(conv1 - conv2)) < 1e-10, ...
     'Seeded 25-bar convergence history must be reproducible.');
 
+budgetParams.popSize = 10;
+budgetParams.maxEvaluations = 120;
+budgetParams.penaltyCoef = 1e7;
+budgetParams.levyScale = 0.01;
+budgetParams.localSearchTrials = 0;
+rng(2026, 'twister');
+[budgetBest1, budgetFit1, ~, budgetDetails1] = ...
+    BudgetedMemeticPelicanOptimization(p, budgetParams);
+rng(2026, 'twister');
+[budgetBest2, budgetFit2, ~, budgetDetails2] = ...
+    BudgetedMemeticPelicanOptimization(p, budgetParams);
+assert(budgetDetails1.evaluationCount == budgetParams.maxEvaluations, ...
+    'Budgeted POA must consume exactly the declared FE budget.');
+assert(all(budgetBest1 == budgetBest2) && abs(budgetFit1 - budgetFit2) < 1e-10, ...
+    'Budgeted POA must be reproducible for a fixed seed.');
+assert(budgetDetails2.evaluationCount == budgetParams.maxEvaluations, ...
+    'Repeated budgeted POA run changed the FE budget.');
+
+budgetParams.localSearchTrials = 3;
+rng(2026, 'twister');
+[budgetBestLS, ~, ~, budgetDetailsLS] = ...
+    BudgetedMemeticPelicanOptimization(p, budgetParams);
+assert(budgetDetailsLS.evaluationCount == budgetParams.maxEvaluations, ...
+    'POA+LS must use exactly the same FE budget as POA.');
+assert(all(budgetBestLS == round(budgetBestLS)), ...
+    'Discrete local search must preserve catalog-index decisions.');
+
 tmpFile1 = fullfile(tempdir(), 'surrogate-25bar-a.csv');
 tmpFile2 = fullfile(tempdir(), 'surrogate-25bar-b.csv');
 data1 = GenerateSurrogateDataset(p, '25-bar', 12, 2026, tmpFile1);
