@@ -4,9 +4,12 @@
 
 - Product: MohandesYar AI
 - Version: 2.0.0
-- Intended tag: `mohandesyar-ai-v2.0.0`
+- Tag: `mohandesyar-ai-v2.0.0`
 - License: MIT
-- Release commit: tag the final verified/frozen commit only
+- Release commit: `3296a372eb3d8d6c172b7f24477dcf946229f3de`
+- Published: 2026-09-10
+- Release archive: `mohandesyar-ai-2.0.0.zip`
+- Release archive SHA-256: `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
 - Archival DOI: add only after the Zenodo record is public and resolves through DOI.org
 
 ## Highlights
@@ -25,8 +28,17 @@ updates, and offline relaunch.
 - iPhone physical-device test: PASS (user-confirmed)
 - Windows physical-device test: PASS (user-confirmed)
 - Controlled civil-engineering QA scenario: `DEMO-RC-B01`
-- Independent-user validation: required before journal submission unless the
-  independent tester is explicitly documented elsewhere
+- Independent-user Windows validation: PASS (author-confirmed; tester/environment details not reconstructed)
+
+## Release verification
+
+The published release ZIP was re-downloaded by CI and its SHA-256 digest was
+verified against the release checksum:
+
+`9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
+
+This checksum belongs to the software release archive and must not be confused
+with the checksum of the separate technical-report PDF.
 
 ## Important limitations
 
@@ -37,13 +49,9 @@ or automatic authority submission. The term "AI" is part of the product name;
 version 2.0.0 does not transmit project data to an external AI inference
 service.
 
-## Release checksum procedure
+## Zenodo archival step
 
-After publishing the GitHub release:
-
-1. Download the release asset independently.
-2. Calculate SHA-256 for the exact downloaded asset.
-3. Store the digest in `SHA256SUMS` or the release evidence record.
-4. Re-download once and verify the digest before publishing the DOI.
-5. Do not reuse the technical-report PDF checksum as the software-release
-   archive checksum.
+The GitHub release is frozen and available for archival. The remaining archival
+gate is publication of the corresponding Zenodo software record and independent
+confirmation that its DOI resolves publicly. Do not cite a reserved, draft, or
+non-resolving DOI.
