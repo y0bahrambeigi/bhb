@@ -1,0 +1,52 @@
+name: Publish MohandesYar 2.0.0 to Figshare
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish the Figshare item after reserving its DOI"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mohandesyar-figshare-doi
+  cancel-in-progress: false
+
+jobs:
+  figshare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout frozen publication sources
+        uses: actions/checkout@v6
+
+      - name: Require Figshare API token
+        shell: bash
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${FIGSHARE_TOKEN}" ]]; then
+            echo "FIGSHARE_TOKEN repository secret is not configured."
+            exit 1
+          fi
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install API dependency
+        run: python -m pip install --disable-pip-version-check requests==2.32.5
+
+      - name: Verify release and publish Figshare record
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+          FIGSHARE_PUBLISH: ${{ inputs.publish }}
+        run: python mohandesyar-ai/scripts/publish_figshare.py
