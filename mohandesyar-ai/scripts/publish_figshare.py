@@ -158,14 +158,12 @@ def find_existing() -> dict[str, Any] | None:
 
 
 def create_or_update_article() -> dict[str, Any]:
-    categories = get_categories()
     license_id = get_mit_license_id()
     payload = {
         "title": TITLE,
         "description": DESCRIPTION,
         "tags": TAGS,
         "references": [RELEASE_PAGE, APP_URL, ORCID_URL],
-        "categories": categories,
         "authors": [{"name": AUTHOR}],
         "defined_type": "software",
         "license": license_id,
