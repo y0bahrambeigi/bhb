@@ -22,11 +22,16 @@
 
 ## Gate 3 — archive and DOI
 
-- [ ] Publish the Zenodo record; do not cite a reserved or draft DOI.
-- [ ] Confirm that the public metadata matches title, author, affiliation, version, year, and license.
-- [ ] Confirm that the DOI resolves through `doi.org` without authentication.
+- [x] Prepare canonical Figshare deposit metadata in `paper/FIGSHARE_METADATA.md`.
+- [x] Add a repeatable Figshare API publication script that verifies the frozen GitHub release SHA-256 before upload.
+- [x] Add a manual GitHub Actions workflow for authenticated Figshare DOI reservation/publication using the `FIGSHARE_TOKEN` repository secret.
+- [ ] Configure the private `FIGSHARE_TOKEN` secret in GitHub Actions; never commit or print the token.
+- [ ] Run the Figshare workflow with publication enabled and make the item public.
+- [ ] Confirm that the public Figshare metadata matches title, author, affiliation, ORCID, version, year, categories, and MIT license.
+- [ ] Confirm that the DataCite DOI resolves through `doi.org` without authentication.
 - [ ] Add the verified DOI to `CITATION.cff`, README, publication page, release notes, and manuscript.
 - [ ] Regenerate affected checksums after metadata or PDF changes.
+- [ ] Optionally publish a matching Zenodo archive later as a secondary archive; do not cite any reserved or draft DOI.
 
 ## Gate 4 — manuscript evidence
 
