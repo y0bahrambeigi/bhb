@@ -42,11 +42,10 @@ Author-verified roles:
 > https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0.
 > The release ZIP SHA-256 is
 > `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
+> The frozen version 2.0.0 software archive is also publicly archived on
+> Figshare as item 33511795 with version DOI `10.6084/m9.figshare.33511795.v1`.
 > No confidential construction-project records, personal media, credentials, or
 > precise private geolocation data are included in the public materials.
-
-A Zenodo DOI must be appended only after the archival record is publicly
-published and independently confirmed to resolve through DOI.org.
 
 ## Generative AI declaration
 
