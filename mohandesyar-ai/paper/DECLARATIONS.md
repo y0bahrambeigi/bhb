@@ -14,7 +14,7 @@ Select and verify exactly one final statement before submission.
 
 ### No specific external funding
 
-> This research received no specific grant from any funding agency in the
+> This research did not receive any specific grant from funding agencies in the
 > public, commercial, or not-for-profit sectors.
 
 ### Funded work
@@ -50,11 +50,15 @@ Remove any role that was not actually performed.
 
 > The source code, test procedures, controlled synthetic example, release
 > artifacts, and checksum evidence for MohandesYar AI 2.0 are publicly available
-> in the version-specific GitHub release and associated Zenodo archival record.
+> in the version-specific GitHub release:
+> https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0.
+> The release ZIP SHA-256 is
+> `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
 > No confidential construction-project records, personal media, credentials, or
-> precise private geolocation data are included in the archived materials.
+> precise private geolocation data are included in the public materials.
 
-Insert the final release URL and publicly resolving DOI before submission.
+A Zenodo DOI must be appended only after the archival record is publicly
+published and independently confirmed to resolve through DOI.org.
 
 ## Generative AI declaration
 
