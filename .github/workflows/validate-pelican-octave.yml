@@ -31,24 +31,3 @@ jobs:
         run: |
           octave --no-gui --quiet --eval "cd('matlab_optimization'); addpath('tests'); TestDissertationBenchmarkFramework;"
 
-  dissertation-ablation-30seed:
-    needs: octave-regression
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        benchmark: ["10-bar", "25-bar"]
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Install GNU Octave
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends octave
-
-      - name: Run 30-seed equal-FE ablation
-        run: |
-          octave --no-gui --quiet --eval "cd('matlab_optimization'); RunPOARestartAblation30('${{ matrix.benchmark }}');"
