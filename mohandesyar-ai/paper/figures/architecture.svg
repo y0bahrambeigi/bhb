@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">MohandesYar AI 2.0 architecture</title>
+  <desc id="desc">Architecture overview showing the user interface, browser APIs, IndexedDB, service worker, integrity metadata, backup restore, and Persian A4 reporting.</desc>
+  <rect width="1200" height="720" fill="white"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#111" stroke="#111" stroke-width="2">
+    <text x="600" y="48" text-anchor="middle" font-size="30" font-weight="700" stroke="none">MohandesYar AI 2.0 — Local-First Architecture</text>
+
+    <rect x="420" y="90" width="360" height="90" rx="14" fill="white"/>
+    <text x="600" y="125" text-anchor="middle" font-size="24" font-weight="700" stroke="none">Persian RTL PWA Interface</text>
+    <text x="600" y="156" text-anchor="middle" font-size="18" stroke="none">Project dossiers • field evidence • offline workflow</text>
+
+    <rect x="70" y="260" width="280" height="110" rx="14" fill="white"/>
+    <text x="210" y="300" text-anchor="middle" font-size="22" font-weight="700" stroke="none">Browser APIs</text>
+    <text x="210" y="332" text-anchor="middle" font-size="17" stroke="none">Geolocation • Web Crypto</text>
+    <text x="210" y="356" text-anchor="middle" font-size="17" stroke="none">File/media handling</text>
+
+    <rect x="460" y="260" width="280" height="110" rx="14" fill="white"/>
+    <text x="600" y="300" text-anchor="middle" font-size="22" font-weight="700" stroke="none">IndexedDB</text>
+    <text x="600" y="332" text-anchor="middle" font-size="17" stroke="none">Project metadata</text>
+    <text x="600" y="356" text-anchor="middle" font-size="17" stroke="none">Original image/video blobs</text>
+
+    <rect x="850" y="260" width="280" height="110" rx="14" fill="white"/>
+    <text x="990" y="300" text-anchor="middle" font-size="22" font-weight="700" stroke="none">Service Worker</text>
+    <text x="990" y="332" text-anchor="middle" font-size="17" stroke="none">Application-shell cache</text>
+    <text x="990" y="356" text-anchor="middle" font-size="17" stroke="none">Offline relaunch</text>
+
+    <rect x="70" y="500" width="280" height="110" rx="14" fill="white"/>
+    <text x="210" y="540" text-anchor="middle" font-size="22" font-weight="700" stroke="none">Integrity Metadata</text>
+    <text x="210" y="572" text-anchor="middle" font-size="17" stroke="none">Per-evidence SHA-256</text>
+    <text x="210" y="596" text-anchor="middle" font-size="17" stroke="none">Mismatch detection</text>
+
+    <rect x="460" y="500" width="280" height="110" rx="14" fill="white"/>
+    <text x="600" y="540" text-anchor="middle" font-size="22" font-weight="700" stroke="none">Backup / Restore</text>
+    <text x="600" y="572" text-anchor="middle" font-size="17" stroke="none">Portable local workspace</text>
+    <text x="600" y="596" text-anchor="middle" font-size="17" stroke="none">Hash verification on restore</text>
+
+    <rect x="850" y="500" width="280" height="110" rx="14" fill="white"/>
+    <text x="990" y="540" text-anchor="middle" font-size="22" font-weight="700" stroke="none">Persian A4 Reporting</text>
+    <text x="990" y="572" text-anchor="middle" font-size="17" stroke="none">RTL multi-page output</text>
+    <text x="990" y="596" text-anchor="middle" font-size="17" stroke="none">Evidence notes + metadata</text>
+
+    <path d="M600 180 L600 240" fill="none"/>
+    <path d="M600 220 L210 220 L210 260" fill="none"/>
+    <path d="M600 220 L990 220 L990 260" fill="none"/>
+    <path d="M600 370 L600 480" fill="none"/>
+    <path d="M600 430 L210 430 L210 500" fill="none"/>
+    <path d="M600 430 L990 430 L990 500" fill="none"/>
+
+    <polygon points="600,240 592,226 608,226" fill="#111"/>
+    <polygon points="210,260 202,246 218,246" fill="#111"/>
+    <polygon points="990,260 982,246 998,246" fill="#111"/>
+    <polygon points="600,500 592,486 608,486" fill="#111"/>
+    <polygon points="210,500 202,486 218,486" fill="#111"/>
+    <polygon points="990,500 982,486 998,486" fill="#111"/>
+
+    <text x="600" y="682" text-anchor="middle" font-size="16" stroke="none">No runtime application server or cloud database is required for the documented workflow.</text>
+  </g>
+</svg>
