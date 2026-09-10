@@ -18,13 +18,14 @@ This file is the canonical deposit record for the Figshare DOI path.
 - **Release archive:** `mohandesyar-ai-2.0.0.zip`
 - **Release SHA-256:** `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
 
-## Figshare categories
+## Figshare category
 
 - Civil engineering
-- Software engineering
 
-The publishing script validates the corresponding current Figshare category IDs
-before creating or updating the item.
+The publishing script validates the corresponding current Figshare category ID
+before creating or updating the item. Software engineering remains represented
+as a keyword rather than as a Figshare category because that category is not
+available for assignment to this account/item context.
 
 ## Description
 
