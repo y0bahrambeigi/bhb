@@ -110,22 +110,47 @@ def json_response(response: requests.Response) -> Any:
 
 
 def get_categories() -> list[int]:
-    categories = json_response(request("GET", "categories", auth=False))
-    selected: list[int] = []
-    for target in CATEGORY_NAMES:
-        match = next(
-            (item for item in categories if str(item.get("title", "")).casefold() == target.casefold()),
-            None,
-        )
-        if match is None:
-            match = next(
-                (item for item in categories if str(item.get("name", "")).casefold() == target.casefold()),
-                None,
-            )
-        if match is None:
-            fail(f"Required Figshare category not found: {target}")
-        selected.append(int(match["id"]))
-    return selected
+    """Choose an assignable, account-specific category relevant to the software."""
+    categories = json_response(request("GET", "account/categories")) or []
+    if not categories:
+        fail("Figshare returned no account-specific categories.")
+
+    parent_ids = {
+        int(item["parent_id"])
+        for item in categories
+        if item.get("parent_id") not in (None, 0, "0")
+    }
+    leaves = [item for item in categories if int(item.get("id", 0)) not in parent_ids]
+    candidates = leaves or categories
+
+    def label(item: dict[str, Any]) -> str:
+        return str(item.get("title") or item.get("name") or "").strip()
+
+    def score(item: dict[str, Any]) -> tuple[int, int]:
+        name = label(item).casefold()
+        value = 0
+        if name == "civil engineering":
+            value += 100
+        if "civil" in name and "engineering" in name:
+            value += 90
+        elif "engineering" in name:
+            value += 70
+        if "structural" in name:
+            value += 40
+        if "software" in name:
+            value += 35
+        if "computer" in name or "computing" in name:
+            value += 25
+        if "technology" in name:
+            value += 10
+        return value, -int(item.get("id", 0))
+
+    chosen = max(candidates, key=score)
+    if score(chosen)[0] <= 0:
+        chosen = candidates[0]
+
+    print(f"Selected Figshare account category: {label(chosen)} (id={chosen['id']})")
+    return [int(chosen["id"])]
 
 
 def get_mit_license_id() -> int:
@@ -158,12 +183,14 @@ def find_existing() -> dict[str, Any] | None:
 
 
 def create_or_update_article() -> dict[str, Any]:
+    categories = get_categories()
     license_id = get_mit_license_id()
     payload = {
         "title": TITLE,
         "description": DESCRIPTION,
         "tags": TAGS,
         "references": [RELEASE_PAGE, APP_URL, ORCID_URL],
+        "categories": categories,
         "authors": [{"name": AUTHOR}],
         "defined_type": "software",
         "license": license_id,
