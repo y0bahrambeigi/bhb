@@ -1,0 +1,95 @@
+name: Build MohandesYar SoftwareX submission package
+
+on:
+  push:
+    paths:
+      - ".github/workflows/mohandesyar-softwarex-package.yml"
+      - "mohandesyar-ai/paper/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
+      - name: Verify Figshare DOI resolves
+        run: |
+          set -euo pipefail
+          DOI_URL="https://doi.org/10.6084/m9.figshare.33511795.v1"
+          code="$(curl -L -sS -o /tmp/doi-landing.html -w "%{http_code}" --max-time 60 "$DOI_URL")"
+          echo "DOI_HTTP_STATUS=$code"
+          test "$code" -ge 200
+          test "$code" -lt 400
+          test -s /tmp/doi-landing.html
+
+      - name: Validate highlights
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          lines = [
+              line[2:].strip()
+              for line in Path("mohandesyar-ai/paper/HIGHLIGHTS.md").read_text(encoding="utf-8").splitlines()
+              if line.startswith("- ")
+          ]
+          assert 3 <= len(lines) <= 5, f"Expected 3-5 highlights, got {len(lines)}"
+          too_long = [(i + 1, len(text), text) for i, text in enumerate(lines) if len(text) > 85]
+          assert not too_long, f"Highlights exceed 85 characters: {too_long}"
+          print("Highlights:", [(len(x), x) for x in lines])
+          PY
+
+      - name: Build editable submission files
+        working-directory: mohandesyar-ai/paper
+        run: |
+          set -euo pipefail
+          mkdir -p submission-build
+          pandoc paper.md \
+            --from markdown \
+            --to docx \
+            --citeproc \
+            --bibliography=paper.bib \
+            --resource-path=. \
+            --metadata reference-section-title=References \
+            -o submission-build/MohandesYar_AI_2.0_SoftwareX_Manuscript.docx
+
+          pandoc HIGHLIGHTS.md \
+            --from markdown \
+            --to docx \
+            -o submission-build/MohandesYar_AI_2.0_Highlights.docx
+
+          pandoc COVER_LETTER.md \
+            --from markdown \
+            --to docx \
+            -o submission-build/MohandesYar_AI_2.0_Cover_Letter.docx
+
+          cp EDITORIAL_PORTAL_FIELDS.md submission-build/
+          cp SUBMISSION_PACKAGE.md submission-build/
+
+      - name: Verify generated Word files
+        working-directory: mohandesyar-ai/paper/submission-build
+        run: |
+          set -euo pipefail
+          for f in *.docx; do
+            test -s "$f"
+            unzip -t "$f" >/dev/null
+            echo "Verified $f ($(stat -c%s "$f") bytes)"
+          done
+          unzip -p MohandesYar_AI_2.0_SoftwareX_Manuscript.docx word/document.xml | grep -F "10.6084/m9.figshare.33511795.v1" >/dev/null
+          unzip -p MohandesYar_AI_2.0_SoftwareX_Manuscript.docx word/document.xml | grep -F "MohandesYar AI 2.0" >/dev/null
+
+      - name: Upload SoftwareX submission package
+        uses: actions/upload-artifact@v4
+        with:
+          name: mohandesyar-softwarex-submission-package
+          path: mohandesyar-ai/paper/submission-build/
+          if-no-files-found: error
+          retention-days: 30
