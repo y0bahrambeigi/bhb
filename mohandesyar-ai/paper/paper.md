@@ -115,11 +115,13 @@ upgrade behavior, and offline relaunch. Browser automation is performed with
 Playwright [@playwright].
 
 The release evidence records successful physical-device checks for Android
-Chrome, iPhone Safari, and Windows. The Windows test was confirmed complete by
-the author on 10 September 2026. Device, operating-system, browser-version, and
-test-date fields that were not supplied remain explicitly marked as unavailable
-rather than being inferred after the fact. An independent-user validation run
-remains a separate publication-evidence item.
+Chrome, iPhone Safari, and Windows. The Windows validation was performed
+successfully by an independent user outside the development workflow and was
+confirmed by the author on 10 September 2026. Device, operating-system,
+browser-version, tester identity, and original test-date fields that were not
+supplied remain explicitly marked as unavailable rather than being inferred
+after the fact. This evidence is reported as author-confirmed independent-user
+validation and is not represented as a signed third-party certification.
 
 # Illustrative civil-engineering example
 
