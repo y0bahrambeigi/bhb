@@ -102,11 +102,14 @@ npm run verify
 - Cover Letter: [paper/COVER_LETTER.md](paper/COVER_LETTER.md)
 - اظهارنامه‌های انتشار: [paper/DECLARATIONS.md](paper/DECLARATIONS.md)
 - Release Notes نسخه 2.0.0: [paper/RELEASE_NOTES_2.0.0.md](paper/RELEASE_NOTES_2.0.0.md)
-- بسته فراداده Zenodo: [paper/ZENODO_METADATA.md](paper/ZENODO_METADATA.md)
+- فراداده آرشیو Figshare: [paper/FIGSHARE_METADATA.md](paper/FIGSHARE_METADATA.md)
+- بسته فراداده Zenodo (آرشیو ثانویه اختیاری): [paper/ZENODO_METADATA.md](paper/ZENODO_METADATA.md)
 - مجوز نرم‌افزار: [MIT License](LICENSE)
 - نسخه ثابت نرم‌افزار: [GitHub Release — mohandesyar-ai-v2.0.0](https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0)
 - SHA-256 آرشیو نسخه 2.0.0: `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
-- وضعیت DOI: **در انتظار انتشار عمومی و فعال‌شدن در Zenodo/DOI.org**؛ هیچ شناسه رزروشده یا غیرفعالی نباید استناد شود.
+- DOI آرشیوی نسخه 2.0.0 در Figshare: [10.6084/m9.figshare.33511795.v1](https://doi.org/10.6084/m9.figshare.33511795.v1)
+- DOI کلی رکورد Figshare: `10.6084/m9.figshare.33511795`
+- رکورد Figshare: [Item 33511795](https://api.figshare.com/v2/articles/33511795)
 
 ### استناد پیشنهادی گزارش فنی
 

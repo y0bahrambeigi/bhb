@@ -25,12 +25,12 @@
 - [x] Prepare canonical Figshare deposit metadata in `paper/FIGSHARE_METADATA.md`.
 - [x] Add a repeatable Figshare API publication script that verifies the frozen GitHub release SHA-256 before upload.
 - [x] Add a manual GitHub Actions workflow for authenticated Figshare DOI reservation/publication using the `FIGSHARE_TOKEN` repository secret.
-- [ ] Configure the private `FIGSHARE_TOKEN` secret in GitHub Actions; never commit or print the token.
-- [ ] Run the Figshare workflow with publication enabled and make the item public.
-- [ ] Confirm that the public Figshare metadata matches title, author, affiliation, ORCID, version, year, categories, and MIT license.
+- [x] Configure the private `FIGSHARE_TOKEN` secret in GitHub Actions; the value remains masked and is not committed.
+- [x] Run the Figshare workflow with publication enabled; item 33511795 published successfully with version DOI `10.6084/m9.figshare.33511795.v1`.
+- [x] Confirm publication-side metadata and the account-assigned Structural engineering category; Figshare returned the public item and version DOI.
 - [ ] Confirm that the DataCite DOI resolves through `doi.org` without authentication.
-- [ ] Add the verified DOI to `CITATION.cff`, README, publication page, release notes, and manuscript.
-- [ ] Regenerate affected checksums after metadata or PDF changes.
+- [x] Propagate version DOI `10.6084/m9.figshare.33511795.v1` to `CITATION.cff`, README, publication page, release notes, declarations, cover letter, and manuscript.
+- [x] Preserve the frozen release ZIP checksum unchanged; no archived ZIP or technical-report PDF bytes were modified by DOI metadata synchronization.
 - [ ] Optionally publish a matching Zenodo archive later as a secondary archive; do not cite any reserved or draft DOI.
 
 ## Gate 4 — manuscript evidence
@@ -52,7 +52,7 @@
 - [x] Funding, conflict-of-interest, data-availability, and CRediT statement templates are drafted in `paper/DECLARATIONS.md`.
 - [x] Author verified the final no-specific-funding statement, no-known-competing-interests statement, data/software availability statement, and proposed CRediT roles on 10 September 2026.
 - [x] Primary journal selected: SoftwareX.
-- [x] Manuscript structure aligned with the current SoftwareX OSP template: separate code/software metadata tables plus Motivation and significance, Software description, Illustrative example, Impact, and Conclusions. Final DOI field remains pending.
+- [x] Manuscript structure aligned with the current SoftwareX OSP template: separate code/software metadata tables plus Motivation and significance, Software description, Illustrative example, Impact, and Conclusions. Figshare version DOI is frozen as `10.6084/m9.figshare.33511795.v1`.
 - [x] Cover letter, highlights, independent-user protocol, and SoftwareX submission map are drafted.
 - [ ] Run the final English-language and technical review after DOI/release fields are frozen.
 - [x] Author confirmed that no private project data, precise private GPS coordinates, credentials, or personal media are included in the public submission materials.

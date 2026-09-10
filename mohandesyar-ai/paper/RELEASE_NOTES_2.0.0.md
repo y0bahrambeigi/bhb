@@ -10,7 +10,9 @@
 - Published: 2026-09-10
 - Release archive: `mohandesyar-ai-2.0.0.zip`
 - Release archive SHA-256: `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
-- Archival DOI: add only after the Zenodo record is public and resolves through DOI.org
+- Figshare item: 33511795
+- Archival version DOI: `10.6084/m9.figshare.33511795.v1`
+- Figshare concept DOI: `10.6084/m9.figshare.33511795`
 
 ## Highlights
 
@@ -49,9 +51,11 @@ or automatic authority submission. The term "AI" is part of the product name;
 version 2.0.0 does not transmit project data to an external AI inference
 service.
 
-## Zenodo archival step
+## Archival publication
 
-The GitHub release is frozen and available for archival. The remaining archival
-gate is publication of the corresponding Zenodo software record and independent
-confirmation that its DOI resolves publicly. Do not cite a reserved, draft, or
-non-resolving DOI.
+The frozen GitHub release was deposited to Figshare after its SHA-256 was
+re-verified. Figshare published item 33511795 and assigned version DOI
+`10.6084/m9.figshare.33511795.v1`. The concept DOI is `10.6084/m9.figshare.33511795`.
+
+A matching Zenodo record may still be created later as an optional secondary
+archive, but it is no longer a prerequisite for the SoftwareX submission path.
