@@ -54,9 +54,9 @@
 - [x] Primary journal selected: SoftwareX.
 - [x] Manuscript structure aligned with the current SoftwareX OSP template: separate code/software metadata tables plus Motivation and significance, Software description, Illustrative example, Impact, and Conclusions. Figshare version DOI is frozen as `10.6084/m9.figshare.33511795.v1`.
 - [x] Cover letter, highlights, independent-user protocol, and SoftwareX submission map are drafted.
-- [ ] Run the final English-language and technical review after DOI/release fields are frozen.
+- [x] Final English-language and technical review completed after DOI/release freeze; abstract, metadata tables, terminology, limitations, highlights, and software citation were checked.
 - [x] Author confirmed that no private project data, precise private GPS coordinates, credentials, or personal media are included in the public submission materials.
-- [ ] Submit only after all mandatory items above are checked and supporting evidence is public.
+- [ ] Submit through the SoftwareX portal after independent DOI.org resolution is confirmed and the final upload files are exported.
 
 ## Recommended venue order
 
