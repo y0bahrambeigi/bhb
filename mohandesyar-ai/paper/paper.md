@@ -62,7 +62,7 @@ application; offline-first; Persian RTL; evidence integrity
 |---|---|---|
 | S1 | Current software version | 2.0.0 |
 | S2 | Permanent link to executable/public version | https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/ |
-| S3 | Permanent link to version-specific release | https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0 |
+| S3 | Permanent link to version-specific release | https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0 ; archival DOI: 10.6084/m9.figshare.33511795.v1 |
 | S4 | Legal Software License | MIT License |
 | S5 | Computing platforms/Operating Systems | Web/PWA; physically checked on Android, iPhone/iOS, and Microsoft Windows |
 | S6 | Installation requirements & dependencies | A modern browser supporting Service Worker and IndexedDB; first successful online load is required before offline relaunch |
@@ -258,8 +258,10 @@ notes, and checksum evidence are included in the public repository.
 
 The release ZIP SHA-256 is
 `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
-A Zenodo DOI will be inserted only after the archival record is publicly
-published and independently confirmed to resolve through DOI.org.
+The same frozen version 2.0.0 software archive is published on Figshare as
+item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1**. The version-specific DOI is used
+here so that the software artifact described by this manuscript remains
+unambiguous if later Figshare versions are created.
 
 
 # CRediT authorship contribution statement
