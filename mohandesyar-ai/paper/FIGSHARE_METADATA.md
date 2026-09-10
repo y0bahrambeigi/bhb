@@ -4,7 +4,7 @@ This file is the canonical deposit record for the Figshare DOI path.
 
 ## Identity
 
-- **Item type:** Software / code
+- **Item type:** Software
 - **Title:** MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting
 - **Creator:** Yousef Bahrambeigi
 - **Affiliation:** Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran
@@ -13,6 +13,11 @@ This file is the canonical deposit record for the Figshare DOI path.
 - **Publication date:** 2026-09-10
 - **License:** MIT
 - **Access:** Public
+- **Figshare item ID:** 33511795
+- **Category:** Structural engineering (account category id 26371)
+- **Concept DOI:** `10.6084/m9.figshare.33511795`
+- **Version DOI:** `10.6084/m9.figshare.33511795.v1`
+- **Public API record:** https://api.figshare.com/v2/articles/33511795
 - **GitHub release:** https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0
 - **Live application:** https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/
 - **Release archive:** `mohandesyar-ai-2.0.0.zip`
@@ -20,10 +25,10 @@ This file is the canonical deposit record for the Figshare DOI path.
 
 ## Subject classification
 
-Figshare category assignment is intentionally omitted from the API deposit
-because this account/item context does not permit the tested engineering
-categories. The disciplinary scope is preserved in the title, description and
-keywords, including civil engineering and software engineering.
+The published item uses the account-assignable Figshare category
+**Structural engineering** (category id 26371). The broader disciplinary scope
+is also represented in the title, description, and keywords, including civil
+engineering and software engineering.
 
 ## Description
 
@@ -46,9 +51,12 @@ civil engineering; field documentation; progressive web application;
 offline-first; Persian RTL; IndexedDB; SHA-256; geolocation; evidence integrity;
 software engineering; technical reporting
 
-## DOI rule
+## DOI status
 
-A reserved Figshare DOI must not be cited as active until the item is public.
-After publication, independently confirm that the DOI resolves and that the
-landing-page metadata match this record before propagating the DOI to the
-manuscript and repository metadata.
+Publication completed through the Figshare API on 10 September 2026. The
+version-specific identifier for the archived software artifact is
+`10.6084/m9.figshare.33511795.v1`; the concept DOI for the Figshare item is `10.6084/m9.figshare.33511795`.
+The version DOI should be cited for reproducibility of the exact 2.0.0 artifact.
+
+Independent DOI.org resolution is checked separately because registry
+propagation can lag behind successful repository publication.
