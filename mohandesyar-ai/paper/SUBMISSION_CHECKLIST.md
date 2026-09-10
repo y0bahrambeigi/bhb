@@ -16,9 +16,9 @@
 - [x] Run `npm run qa:browser` in the supported release environment ([GitHub Actions run 17](https://github.com/y0bahrambeigi/bhb/actions/runs/34418861786)).
 - [x] Physical Windows PWA test completed and recorded as user-confirmed PASS in `tests/MANUAL-QA.md`.
 - [ ] Append exact Windows device/OS/browser version and original test date if those details become available; do not infer them.
-- [ ] Create the version-specific tag `mohandesyar-ai-v2.0.0` from the verified commit.
-- [ ] Publish a GitHub release with source archives, release notes, and SHA-256 evidence.
-- [ ] Download the release independently and verify its SHA-256 digest.
+- [x] Version-specific tag `mohandesyar-ai-v2.0.0` created from verified release commit `3296a372eb3d8d6c172b7f24477dcf946229f3de`.
+- [x] GitHub Release `MohandesYar AI 2.0.0` published with source ZIP and SHA-256 evidence.
+- [x] Published release ZIP re-downloaded by CI and SHA-256 verified: `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
 
 ## Gate 3 — archive and DOI
 

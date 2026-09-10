@@ -7,8 +7,8 @@ authors:
     given-names: "Yousef"
     affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
 version: "2.0.0"
-date-released: "2026-08-25"
-repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai"
+date-released: "2026-09-10"
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/mohandesyar-ai-v2.0.0/mohandesyar-ai"
 url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/"
 license: MIT
 abstract: >-

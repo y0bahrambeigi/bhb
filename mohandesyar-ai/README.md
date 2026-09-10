@@ -104,6 +104,8 @@ npm run verify
 - Release Notes نسخه 2.0.0: [paper/RELEASE_NOTES_2.0.0.md](paper/RELEASE_NOTES_2.0.0.md)
 - بسته فراداده Zenodo: [paper/ZENODO_METADATA.md](paper/ZENODO_METADATA.md)
 - مجوز نرم‌افزار: [MIT License](LICENSE)
+- نسخه ثابت نرم‌افزار: [GitHub Release — mohandesyar-ai-v2.0.0](https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0)
+- SHA-256 آرشیو نسخه 2.0.0: `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
 - وضعیت DOI: **در انتظار انتشار عمومی و فعال‌شدن در Zenodo/DOI.org**؛ هیچ شناسه رزروشده یا غیرفعالی نباید استناد شود.
 
 ### استناد پیشنهادی گزارش فنی
