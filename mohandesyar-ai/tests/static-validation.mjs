@@ -52,8 +52,10 @@ assert.match(report, /id="report-watermark"/, "The printable report must include
 assert.match(index, /href="\.\/publication\/"/, "The dashboard must link to the scholarly record");
 assert.match(publication, /citation_technical_report_institution/, "The publication page must expose technical-report metadata");
 assert.match(publication, /MYAI-TR-2026-02/, "The publication page must expose the stable report identifier");
-assert.doesNotMatch(publication, /citation_doi/, "An inactive DOI must not be advertised to scholarly crawlers");
-assert.match(publication, /Pending public Zenodo publication/, "The archival status must be explicit");
+const figshareVersionDoi = "10.6084/m9.figshare.33511795.v1";
+assert.match(publication, /citation_doi" content="10\.6084\/m9\.figshare\.33511795\.v1"/, "Publication page must expose the published Figshare version DOI");
+assert.match(publication, /Figshare, version 1/, "Publication page must identify the archival source and version");
+assert.doesNotMatch(publication, /Pending public Zenodo publication/, "Publication page must not retain the obsolete pending-DOI notice");
 const canonicalTitle = "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting";
 assert.equal(zenodoMetadata.metadata.title, canonicalTitle);
 assert.equal(zenodoMetadata.metadata.version, "2.0.0");
@@ -65,6 +67,8 @@ assert.match(citation, /affiliation: "Civil Engineering, Islamic Azad University
 assert.match(citation, /mohandesyar-ai-v2\.0\.0/, "CITATION.cff must point to the frozen release");
 assert.match(citation, /0000-0002-3421-8679/, "Verified ORCID must remain in CITATION.cff");
 assert.match(citation, /yousef\.bahrambeigi@iau\.ac\.ir/, "Verified academic email must remain in CITATION.cff");
+assert.ok(citation.includes(`doi: "${figshareVersionDoi}"`), "CITATION.cff must contain the exact published Figshare version DOI");
+assert.ok(manuscript.includes(figshareVersionDoi), "SoftwareX manuscript must contain the exact published Figshare version DOI");
 assert.match(manuscript, /0000-0002-3421-8679/, "Verified ORCID must remain in manuscript metadata");
 assert.match(manuscript, /yousef\.bahrambeigi@iau\.ac\.ir/, "Verified academic email must remain in manuscript metadata");
 assert.match(manuscript, /9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173/, "Manuscript must record the verified release SHA-256");
