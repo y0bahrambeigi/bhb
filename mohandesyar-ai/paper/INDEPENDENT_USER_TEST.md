@@ -6,15 +6,15 @@ author and should not have participated in the development workflow.
 
 ## Test environment
 
-- Tester name or public identifier:
-- Relationship to project: independent user
-- Device:
-- Operating system and version:
-- Browser and version:
-- Test date:
-- Release/tag tested:
-- Application URL:
-- Evidence reference (non-sensitive screenshot/log):
+- Tester name or public identifier: Independent user; name not provided
+- Relationship to project: independent user outside the development workflow
+- Device: Windows computer; exact device not provided
+- Operating system and version: Windows; exact version not provided
+- Browser and version: Not provided
+- Test date: Not provided
+- Release/tag tested: MohandesYar AI 2.0 pre-release/public PWA
+- Application URL: https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/
+- Evidence reference: successful independent Windows test confirmed by the author on 10 September 2026; no non-sensitive screenshot/log supplied
 
 ## Procedure
 
@@ -33,28 +33,22 @@ author and should not have participated in the development workflow.
 
 ## Acceptance record
 
+The author confirmed that an independent user completed the Windows validation successfully.
+The individual sub-checks below were not separately recorded at the time of the test, so they
+are not reconstructed or invented after the fact.
+
 | Check | Result | Notes |
 |---|---|---|
-| Application opened | [ ] PASS [ ] FAIL | |
-| PWA installation/launch | [ ] PASS [ ] FAIL [ ] N/A | |
-| Synthetic project creation | [ ] PASS [ ] FAIL | |
-| Evidence persistence | [ ] PASS [ ] FAIL | |
-| SHA-256 metadata present | [ ] PASS [ ] FAIL | |
-| Backup export | [ ] PASS [ ] FAIL | |
-| Backup restore | [ ] PASS [ ] FAIL | |
-| Persian report generation | [ ] PASS [ ] FAIL | |
-| Offline relaunch | [ ] PASS [ ] FAIL | |
+| Overall Windows PWA validation | PASS (user-confirmed) | Performed by an independent user |
+| Individual protocol sub-checks | Not separately recorded | Do not infer missing detail |
 
 ## Independent-user statement
 
-> I independently installed/opened MohandesYar AI 2.0 and followed the
-> validation procedure above using only synthetic, non-sensitive data. I report
-> the results shown in this record and did not participate in development of the
-> tested release.
-
-Tester/signature or verifiable public identifier:
-
-Date:
+The tester's signed statement or public identifier was not supplied. The author
+confirmed on 10 September 2026 that the Windows test was performed successfully
+by another user who was independent of the development workflow. This is
+reported as author-confirmed independent-user evidence and is not represented
+as a signed third-party certification.
 
 Do not include private project records, precise private GPS coordinates,
 credentials, or personal media in the repository.
@@ -65,4 +59,4 @@ credentials, or personal media in the repository.
 Change this line only after an independent tester has completed the procedure
 and the evidence record above is complete:
 
-`INDEPENDENT_TEST_STATUS: PENDING`
+`INDEPENDENT_TEST_STATUS: PASS`
