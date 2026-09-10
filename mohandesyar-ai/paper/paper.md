@@ -12,6 +12,8 @@ tags:
 authors:
   - name: Yousef Bahrambeigi
     affiliation: 1
+    email: yousef.bahrambeigi@iau.ac.ir
+    orcid: 0000-0002-3421-8679
 affiliations:
   - name: Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran
     index: 1
@@ -52,7 +54,7 @@ application; offline-first; Persian RTL; evidence integrity
 | C6 | Software code languages, tools, and services used | HTML5, CSS, JavaScript, IndexedDB, Service Worker, Web Crypto API, Geolocation API |
 | C7 | Compilation requirements, operating environments & dependencies | No compilation/runtime server required; modern standards-compliant browser. Test dependencies include Playwright 1.62.1 and pdf-lib 1.17.1 |
 | C8 | Link to developer documentation/manual | https://github.com/y0bahrambeigi/bhb/tree/mohandesyar-ai-v2.0.0/mohandesyar-ai |
-| C9 | Support email for questions | [VERIFIED CORRESPONDING-AUTHOR/SUPPORT EMAIL] |
+| C9 | Support email for questions | yousef.bahrambeigi@iau.ac.ir |
 
 # Software metadata
 
@@ -65,7 +67,7 @@ application; offline-first; Persian RTL; evidence integrity
 | S5 | Computing platforms/Operating Systems | Web/PWA; physically checked on Android, iPhone/iOS, and Microsoft Windows |
 | S6 | Installation requirements & dependencies | A modern browser supporting Service Worker and IndexedDB; first successful online load is required before offline relaunch |
 | S7 | Link to user manual | https://github.com/y0bahrambeigi/bhb/blob/mohandesyar-ai-v2.0.0/mohandesyar-ai/README.md |
-| S8 | Support email for questions | [VERIFIED CORRESPONDING-AUTHOR/SUPPORT EMAIL] |
+| S8 | Support email for questions | yousef.bahrambeigi@iau.ac.ir |
 
 # 1. Motivation and significance
 
