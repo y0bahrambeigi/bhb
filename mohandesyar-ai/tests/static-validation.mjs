@@ -16,7 +16,10 @@ const requiredFiles = [
   "publication/SHA256SUMS", "publication/zenodo-metadata.json",
   "RELEASE_NOTES.md", "LICENSE", "tests/MANUAL-QA.md",
   "paper/paper.md", "paper/paper.bib", "paper/AI_USAGE_DISCLOSURE.md",
-  "paper/SUBMISSION_CHECKLIST.md"
+  "paper/SUBMISSION_CHECKLIST.md", "paper/INDEPENDENT_USER_TEST.md",
+  "paper/HIGHLIGHTS.md", "paper/COVER_LETTER.md",
+  "paper/SOFTWAREX_SUBMISSION_MAP.md", "paper/DECLARATIONS.md",
+  "paper/RELEASE_NOTES_2.0.0.md", "paper/ZENODO_METADATA.md"
 ];
 await Promise.all(requiredFiles.map(file => access(path.join(root, file))));
 
@@ -63,6 +66,8 @@ assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);
 assert.match(manuscript, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")));
 assert.match(manuscript, /Windows test was confirmed complete by\s+the author/);
 assert.match(manuscript, /does\s+not\s+transmit project data to an external AI inference service/);
+assert.match(manuscript, /# Code and software metadata/, "SoftwareX code metadata table is required");
+assert.match(manuscript, /DEMO-RC-B01/, "Controlled civil-engineering example must remain documented");
 assert.match(printCss, /@page\{size:A4/, "The print contract must explicitly target A4");
 assert.match(printCss, /break-inside:avoid/, "Evidence and report sections must avoid clipping across pages");
 assert.equal(manifest.start_url, "/bhb/mohandesyar-ai/", "Installed offline launch must use the cached canonical URL");
