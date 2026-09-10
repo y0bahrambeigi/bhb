@@ -16,9 +16,11 @@ The software is presented as research and documentation software rather than as
 a regulatory, legal chain-of-custody, or institutional records platform. The
 submitted version is supported by automated release validation, physical-device
 testing, a controlled synthetic civil-engineering example, and an
-independent-user validation record. The exact software version described by the
-manuscript is intended to be preserved in a version-specific GitHub release and
-a persistent Zenodo archival record before submission.
+author-confirmed independent-user Windows validation. The exact software
+version described by the manuscript is frozen in the public GitHub Release
+`mohandesyar-ai-v2.0.0`; its published ZIP was independently re-downloaded and
+verified against its SHA-256 checksum. A Zenodo archival DOI will be added only
+after the public record resolves successfully.
 
 The manuscript explicitly documents important limitations. The application does
 not provide trusted timestamps, organizational identity management, server-side
@@ -33,8 +35,9 @@ author retains responsibility for all design decisions, verification,
 interpretation, originality, licensing, and final text.
 
 The manuscript is original and is not intended for simultaneous submission
-elsewhere. All software and non-sensitive supporting materials described in the
-article will be publicly available under the stated license before submission.
+elsewhere. The software and non-sensitive supporting materials described in the
+article are publicly available under the MIT License in the version-specific
+GitHub release.
 
 Sincerely,
 

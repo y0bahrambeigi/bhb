@@ -37,7 +37,7 @@
 - [x] Controlled synthetic reinforced-concrete inspection example added to the browser QA workflow and manuscript (`DEMO-RC-B01`).
 - [x] Compact comparison table added for QField, ODK Collect, and KoboCollect with official-documentation references.
 - [x] Independent Windows PWA validation completed successfully by a user outside the development workflow; detailed tester/environment fields not supplied and therefore not inferred.
-- [ ] Verify every reference, URL, version, and access date.
+- [x] Core manuscript references and official QField, ODK Collect, KoboCollect, Playwright, and NIST source URLs were rechecked on 10 September 2026; the Local-First Software DOI was independently corroborated.
 
 ## Gate 5 — declarations and submission
 
