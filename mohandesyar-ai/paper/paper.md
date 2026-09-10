@@ -41,7 +41,7 @@ not transmit project data to an external AI inference service.
 | Metadata item | MohandesYar AI 2.0 |
 |---|---|
 | Current code/software version | 2.0.0 |
-| Permanent version-specific repository link | To be inserted after the frozen GitHub release is published |
+| Permanent version-specific repository link | https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0 |
 | Archival record | To be inserted only after the public Zenodo DOI resolves |
 | License | MIT |
 | Version control | Git / GitHub |
@@ -185,9 +185,13 @@ publicly available from the
 [project repository](https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai),
 and the public application is available from
 [GitHub Pages](https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/). Version
-2.0.0 is licensed under the MIT License. A version-specific archival DOI and
-release tag will be added to this section only after the public archive resolves
-and the tagged source has been independently downloaded and verified.
+2.0.0 is licensed under the MIT License and is frozen in GitHub Release
+`mohandesyar-ai-v2.0.0`, published on 10 September 2026. The release archive
+SHA-256 is
+`9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`;
+the published archive was independently re-downloaded and verified by the
+release workflow. The archival Zenodo DOI will be added only after the public
+record resolves successfully.
 
 # Limitations and future work
 
