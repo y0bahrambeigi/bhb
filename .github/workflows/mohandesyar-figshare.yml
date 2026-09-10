@@ -11,6 +11,11 @@ on:
         options:
           - "true"
           - "false"
+  push:
+    branches:
+      - "main"
+    paths:
+      - ".github/workflows/mohandesyar-figshare.yml"
 
 permissions:
   contents: read
@@ -48,5 +53,5 @@ jobs:
       - name: Verify release and publish Figshare record
         env:
           FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
-          FIGSHARE_PUBLISH: ${{ inputs.publish }}
+          FIGSHARE_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && inputs.publish || 'true' }}
         run: python mohandesyar-ai/scripts/publish_figshare.py
