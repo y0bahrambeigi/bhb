@@ -36,7 +36,7 @@
 - [x] Android, iPhone, and Windows physical-device results are recorded without inventing missing environment details.
 - [x] Controlled synthetic reinforced-concrete inspection example added to the browser QA workflow and manuscript (`DEMO-RC-B01`).
 - [x] Compact comparison table added for QField, ODK Collect, and KoboCollect with official-documentation references.
-- [ ] Obtain an independent installation/test report from a user outside the development workflow.
+- [x] Independent Windows PWA validation completed successfully by a user outside the development workflow; detailed tester/environment fields not supplied and therefore not inferred.
 - [ ] Verify every reference, URL, version, and access date.
 
 ## Gate 5 — declarations and submission
