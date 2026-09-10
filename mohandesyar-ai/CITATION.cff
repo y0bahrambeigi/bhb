@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: "Bahrambeigi"
     given-names: "Yousef"
-    affiliation: "Islamic Azad University, Iran"
+    affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
 version: "2.0.0"
 date-released: "2026-08-25"
 repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/mohandesyar-ai"
@@ -33,7 +33,7 @@ preferred-citation:
   authors:
     - family-names: "Bahrambeigi"
       given-names: "Yousef"
-      affiliation: "Islamic Azad University, Iran"
+      affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
   year: 2026
   url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/"
   publisher:
