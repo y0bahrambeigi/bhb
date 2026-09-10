@@ -56,11 +56,13 @@ assert.match(publication, /Pending public Zenodo publication/, "The archival sta
 const canonicalTitle = "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting";
 assert.equal(zenodoMetadata.metadata.title, canonicalTitle);
 assert.equal(zenodoMetadata.metadata.version, "2.0.0");
-assert.equal(zenodoMetadata.metadata.publication_date, "2026-08-25");
+assert.equal(zenodoMetadata.metadata.publication_date, "2026-09-10");
 assert.equal(zenodoMetadata.metadata.creators[0].name, "Bahrambeigi, Yousef");
 assert.equal(zenodoMetadata.metadata.creators[0].affiliation, "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran");
 assert.match(citation, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 assert.match(citation, /affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"/);
+assert.match(citation, /mohandesyar-ai-v2\.0\.0/, "CITATION.cff must point to the frozen release");
+assert.match(manuscript, /9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173/, "Manuscript must record the verified release SHA-256");
 assert.match(license, /^MIT License/m, "The software directory must contain the actual MIT license text");
 assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);
 assert.match(manuscript, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")));
