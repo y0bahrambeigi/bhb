@@ -167,7 +167,7 @@ def create_or_update_article() -> dict[str, Any]:
         "references": [RELEASE_PAGE, APP_URL, ORCID_URL],
         "categories": categories,
         "authors": [{"name": AUTHOR}],
-        "defined_type": "code",
+        "defined_type": "software",
         "license": license_id,
     }
 
