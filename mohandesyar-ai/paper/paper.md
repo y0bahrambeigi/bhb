@@ -100,11 +100,56 @@ upgrade behavior, and offline relaunch. Browser automation is performed with
 Playwright [@playwright].
 
 The release evidence records successful physical-device checks for Android
-Chrome and iPhone Safari. Device and browser version details that were not
-captured at test time remain explicitly marked as unavailable. A comparable
-physical Windows installation test is pending and will not be represented as
-complete until its device, operating-system, browser, date, tester, result, and
-evidence reference have been recorded.
+Chrome, iPhone Safari, and Windows. The Windows test was confirmed complete by
+the author on 10 September 2026. Device, operating-system, browser-version, and
+test-date fields that were not supplied remain explicitly marked as unavailable
+rather than being inferred after the fact. An independent-user validation run
+remains a separate publication-evidence item.
+
+# Illustrative civil-engineering example
+
+A controlled, non-sensitive reinforced-concrete inspection scenario is included
+in the browser QA workflow under project code `DEMO-RC-B01`. The scenario is
+explicitly synthetic: it contains no real project address, client information,
+personal media, credentials, or private geolocation data. It exercises the same
+workflow expected in a small field-inspection dossier: project creation,
+evidence attachment, SHA-256 calculation, local persistence, backup, deliberate
+integrity-failure detection, restoration, Persian report generation,
+service-worker update, and offline relaunch.
+
+The release scenario uses six synthetic image items and one synthetic video
+item. The backup is exported, one evidence payload is deliberately altered to
+confirm that restoration rejects a hash mismatch, and the untampered backup is
+then restored. The report path verifies Persian right-to-left rendering,
+non-empty image previews, evidence notes, watermark visibility, and multi-page
+A4 output. The application is subsequently reopened after a service-worker
+update and again with networking disabled to verify that the project and
+evidence remain available.
+
+This example evaluates software behavior and evidence-integrity handling only.
+It does not evaluate structural safety, regulatory compliance, legal
+admissibility, or the engineering condition of a real reinforced-concrete
+member.
+
+# Comparison with related field-data tools
+
+| Capability or design focus | MohandesYar AI 2.0 | QField | ODK Collect | KoboCollect |
+|---|---|---|---|---|
+| Primary focus | Persian civil-engineering project dossiers and reporting | GIS/QGIS fieldwork | General structured field-data collection | General structured field-data collection |
+| Offline workflow | Yes, after first successful application load | Yes | Yes | Yes |
+| Image/media evidence | Yes | Yes | Yes | Yes |
+| Geolocation | Optional | Yes | Yes | Yes |
+| Default persistence model emphasized here | Browser-local IndexedDB | QGIS-oriented local/offline workflow with synchronization options | Offline collection with synchronization workflows | Offline collection with synchronization workflows |
+| Persian RTL engineering A4 reporting evaluated in this work | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
+| Per-evidence SHA-256 metadata exposed by this implementation | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
+
+The comparison is deliberately scoped to design emphasis rather than a
+performance ranking. QField, ODK Collect, and KoboCollect are established field
+data tools with broader use cases. MohandesYar investigates a narrower design
+point: a Persian RTL, local-first civil-engineering documentation workflow that
+combines browser-resident original evidence, integrity metadata, portable
+backup/restore, and print-oriented reporting [@qfield; @odkcollect;
+@kobocollect].
 
 # Research and teaching use
 
@@ -141,12 +186,14 @@ validation, and human oversight.
 
 # AI usage disclosure
 
-Generative AI tools assisted with software-development activities and the
-initial drafting and language editing of this manuscript. The author remains
-responsible for the problem formulation, design decisions, source review,
-testing, validation, accuracy, originality, licensing, and final text. The
-specific tools, model versions, dates, and scope of assistance must be completed
-in `AI_USAGE_DISCLOSURE.md` and verified by the author before submission.
+During preparation of this work, OpenAI ChatGPT and Codex were used to assist
+with code review, refactoring, test scaffolding, manuscript organization,
+drafting, and language editing. The author reviewed and edited the resulting
+content as needed and takes full responsibility for the software and the
+published article. AI-assisted software-development activity that materially
+affected implementation or testing is also documented as part of the
+development methodology. The public MohandesYar AI 2.0 release does not send
+project data to an external AI inference service.
 
 # Acknowledgements
 
