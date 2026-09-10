@@ -67,7 +67,7 @@ assert.match(manuscript, /9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f
 assert.match(license, /^MIT License/m, "The software directory must contain the actual MIT license text");
 assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);
 assert.match(manuscript, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")));
-assert.match(manuscript, /Windows validation was performed\s+successfully by an independent user/);
+assert.match(manuscript, /Windows validation was performed\s+successfully by an independent\s+user/);
 assert.match(manuscript, /does\s+not\s+transmit project data to an external AI inference service/);
 assert.match(manuscript, /# Code metadata/, "SoftwareX code metadata table is required");
 assert.match(manuscript, /# Software metadata/, "SoftwareX software metadata table is required");
