@@ -95,7 +95,8 @@ testing is also documented as part of the development methodology. The public
 MohandesYar AI 2.0 application does not transmit project data to an external AI
 inference service.
 
-## Portal hold
+## Submission readiness
 
-Do not press the final Submit button until the version DOI has been independently
-confirmed to resolve through DOI.org after registry propagation.
+The version DOI was independently checked through the GitHub Actions submission
+build and returned HTTP 200 from DOI.org on 10 September 2026. The metadata
+package is ready for final entry in the SoftwareX submission portal.
