@@ -6,6 +6,8 @@ authors:
   - family-names: "Bahrambeigi"
     given-names: "Yousef"
     affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
+    email: "yousef.bahrambeigi@iau.ac.ir"
+    orcid: "https://orcid.org/0000-0002-3421-8679"
 version: "2.0.0"
 date-released: "2026-09-10"
 repository-code: "https://github.com/y0bahrambeigi/bhb/tree/mohandesyar-ai-v2.0.0/mohandesyar-ai"
@@ -34,6 +36,8 @@ preferred-citation:
     - family-names: "Bahrambeigi"
       given-names: "Yousef"
       affiliation: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
+      email: "yousef.bahrambeigi@iau.ac.ir"
+      orcid: "https://orcid.org/0000-0002-3421-8679"
   year: 2026
   url: "https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/"
   publisher:
