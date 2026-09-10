@@ -5,8 +5,8 @@
 - Name: Yousef Bahrambeigi
 - Affiliation: Civil Engineering, Islamic Azad University, Mahabad Branch,
   Mahabad, Iran
-- Email: [VERIFY]
-- ORCID: [VERIFY]
+- Email: yousef.bahrambeigi@iau.ac.ir
+- ORCID: 0000-0002-3421-8679
 
 ## Funding
 
