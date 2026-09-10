@@ -18,6 +18,6 @@ being treated as absent.
 
 MohandesYar AI 2.0.0 was subsequently archived on Figshare as item 33511795.
 The repository publication workflow returned the version DOI
-`10.6084/m9.figshare.33511795.v1`. Independent DOI.org resolution remains a separate propagation check;
-the manuscript uses the version-specific Figshare DOI rather than a reserved or
-inferred identifier.
+`10.6084/m9.figshare.33511795.v1`. Independent DOI.org resolution was subsequently confirmed with HTTP 200 in
+GitHub Actions run 34433833072 on 10 September 2026. The manuscript uses the
+version-specific Figshare DOI rather than a reserved or inferred identifier.

@@ -85,8 +85,12 @@ following explicit:
 
 ## Current unresolved items
 
-- Independent confirmation that DOI.org resolves `10.6084/m9.figshare.33511795.v1` after registry propagation.
 - Final submission-portal entry and upload.
+
+## DOI resolution confirmation
+
+The version DOI `10.6084/m9.figshare.33511795.v1` resolved successfully with
+HTTP 200 in GitHub Actions run 34433833072 on 10 September 2026.
 
 ## Final preparation checks completed
 

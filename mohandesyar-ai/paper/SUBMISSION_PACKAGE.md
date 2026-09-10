@@ -32,8 +32,15 @@
 - Final English-language and technical review completed
 - Repository verification and GitHub Pages deployment are passing
 
-## Remaining external gate
+## Build result
 
-Independent DOI.org resolution is still required after registry propagation.
-After that check passes, export the final Word/PDF files and complete the
-SoftwareX submission portal.
+GitHub Actions run 34433833072 completed successfully on 10 September 2026:
+
+- DOI.org resolution: HTTP 200
+- Manuscript Word file: generated and structurally verified
+- Highlights Word file: generated and structurally verified
+- Cover-letter Word file: generated and structurally verified
+- Submission artifact: `mohandesyar-softwarex-submission-package`
+
+The remaining step is final author entry/upload in the SoftwareX submission
+portal.
