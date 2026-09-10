@@ -11,14 +11,14 @@ before upload because journal requirements can change.
 | Title and authorship | `paper.md` | Complete; corresponding email and ORCID verified |
 | Abstract | `paper.md` | Complete |
 | Keywords | `paper.md` | Complete |
-| Code/software metadata | `paper.md`, README, CFF, package.json, release metadata | Two SoftwareX metadata tables complete; DOI pending |
+| Code/software metadata | `paper.md`, README, CFF, package.json, release metadata | Two SoftwareX metadata tables complete; Figshare version DOI 10.6084/m9.figshare.33511795.v1 added |
 | Motivation / statement of need | `paper.md` | Complete |
 | Software description/functionality | `paper.md` | Complete |
 | Controlled illustrative example | `paper.md`, `tests/browser-qa.mjs` | Complete and automated |
 | Related-tool comparison | `paper.md`, `paper.bib` | Complete |
 | Impact/research use | `paper.md` | Complete with conservative claims |
 | Limitations | `paper.md` | Complete |
-| Data/software availability | release + Zenodo metadata | GitHub release/checksum complete; Zenodo DOI pending |
+| Data/software availability | GitHub release + Figshare archive | Complete; release checksum verified and Figshare DOI published |
 | AI declaration | `AI_USAGE_DISCLOSURE.md` | Complete; author verified |
 | CRediT contribution roles | submission declarations | Complete; author verified |
 | Funding statement | submission declarations | Complete; no specific external funding, author verified |
@@ -27,7 +27,7 @@ before upload because journal requirements can change.
 | Highlights | `HIGHLIGHTS.md` | Draft complete |
 | Cover letter | `COVER_LETTER.md` | Draft complete |
 | Release notes | `RELEASE_NOTES_2.0.0.md` | Complete |
-| Zenodo metadata | `ZENODO_METADATA.md` and publication JSON | Complete except public DOI |
+| Archival metadata | `FIGSHARE_METADATA.md`, `CITATION.cff`, release metadata | Complete for Figshare; Zenodo remains optional secondary archive |
 
 ## Final freeze sequence
 
@@ -36,11 +36,10 @@ before upload because journal requirements can change.
 3. Frozen software release/tag: COMPLETE.
 4. Version-specific GitHub release: COMPLETE.
 5. Independent SHA-256 re-download verification: COMPLETE.
-6. Publish the Zenodo software record.
-7. Confirm public DOI resolution.
-8. Insert the DOI into README, CFF, publication page, Zenodo
-   metadata, manuscript, and release notes.
-9. Re-run metadata/static checks.
+6. Publish Figshare software archive: COMPLETE.
+7. Propagate the version DOI across repository and manuscript metadata: COMPLETE.
+8. Re-run metadata/static checks: COMPLETE.
+9. Independently confirm DOI.org resolution after registry propagation.
 10. Export the final manuscript/submission files and complete the journal portal.
 
 ## Submission-stop conditions
@@ -49,7 +48,7 @@ Do not submit while any of the following is true:
 
 - the independent-user evidence is absent;
 - the exact release described in the paper has no permanent public archive;
-- the DOI is reserved/draft or fails public resolution;
+- the archival record is private/draft or the cited DOI is not the published version DOI;
 - the release checksum has not been independently verified;
 - the corresponding-author email or ORCID is guessed rather than verified;
 - repository CI is failing.
