@@ -1,0 +1,32 @@
+name: Run POA restart 30-seed ablation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ablation:
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'experiment/poa-restart-30seed-run'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        benchmark: ['10-bar', '25-bar']
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+
+      - name: Run 30-seed ablation
+        run: |
+          octave --no-gui --quiet --eval "cd('matlab_optimization'); RunPOARestartAblation30('${{ matrix.benchmark }}');"
