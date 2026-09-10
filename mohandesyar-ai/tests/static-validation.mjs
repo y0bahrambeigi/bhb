@@ -18,7 +18,8 @@ const requiredFiles = [
   "paper/paper.md", "paper/paper.bib", "paper/AI_USAGE_DISCLOSURE.md",
   "paper/SUBMISSION_CHECKLIST.md", "paper/INDEPENDENT_USER_TEST.md",
   "paper/HIGHLIGHTS.md", "paper/COVER_LETTER.md",
-  "paper/SOFTWAREX_SUBMISSION_MAP.md", "paper/DECLARATIONS.md",
+  "paper/SOFTWAREX_SUBMISSION_MAP.md", "paper/SOFTWAREX_2026_REQUIREMENTS.md",
+  "paper/DECLARATIONS.md",
   "paper/RELEASE_NOTES_2.0.0.md", "paper/ZENODO_METADATA.md"
 ];
 await Promise.all(requiredFiles.map(file => access(path.join(root, file))));
@@ -68,7 +69,14 @@ assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);
 assert.match(manuscript, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")));
 assert.match(manuscript, /Windows validation was performed\s+successfully by an independent user/);
 assert.match(manuscript, /does\s+not\s+transmit project data to an external AI inference service/);
-assert.match(manuscript, /# Code and software metadata/, "SoftwareX code metadata table is required");
+assert.match(manuscript, /# Code metadata/, "SoftwareX code metadata table is required");
+assert.match(manuscript, /# Software metadata/, "SoftwareX software metadata table is required");
+assert.match(manuscript, /# 1\. Motivation and significance/);
+assert.match(manuscript, /# 2\. Software description/);
+assert.match(manuscript, /# 3\. Illustrative example/);
+assert.match(manuscript, /# 4\. Impact/);
+assert.match(manuscript, /# 5\. Conclusions/);
+assert.match(manuscript, /# Declaration of generative AI and AI-assisted technologies in the manuscript preparation process/);
 assert.match(manuscript, /DEMO-RC-B01/, "Controlled civil-engineering example must remain documented");
 assert.match(independentTest, /INDEPENDENT_TEST_STATUS: PASS/, "Independent-user validation must be recorded as PASS before release");
 assert.match(printCss, /@page\{size:A4/, "The print contract must explicitly target A4");
