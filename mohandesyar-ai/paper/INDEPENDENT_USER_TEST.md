@@ -58,3 +58,11 @@ Date:
 
 Do not include private project records, precise private GPS coordinates,
 credentials, or personal media in the repository.
+
+
+## Release gate status
+
+Change this line only after an independent tester has completed the procedure
+and the evidence record above is complete:
+
+`INDEPENDENT_TEST_STATUS: PENDING`
