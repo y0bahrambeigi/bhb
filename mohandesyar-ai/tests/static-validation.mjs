@@ -23,10 +23,10 @@ const requiredFiles = [
 ];
 await Promise.all(requiredFiles.map(file => access(path.join(root, file))));
 
-const [index, app, db, serviceWorker, report, printCss, manifestText, publication, citation, readme, license, manuscript] = await Promise.all([
+const [index, app, db, serviceWorker, report, printCss, manifestText, publication, citation, readme, license, manuscript, independentTest] = await Promise.all([
   read("index.html"), read("app.js"), read("db.js"), read("sw.js"), read("report/index.html"), read("print.css"), read("manifest.webmanifest"),
   read("publication/index.html"), read("CITATION.cff"), read("README.md"),
-  read("LICENSE"), read("paper/paper.md")
+  read("LICENSE"), read("paper/paper.md"), read("paper/INDEPENDENT_USER_TEST.md")
 ]);
 const manifest = JSON.parse(manifestText);
 const zenodoMetadata = JSON.parse(await read("publication/zenodo-metadata.json"));
@@ -64,10 +64,11 @@ assert.match(citation, /affiliation: "Civil Engineering, Islamic Azad University
 assert.match(license, /^MIT License/m, "The software directory must contain the actual MIT license text");
 assert.match(license, /Copyright \(c\) 2026 Yousef Bahrambeigi/);
 assert.match(manuscript, new RegExp(canonicalTitle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")));
-assert.match(manuscript, /Windows test was confirmed complete by\s+the author/);
+assert.match(manuscript, /Windows validation was performed\s+successfully by an independent user/);
 assert.match(manuscript, /does\s+not\s+transmit project data to an external AI inference service/);
 assert.match(manuscript, /# Code and software metadata/, "SoftwareX code metadata table is required");
 assert.match(manuscript, /DEMO-RC-B01/, "Controlled civil-engineering example must remain documented");
+assert.match(independentTest, /INDEPENDENT_TEST_STATUS: PASS/, "Independent-user validation must be recorded as PASS before release");
 assert.match(printCss, /@page\{size:A4/, "The print contract must explicitly target A4");
 assert.match(printCss, /break-inside:avoid/, "Evidence and report sections must avoid clipping across pages");
 assert.equal(manifest.start_url, "/bhb/mohandesyar-ai/", "Installed offline launch must use the cached canonical URL");
