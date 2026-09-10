@@ -33,7 +33,7 @@
 - [x] Summary and statement of need are drafted.
 - [x] Software architecture and limitations are described without legal or safety overclaiming.
 - [x] Automated QA scope is described.
-- [x] Android and iPhone results are distinguished from the pending Windows test.
+- [x] Android, iPhone, and Windows physical-device results are recorded without inventing missing environment details.
 - [x] Controlled synthetic reinforced-concrete inspection example added to the browser QA workflow and manuscript (`DEMO-RC-B01`).
 - [x] Compact comparison table added for QField, ODK Collect, and KoboCollect with official-documentation references.
 - [ ] Obtain an independent installation/test report from a user outside the development workflow.
@@ -43,10 +43,12 @@
 
 - [x] Elsevier-ready AI declaration drafted with tool/service, purpose, human oversight, responsibility, and research-process disclosure where code assistance is material.
 - [ ] Author must verify the declaration before submission; unrecorded model versions or dates must not be invented.
-- [ ] Complete funding, conflict-of-interest, data-availability, and author-contribution statements.
+- [x] Funding, conflict-of-interest, data-availability, and CRediT statement templates are drafted in `paper/DECLARATIONS.md`.
+- [ ] Author must verify the final funding, conflict-of-interest, data-availability, and CRediT statements.
 - [x] Primary journal selected: SoftwareX.
 - [ ] Apply the current SoftwareX submission template after release/DOI fields are frozen.
-- [ ] Run a final English-language and technical review.
+- [x] Cover letter, highlights, independent-user protocol, and SoftwareX submission map are drafted.
+- [ ] Run the final English-language and technical review after DOI/release fields are frozen.
 - [ ] Confirm that no private project data, precise GPS coordinates, credentials, or personal media are included.
 - [ ] Submit only after all mandatory items above are checked and supporting evidence is public.
 
