@@ -120,6 +120,13 @@ not require a runtime application server, user account, or cloud database.
 Static application assets are served from GitHub Pages, while project records
 are stored locally in IndexedDB.
 
+![Figure 1. Component overview of the MohandesYar AI 2.0 local-first architecture. The documented workflow combines the Persian RTL PWA interface, browser APIs, IndexedDB persistence, service-worker offline support, SHA-256 integrity metadata, portable backup/restore, and Persian A4 reporting.](figures/architecture.svg)
+
+**Figure 1.** Component overview of the MohandesYar AI 2.0 local-first
+architecture. Project data and original evidence remain browser-local in the
+documented workflow; no runtime application server or cloud database is
+required.
+
 ## 2.2. Evidence and reporting workflow
 
 For each evidence item, the application records the original file object

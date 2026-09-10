@@ -38,6 +38,7 @@
 - [x] Compact comparison table added for QField, ODK Collect, and KoboCollect with official-documentation references.
 - [x] Independent Windows PWA validation completed successfully by a user outside the development workflow; detailed tester/environment fields not supplied and therefore not inferred.
 - [x] Core manuscript references and official QField, ODK Collect, KoboCollect, Playwright, and NIST source URLs were rechecked on 10 September 2026; the Local-First Software DOI was independently corroborated.
+- [x] Pictorial component overview added as `paper/figures/architecture.svg` and referenced in the Software description to address the SoftwareX reviewer criterion for a component overview.
 
 ## Gate 5 — declarations and submission
 
