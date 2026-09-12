@@ -1,0 +1,18 @@
+{
+  "appId": "ir.ybb.rasacell",
+  "appName": "RASA Cell",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "capacitor"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#07111f"
+  },
+  "ios": {
+    "backgroundColor": "#07111f",
+    "contentInset": "always"
+  }
+}
