@@ -30,3 +30,4 @@ jobs:
       - name: Run dissertation benchmark framework tests
         run: |
           octave --no-gui --quiet --eval "cd('matlab_optimization'); addpath('tests'); TestDissertationBenchmarkFramework;"
+

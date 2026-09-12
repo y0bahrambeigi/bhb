@@ -106,8 +106,9 @@ checks geometry/grouping, the upper-bound reference weight, feasibility,
 discrete projection, optimizer reproducibility, and surrogate-dataset export.
 
 The four-benchmark dissertation status is defined in
-`benchmarks/BenchmarkRegistry.m`. The 72- and 100-bar entries intentionally
-remain `specification-pending` until their source definitions are locked.
+`benchmarks/BenchmarkRegistry.m`. The 72-bar Camp--Farshchin continuous model
+and standard 120-bar spatial dome are source-locked and implemented alongside
+the 10- and 25-bar models.
 
 3. The script will:
    - Run all 6 algorithms on the 10-bar truss problem

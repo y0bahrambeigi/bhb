@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "Dissertation Truss Optimization"
+type: software
+authors:
+  - family-names: "Bahrambeigi"
+    given-names: "Yousef"
+repository-code: "https://github.com/y0bahrambeigi/bhb"
+keywords:
+  - truss optimization
+  - structural optimization
+  - finite element method
+  - Pelican Optimization Algorithm
+  - MATLAB
