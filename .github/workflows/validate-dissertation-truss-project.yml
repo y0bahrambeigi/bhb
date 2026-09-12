@@ -1,0 +1,31 @@
+name: Validate standalone dissertation truss project
+
+on:
+  pull_request:
+    paths:
+      - "Dissertation-Truss-Optimization/**"
+      - ".github/workflows/validate-dissertation-truss-project.yml"
+  push:
+    branches:
+      - "project/dissertation-truss-optimization"
+    paths:
+      - "Dissertation-Truss-Optimization/**"
+      - ".github/workflows/validate-dissertation-truss-project.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  octave-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run standalone project tests
+        run: |
+          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); RunProjectTests;"
