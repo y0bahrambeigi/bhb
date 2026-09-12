@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "Please cite this release candidate using the preferred citation below; use the final DOI or ISBN once published."
+title: "سازه‌های هوشمند و کنترل پاسخ لرزه‌ای"
+version: 1.0.0-rc1
+date-released: 2026-08-25
+authors:
+  - family-names: Bahrambeigi
+    given-names: Yousef
+license: CC-BY-4.0
+repository-code: "https://github.com/y0bahrambeigi/bhb"
+url: "https://github.com/y0bahrambeigi/bhb/tree/main/publications/smart-structures"
+abstract: >-
+  A Persian academic book on smart structures and seismic response control,
+  spanning base isolation, passive and active control, sensing, digital twins,
+  and structural intelligence.
+preferred-citation:
+  type: book
+  title: "سازه‌های هوشمند و کنترل پاسخ لرزه‌ای: از جداسازی پایه و میرایی تا کنترل فعال، دوقلوی دیجیتال و هوش سازه‌ای"
+  authors:
+    - family-names: Bahrambeigi
+      given-names: Yousef
+  edition: 1
+  year: 2026
+  notes: "Release candidate 1 for version 1.0.0; official DOI or ISBN and publisher pending final metadata confirmation."
