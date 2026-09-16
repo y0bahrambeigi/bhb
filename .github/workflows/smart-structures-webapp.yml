@@ -1,0 +1,31 @@
+name: Smart Structures webapp
+
+on:
+  pull_request:
+    paths:
+      - "publications/smart-structures/webapp/**"
+      - ".github/workflows/smart-structures-webapp.yml"
+  push:
+    branches: [main, agent/upload-smart-structures-book]
+    paths:
+      - "publications/smart-structures/webapp/**"
+      - ".github/workflows/smart-structures-webapp.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          node --check publications/smart-structures/webapp/app.js
+          node --check publications/smart-structures/webapp/calculations.js
+          node --check publications/smart-structures/webapp/sw.js
+      - name: Validate PWA and engineering calculations
+        run: node publications/smart-structures/webapp/tests/validate.mjs

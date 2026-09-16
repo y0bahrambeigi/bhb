@@ -1,5 +1,7 @@
 # Print production specification gate
 
+> **Status:** Deferred. Version `v1.0.0` is a digital-only scholarly release. Nothing in this file is a release gate for the digital PDF or webapp. These requirements apply only if a separate print edition is commissioned in the future.
+
 ## Current file
 
 `Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_print-candidate.pdf` is a **proof and printer-coordination candidate only**.
