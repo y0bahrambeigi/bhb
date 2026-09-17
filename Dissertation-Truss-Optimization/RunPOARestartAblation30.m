@@ -109,12 +109,13 @@ for b = selected
     end
 end
 
-summary = cell2table(records, 'VariableNames', { ...
+columns = { ...
     'benchmark_id', 'algorithm', 'run_id', 'seed', 'n_members', ...
     'n_variables', 'population', 'iterations', 'n_evaluator_calls', ...
     'n_load_case_solves', 'elapsed_s', 'objective_weight', 'penalized_fitness', ...
     'total_violation', 'stable', 'feasible', 'max_stress_ratio', ...
-    'max_displacement_ratio', 'best_iteration', 'restart_count', 'n_active'});
+    'max_displacement_ratio', 'best_iteration', 'restart_count', 'n_active'};
+summary = MakeResultSet(records, columns);
 
 outputDir = fullfile(rootDir, 'results', 'poa_restart_ablation_30seed');
 if ~exist(outputDir, 'dir'), mkdir(outputDir); end
@@ -127,7 +128,7 @@ end
 
 csvFile = fullfile(outputDir, ['poa_restart_ablation_30seed_' suffix '.csv']);
 matFile = fullfile(outputDir, ['poa_restart_ablation_30seed_' suffix '.mat']);
-writetable(summary, csvFile);
+WriteResultCsv(csvFile, summary);
 artifact.summary = summary;
 artifact.baseParams = baseParams;
 artifact.seeds = seeds;

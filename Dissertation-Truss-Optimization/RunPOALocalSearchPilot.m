@@ -78,15 +78,16 @@ for b = 1:numel(problemClasses)
     end
 end
 
-summary = cell2table(records, 'VariableNames', { ...
+columns = { ...
     'benchmark_id', 'algorithm', 'seed', 'objective_weight', ...
     'penalized_fitness', 'total_violation', 'feasible', ...
     'n_evaluator_calls', 'n_load_case_solves', 'iterations_completed', 'elapsed_s', ...
-    'max_stress_ratio', 'max_displacement_ratio', 'n_active'});
+    'max_stress_ratio', 'max_displacement_ratio', 'n_active'};
+summary = MakeResultSet(records, columns);
 
 outputDir = fullfile(rootDir, 'results', 'poa_ls_equal_fe_pilot');
 if ~exist(outputDir, 'dir'), mkdir(outputDir); end
-writetable(summary, fullfile(outputDir, 'poa_ls_equal_fe_5seed.csv'));
+WriteResultCsv(fullfile(outputDir, 'poa_ls_equal_fe_5seed.csv'), summary);
 artifact.summary = summary;
 artifact.params = params;
 artifact.seeds = seeds;

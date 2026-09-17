@@ -178,6 +178,23 @@ assert(strcmp(header, 'MATLAB 5'), ...
     'MAT artifact must use the MATLAB level-5/v7 binary container.');
 delete(matFile);
 
+portableResult = MakeResultSet( ...
+    {'BMPOA,core', 1, true; 'BMPOA-ls', 2, false}, ...
+    {'algorithm', 'run_id', 'feasible'});
+portableCsv = [tempname(), '.csv'];
+WriteResultCsv(portableCsv, portableResult);
+assert(exist(portableCsv, 'file') == 2, ...
+    'Portable CSV writer did not create an output file.');
+fid = fopen(portableCsv, 'r');
+portableHeader = fgetl(fid);
+portableFirstRow = fgetl(fid);
+fclose(fid);
+assert(strcmp(portableHeader, 'algorithm,run_id,feasible'), ...
+    'Portable CSV header changed unexpectedly.');
+assert(strcmp(portableFirstRow, '"BMPOA,core",1,1'), ...
+    'Portable CSV escaping or scalar serialization is incorrect.');
+delete(portableCsv);
+
 tmpFile1 = fullfile(tempdir(), 'surrogate-25bar-a.csv');
 tmpFile2 = fullfile(tempdir(), 'surrogate-25bar-b.csv');
 data1 = GenerateSurrogateDataset(p, '25-bar', 12, 2026, tmpFile1);
