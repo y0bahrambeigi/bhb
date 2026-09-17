@@ -6,6 +6,7 @@ on:
       - "experiment/bmpoa-30seed-ablation"
     paths:
       - "Dissertation-Truss-Optimization/**"
+      - "scripts/analyze_bmpoa_ablation.py"
       - ".github/workflows/run-bmpoa-30seed-ablation.yml"
   workflow_dispatch:
 
@@ -14,7 +15,7 @@ permissions:
 
 concurrency:
   group: bmpoa-30seed-ablation-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   preflight:
@@ -32,39 +33,87 @@ jobs:
           octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); RunProjectTests;"
 
   ablation:
-    name: "30-seed ${{ matrix.benchmark }}"
+    name: "${{ matrix.benchmark }} shard ${{ matrix.seed_start }}"
     needs: preflight
     runs-on: ubuntu-latest
-    timeout-minutes: 360
+    timeout-minutes: 180
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 12
       matrix:
         benchmark:
           - "10-bar"
           - "25-bar"
           - "72-bar"
           - "120-bar"
+        seed_start:
+          - 2026
+          - 2031
+          - 2036
+          - 2041
+          - 2046
+          - 2051
     steps:
       - uses: actions/checkout@v4
       - name: Install GNU Octave
         run: |
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends octave
-      - name: Run equal-budget 30-seed BMPOA ablation
+      - name: Run equal-budget BMPOA shard
+        shell: bash
         run: |
-          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); startup; RunPOARestartAblation30('${{ matrix.benchmark }}');"
-      - name: Verify result artifacts
+          START=${{ matrix.seed_start }}
+          END=$((START + 4))
+          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); startup; RunPOARestartAblation30('${{ matrix.benchmark }}', ${START}, ${END});"
+      - name: Verify shard artifacts
+        shell: bash
         run: |
-          test -d Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed
-          test -n "$(find Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed -maxdepth 1 -name '*.csv' -print -quit)"
-          test -n "$(find Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed -maxdepth 1 -name '*.mat' -print -quit)"
-      - name: Upload dissertation ablation artifacts
+          START=${{ matrix.seed_start }}
+          END=$((START + 4))
+          DIR=Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed
+          test -d "$DIR"
+          test "$(find "$DIR" -maxdepth 1 -name "*seeds${START}-${END}.csv" | wc -l)" -eq 1
+          test "$(find "$DIR" -maxdepth 1 -name "*seeds${START}-${END}.mat" | wc -l)" -eq 1
+      - name: Upload shard artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: "bmpoa-30seed-${{ matrix.benchmark }}"
+          name: "bmpoa-shard-${{ matrix.benchmark }}-${{ matrix.seed_start }}"
           path: |
             Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed/*.csv
             Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed/*.mat
+          if-no-files-found: error
+          retention-days: 90
+
+  aggregate:
+    name: Statistical aggregation and scientific checks
+    needs: ablation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download all ablation shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "bmpoa-shard-*"
+          path: ablation-artifacts
+          merge-multiple: true
+      - name: Verify complete experiment artifact grid
+        shell: bash
+        run: |
+          test "$(find ablation-artifacts -type f -name '*.csv' | wc -l)" -eq 24
+          test "$(find ablation-artifacts -type f -name '*.mat' | wc -l)" -eq 24
+          echo "Raw artifact SHA-256:"
+          find ablation-artifacts -type f \( -name '*.csv' -o -name '*.mat' \) -print0 | sort -z | xargs -0 sha256sum
+      - name: Install statistical dependency
+        run: |
+          python3 -m pip install --disable-pip-version-check scipy
+      - name: Analyze paired 30-seed results
+        run: |
+          python3 scripts/analyze_bmpoa_ablation.py             ablation-artifacts             Dissertation-Truss-Optimization/results/bmpoa_30seed_analysis
+      - name: Upload statistical summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: bmpoa-30seed-statistical-summary
+          path: Dissertation-Truss-Optimization/results/bmpoa_30seed_analysis/*
           if-no-files-found: error
           retention-days: 90
