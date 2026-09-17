@@ -13,7 +13,9 @@ for k = 1:numel(registry)
         info.nLoadCases, weight, violation, info.isStable, info.isFeasible};
 end
 
-summary = cell2table(records, 'VariableNames', {'benchmark_id', 'n_members', ...
-    'n_variables', 'n_load_cases', 'weight', 'total_violation', 'stable', 'feasible'});
-disp(summary);
+columns = {'benchmark_id', 'n_members', 'n_variables', 'n_load_cases', ...
+    'weight', 'total_violation', 'stable', 'feasible'};
+summary = MakeResultSet(records, columns);
+fprintf('%s\n', strjoin(columns, ' | '));
+disp(records);
 end
