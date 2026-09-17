@@ -47,6 +47,7 @@ intended; it performs a large number of structural evaluations.
 - Load-case linear solves are reported separately.
 - Best-response data are cached; result export does not add a hidden FE call.
 - MAT artifacts are forced to MATLAB v7 format and round-trip checked.
+- Tabular experiment outputs use plain cell/struct containers plus a portable CSV writer; no MATLAB `table` toolbox API is required.
 - `BMPOA-*` and the separate `EPOA-*` implementation are distinct scientific
   identities and their results must not be pooled.
 
