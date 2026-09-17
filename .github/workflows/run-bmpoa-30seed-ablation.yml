@@ -1,0 +1,70 @@
+name: Run BMPOA 30-seed dissertation ablation
+
+on:
+  push:
+    branches:
+      - "experiment/bmpoa-30seed-ablation"
+    paths:
+      - "Dissertation-Truss-Optimization/**"
+      - ".github/workflows/run-bmpoa-30seed-ablation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bmpoa-30seed-ablation-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    name: GNU Octave preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run standalone regression suite
+        run: |
+          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); RunProjectTests;"
+
+  ablation:
+    name: "30-seed ${{ matrix.benchmark }}"
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        benchmark:
+          - "10-bar"
+          - "25-bar"
+          - "72-bar"
+          - "120-bar"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+      - name: Run equal-budget 30-seed BMPOA ablation
+        run: |
+          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); startup; RunPOARestartAblation30('${{ matrix.benchmark }}');"
+      - name: Verify result artifacts
+        run: |
+          test -d Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed
+          test -n "$(find Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed -maxdepth 1 -name '*.csv' -print -quit)"
+          test -n "$(find Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed -maxdepth 1 -name '*.mat' -print -quit)"
+      - name: Upload dissertation ablation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: "bmpoa-30seed-${{ matrix.benchmark }}"
+          path: |
+            Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed/*.csv
+            Dissertation-Truss-Optimization/results/poa_restart_ablation_30seed/*.mat
+          if-no-files-found: error
+          retention-days: 90
