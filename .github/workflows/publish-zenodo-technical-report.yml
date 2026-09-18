@@ -1,0 +1,224 @@
+name: Publish MohandesYar AI technical report to Zenodo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-zenodo-technical-report.yml"
+      - "mohandesyar-ai/publication/ZENODO_TECHNICAL_REPORT_METADATA.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+      RESERVED_DOI: "10.5281/zenodo.22089146"
+      EXPECTED_TITLE: "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting"
+      EXPECTED_PDF: "mohandesyar-ai-v2-technical-report.pdf"
+      EXPECTED_SHA256: "c938de488c8b1e70eb8c7a53c38f30d5e719effda6256b5599f18c5ae8453e16"
+      EXPECTED_DATE: "2026-08-25"
+      EXPECTED_ORCID: "0000-0002-3421-8679"
+      EXPECTED_AFFILIATION: "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Guarded Zenodo preflight and publish
+        shell: python
+        run: |
+          import hashlib
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.request
+
+          token = os.environ.get("ZENODO_TOKEN", "").strip()
+          if not token:
+              raise SystemExit(
+                  "ZENODO_TOKEN is not configured. No Zenodo action was taken. "
+                  "Create a Zenodo personal access token with deposit:write and "
+                  "deposit:actions scopes and store it as repository secret ZENODO_TOKEN."
+              )
+
+          reserved_doi = os.environ["RESERVED_DOI"]
+          expected_title = os.environ["EXPECTED_TITLE"]
+          expected_pdf = os.environ["EXPECTED_PDF"]
+          expected_sha = os.environ["EXPECTED_SHA256"]
+          expected_date = os.environ["EXPECTED_DATE"]
+          expected_orcid = os.environ["EXPECTED_ORCID"]
+          expected_affiliation = os.environ["EXPECTED_AFFILIATION"]
+
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/json",
+              "User-Agent": "MohandesYar-AI-Zenodo-publisher/2.0",
+          }
+
+          def request_json(url, method="GET", data=None, extra_headers=None):
+              h = dict(headers)
+              if extra_headers:
+                  h.update(extra_headers)
+              body = None
+              if data is not None:
+                  body = json.dumps(data).encode("utf-8")
+                  h["Content-Type"] = "application/json"
+              req = urllib.request.Request(url, data=body, headers=h, method=method)
+              try:
+                  with urllib.request.urlopen(req, timeout=60) as resp:
+                      raw = resp.read()
+                      return resp.status, json.loads(raw.decode("utf-8")) if raw else {}
+              except urllib.error.HTTPError as e:
+                  msg = e.read().decode("utf-8", "replace")
+                  raise SystemExit(f"Zenodo API {method} {url} failed: HTTP {e.code}: {msg}")
+
+          status, deposits = request_json("https://zenodo.org/api/deposit/depositions?size=100")
+          if status != 200 or not isinstance(deposits, list):
+              raise SystemExit("Could not list Zenodo draft depositions safely.")
+
+          matches = []
+          for dep in deposits:
+              md = dep.get("metadata") or {}
+              pre = md.get("prereserve_doi") or {}
+              if pre.get("doi") == reserved_doi:
+                  matches.append(dep)
+
+          if len(matches) != 1:
+              raise SystemExit(
+                  f"Expected exactly one draft with reserved DOI {reserved_doi}; found {len(matches)}. "
+                  "No publication action was taken."
+              )
+
+          dep = matches[0]
+          dep_id = dep.get("id")
+          md = dep.get("metadata") or {}
+
+          if dep.get("submitted") is True or dep.get("state") == "done":
+              print("Record is already published; no publish call needed.")
+              print(json.dumps({
+                  "doi": dep.get("doi"),
+                  "doi_url": dep.get("doi_url"),
+                  "record_url": dep.get("record_url"),
+              }, indent=2))
+              sys.exit(0)
+
+          failures = []
+
+          if md.get("title") != expected_title:
+              failures.append(f"title mismatch: {md.get('title')!r}")
+
+          if md.get("upload_type") != "publication":
+              failures.append(f"upload_type must be 'publication', found {md.get('upload_type')!r}")
+
+          if md.get("publication_type") != "report":
+              failures.append(f"publication_type must be 'report', found {md.get('publication_type')!r}")
+
+          if md.get("publication_date") != expected_date:
+              failures.append(
+                  f"publication_date must be {expected_date}, found {md.get('publication_date')!r}"
+              )
+
+          if md.get("access_right") not in ("open", None):
+              failures.append(f"access_right must be open, found {md.get('access_right')!r}")
+
+          if not md.get("license"):
+              failures.append("no explicit report license is selected")
+
+          creators = md.get("creators") or []
+          author_ok = False
+          for creator in creators:
+              orcid = (creator.get("orcid") or "").replace("https://orcid.org/", "")
+              affiliation = creator.get("affiliation") or ""
+              name = creator.get("name") or ""
+              if (
+                  orcid == expected_orcid
+                  and affiliation == expected_affiliation
+                  and ("Yousef" in name and ("Bahrambeigi" in name or "Bahram Beigi" in name))
+              ):
+                  author_ok = True
+                  break
+          if not author_ok:
+              failures.append("creator/ORCID/affiliation do not match the required report metadata")
+
+          related = md.get("related_identifiers") or []
+          software_doi = "10.6084/m9.figshare.33511795.v1"
+          if not any(
+              str(r.get("identifier", "")).rstrip("/") in (software_doi, f"https://doi.org/{software_doi}")
+              for r in related
+          ):
+              failures.append("related software DOI is missing from related_identifiers")
+
+          files = dep.get("files") or []
+          pdfs = [f for f in files if f.get("filename") == expected_pdf or f.get("name") == expected_pdf]
+          if len(pdfs) != 1:
+              failures.append(f"expected exactly one {expected_pdf}; found {len(pdfs)}")
+          else:
+              file_entry = pdfs[0]
+              links = file_entry.get("links") or {}
+              download_url = links.get("download") or links.get("self")
+              if not download_url:
+                  failures.append("Zenodo did not expose a download URL for the report PDF")
+              else:
+                  req = urllib.request.Request(download_url, headers=headers, method="GET")
+                  try:
+                      with urllib.request.urlopen(req, timeout=120) as resp:
+                          h = hashlib.sha256()
+                          while True:
+                              chunk = resp.read(1024 * 1024)
+                              if not chunk:
+                                  break
+                              h.update(chunk)
+                          observed = h.hexdigest()
+                      if observed != expected_sha:
+                          failures.append(
+                              f"PDF SHA-256 mismatch: expected {expected_sha}, observed {observed}"
+                          )
+                  except urllib.error.HTTPError as e:
+                      failures.append(f"could not download PDF for checksum verification: HTTP {e.code}")
+
+          if failures:
+              print("Zenodo publication gate FAILED:")
+              for item in failures:
+                  print(" -", item)
+              raise SystemExit("No publication action was taken.")
+
+          publish_url = (dep.get("links") or {}).get("publish")
+          if not publish_url:
+              publish_url = f"https://zenodo.org/api/deposit/depositions/{dep_id}/actions/publish"
+
+          print("All publication gates passed. Publishing exact reserved DOI draft:", reserved_doi)
+          pub_status, published = request_json(publish_url, method="POST")
+          if pub_status not in (200, 201, 202):
+              raise SystemExit(f"Unexpected publish response: HTTP {pub_status}")
+
+          final_doi = published.get("doi") or (published.get("metadata") or {}).get("doi")
+          final_url = published.get("doi_url") or published.get("record_url") or (published.get("links") or {}).get("record")
+          print("ZENODO_PUBLISH_SUCCESS")
+          print("DOI:", final_doi)
+          print("URL:", final_url)
+
+          if final_doi and final_doi != reserved_doi:
+              raise SystemExit(
+                  f"Publication returned unexpected DOI {final_doi}; expected {reserved_doi}. "
+                  "Review the published Zenodo record immediately."
+              )
+
+      - name: Public DOI resolution check
+        shell: python
+        run: |
+          import os
+          import urllib.request
+
+          doi = os.environ["RESERVED_DOI"]
+          req = urllib.request.Request(
+              f"https://doi.org/{doi}",
+              headers={"User-Agent": "MohandesYar-AI-DOI-verifier/2.0"},
+          )
+          with urllib.request.urlopen(req, timeout=60) as resp:
+              print("HTTP:", getattr(resp, "status", 200))
+              print("Resolved URL:", resp.geturl())
