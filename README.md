@@ -32,6 +32,7 @@ This repository contains a comprehensive MATLAB implementation comparing six sta
 - **Scholarly record:** [MohandesYar AI 2.0 technical report](https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/)
 - **Project citation metadata:** [mohandesyar-ai/CITATION.cff](mohandesyar-ai/CITATION.cff)
 - **Archived software DOI:** [10.6084/m9.figshare.33511795.v1](https://doi.org/10.6084/m9.figshare.33511795.v1) (Figshare, version 1).
+- **Technical report DOI:** [10.6084/m9.figshare.33935692.v1](https://doi.org/10.6084/m9.figshare.33935692.v1) (Figshare, version 1; CC BY 4.0).
 - Data and evidence files remain on the user's device in the public GitHub Pages edition.
 
 > This is a multi-project repository. The root `CITATION.cff` describes Python Learning Studio Ultra; MohandesYar AI must be cited using its project-level metadata linked above.
@@ -77,7 +78,8 @@ Repository code is covered by the MIT License unless a component states otherwis
 **Bahrambeigi, Y. (2026). MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting (Version 2.0.0) [Technical report]. BHB Smart Structures Lab, Report MYAI-TR-2026-02.**
 
 **Public record: [y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication](https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/)**  
-**Software DOI: [10.6084/m9.figshare.33511795.v1](https://doi.org/10.6084/m9.figshare.33511795.v1)**
+**Software DOI: [10.6084/m9.figshare.33511795.v1](https://doi.org/10.6084/m9.figshare.33511795.v1)**  
+**Report DOI: [10.6084/m9.figshare.33935692.v1](https://doi.org/10.6084/m9.figshare.33935692.v1)**
 
 ### Python Learning Studio Ultra Software
 
