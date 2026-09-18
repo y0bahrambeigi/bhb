@@ -78,58 +78,67 @@ jobs:
         run: |
           set -euo pipefail
 
-          cat > /tmp/release-notes.md <<EOF
-          # MohandesYar AI 2.0.0 — Final Scholarly Release
+          python - <<'PY'
+          import os
+          report_doi = os.environ["REPORT_DOI"]
+          software_doi = os.environ["SOFTWARE_DOI"]
+          report_sha = os.environ["REPORT_SHA256"]
+          software_sha = os.environ["SOFTWARE_SHA256"]
+          notes = f"""# MohandesYar AI 2.0.0 — Final Scholarly Release
 
-          This release is the canonical distribution point that links the frozen
-          MohandesYar AI 2.0.0 software artifact with its independently citable
-          technical report.
+This release is the canonical distribution point that links the frozen
+MohandesYar AI 2.0.0 software artifact with its independently citable
+technical report.
 
-          ## Canonical identifiers
+## Canonical identifiers
 
-          - Software DOI: https://doi.org/$SOFTWARE_DOI
-          - Technical-report DOI: https://doi.org/$REPORT_DOI
-          - Live PWA: https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/
-          - Scholarly landing page: https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/
+- Software DOI: https://doi.org/{software_doi}
+- Technical-report DOI: https://doi.org/{report_doi}
+- Live PWA: https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/
+- Scholarly landing page: https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/
 
-          ## Frozen assets and integrity
+## Frozen assets and integrity
 
-          - `mohandesyar-ai-2.0.0.zip`
-            - SHA-256: `$SOFTWARE_SHA256`
-          - `mohandesyar-ai-v2-technical-report.pdf`
-            - SHA-256: `$REPORT_SHA256`
-          - `FINAL-RELEASE-SHA256SUMS` verifies both primary assets.
-          - `MohandesYar-AI-CITATION.cff` supplies software citation metadata.
-          - `FIGSHARE_TECHNICAL_REPORT_METADATA.md` records the archival report metadata.
+- `mohandesyar-ai-2.0.0.zip`
+  - SHA-256: `{software_sha}`
+- `mohandesyar-ai-v2-technical-report.pdf`
+  - SHA-256: `{report_sha}`
+- `FINAL-RELEASE-SHA256SUMS` verifies both primary assets.
+- `MohandesYar-AI-CITATION.cff` supplies software citation metadata.
+- `FIGSHARE_TECHNICAL_REPORT_METADATA.md` records the archival report metadata.
 
-          ## Scope
+## Scope
 
-          MohandesYar AI 2.0.0 is an offline-first Persian RTL PWA for civil-engineering
-          field documentation with local project dossiers, image/video evidence,
-          optional geolocation, SHA-256 evidence fingerprints, backup/restore,
-          Persian A4 reporting, PWA installation, and offline relaunch.
+MohandesYar AI 2.0.0 is an offline-first Persian RTL PWA for civil-engineering
+field documentation with local project dossiers, image/video evidence,
+optional geolocation, SHA-256 evidence fingerprints, backup/restore,
+Persian A4 reporting, PWA installation, and offline relaunch.
 
-          The software archive and technical report are distinct research objects and
-          retain separate DOIs. This final release does not modify either frozen artifact.
-          EOF
+The software archive and technical report are distinct research objects and
+retain separate DOIs. This final release does not modify either frozen artifact.
+"""
+          with open("/tmp/release-notes.md", "w", encoding="utf-8") as handle:
+              handle.write(notes)
+          PY
 
           if gh release view "$FINAL_TAG" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
-            echo "Final release already exists; leaving it unchanged."
-            gh release view "$FINAL_TAG" --repo "${GITHUB_REPOSITORY}"
-            exit 0
+            gh release edit "$FINAL_TAG" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --title "MohandesYar AI 2.0.0 — Final Scholarly Release" \
+              --notes-file /tmp/release-notes.md
+          else
+            gh release create "$FINAL_TAG" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --target "${GITHUB_SHA}" \
+              --title "MohandesYar AI 2.0.0 — Final Scholarly Release" \
+              --notes-file /tmp/release-notes.md \
+              dist/mohandesyar-ai-2.0.0.zip \
+              dist/mohandesyar-ai-2.0.0.zip.sha256 \
+              dist/mohandesyar-ai-v2-technical-report.pdf \
+              dist/technical-report-SHA256SUMS \
+              dist/FINAL-RELEASE-SHA256SUMS \
+              dist/MohandesYar-AI-CITATION.cff \
+              dist/FIGSHARE_TECHNICAL_REPORT_METADATA.md
           fi
-
-          gh release create "$FINAL_TAG" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --target "${GITHUB_SHA}" \
-            --title "MohandesYar AI 2.0.0 — Final Scholarly Release" \
-            --notes-file /tmp/release-notes.md \
-            dist/mohandesyar-ai-2.0.0.zip \
-            dist/mohandesyar-ai-2.0.0.zip.sha256 \
-            dist/mohandesyar-ai-v2-technical-report.pdf \
-            dist/technical-report-SHA256SUMS \
-            dist/FINAL-RELEASE-SHA256SUMS \
-            dist/MohandesYar-AI-CITATION.cff \
-            dist/FIGSHARE_TECHNICAL_REPORT_METADATA.md
 
           gh release view "$FINAL_TAG" --repo "${GITHUB_REPOSITORY}"
