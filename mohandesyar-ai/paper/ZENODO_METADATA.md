@@ -1,7 +1,12 @@
 # Zenodo metadata — MohandesYar AI 2.0.0
 
-Use these values for the public software archive. Do not add a DOI to repository
-metadata until the record is published and resolves publicly through DOI.org.
+Use these values when creating or reviewing a Zenodo preservation record for
+MohandesYar AI 2.0.0.
+
+The exact version 2.0.0 software artifact is already publicly archived on
+Figshare with a registered DOI. Zenodo's current deposit guidance says that when
+the upload already has a DOI for the same object, the existing DOI should be
+supplied instead of minting a second DOI for that same object.
 
 - **Upload type:** Software
 - **Title:** MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting
@@ -9,7 +14,7 @@ metadata until the record is published and resolves publicly through DOI.org.
 - **Affiliation:** Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran
 - **ORCID:** 0000-0002-3421-8679
 - **Version:** 2.0.0
-- **Publication date:** 2026-09-10
+- **First public publication date:** 2026-08-25
 - **License:** MIT
 - **Language:** English documentation / Persian RTL application
 - **Access right:** Open
@@ -18,8 +23,25 @@ metadata until the record is published and resolves publicly through DOI.org.
 - **Application:** https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/
 - **Release archive:** `mohandesyar-ai-2.0.0.zip`
 - **Release archive SHA-256:** `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
+- **Existing public DOI for this exact artifact:** `10.6084/m9.figshare.33511795.v1`
 - **Reserved Zenodo DOI:** `10.5281/zenodo.22089146`
-- **DOI status:** Reserved/pending. Do not cite as the active public archive DOI until the Zenodo record is published and the DOI resolves publicly through DOI.org.
+- **Reserved DOI status:** Pending/unpublished. Do not cite or publish it as a second DOI for the exact same software artifact.
+
+## Recommended Zenodo route
+
+For a Zenodo preservation copy of the same version 2.0.0 artifact:
+
+1. choose the option indicating that the upload already has a DOI;
+2. use `10.6084/m9.figshare.33511795.v1` as the existing DOI for the same object;
+3. use publication date `2026-08-25`, because Zenodo asks for the date the
+   upload was first made publicly available when it was previously published;
+4. upload the exact frozen release archive and verify its SHA-256 before deposit;
+5. keep the reserved Zenodo DOI unpublished unless it is reassigned to a
+   genuinely distinct research object.
+
+A distinct object (for example, the technical report rather than the exact
+software archive) may legitimately receive its own DOI, provided its metadata,
+files, resource type, title, and related-identifiers make that distinction clear.
 
 ## Description
 
@@ -66,13 +88,15 @@ precise private GPS coordinates.
 
 ## Publication gate
 
-Before copying the DOI into the manuscript or repository metadata, verify all of
-the following:
+Before publishing a Zenodo record, verify all of the following:
 
-1. the Zenodo record is public and accessible without authentication;
-2. title, creator, ORCID, affiliation, version, publication date, and MIT
-   license match this file;
-3. the archived software corresponds to tag `mohandesyar-ai-v2.0.0`;
-4. the DOI `10.5281/zenodo.22089146` resolves publicly through DOI.org;
-5. only then propagate the DOI to `CITATION.cff`, README, publication page,
-   manuscript, release notes, and archival metadata.
+1. title, creator, ORCID, affiliation, version, first-publication date, and MIT
+   license are consistent;
+2. the archived software corresponds to tag `mohandesyar-ai-v2.0.0`;
+3. the release archive SHA-256 is
+   `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`;
+4. for the exact software artifact, retain the existing Figshare DOI
+   `10.6084/m9.figshare.33511795.v1`;
+5. do not propagate `10.5281/zenodo.22089146` into `CITATION.cff`, README,
+   publication pages, manuscripts, or release notes unless a distinct Zenodo
+   object is deliberately published under that identifier.
