@@ -30,6 +30,7 @@ This repository contains a comprehensive MATLAB implementation comparing six sta
 - **Live PWA:** [y0bahrambeigi.github.io/bhb/mohandesyar-ai](https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/)
 - **Documentation:** [mohandesyar-ai/README.md](mohandesyar-ai/README.md)
 - **Scholarly record:** [MohandesYar AI 2.0 technical report](https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/)
+- **Final scholarly release:** [MohandesYar AI 2.0.0](https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-final-v2.0.0)
 - **Project citation metadata:** [mohandesyar-ai/CITATION.cff](mohandesyar-ai/CITATION.cff)
 - **Archived software DOI:** [10.6084/m9.figshare.33511795.v1](https://doi.org/10.6084/m9.figshare.33511795.v1) (Figshare, version 1).
 - **Technical report DOI:** [10.6084/m9.figshare.33935692.v2](https://doi.org/10.6084/m9.figshare.33935692.v2) (Figshare, version 2; CC BY 4.0).
