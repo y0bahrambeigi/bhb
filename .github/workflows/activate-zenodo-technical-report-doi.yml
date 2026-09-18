@@ -1,0 +1,159 @@
+name: Activate Zenodo technical-report DOI
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  activate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify DOI resolves to the Zenodo report record
+        shell: python
+        run: |
+          import urllib.request
+
+          doi = "10.5281/zenodo.22089146"
+          expected_record = "22089146"
+          req = urllib.request.Request(
+              f"https://doi.org/{doi}",
+              headers={"User-Agent": "MohandesYar-AI-release-verifier/2.0"}
+          )
+          with urllib.request.urlopen(req, timeout=30) as response:
+              final_url = response.geturl()
+              status = getattr(response, "status", 200)
+
+          print("HTTP status:", status)
+          print("Resolved URL:", final_url)
+
+          if status < 200 or status >= 400:
+              raise SystemExit(f"DOI did not resolve successfully: HTTP {status}")
+          if "zenodo.org" not in final_url.lower() or expected_record not in final_url:
+              raise SystemExit(
+                  "DOI resolved, but not to the expected Zenodo report record. "
+                  "No repository metadata will be changed."
+              )
+
+      - name: Activate DOI in report metadata
+        shell: python
+        run: |
+          from pathlib import Path
+
+          doi = "10.5281/zenodo.22089146"
+          doi_url = f"https://doi.org/{doi}"
+
+          page_path = Path("mohandesyar-ai/publication/index.html")
+          readme_path = Path("mohandesyar-ai/README.md")
+          meta_path = Path("mohandesyar-ai/publication/ZENODO_TECHNICAL_REPORT_METADATA.md")
+
+          page = page_path.read_text(encoding="utf-8")
+          readme = readme_path.read_text(encoding="utf-8")
+          meta = meta_path.read_text(encoding="utf-8")
+
+          if 'name="citation_doi"' not in page:
+              marker = '  <meta name="citation_author" content="Yousef Bahrambeigi">\n'
+              if marker not in page:
+                  raise SystemExit("Could not locate citation_author marker in publication page.")
+              page = page.replace(
+                  marker,
+                  marker + f'  <meta name="citation_doi" content="{doi}">\n',
+                  1,
+              )
+
+          if "Zenodo report DOI" not in page:
+              marker = '        <a class="button primary" href="./mohandesyar-ai-v2-technical-report.pdf">Download technical report (PDF)</a>\n'
+              if marker not in page:
+                  raise SystemExit("Could not locate PDF button marker.")
+              page = page.replace(
+                  marker,
+                  marker + f'        <a class="button" href="{doi_url}">Zenodo report DOI</a>\n',
+                  1,
+              )
+
+          if "<th>Report DOI</th>" not in page:
+              marker = '        <tr><th>Report number</th><td>MYAI-TR-2026-02</td></tr>\n'
+              if marker not in page:
+                  raise SystemExit("Could not locate report-number row.")
+              page = page.replace(
+                  marker,
+                  marker + f'        <tr><th>Report DOI</th><td><a href="{doi_url}">{doi}</a> (Zenodo)</td></tr>\n',
+                  1,
+              )
+
+          old_notice = (
+              '<p class="notice"><strong>Publication status:</strong> This page describes the technical report as a research object distinct from the software archive. '
+              'The related MohandesYar AI 2.0.0 software is archived publicly on Figshare as item 33511795 with version DOI '
+              '<a href="https://doi.org/10.6084/m9.figshare.33511795.v1">10.6084/m9.figshare.33511795.v1</a>. '
+              'A separate DOI for this technical report should be cited only after the report record is publicly published and resolvable.</p>'
+          )
+          new_notice = (
+              f'<p class="notice"><strong>Publication status:</strong> This technical report is archived on Zenodo with DOI '
+              f'<a href="{doi_url}">{doi}</a>. The related MohandesYar AI 2.0.0 software is a distinct research object archived '
+              'on Figshare with version DOI <a href="https://doi.org/10.6084/m9.figshare.33511795.v1">10.6084/m9.figshare.33511795.v1</a>.</p>'
+          )
+          if old_notice in page:
+              page = page.replace(old_notice, new_notice, 1)
+          elif doi not in page:
+              raise SystemExit("Could not safely update publication-status notice.")
+
+          citation_tail = (
+              '<a href="https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/">'
+              'https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/</a></p>'
+          )
+          if citation_tail in page and doi_url not in page.split('<h2>Recommended citation</h2>', 1)[1].split('<h2>', 1)[0]:
+              page = page.replace(
+                  citation_tail,
+                  citation_tail[:-4] + f' DOI: <a href="{doi_url}">{doi}</a>.</p>',
+                  1,
+              )
+
+          report_heading = "### استناد پیشنهادی گزارش فنی\n"
+          doi_line = f"**Technical report DOI:** [{doi}]({doi_url})\n"
+          if doi_line not in readme:
+              idx = readme.find(report_heading)
+              if idx < 0:
+                  raise SystemExit("Could not locate technical-report citation section in README.")
+              section_start = idx + len(report_heading)
+              next_heading = readme.find("\n## ", section_start)
+              if next_heading < 0:
+                  next_heading = len(readme)
+              section = readme[section_start:next_heading].rstrip()
+              readme = (
+                  readme[:section_start]
+                  + section
+                  + "\n\n"
+                  + doi_line
+                  + readme[next_heading:]
+              )
+
+          meta = meta.replace(
+              "- **DOI status:** Reserved/pending. Cite only after the Zenodo report record is published and the DOI resolves publicly.",
+              "- **DOI status:** Published and publicly resolvable through DOI.org.",
+          )
+
+          page_path.write_text(page, encoding="utf-8")
+          readme_path.write_text(readme, encoding="utf-8")
+          meta_path.write_text(meta, encoding="utf-8")
+
+      - name: Review repository changes
+        run: git diff --check && git diff -- mohandesyar-ai/publication/index.html mohandesyar-ai/README.md mohandesyar-ai/publication/ZENODO_TECHNICAL_REPORT_METADATA.md
+
+      - name: Commit activated DOI metadata
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "DOI metadata is already active; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mohandesyar-ai/publication/index.html \
+                  mohandesyar-ai/README.md \
+                  mohandesyar-ai/publication/ZENODO_TECHNICAL_REPORT_METADATA.md
+          git commit -m "docs: activate Zenodo DOI for MohandesYar AI technical report"
+          git push
