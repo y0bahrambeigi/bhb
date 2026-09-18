@@ -1,0 +1,55 @@
+name: Fix MohandesYar final release notes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-mohandesyar-final-release-notes.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Correct final release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/notes.md <<'EOF'
+          # MohandesYar AI 2.0.0 — Final Scholarly Release
+
+          This release is the canonical distribution point that links the frozen MohandesYar AI 2.0.0 software artifact with its independently citable technical report.
+
+          ## Canonical identifiers
+
+          - Software DOI: https://doi.org/10.6084/m9.figshare.33511795.v1
+          - Technical-report DOI: https://doi.org/10.6084/m9.figshare.33935692.v2
+          - Live PWA: https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/
+          - Scholarly landing page: https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/
+
+          ## Frozen assets and integrity
+
+          - `mohandesyar-ai-2.0.0.zip`
+            - SHA-256: `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
+          - `mohandesyar-ai-v2-technical-report.pdf`
+            - SHA-256: `c938de488c8b1e70eb8c7a53c38f30d5e719effda6256b5599f18c5ae8453e16`
+          - `FINAL-RELEASE-SHA256SUMS` verifies both primary assets.
+          - `MohandesYar-AI-CITATION.cff` supplies software citation metadata.
+          - `FIGSHARE_TECHNICAL_REPORT_METADATA.md` records the archival report metadata.
+
+          ## Scope
+
+          MohandesYar AI 2.0.0 is an offline-first Persian RTL PWA for civil-engineering field documentation with local project dossiers, image/video evidence, optional geolocation, SHA-256 evidence fingerprints, backup/restore, Persian A4 reporting, PWA installation, and offline relaunch.
+
+          The software archive and technical report are distinct research objects and retain separate DOIs. This final release does not modify either frozen artifact.
+          EOF
+
+          gh release edit mohandesyar-ai-final-v2.0.0 \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "MohandesYar AI 2.0.0 — Final Scholarly Release" \
+            --notes-file /tmp/notes.md
+          gh release view mohandesyar-ai-final-v2.0.0 --repo "${GITHUB_REPOSITORY}"
