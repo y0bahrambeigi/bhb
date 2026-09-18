@@ -31,7 +31,7 @@
 - [x] Confirmed the version DOI resolves through `doi.org` without authentication (HTTP 200 in GitHub Actions run 34433833072 on 10 September 2026).
 - [x] Propagate version DOI `10.6084/m9.figshare.33511795.v1` to `CITATION.cff`, README, publication page, release notes, declarations, cover letter, and manuscript.
 - [x] Preserve the frozen release ZIP checksum unchanged; no archived ZIP or technical-report PDF bytes were modified by DOI metadata synchronization.
-- [ ] Optionally publish a matching Zenodo archive later as a secondary archive; do not cite any reserved or draft DOI.
+- [ ] Optional Zenodo preservation: for the exact version 2.0.0 software artifact, use the already-registered Figshare DOI `10.6084/m9.figshare.33511795.v1` as the existing DOI rather than minting a second DOI; keep reserved Zenodo DOI `10.5281/zenodo.22089146` unpublished unless it is intentionally reassigned to a genuinely distinct research object (for example, the technical report).
 
 ## Gate 4 — manuscript evidence
 
