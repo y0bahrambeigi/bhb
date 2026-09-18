@@ -15,8 +15,11 @@ separate from the already-published MohandesYar AI 2.0.0 software archive.
 - **Access:** Open
 - **Primary file:** `mohandesyar-ai-v2-technical-report.pdf`
 - **PDF SHA-256:** `c938de488c8b1e70eb8c7a53c38f30d5e719effda6256b5599f18c5ae8453e16`
+- **Public report DOI (Figshare):** `10.6084/m9.figshare.33935692.v1`
+- **Public Figshare item:** `33935692`
+- **Report license:** CC BY 4.0
 - **Reserved Zenodo DOI:** `10.5281/zenodo.22089146`
-- **DOI status:** Reserved/pending. Cite only after the Zenodo report record is published and the DOI resolves publicly.
+- **Zenodo DOI status:** Reserved/unpublished and superseded as the primary DOI route for this exact report. Do not cite it.
 - **Related software DOI:** `10.6084/m9.figshare.33511795.v1`
 - **Relationship:** this report **documents** the related MohandesYar AI 2.0.0 software archive
 - **Report landing page:** https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/
@@ -68,6 +71,15 @@ The software is MIT-licensed, but that software license should not automatically
 be assumed to license the prose and figures of this technical report. Before
 publishing the report record, explicitly select the report's publication
 license in Zenodo and, if necessary, add the same license statement to the PDF.
+
+## Zenodo secondary-preservation policy
+
+The exact technical report is now publicly registered on Figshare with DOI
+`10.6084/m9.figshare.33935692.v1`. A future Zenodo preservation copy of the **same report**
+should use Zenodo's "already has a DOI" path with that existing DOI rather than
+minting a second DOI for the identical research object. The reserved Zenodo DOI
+`10.5281/zenodo.22089146` should therefore remain unpublished unless it is
+deliberately reassigned to a genuinely different research object.
 
 ## Final publication gate
 
