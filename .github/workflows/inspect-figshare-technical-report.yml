@@ -1,0 +1,51 @@
+name: Inspect Figshare technical report draft state
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/inspect-figshare-technical-report.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Inspect account-side Figshare record
+        shell: python
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+        run: |
+          import json, os, urllib.request
+
+          token = os.environ.get("FIGSHARE_TOKEN", "").strip()
+          if not token:
+              raise SystemExit("FIGSHARE_TOKEN missing.")
+
+          article_id = 33935692
+          req = urllib.request.Request(
+              f"https://api.figshare.com/v2/account/articles/{article_id}",
+              headers={"Authorization": f"token {token}", "Accept": "application/json"},
+          )
+          with urllib.request.urlopen(req, timeout=60) as resp:
+              data = json.load(resp)
+
+          safe = {
+              "id": data.get("id"),
+              "title": data.get("title"),
+              "doi": data.get("doi"),
+              "version": data.get("version"),
+              "published_date": data.get("published_date"),
+              "modified_date": data.get("modified_date"),
+              "status": data.get("status"),
+              "authors": [
+                  {"id": a.get("id"), "full_name": a.get("full_name")}
+                  for a in (data.get("authors") or [])
+              ],
+              "url_private_api": data.get("url_private_api"),
+              "url_public_api": data.get("url_public_api"),
+          }
+          print(json.dumps(safe, indent=2))
