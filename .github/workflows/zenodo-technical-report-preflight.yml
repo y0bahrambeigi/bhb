@@ -1,0 +1,69 @@
+name: Zenodo technical report preflight
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify MohandesYar AI technical-report deposit gate
+        shell: python
+        run: |
+          from pathlib import Path
+          import hashlib
+          import sys
+
+          root = Path("mohandesyar-ai")
+          pdf = root / "publication" / "mohandesyar-ai-v2-technical-report.pdf"
+          meta = root / "publication" / "ZENODO_TECHNICAL_REPORT_METADATA.md"
+          page = root / "publication" / "index.html"
+          citation = root / "CITATION.cff"
+
+          expected_pdf_sha256 = "c938de488c8b1e70eb8c7a53c38f30d5e719effda6256b5599f18c5ae8453e16"
+          reserved_report_doi = "10.5281/zenodo.22089146"
+          software_doi = "10.6084/m9.figshare.33511795.v1"
+
+          required = [pdf, meta, page, citation]
+          missing = [str(p) for p in required if not p.exists()]
+          if missing:
+              raise SystemExit("Missing required files: " + ", ".join(missing))
+
+          digest = hashlib.sha256(pdf.read_bytes()).hexdigest()
+          if digest != expected_pdf_sha256:
+              raise SystemExit(
+                  f"Technical-report PDF SHA-256 mismatch: {digest} != {expected_pdf_sha256}"
+              )
+
+          meta_text = meta.read_text(encoding="utf-8")
+          page_text = page.read_text(encoding="utf-8")
+          citation_text = citation.read_text(encoding="utf-8")
+
+          checks = {
+              "reserved report DOI recorded": reserved_report_doi in meta_text,
+              "software DOI recorded as related work": software_doi in meta_text,
+              "resource type is Publication / Report": "Publication / Report" in meta_text,
+              "report number recorded": "MYAI-TR-2026-02" in meta_text,
+              "first publication date recorded": "2026-08-25" in meta_text,
+              "software DOI remains in software citation metadata": software_doi in citation_text,
+              "reserved report DOI not prematurely propagated to software citation": reserved_report_doi not in citation_text,
+              "reserved report DOI not prematurely exposed on report landing page": reserved_report_doi not in page_text,
+              "Figshare DOI is described as related software on report page": "Related software DOI" in page_text and software_doi in page_text,
+          }
+
+          failed = [name for name, ok in checks.items() if not ok]
+          for name, ok in checks.items():
+              print(f"[{'PASS' if ok else 'FAIL'}] {name}")
+
+          if failed:
+              raise SystemExit("Preflight failed: " + "; ".join(failed))
+
+          print("\nZenodo technical-report preflight: PASS")
+          print("No publication action was performed.")
+          print("The reserved Zenodo DOI must remain uncited until the record is published and publicly resolves.")
