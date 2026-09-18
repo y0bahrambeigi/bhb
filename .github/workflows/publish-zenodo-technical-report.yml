@@ -1,11 +1,6 @@
 name: Publish MohandesYar AI technical report to Zenodo
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/publish-zenodo-technical-report.yml"
-      - "mohandesyar-ai/publication/ZENODO_TECHNICAL_REPORT_METADATA.md"
   workflow_dispatch:
 
 permissions:
