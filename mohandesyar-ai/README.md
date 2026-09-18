@@ -109,7 +109,7 @@ npm run verify
 - نسخه ثابت نرم‌افزار: [GitHub Release — mohandesyar-ai-v2.0.0](https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0)
 - SHA-256 آرشیو نسخه 2.0.0: `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`
 - DOI آرشیوی نسخه 2.0.0 در Figshare: [10.6084/m9.figshare.33511795.v1](https://doi.org/10.6084/m9.figshare.33511795.v1)
-- DOI گزارش فنی در Figshare: [10.6084/m9.figshare.33935692.v1](https://doi.org/10.6084/m9.figshare.33935692.v1)
+- DOI گزارش فنی در Figshare: [10.6084/m9.figshare.33935692.v2](https://doi.org/10.6084/m9.figshare.33935692.v2)
 - رکورد گزارش فنی Figshare: [Item 33935692](https://api.figshare.com/v2/articles/33935692)
 - DOI کلی رکورد Figshare: `10.6084/m9.figshare.33511795`
 - رکورد Figshare: [Item 33511795](https://api.figshare.com/v2/articles/33511795)
@@ -118,4 +118,4 @@ npm run verify
 
 Bahrambeigi, Y. (2026). *MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting* (Version 2.0.0) [Technical report]. BHB Smart Structures Lab, Report MYAI-TR-2026-02. <https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/publication/>
 
-**Technical report DOI:** [10.6084/m9.figshare.33935692.v1](https://doi.org/10.6084/m9.figshare.33935692.v1)
+**Technical report DOI:** [10.6084/m9.figshare.33935692.v2](https://doi.org/10.6084/m9.figshare.33935692.v2)
