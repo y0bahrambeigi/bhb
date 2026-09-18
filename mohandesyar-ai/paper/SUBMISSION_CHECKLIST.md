@@ -31,9 +31,9 @@
 - [x] Confirmed the version DOI resolves through `doi.org` without authentication (HTTP 200 in GitHub Actions run 34433833072 on 10 September 2026).
 - [x] Propagate version DOI `10.6084/m9.figshare.33511795.v1` to `CITATION.cff`, README, publication page, release notes, declarations, cover letter, and manuscript.
 - [x] Preserve the frozen release ZIP checksum unchanged; no archived ZIP or technical-report PDF bytes were modified by DOI metadata synchronization.
-- [x] Publish the distinct technical report as Figshare item 33935692 (Preprint) under CC BY 4.0 with version DOI `10.6084/m9.figshare.33935692.v1`.
+- [x] Publish the distinct technical report as Figshare item 33935692 (Preprint) under CC BY 4.0 with version DOI `10.6084/m9.figshare.33935692.v2`.
 - [x] Verify the archived technical-report PDF SHA-256 as `c938de488c8b1e70eb8c7a53c38f30d5e719effda6256b5599f18c5ae8453e16` before publication.
-- [x] Confirm that `10.6084/m9.figshare.33935692.v1` resolves publicly through DOI.org and remains distinct from the software DOI `10.6084/m9.figshare.33511795.v1`.
+- [x] Confirm that `10.6084/m9.figshare.33935692.v2` resolves publicly through DOI.org and remains distinct from the software DOI `10.6084/m9.figshare.33511795.v1`.
 - [ ] Optional Zenodo preservation remains non-blocking. The software and technical report now both have public Figshare DOIs; do not mint an additional Zenodo DOI for either identical object. Reserved Zenodo DOI `10.5281/zenodo.22089146` remains unpublished and must not be cited.
 
 ## Gate 4 — manuscript evidence
