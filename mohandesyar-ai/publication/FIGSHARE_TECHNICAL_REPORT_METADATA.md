@@ -12,14 +12,16 @@ research object distinct from the MohandesYar AI 2.0.0 software archive.
 - **ORCID:** 0000-0002-3421-8679
 - **Report number:** MYAI-TR-2026-02
 - **First public availability stated in report:** 2026-08-25
-- **Figshare publication timestamp:** 2026-09-18T13:14:31Z
+- **Initial Figshare publication timestamp:** 2026-09-18T13:14:31Z
+- **Canonical metadata version:** 2 (author metadata normalized to one canonical Figshare author)
 - **License:** CC BY 4.0
 - **Category:** Structural engineering (Figshare category 26371)
 - **Primary file:** `mohandesyar-ai-v2-technical-report.pdf`
 - **PDF SHA-256:** `c938de488c8b1e70eb8c7a53c38f30d5e719effda6256b5599f18c5ae8453e16`
 - **Concept DOI:** `10.6084/m9.figshare.33935692`
-- **Version DOI:** `10.6084/m9.figshare.33935692.v1`
-- **DOI URL:** https://doi.org/10.6084/m9.figshare.33935692.v1
+- **Version DOI (canonical):** `10.6084/m9.figshare.33935692.v2`
+- **Version 1 DOI (historical):** `10.6084/m9.figshare.33935692.v1`
+- **DOI URL:** https://doi.org/10.6084/m9.figshare.33935692.v2
 - **Public API record:** https://api.figshare.com/v2/articles/33935692
 - **Related software DOI:** `10.6084/m9.figshare.33511795.v1`
 - **Related software item:** 33511795
