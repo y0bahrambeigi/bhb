@@ -10,6 +10,7 @@ if ~isfield(params, 'maxEvaluations'), params.maxEvaluations = 35070; end
 if ~isfield(params, 'penaltyCoef'), params.penaltyCoef = 1e7; end
 if ~isfield(params, 'levyScale'), params.levyScale = 0.015; end
 if ~isfield(params, 'localSearchTrials'), params.localSearchTrials = 0; end
+if ~isfield(params, 'qioTrials'), params.qioTrials = 0; end
 if ~isfield(params, 'areaMoveProbability'), params.areaMoveProbability = 0.80; end
 if ~isfield(params, 'shrinkProbability'), params.shrinkProbability = 0.65; end
 if ~isfield(params, 'localSearchMinScale'), params.localSearchMinScale = 0.01; end
@@ -22,6 +23,7 @@ end
 validateattributes(params.popSize, {'numeric'}, {'scalar','integer','>=',2});
 validateattributes(params.maxEvaluations, {'numeric'}, {'scalar','integer','>=',params.popSize});
 validateattributes(params.localSearchTrials, {'numeric'}, {'scalar','integer','nonnegative'});
+validateattributes(params.qioTrials, {'numeric'}, {'scalar','integer','nonnegative'});
 validateattributes(params.restartFraction, {'numeric'}, {'scalar','real','finite','>=',0,'<',1});
 validateattributes(params.stagnationEvaluations, {'numeric'}, {'scalar','integer','nonnegative'});
 
@@ -40,6 +42,10 @@ if isMixedTopology
     areaIdx = 1:problem.nBar;
     topologyIdx = (problem.nBar + 1):nVar;
 end
+if params.qioTrials > 0 && (~isDiscreteSizing || isMixedTopology)
+    error('BudgetedMemeticPelicanOptimization:QIODiscreteOnly', ...
+        'qioTrials currently supports pure discrete-sizing problems only.');
+end
 
 pelicans(1, areaIdx) = 0.5 * (bounds.lb(areaIdx) + bounds.ub(areaIdx));
 if ~isempty(topologyIdx), pelicans(1, topologyIdx) = 1; end
@@ -57,10 +63,14 @@ violationValues = zeros(params.popSize, 1);
 populationInfo = cell(params.popSize, 1);
 evaluationCount = 0;
 loadCaseSolveCount = 0;
+modalSolveCount = 0;
+qioAttempts = 0;
+qioAccepted = 0;
 for i = 1:params.popSize
     [f, g, candidateInfo] = problem.evaluate(pelicans(i, :));
     evaluationCount = evaluationCount + 1;
     loadCaseSolveCount = loadCaseSolveCount + localLoadCaseCount(candidateInfo);
+    modalSolveCount = modalSolveCount + localModalSolveCount(candidateInfo);
     fitness(i) = f + params.penaltyCoef * g;
     objectiveValues(i) = f;
     violationValues(i) = g;
@@ -116,6 +126,7 @@ while evaluationCount < params.maxEvaluations
         [candF, candG, candInfo] = problem.evaluate(candidate);
         evaluationCount = evaluationCount + 1;
         loadCaseSolveCount = loadCaseSolveCount + localLoadCaseCount(candInfo);
+        modalSolveCount = modalSolveCount + localModalSolveCount(candInfo);
         candFit = candF + params.penaltyCoef * candG;
 
         if candFit < fitness(i)
@@ -178,6 +189,7 @@ while evaluationCount < params.maxEvaluations
         [candF, candG, candInfo] = problem.evaluate(candidate);
         evaluationCount = evaluationCount + 1;
         loadCaseSolveCount = loadCaseSolveCount + localLoadCaseCount(candInfo);
+        modalSolveCount = modalSolveCount + localModalSolveCount(candInfo);
         candFit = candF + params.penaltyCoef * candG;
 
         if candFit < bestFit
@@ -193,6 +205,42 @@ while evaluationCount < params.maxEvaluations
             objectiveValues(worstIdx) = candF;
             violationValues(worstIdx) = candG;
             populationInfo{worstIdx} = candInfo;
+        end
+    end
+
+    % Coordinate-wise quadratic interpolation around the current elite.
+    % Each QIO proposal consumes one evaluator call from the same finite
+    % structural-analysis budget as the baseline and local-search variants.
+    for trial = 1:params.qioTrials
+        if evaluationCount >= params.maxEvaluations, break; end
+
+        candidate = localQuadraticCandidate( ...
+            bestSol, bestFit, pelicans, fitness, bounds, problem);
+        qioAttempts = qioAttempts + 1;
+
+        [candF, candG, candInfo] = problem.evaluate(candidate);
+        evaluationCount = evaluationCount + 1;
+        loadCaseSolveCount = loadCaseSolveCount + localLoadCaseCount(candInfo);
+        modalSolveCount = modalSolveCount + localModalSolveCount(candInfo);
+        candFit = candF + params.penaltyCoef * candG;
+
+        [worstFit, worstIdx] = max(fitness);
+        if candFit < worstFit
+            pelicans(worstIdx, :) = candidate;
+            fitness(worstIdx) = candFit;
+            objectiveValues(worstIdx) = candF;
+            violationValues(worstIdx) = candG;
+            populationInfo{worstIdx} = candInfo;
+            qioAccepted = qioAccepted + 1;
+        end
+
+        if candFit < bestFit
+            bestFit = candFit;
+            bestSol = candidate;
+            bestObjective = candF;
+            bestViolation = candG;
+            bestInfo = candInfo;
+            lastImprovementEvaluation = evaluationCount;
         end
     end
 
@@ -215,6 +263,7 @@ while evaluationCount < params.maxEvaluations
             [candF, candG, candInfo] = problem.evaluate(candidate);
             evaluationCount = evaluationCount + 1;
             loadCaseSolveCount = loadCaseSolveCount + localLoadCaseCount(candInfo);
+        modalSolveCount = modalSolveCount + localModalSolveCount(candInfo);
             candFit = candF + params.penaltyCoef * candG;
 
             % Replace unconditionally to inject diversity; the elite is protected
@@ -248,6 +297,9 @@ details.info = bestInfo;
 details.evaluationCount = evaluationCount;
 details.evaluatorCalls = evaluationCount;
 details.loadCaseSolves = loadCaseSolveCount;
+details.modalSolves = modalSolveCount;
+details.qioAttempts = qioAttempts;
+details.qioAccepted = qioAccepted;
 details.iterationsCompleted = iteration;
 details.evaluationHistory = evaluationHistory;
 details.restartCount = restartCount;
@@ -264,5 +316,64 @@ elseif isfield(info, 'loads') && ~isempty(info.loads)
     n = size(info.loads, 2);
 else
     n = 1;
+end
+end
+
+
+function n = localModalSolveCount(info)
+if isfield(info, 'modalAnalysisPerformed') && info.modalAnalysisPerformed
+    n = 1;
+else
+    n = 0;
+end
+end
+
+function candidate = localQuadraticCandidate(bestSol, bestFit, population, fitness, bounds, problem)
+% Fit a one-dimensional parabola through the elite and two population
+% samples for one randomly selected coordinate. Degenerate interpolation
+% falls back to a one-catalog-step move before projection.
+
+nVar = numel(bestSol);
+j = randi(nVar);
+nPop = size(population,1);
+candidate = bestSol;
+
+if nPop < 2
+    step = 2*(rand >= 0.5)-1;
+    candidate(j) = candidate(j) + step;
+else
+    pick = randperm(nPop,2);
+    x1 = bestSol(j); f1 = bestFit;
+    x2 = population(pick(1),j); f2 = fitness(pick(1));
+    x3 = population(pick(2),j); f3 = fitness(pick(2));
+
+    denom = 2*((x2-x3)*f1 + (x3-x1)*f2 + (x1-x2)*f3);
+    numer = (x2^2-x3^2)*f1 + (x3^2-x1^2)*f2 + (x1^2-x2^2)*f3;
+
+    distinct = abs(x1-x2) > eps && abs(x1-x3) > eps && abs(x2-x3) > eps;
+    if distinct && isfinite(denom) && abs(denom) > 1e-14 && isfinite(numer)
+        xq = numer / denom;
+    else
+        xq = NaN;
+    end
+
+    if ~isfinite(xq)
+        step = 2*(rand >= 0.5)-1;
+        xq = x1 + step;
+    end
+    candidate(j) = xq;
+end
+
+candidate = max(bounds.lb, min(bounds.ub, candidate));
+candidate = problem.projectDecision(candidate);
+
+% Projection can collapse the QIO vertex onto the unchanged elite. Force a
+% one-step catalog neighbor so the paid evaluation tests a distinct design
+% whenever a neighboring index exists.
+if isequal(candidate, bestSol)
+    step = 2*(rand >= 0.5)-1;
+    candidate(j) = bestSol(j) + step;
+    candidate = max(bounds.lb, min(bounds.ub, candidate));
+    candidate = problem.projectDecision(candidate);
 end
 end
