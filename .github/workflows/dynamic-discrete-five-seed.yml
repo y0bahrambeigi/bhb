@@ -6,6 +6,8 @@ on:
       - "experiment/dynamic-discrete-five-seed"
     paths:
       - "Dissertation-Truss-Optimization/RunDynamicDiscreteCase.m"
+      - "Dissertation-Truss-Optimization/problems/DiscreteDynamicSteelTruss.m"
+      - "Dissertation-Truss-Optimization/algorithms/BudgetedMemeticPelicanOptimization.m"
       - ".github/workflows/dynamic-discrete-five-seed.yml"
   workflow_dispatch:
 
@@ -75,12 +77,15 @@ jobs:
       - name: Validate scientific grid and aggregate CSV
         run: |
           python3 - <<'PY'
-          import csv, glob, os, math
-          files = sorted(glob.glob("artifacts/**/*.csv", recursive=True))
-          assert len(files) == 40, f"expected 40 CSV files, found {len(files)}"
+          import csv, glob, os, math, hashlib, statistics
+          csv_files = sorted(glob.glob("artifacts/**/*.csv", recursive=True))
+          mat_files = sorted(glob.glob("artifacts/**/*.mat", recursive=True))
+          assert len(csv_files) == 40, f"expected 40 CSV files, found {len(csv_files)}"
+          assert len(mat_files) == 40, f"expected 40 MAT files, found {len(mat_files)}"
+
           rows = []
           header = None
-          for path in files:
+          for path in csv_files:
               with open(path, newline="", encoding="utf-8") as f:
                   r = csv.DictReader(f)
                   current = list(r)
@@ -113,15 +118,62 @@ jobs:
 
           os.makedirs("aggregate", exist_ok=True)
           out = "aggregate/dynamic_discrete_five_seed_40runs.csv"
+          ordered = sorted(rows, key=lambda r:(r["benchmark"],r["algorithm"],int(r["seed"])))
           with open(out, "w", newline="", encoding="utf-8") as f:
               w = csv.DictWriter(f, fieldnames=header)
               w.writeheader()
-              w.writerows(sorted(rows, key=lambda r:(r["benchmark"],r["algorithm"],int(r["seed"]))))
+              w.writerows(ordered)
+
+          manifest = "aggregate/raw_artifact_sha256.txt"
+          with open(manifest, "w", encoding="utf-8") as f:
+              for path in sorted(csv_files + mat_files):
+                  h = hashlib.sha256()
+                  with open(path, "rb") as src:
+                      for chunk in iter(lambda: src.read(1024*1024), b""):
+                          h.update(chunk)
+                  f.write(f"{h.hexdigest()}  {path}\n")
+
+          paired_rows = []
+          for b in sorted(expected_benchmarks):
+              base = {
+                  r["seed"]: r for r in rows
+                  if r["benchmark"] == b and r["algorithm"] == "BMPOA-core"
+              }
+              for a in sorted(expected_algorithms - {"BMPOA-core"}):
+                  comp = {
+                      r["seed"]: r for r in rows
+                      if r["benchmark"] == b and r["algorithm"] == a
+                  }
+                  for seed in sorted(expected_seeds, key=int):
+                      rb, rc = base[seed], comp[seed]
+                      fb = int(float(rb["feasible"])) == 1
+                      fc = int(float(rc["feasible"])) == 1
+                      delta = ""
+                      if fb and fc:
+                          delta = float(rc["weight"]) - float(rb["weight"])
+                      paired_rows.append({
+                          "benchmark": b,
+                          "algorithm": a,
+                          "seed": seed,
+                          "core_feasible": int(fb),
+                          "variant_feasible": int(fc),
+                          "variant_minus_core_weight": delta,
+                      })
+
+          paired_path = "aggregate/dynamic_discrete_paired_deltas.csv"
+          with open(paired_path, "w", newline="", encoding="utf-8") as f:
+              fields = ["benchmark","algorithm","seed","core_feasible",
+                        "variant_feasible","variant_minus_core_weight"]
+              w = csv.DictWriter(f, fieldnames=fields)
+              w.writeheader()
+              w.writerows(paired_rows)
 
           summary = "aggregate/dynamic_discrete_five_seed_summary.txt"
           with open(summary, "w", encoding="utf-8") as f:
               f.write("Validated dynamic-discrete equal-budget grid\n")
               f.write(f"rows={len(rows)}\n")
+              f.write(f"raw_csv_files={len(csv_files)}\n")
+              f.write(f"raw_mat_files={len(mat_files)}\n")
               f.write("budget_per_run=35070\n")
               for b in sorted(expected_benchmarks):
                   f.write(f"\n[{b}]\n")
@@ -131,7 +183,12 @@ jobs:
                       weights=[float(r["weight"]) for r in sub if int(float(r["feasible"]))==1]
                       f.write(f"{a}: feasible={feas}/5")
                       if weights:
-                          f.write(f", feasible_weight_mean={sum(weights)/len(weights):.9g}, best={min(weights):.9g}")
+                          f.write(
+                              f", mean={statistics.mean(weights):.9g}"
+                              f", median={statistics.median(weights):.9g}"
+                              f", sd={(statistics.stdev(weights) if len(weights)>1 else 0):.9g}"
+                              f", best={min(weights):.9g}"
+                          )
                       f.write("\n")
           print(open(summary, encoding="utf-8").read())
           PY
