@@ -1,0 +1,145 @@
+name: Dynamic discrete five-seed dissertation pilot
+
+on:
+  push:
+    branches:
+      - "experiment/dynamic-discrete-five-seed"
+    paths:
+      - "Dissertation-Truss-Optimization/RunDynamicDiscreteCase.m"
+      - ".github/workflows/dynamic-discrete-five-seed.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-case:
+    name: ${{ matrix.benchmark }} / ${{ matrix.variant }} / seed ${{ matrix.seed }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        benchmark: ["72-bar", "120-bar"]
+        variant: ["core", "ls", "qio", "ls-qio"]
+        seed: [2026, 2027, 2028, 2029, 2030]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+
+      - name: Run equal-budget case
+        working-directory: Dissertation-Truss-Optimization
+        env:
+          BENCHMARK: ${{ matrix.benchmark }}
+          VARIANT: ${{ matrix.variant }}
+          SEED: ${{ matrix.seed }}
+          BUDGET: "35070"
+        run: |
+          mkdir -p "results/dynamic-discrete-cases"
+          octave --no-gui --quiet --eval "RunDynamicDiscreteCase(getenv('BENCHMARK'),getenv('VARIANT'),str2double(getenv('SEED')),str2double(getenv('BUDGET')),'results/dynamic-discrete-cases');"
+
+      - name: Verify case artifacts
+        working-directory: Dissertation-Truss-Optimization
+        run: |
+          test $(find results/dynamic-discrete-cases -maxdepth 1 -name '*.csv' | wc -l) -eq 1
+          test $(find results/dynamic-discrete-cases -maxdepth 1 -name '*.mat' | wc -l) -eq 1
+          cat results/dynamic-discrete-cases/*.csv
+
+      - name: Upload raw case artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dynamic-${{ matrix.benchmark }}-${{ matrix.variant }}-seed${{ matrix.seed }}
+          path: |
+            Dissertation-Truss-Optimization/results/dynamic-discrete-cases/*.csv
+            Dissertation-Truss-Optimization/results/dynamic-discrete-cases/*.mat
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: Validate and aggregate 40 paired runs
+    runs-on: ubuntu-latest
+    needs: run-case
+    if: always() && needs.run-case.result == 'success'
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: dynamic-*
+          path: artifacts
+
+      - name: Validate scientific grid and aggregate CSV
+        run: |
+          python3 - <<'PY'
+          import csv, glob, os, math
+          files = sorted(glob.glob("artifacts/**/*.csv", recursive=True))
+          assert len(files) == 40, f"expected 40 CSV files, found {len(files)}"
+          rows = []
+          header = None
+          for path in files:
+              with open(path, newline="", encoding="utf-8") as f:
+                  r = csv.DictReader(f)
+                  current = list(r)
+              assert len(current) == 1, f"{path}: expected exactly one row"
+              if header is None:
+                  header = list(current[0].keys())
+              rows.extend(current)
+
+          expected_benchmarks = {"72-bar-steel-dynamic-discrete","120-bar-steel-dynamic-discrete"}
+          expected_algorithms = {"BMPOA-core","BMPOA-DiscreteLS","BMPOA-QIO","BMPOA-DiscreteLS-QIO"}
+          expected_seeds = {str(x) for x in range(2026,2031)}
+
+          keys = set()
+          for row in rows:
+              key = (row["benchmark"], row["algorithm"], row["seed"])
+              assert key not in keys, f"duplicate key {key}"
+              keys.add(key)
+              assert row["benchmark"] in expected_benchmarks
+              assert row["algorithm"] in expected_algorithms
+              assert row["seed"] in expected_seeds
+              assert int(float(row["evaluator_calls"])) == 35070, key
+              assert int(float(row["modal_solves"])) == 35070, key
+              assert math.isfinite(float(row["weight"])) and float(row["weight"]) > 0
+              assert math.isfinite(float(row["violation"])) and float(row["violation"]) >= 0
+
+          for b in expected_benchmarks:
+              for a in expected_algorithms:
+                  got = {r["seed"] for r in rows if r["benchmark"] == b and r["algorithm"] == a}
+                  assert got == expected_seeds, (b,a,got)
+
+          os.makedirs("aggregate", exist_ok=True)
+          out = "aggregate/dynamic_discrete_five_seed_40runs.csv"
+          with open(out, "w", newline="", encoding="utf-8") as f:
+              w = csv.DictWriter(f, fieldnames=header)
+              w.writeheader()
+              w.writerows(sorted(rows, key=lambda r:(r["benchmark"],r["algorithm"],int(r["seed"]))))
+
+          summary = "aggregate/dynamic_discrete_five_seed_summary.txt"
+          with open(summary, "w", encoding="utf-8") as f:
+              f.write("Validated dynamic-discrete equal-budget grid\n")
+              f.write(f"rows={len(rows)}\n")
+              f.write("budget_per_run=35070\n")
+              for b in sorted(expected_benchmarks):
+                  f.write(f"\n[{b}]\n")
+                  for a in sorted(expected_algorithms):
+                      sub=[r for r in rows if r["benchmark"]==b and r["algorithm"]==a]
+                      feas=sum(int(float(r["feasible"])) for r in sub)
+                      weights=[float(r["weight"]) for r in sub if int(float(r["feasible"]))==1]
+                      f.write(f"{a}: feasible={feas}/5")
+                      if weights:
+                          f.write(f", feasible_weight_mean={sum(weights)/len(weights):.9g}, best={min(weights):.9g}")
+                      f.write("\n")
+          print(open(summary, encoding="utf-8").read())
+          PY
+
+      - name: Upload aggregate artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dynamic-discrete-five-seed-aggregate
+          path: aggregate/*
+          if-no-files-found: error
+          retention-days: 30
