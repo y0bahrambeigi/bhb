@@ -122,8 +122,9 @@ classdef DiscreteDynamicSteelTruss
                 tensionAllow = 0.6 * obj.yieldStress;
                 stressRatio = zeros(size(stress));
                 compression = stress < 0;
+                compressionAllowMatrix = repmat(compressionAllow,1,size(stress,2));
                 stressRatio(compression) = abs(stress(compression)) ./ ...
-                    compressionAllow(repmat(compression,1,size(stress,2)));
+                    compressionAllowMatrix(compression);
                 stressRatio(~compression) = abs(stress(~compression)) / tensionAllow;
                 displacementRatio = abs(U(freeDOFs,:)) / obj.deltaMax;
             end
