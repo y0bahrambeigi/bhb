@@ -1,0 +1,38 @@
+name: Dynamic discrete steel truss pilot
+
+on:
+  pull_request:
+    paths:
+      - 'Dissertation-Truss-Optimization/**'
+      - '.github/workflows/dynamic-discrete-pilot.yml'
+  workflow_dispatch:
+
+jobs:
+  pilot-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y octave
+
+      - name: Run paired dynamic-discrete smoke pilot
+        run: |
+          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); RunDynamicDiscretePilot(140,[2026 2027]);"
+
+      - name: Show CSV summary
+        run: |
+          cat Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_140.csv
+
+      - name: Upload reproducibility artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dynamic-discrete-smoke-results
+          path: |
+            Dissertation-Truss-Optimization/results/dynamic-discrete/*.csv
+            Dissertation-Truss-Optimization/results/dynamic-discrete/*.mat
+          if-no-files-found: error
+          retention-days: 30
