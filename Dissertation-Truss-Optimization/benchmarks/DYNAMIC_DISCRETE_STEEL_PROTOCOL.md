@@ -34,15 +34,40 @@ plus non-structural nodal masses.
 
 This is a **steel extension**, not a claim that the canonical 72-bar dynamic benchmark itself is steel.
 
-### 120-bar dome
+### 120-bar dome hybrid dissertation extension
 
-- repository geometry/grouping and steel properties retained;
-- controlled discrete catalog: 0.775 in^2 plus 1.0:0.25:20.0 in^2;
-- static constraints: existing AISC-ASD stress formulation and 0.1969 in displacement limit;
+The dynamic geometry is rebuilt independently from the frequency-benchmark
+dimensions rather than inherited from the repository's static dome:
+
+- apex: z = 7.00 m;
+- 12-node inner ring: radius = 6.94 m, z = 5.85 m;
+- 24-node middle ring: radius = 12.04 m, z = 3.00 m;
+- 12 support nodes: radius = 15.89 m, z = 0;
+- seven symmetry groups use the existing 120-member connectivity/group order;
+- material: E = 2.1e11 N/m^2 equivalent and density = 7971.810 kg/m^3 equivalent;
+- controlled discrete catalog: 1, 2, ..., 129, 129.3 cm^2;
+- static constraints: the dissertation extension also applies the existing
+  AISC-ASD stress formulation and 0.1969 in displacement limit;
 - lumped masses: 3000 kg at node 1, 500 kg at nodes 2:13, 100 kg at nodes 14:37;
 - frequency constraints: f1 >= 9 Hz and f2 >= 11 Hz.
 
-The area catalogs are controlled algorithmic catalogs. They must not be described as a specific AISC shape library.
+This is intentionally a **hybrid dissertation extension**: the geometry,
+material, masses, area bounds, and frequency constraints follow the canonical
+frequency benchmark, while static stress/displacement checks are added for the
+combined-constraint research question.
+
+### 120-bar modal reference lock
+
+The published PSRO reference design
+
+`[19.972, 39.701, 11.323, 21.808, 10.179, 12.739, 14.731] cm^2`
+
+reports approximately `f1 = 9.000 Hz` and `f2 = 11.000 Hz`.
+The exact-area regression probe in this repository reproduces these frequencies
+within 1% and fails CI if that tolerance is exceeded.
+
+The area catalogs are controlled algorithmic catalogs. They must not be
+described as a specific AISC shape library.
 
 ## Equal-budget variants
 
