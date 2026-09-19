@@ -61,7 +61,9 @@ classdef DiscreteDynamicSteelTruss
                     obj.deltaMax = obj.baseProblem.deltaMax;
                     obj.stressAllow = NaN;
                     obj.yieldStress = obj.baseProblem.yieldStress;
-                    obj.sectionCatalog = unique([0.775, 1.0:0.25:20.0]); % in^2
+                    % Frequency-benchmark bounds are 1.0 to 129.3 cm^2.
+                    % Use a controlled 1 cm^2 discrete grid plus the exact upper bound.
+                    obj.sectionCatalog = unique([1:129,129.3] / 6.4516); % in^2
                     obj.frequencyModeIndices = [1 2];
                     obj.frequencyMinimumHz = [9 11];
                     obj.addedMassKg = zeros(49,1);
@@ -168,6 +170,11 @@ classdef DiscreteDynamicSteelTruss
             info.modalAnalysisPerformed = true;
             info.massModel = 'consistent-translational-plus-lumped';
             info.material = 'steel';
+            if strcmp(obj.benchmarkId,'120-bar-steel-dynamic-discrete')
+                info.geometryVariant = 'frequency-benchmark-120bar-585cm-inner-ring';
+            else
+                info.geometryVariant = '72bar-steel-extension';
+            end
         end
     end
 
@@ -178,6 +185,12 @@ classdef DiscreteDynamicSteelTruss
                     obj.baseProblem.definition();
             else
                 [nodes,elements,groupMap,loads,fixedNodes] = obj.baseProblem.definition();
+                % The canonical frequency-constrained 120-bar dome uses a
+                % 585 cm (230.31 in) elevation for nodes 2:13. The static
+                % sizing benchmark stored in OneHundredTwentyBarDomeTruss
+                % uses a different intermediate-ring elevation, so the
+                % dynamic extension must override it explicitly.
+                nodes(2:13,3) = 230.31;
                 controlNodes = [];
             end
         end
