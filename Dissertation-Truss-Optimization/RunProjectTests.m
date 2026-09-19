@@ -8,5 +8,6 @@ assert(isstruct(smokeSummary) && isfield(smokeSummary, 'columns') && ...
     'RunBenchmarkSmoke must return four portable benchmark rows.');
 TestTenBarTrussTopology();
 TestDissertationBenchmarkFramework();
+TestDynamicDiscreteSteelTruss();
 fprintf('Standalone project regression suite PASSED.\n');
 end
