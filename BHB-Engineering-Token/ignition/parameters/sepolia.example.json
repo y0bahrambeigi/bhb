@@ -1,0 +1,6 @@
+{
+  "BHBEngineeringTokenModule": {
+    "initialOwner": "REPLACE_WITH_CHECKSUMMED_SEPOLIA_SAFE_ADDRESS",
+    "safeCreationTransactionHash": "REPLACE_WITH_SAFE_CREATION_TRANSACTION_HASH"
+  }
+}
