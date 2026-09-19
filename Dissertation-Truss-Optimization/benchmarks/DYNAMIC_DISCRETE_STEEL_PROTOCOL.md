@@ -62,3 +62,8 @@ For one randomly selected design coordinate, the operator fits a parabola throug
 `RunDynamicDiscretePilot` uses seeds 2026:2030 and 35,070 evaluator calls per run. The script writes CSV and MATLAB-v7 artifacts under `results/dynamic-discrete/`.
 
 Before interpreting dissertation-level conclusions, run at least the locked five-seed pilot and then a larger paired-seed study if the pilot is stable.
+
+
+## CI execution
+
+The published GitHub Actions smoke pilot validates the complete static/modal/QIO execution path on paired seeds before dissertation-grade runs are interpreted.
