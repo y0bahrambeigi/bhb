@@ -1,6 +1,12 @@
 name: Dynamic discrete steel truss pilot
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Dissertation-Truss-Optimization/**'
+      - '.github/workflows/dynamic-discrete-pilot.yml'
   pull_request:
     paths:
       - 'Dissertation-Truss-Optimization/**'
