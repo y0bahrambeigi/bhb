@@ -23,6 +23,7 @@ This repository contains a comprehensive MATLAB implementation comparing six sta
 
 ## Publications
 
+- **BMPOA Dynamic-Discrete Truss Optimization — Research Preview** — public MATLAB/Octave research software for equal-budget discrete steel-truss optimization with BMPOA-core, DiscreteLS and QIO variants. See the [Research Preview](Dissertation-Truss-Optimization/RESEARCH_PREVIEW.md) and [citation metadata](Dissertation-Truss-Optimization/CITATION.cff). The corrected 120-bar reference regression passes; final post-correction performance claims remain gated by Issue #57.
 - **Smart Structures and Seismic Response Control** — Persian academic book, currently packaged as a version 1.0.0 release candidate. See the [publication README](publications/smart-structures/README.md) for the tagged digital PDF, embedded-font DOCX source, print-candidate limitations, citation metadata, and release gates.
 
 ## MohandesYar AI
