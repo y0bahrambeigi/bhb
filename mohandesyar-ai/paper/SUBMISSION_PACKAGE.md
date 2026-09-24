@@ -32,9 +32,15 @@
 - Final English-language and technical review completed
 - Repository verification and GitHub Pages deployment are passing
 
+## Current release-readiness verification
+
+GitHub Actions run 36018851340 (Verify MohandesYar AI PWA, run #91) completed successfully before PR #60 was merged. Static source/PWA validation, Chromium installation, browser release QA, JSON-manifest validation, scholarly-record checksum validation, and all public-route checks passed.
+
+PR #60 was subsequently squash-merged into `main` at commit `3fb69e1b6139649db7312241660718c19567bc54`.
+
 ## Build result
 
-GitHub Actions run 34433833072 completed successfully on 10 September 2026:
+The previously recorded SoftwareX package build, GitHub Actions run 34433833072, completed successfully on 10 September 2026:
 
 - DOI.org resolution: HTTP 200
 - Manuscript Word file: generated and structurally verified
@@ -42,5 +48,4 @@ GitHub Actions run 34433833072 completed successfully on 10 September 2026:
 - Cover-letter Word file: generated and structurally verified
 - Submission artifact: `mohandesyar-softwarex-submission-package`
 
-The remaining step is final author entry/upload in the SoftwareX submission
-portal.
+A fresh package build should be generated from the current `main` branch after the citation-readiness merge and verified before portal upload. The remaining external step after that verification is final author entry/upload in the SoftwareX submission portal.
