@@ -55,6 +55,7 @@ trusted timestamping, regulatory submission, or legal chain-of-custody system.
 - Figshare item: 33511795
 - Version DOI: 10.6084/m9.figshare.33511795.v1
 - Release ZIP SHA-256: 9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173
+- Technical report DOI (distinct research object): 10.6084/m9.figshare.33935692.v2
 
 ## Funding
 
