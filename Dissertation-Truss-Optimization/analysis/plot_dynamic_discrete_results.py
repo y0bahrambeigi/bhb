@@ -20,6 +20,7 @@ from analyze_dynamic_discrete_results import (
     EXPECTED_BENCHMARKS,
     EXPECTED_SEEDS,
     load_and_validate,
+    validate_manifest,
 )
 
 
@@ -38,9 +39,12 @@ def slug(benchmark: str) -> str:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("csv_path", type=Path)
+    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--expected-source-commit", required=True)
     parser.add_argument("--outdir", type=Path, default=Path("publication-analysis/figures"))
     args = parser.parse_args()
 
+    validate_manifest(args.manifest, args.expected_source_commit)
     rows = load_and_validate(args.csv_path)
     args.outdir.mkdir(parents=True, exist_ok=True)
 
