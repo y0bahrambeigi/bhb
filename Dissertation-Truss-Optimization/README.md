@@ -6,6 +6,18 @@
 Standalone MATLAB/Octave research project for reproducible truss sizing and
 topology-optimization experiments under equal evaluator-call budgets.
 
+## Public research preview
+
+The BMPOA dynamic-discrete research software is publicly available as a **Research Preview**.
+
+- [Research Preview release notes](RESEARCH_PREVIEW.md)
+- [Project citation metadata](CITATION.cff)
+- Reference source commit: `723bdc81d198a7895ce5401c083620c709897307`
+- 120-bar reference-reproduction regression: **PASS**
+- Final post-correction five-seed 120-bar performance analysis: **still gated by Issue #57**
+
+The software is public; final 120-bar performance claims are intentionally withheld until the post-correction dissertation rerun and publication artifact are fully validated.
+
 ## Benchmarks
 
 | Benchmark | Model | Variables | Load cases | Bounds / sections |
