@@ -36,6 +36,32 @@ fprintf('120-bar upper catalog: W=%.6f, g=%.6g, f=[%.6f %.6f] Hz, feasible=%d\n'
     w120,g120,i120.naturalFrequenciesHz(1),i120.naturalFrequenciesHz(2), ...
     i120.isFeasible);
 
+% Reference-reproduction gate for the published 120-bar dynamic benchmark.
+% CSS-BBBC areas are reported to three decimals in cm^2, so a 0.10 Hz
+% tolerance is used for the first two published frequencies.
+referenceAreasCm2 = [19.972,39.701,11.323,21.808,10.179,12.739,14.731];
+[referenceMassKg,referenceFreqHz] = localReference120Bar(referenceAreasCm2);
+assert(abs(referenceMassKg - 8892.33) < 0.10, ...
+    '120-bar reference geometry does not reproduce the published CSS-BBBC mass.');
+assert(abs(referenceFreqHz(1) - 9.000) < 0.10 && ...
+    abs(referenceFreqHz(2) - 11.000) < 0.10, ...
+    '120-bar reference frequencies are not reproduced within the documented tolerance.');
+fprintf('120-bar CSS-BBBC reference: mass=%.3f kg, f=[%.6f %.6f] Hz\n', ...
+    referenceMassKg,referenceFreqHz(1),referenceFreqHz(2));
+
+% Production-path check using the closest available discrete catalog areas
+% [3.00 6.25 1.75 3.50 1.50 2.00 2.25] in^2.
+referenceDiscreteIndices = [10,23,5,12,4,6,7];
+[~,~,i120ref] = p120.evaluate(referenceDiscreteIndices);
+assert(abs(i120ref.naturalFrequenciesHz(1) - 9.0083) < 0.10 && ...
+    abs(i120ref.naturalFrequenciesHz(2) - 11.0849) < 0.10, ...
+    '120-bar production evaluator does not reproduce the locked discrete reference check.');
+assert(max(abs(i120ref.nodes(2,:)*0.0254 - [6.94,0,5.85])) < 1e-10 && ...
+    max(abs(i120ref.nodes(14,:)*0.0254 - [12.04,0,3.00])) < 1e-10, ...
+    '120-bar dynamic reference geometry coordinates changed unexpectedly.');
+fprintf('120-bar discrete reference check: f=[%.6f %.6f] Hz\n', ...
+    i120ref.naturalFrequenciesHz(1),i120ref.naturalFrequenciesHz(2));
+
 params.popSize = 6;
 params.maxEvaluations = 30;
 params.penaltyCoef = 1e7;
@@ -78,4 +104,70 @@ fprintf('72-bar DiscreteLS smoke: FE=%d, modal=%d, ls=%d/%d, feasible=%d\n', ...
     dls.localSearchAttempts,dls.isFeasible);
 
 fprintf('Dynamic discrete steel-truss tests PASSED.\n');
+end
+
+function [massKg,freqHz] = localReference120Bar(groupAreasCm2)
+% Reproduce the published continuous CSS-BBBC 120-bar reference using the
+% documented dynamic geometry and the same consistent translational mass
+% formulation used by the production evaluator.
+
+base = OneHundredTwentyBarDomeTruss();
+[~,elements,groupMap,~,fixedNodes] = base.definition();
+
+nodes = zeros(49,3);
+nodes(1,:) = [0,0,7.00];
+for k = 0:11
+    theta = k*pi/6;
+    nodes(2+k,:) = [6.94*cos(theta),6.94*sin(theta),5.85];
+end
+for k = 0:23
+    theta = k*pi/12;
+    nodes(14+k,:) = [12.04*cos(theta),12.04*sin(theta),3.00];
+end
+for k = 0:11
+    theta = k*pi/6;
+    nodes(38+k,:) = [15.89*cos(theta),15.89*sin(theta),0.00];
+end
+
+E = 2.1e11;
+rho = 7971.810;
+groupAreas = groupAreasCm2(:)' * 1e-4;
+areas = reshape(groupAreas(groupMap),[],1);
+nDOF = 3*size(nodes,1);
+K = zeros(nDOF);
+M = zeros(nDOF);
+I3 = eye(3);
+massKg = 0;
+
+for i = 1:size(elements,1)
+    n1 = elements(i,1);
+    n2 = elements(i,2);
+    delta = nodes(n2,:) - nodes(n1,:);
+    L = norm(delta);
+    n = delta / L;
+    k3 = E * areas(i) / L * (n' * n);
+    dof = [3*n1-2:3*n1,3*n2-2:3*n2];
+    K(dof,dof) = K(dof,dof) + [k3,-k3;-k3,k3];
+
+    elementMass = rho * areas(i) * L;
+    massKg = massKg + elementMass;
+    Me = (elementMass/6) * [2*I3,I3;I3,2*I3];
+    M(dof,dof) = M(dof,dof) + Me;
+end
+
+addedMassKg = zeros(49,1);
+addedMassKg(1) = 3000;
+addedMassKg(2:13) = 500;
+addedMassKg(14:37) = 100;
+for node = 1:numel(addedMassKg)
+    if addedMassKg(node) <= 0, continue; end
+    dof = 3*node-2:3*node;
+    M(dof,dof) = M(dof,dof) + addedMassKg(node) * I3;
+end
+
+fixedDOFs = reshape([3*fixedNodes-2;3*fixedNodes-1;3*fixedNodes],1,[]);
+freeDOFs = setdiff(1:nDOF,fixedDOFs);
+lambda = real(eig(K(freeDOFs,freeDOFs),M(freeDOFs,freeDOFs)));
+lambda = sort(lambda(isfinite(lambda) & lambda > 1e-10));
+freqHz = reshape(sqrt(lambda(1:5))/(2*pi),1,[]);
 end
