@@ -93,6 +93,7 @@ npm run verify
 - صفحه علمی و فراداده Google Scholar: [publication/index.html](publication/index.html)
 - گزارش فنی نسخه ۲ (PDF): [mohandesyar-ai-v2-technical-report.pdf](publication/mohandesyar-ai-v2-technical-report.pdf)
 - کنترل یکپارچگی PDF: [SHA256SUMS](publication/SHA256SUMS)
+- راهنمای رسمی استناد (APA / IEEE / BibTeX): [CITE.md](CITE.md)
 - فراداده استناد نرم‌افزار: [CITATION.cff](CITATION.cff)
 - پیش‌نویس مقاله نرم‌افزاری: [paper/paper.md](paper/paper.md)
 - چک‌لیست آمادگی ارسال: [paper/SUBMISSION_CHECKLIST.md](paper/SUBMISSION_CHECKLIST.md)
