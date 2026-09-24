@@ -1,14 +1,21 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it using the metadata below."
-title: "Dissertation Truss Optimization"
+message: "If you use this research preview, please cite the software and the exact source commit."
+title: "BMPOA Dynamic-Discrete Truss Optimization"
 type: software
 authors:
   - family-names: "Bahrambeigi"
     given-names: "Yousef"
+version: "0.1.0-research-preview"
+date-released: "2026-09-24"
 repository-code: "https://github.com/y0bahrambeigi/bhb"
+url: "https://github.com/y0bahrambeigi/bhb/tree/main/Dissertation-Truss-Optimization"
+license: "MIT"
+commit: "723bdc81d198a7895ce5401c083620c709897307"
 keywords:
-  - truss optimization
   - structural optimization
-  - finite element method
-  - Pelican Optimization Algorithm
-  - MATLAB
+  - steel truss
+  - metaheuristic optimization
+  - BMPOA
+  - discrete optimization
+  - natural frequency constraints
+  - reproducible research
