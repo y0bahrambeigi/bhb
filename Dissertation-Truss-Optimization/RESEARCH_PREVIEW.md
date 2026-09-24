@@ -70,13 +70,23 @@ For the dissertation-grade equal-budget workflow, see:
 
 ## Publication status
 
-The **software is public and usable as a research preview**.
+The **post-correction five-seed paired pilot is complete and validated**.
 
-The five-seed post-correction 120-bar dissertation rerun is still being completed under GitHub Issue #57. Therefore:
+Validation status:
+- 40/40 dissertation-grade rows complete;
+- 72-bar: 20/20 feasible, aggregate violation = 0;
+- corrected 120-bar: 20/20 feasible, aggregate violation = 0;
+- exact evaluator budget = 35,070 per run;
+- exact modal-solve budget = 35,070 per run;
+- DiscreteLS/QIO operator coverage verified;
+- reference-frequency reproduction gate = PASS;
+- Issue #57 = CLOSED as completed;
+- smoke data excluded from performance claims;
+- pre-correction 120-bar artifacts excluded from performance claims.
 
-- no final superiority claim is made here;
-- no pre-correction 120-bar performance result should be cited as final evidence;
-- final paired statistical results will be published only after the post-correction publication artifact passes all validation gates.
+Five paired seeds constitute a pilot-scale sample, so the statistical interpretation remains deliberately conservative. Exact two-sided sign tests do not support a claim of statistically established superiority for any BMPOA variant in this five-seed dataset.
+
+The publication-safe analysis utilities are now merged on `main` in commit `a0ecc4d94e9919f65f7343cc26f066e1f188f041`.
 
 ## Citation
 
