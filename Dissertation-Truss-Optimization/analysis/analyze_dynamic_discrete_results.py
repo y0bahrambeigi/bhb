@@ -12,6 +12,8 @@ This script is intentionally conservative:
 Usage:
     python analysis/analyze_dynamic_discrete_results.py \
         publication-package/dynamic_discrete_equal_budget_35070_all40.csv \
+        --manifest publication-package/manifest.json \
+        --expected-source-commit 723bdc81d198a7895ce5401c083620c709897307 \
         --outdir publication-package/analysis
 """
 
@@ -37,6 +39,7 @@ EXPECTED_ALGORITHMS = [
 ]
 EXPECTED_SEEDS = [2026, 2027, 2028, 2029, 2030]
 EXPECTED_BUDGET = 35070
+PRE_CORRECTION_COMMIT = "44c9b9a3ef7c7229e8a6d4dbee7b1785058ea465"
 
 
 def _mean(xs):
@@ -68,6 +71,38 @@ def _sign_test_two_sided(differences):
         "negative": negative,
         "p_exact": p,
     }
+
+
+def validate_manifest(manifest_path: Path, expected_source_commit: str):
+    """Require the final publication package to come from the intended corrected commit."""
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    source_commit = str(manifest.get("source_commit", "")).strip()
+    validated_rows = int(manifest.get("validated_rows", 0))
+    expected_rows = int(manifest.get("expected_rows", 0))
+    budget = int(manifest.get("evaluator_budget_per_run", 0))
+
+    if not source_commit:
+        raise SystemExit("Manifest is missing source_commit.")
+    if source_commit == PRE_CORRECTION_COMMIT:
+        raise SystemExit(
+            "Refusing pre-correction 120-bar publication package from "
+            f"{PRE_CORRECTION_COMMIT}."
+        )
+    if source_commit != expected_source_commit:
+        raise SystemExit(
+            f"Source commit mismatch: manifest={source_commit}, "
+            f"expected={expected_source_commit}"
+        )
+    if validated_rows != 40 or expected_rows != 40:
+        raise SystemExit(
+            f"Manifest row-count gate failed: validated={validated_rows}, "
+            f"expected={expected_rows}"
+        )
+    if budget != EXPECTED_BUDGET:
+        raise SystemExit(
+            f"Manifest budget mismatch: {budget} != {EXPECTED_BUDGET}"
+        )
+    return manifest
 
 
 def load_and_validate(path: Path):
@@ -253,9 +288,12 @@ def make_markdown(summaries, paired):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("csv_path", type=Path)
+    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("--expected-source-commit", required=True)
     parser.add_argument("--outdir", type=Path, default=Path("publication-analysis"))
     args = parser.parse_args()
 
+    manifest = validate_manifest(args.manifest, args.expected_source_commit)
     rows = load_and_validate(args.csv_path)
     summaries = summarize(rows)
     paired = paired_against_core(rows)
@@ -282,6 +320,7 @@ def main():
     payload = {
         "validated_rows": 40,
         "budget_per_run": EXPECTED_BUDGET,
+        "source_commit": manifest["source_commit"],
         "summaries": summaries,
         "paired_vs_core": paired,
         "note": "Pilot-scale five-seed paired analysis; smoke data excluded.",
