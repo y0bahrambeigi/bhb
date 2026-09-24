@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this research preview, please cite the software and the exact source commit."
+message: "If you use this research preview, please cite the software and report the exact source commit used."
 title: "BMPOA Dynamic-Discrete Truss Optimization"
 type: software
 authors:
@@ -10,7 +10,7 @@ date-released: "2026-09-24"
 repository-code: "https://github.com/y0bahrambeigi/bhb"
 url: "https://github.com/y0bahrambeigi/bhb/tree/main/Dissertation-Truss-Optimization"
 license: "MIT"
-commit: "723bdc81d198a7895ce5401c083620c709897307"
+abstract: "Public research preview of equal-budget dynamic-discrete steel-truss optimization using BMPOA-core, DiscreteLS, QIO, and combined variants. The validated reference source commit is 723bdc81d198a7895ce5401c083620c709897307. Final post-correction 120-bar performance claims remain gated pending completion of the dissertation rerun."
 keywords:
   - structural optimization
   - steel truss
