@@ -27,6 +27,7 @@ before upload because journal requirements can change.
 | Highlights | `HIGHLIGHTS.md` | Draft complete |
 | Cover letter | `COVER_LETTER.md` | Draft complete |
 | Release notes | `RELEASE_NOTES_2.0.0.md` | Complete |
+| Citation landing guide | `../CITE.md`, `CITATION.cff`, `paper.bib` | Complete; APA, IEEE, BibTeX and version DOI aligned |
 | Archival metadata | `FIGSHARE_METADATA.md`, `CITATION.cff`, release metadata | Complete for Figshare; Zenodo remains optional secondary archive |
 
 ## Final freeze sequence
