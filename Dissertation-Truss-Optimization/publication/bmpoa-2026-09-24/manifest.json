@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "status": "validated-post-correction-five-seed-pilot",
+  "geometry_optimizer_source_commit": "723bdc81d198a7895ce5401c083620c709897307",
+  "analysis_commit": "a0ecc4d94e9919f65f7343cc26f066e1f188f041",
+  "workflow_run": 35961509977,
+  "rows": 40,
+  "evaluator_budget_per_run": 35070,
+  "modal_solves_per_run": 35070,
+  "benchmarks": [
+    "72-bar-steel-dynamic-discrete",
+    "120-bar-steel-dynamic-discrete"
+  ],
+  "seeds": [
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "issue_57": "closed",
+  "reference_reproduction": "PASS",
+  "smoke_used_for_performance": false,
+  "pre_correction_120bar_used": false,
+  "figure_source": "redrawn from exact implemented benchmark geometry"
+}
