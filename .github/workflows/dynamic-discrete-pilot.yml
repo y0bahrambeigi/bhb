@@ -27,18 +27,240 @@ jobs:
 
       - name: Run paired dynamic-discrete smoke pilot
         run: |
-          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); RunDynamicDiscretePilot(140,[2026 2027]);"
+          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); RunDynamicDiscretePilot(146,[2026 2027]);"
+
+      - name: Validate smoke coverage and equal budget
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+
+          path = Path("Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_146.csv")
+          rows = list(csv.DictReader(path.open(newline="", encoding="utf-8")))
+          benchmarks = {"72-bar-steel-dynamic-discrete", "120-bar-steel-dynamic-discrete"}
+          algorithms = {"BMPOA-core", "BMPOA-DiscreteLS", "BMPOA-QIO", "BMPOA-DiscreteLS-QIO"}
+          seeds = {"2026", "2027"}
+
+          expected = {(b, a, s) for b in benchmarks for a in algorithms for s in seeds}
+          actual = {(r["benchmark"], r["algorithm"], r["seed"]) for r in rows}
+          assert len(rows) == 16, f"Expected 16 smoke rows, found {len(rows)}"
+          assert actual == expected, f"Smoke pairing mismatch: missing={expected-actual}, extra={actual-expected}"
+
+          for r in rows:
+              alg = r["algorithm"]
+              assert int(r["evaluator_calls"]) == 146, r
+              assert int(r["modal_solves"]) == 146, r
+
+              ls = int(r["local_search_attempts"])
+              qio = int(r["qio_attempts"])
+              if "DiscreteLS" in alg:
+                  assert ls > 0, f"DiscreteLS path not exercised: {r}"
+              else:
+                  assert ls == 0, f"Unexpected DiscreteLS attempts: {r}"
+
+              if "QIO" in alg:
+                  assert qio > 0, f"QIO path not exercised: {r}"
+              else:
+                  assert qio == 0, f"Unexpected QIO attempts: {r}"
+
+          print("Smoke validation PASSED: 16 paired rows, exact FE/modal budget, LS/QIO paths exercised.")
+          PY
 
       - name: Show CSV summary
         run: |
-          cat Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_140.csv
+          cat Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_146.csv
 
       - name: Upload reproducibility artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dynamic-discrete-smoke-results
           path: |
-            Dissertation-Truss-Optimization/results/dynamic-discrete/*.csv
-            Dissertation-Truss-Optimization/results/dynamic-discrete/*.mat
+            Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_146.csv
+            Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_146.mat
           if-no-files-found: error
           retention-days: 30
+
+  dissertation-pilot:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: pilot-smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        benchmark: ['72-bar', '120-bar']
+        seed: [2026, 2027, 2028, 2029, 2030]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y octave
+
+      - name: Run dissertation-grade paired shard
+        run: |
+          octave --no-gui --quiet --eval "cd('Dissertation-Truss-Optimization'); RunDynamicDiscretePilot(35070,${{ matrix.seed }},{'${{ matrix.benchmark }}'});"
+
+      - name: Validate shard
+        env:
+          EXPECTED_BENCHMARK: ${{ matrix.benchmark }}
+          EXPECTED_SEED: ${{ matrix.seed }}
+        run: |
+          python - <<'PY'
+          import csv
+          import os
+          from pathlib import Path
+
+          path = Path("Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_35070.csv")
+          rows = list(csv.DictReader(path.open(newline="", encoding="utf-8")))
+          algorithms = {"BMPOA-core", "BMPOA-DiscreteLS", "BMPOA-QIO", "BMPOA-DiscreteLS-QIO"}
+          seed = os.environ["EXPECTED_SEED"]
+          expected_problem = os.environ["EXPECTED_BENCHMARK"] + "-steel-dynamic-discrete"
+
+          assert len(rows) == 4, f"Expected 4 paired variant rows, found {len(rows)}"
+          assert {r["algorithm"] for r in rows} == algorithms
+          assert {r["seed"] for r in rows} == {seed}
+          assert {r["benchmark"] for r in rows} == {expected_problem}
+
+          for r in rows:
+              alg = r["algorithm"]
+              assert int(r["evaluator_calls"]) == 35070, r
+              assert int(r["modal_solves"]) == 35070, r
+
+              ls = int(r["local_search_attempts"])
+              qio = int(r["qio_attempts"])
+              if "DiscreteLS" in alg:
+                  assert ls > 0, f"DiscreteLS path not exercised: {r}"
+              else:
+                  assert ls == 0, f"Unexpected DiscreteLS attempts: {r}"
+
+              if "QIO" in alg:
+                  assert qio > 0, f"QIO path not exercised: {r}"
+              else:
+                  assert qio == 0, f"Unexpected QIO attempts: {r}"
+
+          print(f"Shard validation PASSED: {expected_problem}, seed={seed}.")
+          PY
+
+      - name: Upload dissertation shard
+        uses: actions/upload-artifact@v4
+        with:
+          name: dynamic-discrete-full-${{ matrix.benchmark }}-seed-${{ matrix.seed }}
+          path: |
+            Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_35070.csv
+            Dissertation-Truss-Optimization/results/dynamic-discrete/dynamic_discrete_equal_budget_35070.mat
+          if-no-files-found: error
+          retention-days: 90
+
+  publication-package:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: dissertation-pilot
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Download dissertation shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: dynamic-discrete-full-*
+          path: full-results
+
+      - name: Aggregate and validate publication CSV
+        env:
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: |
+          python - <<'PY'
+          import csv
+          import glob
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          files = sorted(glob.glob("full-results/**/dynamic_discrete_equal_budget_35070.csv", recursive=True))
+          assert len(files) == 10, f"Expected 10 shard CSVs, found {len(files)}"
+
+          rows = []
+          fieldnames = None
+          for file in files:
+              with open(file, newline="", encoding="utf-8") as fh:
+                  reader = csv.DictReader(fh)
+                  if fieldnames is None:
+                      fieldnames = reader.fieldnames
+                  else:
+                      assert reader.fieldnames == fieldnames, f"CSV schema mismatch in {file}"
+                  rows.extend(reader)
+
+          benchmarks = {"72-bar-steel-dynamic-discrete", "120-bar-steel-dynamic-discrete"}
+          algorithms = {"BMPOA-core", "BMPOA-DiscreteLS", "BMPOA-QIO", "BMPOA-DiscreteLS-QIO"}
+          seeds = {"2026", "2027", "2028", "2029", "2030"}
+          expected = {(b, a, s) for b in benchmarks for a in algorithms for s in seeds}
+          actual = {(r["benchmark"], r["algorithm"], r["seed"]) for r in rows}
+
+          assert len(rows) == 40, f"Expected 40 dissertation rows, found {len(rows)}"
+          assert actual == expected, f"Pairing mismatch: missing={expected-actual}, extra={actual-expected}"
+
+          for r in rows:
+              alg = r["algorithm"]
+              assert int(r["evaluator_calls"]) == 35070, r
+              assert int(r["modal_solves"]) == 35070, r
+              ls = int(r["local_search_attempts"])
+              qio = int(r["qio_attempts"])
+              if "DiscreteLS" in alg:
+                  assert ls > 0, r
+              else:
+                  assert ls == 0, r
+              if "QIO" in alg:
+                  assert qio > 0, r
+              else:
+                  assert qio == 0, r
+
+          rows.sort(key=lambda r: (r["benchmark"], r["algorithm"], int(r["seed"])))
+          out = Path("publication-package")
+          out.mkdir(exist_ok=True)
+          aggregate = out / "dynamic_discrete_equal_budget_35070_all40.csv"
+          with aggregate.open("w", newline="", encoding="utf-8") as fh:
+              writer = csv.DictWriter(fh, fieldnames=fieldnames)
+              writer.writeheader()
+              writer.writerows(rows)
+
+          manifest = {
+              "schema_version": 1,
+              "source_commit": os.environ["SOURCE_COMMIT"],
+              "generated_utc": datetime.now(timezone.utc).isoformat(),
+              "benchmarks": sorted(benchmarks),
+              "algorithms": ["BMPOA-core", "BMPOA-DiscreteLS", "BMPOA-QIO", "BMPOA-DiscreteLS-QIO"],
+              "seeds": [2026, 2027, 2028, 2029, 2030],
+              "evaluator_budget_per_run": 35070,
+              "expected_rows": 40,
+              "validated_rows": len(rows),
+              "mat_format": "MATLAB v7 via SaveMatV7 round-trip helper",
+              "interpretation_note": "Publication-grade paired pilot artifact; smoke results are not used for performance conclusions."
+          }
+          (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+          print("Publication package validation PASSED: 40/40 rows.")
+          PY
+
+      - name: Collect MATLAB-v7 shards
+        run: |
+          mkdir -p publication-package/mat-shards
+          find full-results -name 'dynamic_discrete_equal_budget_35070.mat' -print0 |             while IFS= read -r -d '' file; do
+              parent="$(basename "$(dirname "$file")")"
+              cp "$file" "publication-package/mat-shards/${parent}.mat"
+            done
+          test "$(find publication-package/mat-shards -name '*.mat' | wc -l)" -eq 10
+
+      - name: Create checksums
+        run: |
+          cd publication-package
+          find . -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS.txt
+
+      - name: Upload validated publication package
+        uses: actions/upload-artifact@v4
+        with:
+          name: dynamic-discrete-dissertation-publication-package
+          path: publication-package/
+          if-no-files-found: error
+          retention-days: 90
