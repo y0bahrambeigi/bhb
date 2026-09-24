@@ -53,8 +53,10 @@ assert.match(index, /href="\.\/publication\/"/, "The dashboard must link to the 
 assert.match(publication, /citation_technical_report_institution/, "The publication page must expose technical-report metadata");
 assert.match(publication, /MYAI-TR-2026-02/, "The publication page must expose the stable report identifier");
 const figshareVersionDoi = "10.6084/m9.figshare.33511795.v1";
-assert.match(publication, /citation_doi" content="10\.6084\/m9\.figshare\.33511795\.v1"/, "Publication page must expose the published Figshare version DOI");
-assert.match(publication, /Figshare, version 1/, "Publication page must identify the archival source and version");
+const technicalReportDoi = "10.6084/m9.figshare.33935692.v2";
+assert.match(publication, /citation_doi" content="10\.6084\/m9\.figshare\.33935692\.v2"/, "Technical-report publication page must expose its own published DOI");
+assert.ok(publication.includes(figshareVersionDoi), "Technical-report publication page must link the related software DOI");
+assert.ok(publication.includes(technicalReportDoi), "Technical-report publication page must contain its canonical DOI");
 assert.doesNotMatch(publication, /Pending public Zenodo publication/, "Publication page must not retain the obsolete pending-DOI notice");
 const canonicalTitle = "MohandesYar AI 2.0: An Offline-First Persian PWA for Civil Engineering Field Documentation, Evidence Integrity, and Reporting";
 assert.equal(zenodoMetadata.metadata.title, canonicalTitle);
