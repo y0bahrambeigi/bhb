@@ -62,3 +62,12 @@ For one randomly selected design coordinate, the operator fits a parabola throug
 `RunDynamicDiscretePilot` uses seeds 2026:2030 and 35,070 evaluator calls per run. The script writes CSV and MATLAB-v7 artifacts under `results/dynamic-discrete/`.
 
 Before interpreting dissertation-level conclusions, run at least the locked five-seed pilot and then a larger paired-seed study if the pilot is stable.
+
+
+## CI execution
+
+The GitHub Actions smoke pilot uses an equal budget of 146 evaluator calls with paired seeds 2026 and 2027. With population size 70, this budget is intentionally large enough to pass initialization and one population update and still exercise both the DiscreteLS and QIO operators. The smoke gate requires exact evaluator/modal accounting plus positive operator-attempt counts for the variants that enable each operator.
+
+After the smoke gate passes on `main`, the dissertation pilot runs the locked five seeds 2026:2030 at 35,070 evaluator calls per run for both the 72-bar and 120-bar dynamic-discrete problems. The CI matrix shards by benchmark and seed while keeping all four algorithm variants paired within each shard.
+
+The publication artifact is complete only when all 40 rows (2 benchmarks x 5 seeds x 4 variants) are present, each row has exactly 35,070 evaluator calls and 35,070 modal solves, enabled operators have positive attempt counts, and the companion MATLAB-v7 shard artifacts are retained. No performance conclusion should be drawn from the 146-evaluation smoke data.

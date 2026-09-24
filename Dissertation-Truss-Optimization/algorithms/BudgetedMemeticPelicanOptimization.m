@@ -64,6 +64,8 @@ populationInfo = cell(params.popSize, 1);
 evaluationCount = 0;
 loadCaseSolveCount = 0;
 modalSolveCount = 0;
+localSearchAttempts = 0;
+localSearchAccepted = 0;
 qioAttempts = 0;
 qioAccepted = 0;
 for i = 1:params.popSize
@@ -186,6 +188,7 @@ while evaluationCount < params.maxEvaluations
             candidate = max(bounds.lb, min(bounds.ub, candidate));
         end
 
+        localSearchAttempts = localSearchAttempts + 1;
         [candF, candG, candInfo] = problem.evaluate(candidate);
         evaluationCount = evaluationCount + 1;
         loadCaseSolveCount = loadCaseSolveCount + localLoadCaseCount(candInfo);
@@ -193,6 +196,7 @@ while evaluationCount < params.maxEvaluations
         candFit = candF + params.penaltyCoef * candG;
 
         if candFit < bestFit
+            localSearchAccepted = localSearchAccepted + 1;
             bestFit = candFit;
             bestSol = candidate;
             bestObjective = candF;
@@ -298,6 +302,8 @@ details.evaluationCount = evaluationCount;
 details.evaluatorCalls = evaluationCount;
 details.loadCaseSolves = loadCaseSolveCount;
 details.modalSolves = modalSolveCount;
+details.localSearchAttempts = localSearchAttempts;
+details.localSearchAccepted = localSearchAccepted;
 details.qioAttempts = qioAttempts;
 details.qioAccepted = qioAccepted;
 details.iterationsCompleted = iteration;
