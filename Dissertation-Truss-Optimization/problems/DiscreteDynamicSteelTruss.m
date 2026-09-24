@@ -177,7 +177,27 @@ classdef DiscreteDynamicSteelTruss
                 [nodes,elements,groupMap,loads,fixedNodes,controlNodes] = ...
                     obj.baseProblem.definition();
             else
-                [nodes,elements,groupMap,loads,fixedNodes] = obj.baseProblem.definition();
+                % The frequency-constrained 120-bar reference uses the
+                % dynamic benchmark geometry reported by Kaveh/Zolghadr:
+                % radii 6.94, 12.04 and 15.89 m at elevations 5.85, 3 and
+                % 0 m, with the apex at 7 m. Keep this geometry separate
+                % from the canonical static 120-bar problem.
+                [~,elements,groupMap,loads,fixedNodes] = obj.baseProblem.definition();
+                inchPerMeter = 1 / 0.0254;
+                nodes = zeros(49,3);
+                nodes(1,:) = [0,0,7.00] * inchPerMeter;
+                for k = 0:11
+                    theta = k*pi/6;
+                    nodes(2+k,:) = [6.94*cos(theta),6.94*sin(theta),5.85] * inchPerMeter;
+                end
+                for k = 0:23
+                    theta = k*pi/12;
+                    nodes(14+k,:) = [12.04*cos(theta),12.04*sin(theta),3.00] * inchPerMeter;
+                end
+                for k = 0:11
+                    theta = k*pi/6;
+                    nodes(38+k,:) = [15.89*cos(theta),15.89*sin(theta),0.00] * inchPerMeter;
+                end
                 controlNodes = [];
             end
         end
