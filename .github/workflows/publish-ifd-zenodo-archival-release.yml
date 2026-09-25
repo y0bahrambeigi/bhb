@@ -1,0 +1,103 @@
+name: Publish IFD Zenodo Archival Release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-ifd-zenodo-archival-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  archive-release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: "ifd-v1.0.0-rc1"
+      BRANCH: "zenodo/ifd-v1.0.0-rc1"
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Build isolated IFD snapshot branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ifd-snapshot
+          mkdir -p /tmp/ifd-snapshot
+          cp -a ifd-seismic-optimization/. /tmp/ifd-snapshot/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout --orphan "$BRANCH"
+          git rm -rf . >/dev/null 2>&1 || true
+          cp -a /tmp/ifd-snapshot/. .
+
+          cat > .zenodo.json <<'JSON'
+          {
+            "title": "IFD Seismic Optimization Framework: Source-Constrained Modeling, Independent Verification, and BMPOA Integration",
+            "creators": [
+              {
+                "name": "Bahram Beigi, Yousef",
+                "orcid": "0000-0002-3421-8679",
+                "affiliation": "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
+              }
+            ],
+            "license": "MIT",
+            "keywords": [
+              "inerter friction damper",
+              "seismic optimization",
+              "structural control",
+              "BMPOA",
+              "reproducibility",
+              "MATLAB",
+              "nonlinear dynamics"
+            ],
+            "related_identifiers": [
+              {
+                "scheme": "url",
+                "identifier": "https://github.com/y0bahrambeigi/bhb/releases/tag/v1.0.0-rc1",
+                "relation": "isIdenticalTo"
+              }
+            ]
+          }
+          JSON
+
+          git add -A
+          git commit -m "archive: isolated IFD Seismic Optimization Framework v1.0.0-rc1"
+          git push --force origin "HEAD:$BRANCH"
+
+          if git ls-remote --tags origin "refs/tags/$TAG" | grep -q "$TAG"; then
+            echo "Tag $TAG already exists; leaving it unchanged."
+          else
+            git tag -a "$TAG" -m "IFD Seismic Optimization Framework v1.0.0-rc1 — Zenodo archival snapshot"
+            git push origin "$TAG"
+          fi
+
+      - name: Create normal GitHub release for Zenodo ingestion
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $TAG already exists."
+            exit 0
+          fi
+
+          cat > /tmp/release-notes.md <<'EOF'
+          ## IFD Seismic Optimization Framework — Zenodo archival snapshot
+
+          This release is an isolated, project-only snapshot of the IFD Seismic Optimization Framework v1.0.0-rc1, created specifically for archival and DOI registration.
+
+          It contains only the IFD project files at repository root, together with release-specific CITATION.cff and .zenodo.json metadata.
+
+          ### Scientific boundary
+          This release verifies the computational framework and does **not** claim exact experimental reproduction of Hu et al. (2026). Source-specific constitutive equations, specimen parameters, experimental curves, and the exact Rp definition remain explicitly pending.
+          EOF
+
+          gh release create "$TAG"             --repo "$GITHUB_REPOSITORY"             --target "$TAG"             --title "IFD Seismic Optimization Framework v1.0.0-rc1 — Zenodo archival snapshot"             --notes-file /tmp/release-notes.md
