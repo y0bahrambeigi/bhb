@@ -1,0 +1,27 @@
+{
+  "title": "IFD Seismic Optimization Framework: Source-Constrained Modeling, Independent Verification, and BMPOA Integration",
+  "creators": [
+    {
+      "name": "Bahram Beigi, Yousef",
+      "orcid": "0000-0002-3421-8679",
+      "affiliation": "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran"
+    }
+  ],
+  "license": "MIT",
+  "keywords": [
+    "inerter friction damper",
+    "seismic optimization",
+    "structural control",
+    "BMPOA",
+    "reproducibility",
+    "MATLAB",
+    "nonlinear dynamics"
+  ],
+  "related_identifiers": [
+    {
+      "scheme": "url",
+      "identifier": "https://github.com/y0bahrambeigi/bhb/releases/tag/v1.0.0-rc1",
+      "relation": "isIdenticalTo"
+    }
+  ]
+}

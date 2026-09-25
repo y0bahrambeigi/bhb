@@ -1,0 +1,4 @@
+1.0.0-rc1
+Release date: 2026-09-25
+Scope: reproducible computational framework / software release candidate
+Experimental Hu et al. IFD validation: pending source equations and data
