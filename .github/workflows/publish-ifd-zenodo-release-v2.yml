@@ -1,0 +1,40 @@
+name: Publish IFD Zenodo Release v2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-ifd-zenodo-release-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish normal release from existing isolated tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: "ifd-v1.0.0-rc1"
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $TAG already exists."
+            gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json url,tagName,name,isPrerelease
+            exit 0
+          fi
+
+          cat > /tmp/notes.md <<'EOF'
+          ## IFD Seismic Optimization Framework — Zenodo archival snapshot
+
+          Isolated project-only snapshot of IFD Seismic Optimization Framework v1.0.0-rc1, prepared for archival and DOI registration.
+
+          The tag contains only this project's code, metadata, provenance, QA reference implementation, and preprint source at repository root.
+
+          **Scientific boundary:** this release verifies the computational framework and does not claim exact experimental reproduction of Hu et al. (2026).
+          EOF
+
+          gh release create "$TAG"             --repo "$GITHUB_REPOSITORY"             --title "IFD Seismic Optimization Framework v1.0.0-rc1 — Zenodo archival snapshot"             --notes-file /tmp/notes.md
