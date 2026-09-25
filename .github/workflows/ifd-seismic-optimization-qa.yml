@@ -1,0 +1,25 @@
+name: IFD Seismic Optimization QA
+on:
+  push:
+    paths:
+      - 'ifd-seismic-optimization/**'
+      - '.github/workflows/ifd-seismic-optimization-qa.yml'
+  pull_request:
+    paths:
+      - 'ifd-seismic-optimization/**'
+      - '.github/workflows/ifd-seismic-optimization-qa.yml'
+  workflow_dispatch:
+
+jobs:
+  python-reference:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ifd-seismic-optimization
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - run: python -m pip install -r requirements-qa.txt
+      - run: cd python_reference && python run_qa.py
