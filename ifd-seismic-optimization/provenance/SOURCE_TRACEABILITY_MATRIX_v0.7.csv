@@ -1,0 +1,14 @@
+item,current_value_or_status,provenance_class,source_or_file,publication_use
+Target DOI,10.1016/j.soildyn.2026.110650,verified_hu2026,SOURCE_FACTS_HU2026.md,Citable identity
+IFD topology,ball-screw inerter in series with friction energy-dissipation unit,verified_hu2026,SOURCE_FACTS_HU2026.md,Citable qualitative description
+Zero-preload frequency anchors,"0.1; 0.5; 1.0 Hz",verified_hu2026,SOURCE_FACTS_HU2026.md,Citable regime anchors
+Provisional inertance b,1500 kg,generic_demo,default_config.m,Workflow only; never attribute to Hu
+Provisional viscous c,2000 N*s/m,generic_demo,default_config.m,Workflow only; never attribute to Hu
+Provisional friction scale Fc,25000 N,generic_demo,default_config.m,Workflow only; never attribute to Hu
+Exact restoring-force equation,UNKNOWN,unknown,Await full text/author data,Required before reproduction claim
+Exact Rp equation,UNKNOWN,unknown,Await full text/author data,Required before Rp reporting
+BMPOA optimizer API,BudgetedMemeticPelicanOptimization,verified_user_repository,y0bahrambeigi/bhb,Optimization method dependency
+BMPOA locked evaluator budget,35070 evaluator calls,verified_user_repository,RunDynamicDiscretePilot.m,Locked optimization protocol
+BMPOA locked pilot seeds,2026:2030,verified_user_repository,RunDynamicDiscretePilot.m,Locked paired-seed protocol
+Mixed-variable QIO,DISABLED,methodological_gate,RunIFDSeismicBMPOAPilot.m,Do not claim QIO until mixed-variable operator validated
+IFD BMPOA adapter,IMPLEMENTED,repository_method,matlab/IFDSeismicBMPOAProblem.m,Methods and executable workflow

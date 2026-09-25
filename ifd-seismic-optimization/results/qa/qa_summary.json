@@ -1,0 +1,14 @@
+{
+  "qa_scope": "software verification only; synthetic motions and provisional IFD law; not experimental validation",
+  "first_three_frequencies_Hz": [1.1510405091913125,3.386227237041763,5.424618746310542],
+  "tests": {
+    "frequencies_positive": true,
+    "mass_symmetric": true,
+    "stiffness_symmetric": true,
+    "damping_symmetric": true,
+    "effective_mass_spd": true,
+    "finite_metrics": true,
+    "nonnegative_energy_default": true,
+    "all_pass": true
+  }
+}

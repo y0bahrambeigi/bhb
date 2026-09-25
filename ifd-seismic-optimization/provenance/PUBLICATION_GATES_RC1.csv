@@ -1,0 +1,13 @@
+Track,Gate,Requirement,Status,Evidence_or_action
+Software/preprint,R1,Versioned runnable source package,PASS,matlab/ + python_reference/
+Software/preprint,R2,Independent numerical QA executed,PASS,results/qa/qa_summary.json
+Software/preprint,R3,Claim boundary explicit,PASS,PUBLICATION_READINESS_RC1.md
+Software/preprint,R4,Source provenance separated,PASS,provenance/SOURCE_TRACEABILITY_MATRIX_v0.7.csv
+Software/preprint,R5,Citation metadata and license present,PASS,CITATION.cff + LICENSE
+Experimental-validation,V1,Exact Hu constitutive equation available,BLOCKED,Await full text/author data
+Experimental-validation,V2,Hu specimen parameters available,BLOCKED,Await full text/author data
+Experimental-validation,V3,Reference curves/time histories available,BLOCKED,Await author/digitizable data
+Experimental-validation,V4,Exact Rp definition available,BLOCKED,Await full text/author data
+Seismic-performance,S1,Publication-grade real-record suite archived,BLOCKED,Acquire lawful waveforms and freeze suite
+Seismic-performance,S2,Locked MATLAB BMPOA paired-seed runs completed,BLOCKED,Run after final model/data freeze
+Seismic-performance,S3,Experimental source validation passed,BLOCKED,Requires V1-V4

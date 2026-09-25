@@ -1,0 +1,4 @@
+RecordID,Event,Year,Station,Component,Magnitude,MagnitudeType,PGA_reported,PGA_units,File,Units,IncludePilot,Status,OfficialSource
+Tabas1978_TAB_344,Tabas,1978,"Tabas, Iran",344,7.4,Ms,913.61,cm/s2,Tabas1978_TAB_344.csv,m/s2,1,selected_download_required,https://www.strongmotioncenter.org/vdc/scripts/event.plx?evt=883
+Manjil1990_Abbar_0,Manjil,1990,"Abbar, Iran",0,7.4,Un,504.61,cm/s2,Manjil1990_Abbar_0.csv,m/s2,1,selected_download_required,https://www.strongmotioncenter.org/vdc/scripts/event.plx?evt=1105
+ElCentro1940_CGS117_H1,El Centro,1940,"El Centro C&GS 117","H1 orientation to verify",6.9,Mw,0.359,g,ElCentro1940_CGS117_H1.csv,m/s2,1,selected_metadata_orientation_pending,https://www.strongmotioncenter.org/cgi-bin/CESMD/apktable.pl?iqrid=elcentro_18may1940
