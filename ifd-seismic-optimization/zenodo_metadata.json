@@ -1,0 +1,13 @@
+{
+  "title": "IFD Seismic Optimization Framework: Source-Constrained Modeling, Independent Verification, and BMPOA Integration",
+  "upload_type": "software",
+  "description": "A reproducible computational framework for inerter-friction-damper seismic response analysis and equal-evaluator-budget BMPOA optimization. This release candidate includes MATLAB code, an independent Python QA implementation, provenance controls, and a preprint. Exact experimental reproduction of Hu et al. (2026) remains explicitly pending source equations and data.",
+  "creators": [
+    {"name": "Bahram Beigi, Yousef"}
+  ],
+  "version": "1.0.0-rc1",
+  "publication_date": "2026-09-25",
+  "access_right": "open",
+  "license": "MIT",
+  "keywords": ["inerter friction damper", "seismic optimization", "BMPOA", "structural control", "reproducibility", "MATLAB"]
+}
