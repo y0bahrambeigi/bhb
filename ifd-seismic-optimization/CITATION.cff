@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software or framework, please cite the archived release and the accompanying preprint."
+title: "IFD Seismic Optimization Framework: Source-Constrained Modeling, Independent Verification, and BMPOA Integration"
+type: software
+authors:
+  - family-names: "Bahram Beigi"
+    given-names: "Yousef"
+version: "1.0.0-rc1"
+date-released: 2026-09-25
+repository-code: "https://github.com/y0bahrambeigi/bhb"
+license: MIT
+keywords:
+  - inerter friction damper
+  - seismic optimization
+  - structural control
+  - BMPOA
+  - reproducibility
+  - MATLAB
+  - surrogate modeling
+preferred-citation:
+  type: article
+  title: "A Reproducible Computational Framework for Seismic Optimization of Inerter-Friction-Damper-Controlled Structures"
+  authors:
+    - family-names: "Bahram Beigi"
+      given-names: "Yousef"
+  year: 2026
