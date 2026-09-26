@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f"><link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg"><title>BMPOA Truss Studio</title><link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header><div><small>REPRODUCIBLE RESEARCH PWA</small><h1>BMPOA Truss Studio</h1><p>Dynamic-discrete steel-truss optimization dashboard</p></div><span id="net">● online</span></header>
+<main>
+<section class="hero"><div><b>Publication-grade evidence</b><h2>Equal-budget. Feasible. Traceable.</h2><p>This mobile dashboard separates validated post-correction results from smoke and pre-correction diagnostic data.</p></div><div class="badge">40/40<br><small>validated runs</small></div></section>
+<section class="controls"><label>Benchmark<select id="benchmark"><option>120-bar</option><option>72-bar</option></select></label><label>Variant<select id="variant"><option>BMPOA-core</option><option>BMPOA-DiscreteLS</option><option>BMPOA-QIO</option><option>BMPOA-DiscreteLS-QIO</option></select></label></section>
+<section id="cards" class="cards"></section>
+<section class="panel"><h3>Variant comparison</h3><div id="bars"></div></section>
+<section class="panel"><h3>Scientific provenance</h3><dl><dt>Reference source commit</dt><dd><code>723bdc81d198a7895ce5401c083620c709897307</code></dd><dt>Evaluator budget</dt><dd>35,070 / run</dd><dt>Modal solves</dt><dd>35,070 / run</dd><dt>Seeds</dt><dd>2026–2030</dd><dt>Policy</dt><dd>Smoke and pre-correction 120-bar data excluded from performance claims.</dd></dl></section>
+<section class="panel note"><b>Execution model</b><p>iPhone is the research dashboard. Dissertation-grade optimization remains server/CI-side so the validated MATLAB/Octave implementation is not silently replaced by a browser implementation.</p></section>
+</main>
+<footer>BMPOA • Dynamic-Discrete Truss Optimization</footer><script src="app.js"></script>
+</body></html>
