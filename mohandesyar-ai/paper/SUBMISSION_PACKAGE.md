@@ -34,18 +34,27 @@
 
 ## Current release-readiness verification
 
-GitHub Actions run 36018851340 (Verify MohandesYar AI PWA, run #91) completed successfully before PR #60 was merged. Static source/PWA validation, Chromium installation, browser release QA, JSON-manifest validation, scholarly-record checksum validation, and all public-route checks passed.
+The SoftwareX package workflow builds the manuscript Word and PDF, highlights
+Word file, cover-letter Word file, and portal-field notes from the current
+source revision. It verifies DOI.org resolution, the author identity and DOI
+in the Word manuscript, readable Word archives, and a nonempty PDF. The PWA
+verification workflow separately checks the application and public routes.
 
-PR #60 was subsequently squash-merged into `main` at commit `3fb69e1b6139649db7312241660718c19567bc54`.
+Before portal upload, use a successful package artifact from the merged main
+commit, compare its DOI and author fields with
+`paper/EDITORIAL_PORTAL_FIELDS.md`, and visually inspect the PDF. The frozen
+software release archive and its checksum are independent of this editable
+submission package.
 
 ## Build result
 
-The previously recorded SoftwareX package build, GitHub Actions run 34433833072, completed successfully on 10 September 2026:
+The first complete package was validated on the main branch after PR #62 merged
+at commit `488cca8466eac3bd3cda0680bbe903433b319675`:
 
-- DOI.org resolution: HTTP 200
-- Manuscript Word file: generated and structurally verified
-- Highlights Word file: generated and structurally verified
-- Cover-letter Word file: generated and structurally verified
-- Submission artifact: `mohandesyar-softwarex-submission-package`
+- [SoftwareX package build](https://github.com/y0bahrambeigi/bhb/actions/runs/36543955897): PASS
+- [PWA verification](https://github.com/y0bahrambeigi/bhb/actions/runs/36543955869): PASS
+- [GitHub Pages deployment](https://github.com/y0bahrambeigi/bhb/actions/runs/36543955045): PASS
 
-A fresh package build should be generated from the current `main` branch after the citation-readiness merge and verified before portal upload. The remaining external step after that verification is final author entry/upload in the SoftwareX submission portal.
+This manifest is a source-level guide. For the final upload, use the latest
+successful main-branch package artifact, rather than a previously downloaded
+archive. Submission in the SoftwareX editorial portal remains a separate step.
