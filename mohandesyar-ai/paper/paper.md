@@ -123,6 +123,8 @@ Figure 2 summarizes the two operational paths validated in the documented releas
 
 The repository includes static release-contract checks and browser-based end-to-end tests. Browser automation is implemented with Playwright [@playwright] and exercises JavaScript syntax, public paths, RTL presentation, cache separation, IndexedDB persistence, image/video evidence, geolocation metadata, backup and restore, deliberate hash-mismatch rejection, multi-page report generation, service-worker update behavior, and offline relaunch.
 
+For reproducibility, the public verification workflow runs on GitHub Actions `ubuntu-latest` with Node.js 22, installs Chromium through Playwright, and executes both `npm run verify` and `npm run qa:browser`. The manuscript records Playwright 1.62.1 as the test dependency used by the release package. These automated-environment details are recoverable from the public workflow and lockfile; they are reported separately from the physical-device checks so that unavailable device model, operating-system, browser-version, tester-identity, or original-date metadata are not inferred after the fact.
+
 Physical-device checks are recorded for Android Chrome, iPhone Safari, and Windows. The Windows validation was performed successfully by an independent user outside the development workflow and was confirmed by the author on 10 September 2026. Device model, exact operating-system/browser versions, tester identity, and original test date were not supplied and therefore are not reconstructed after the fact. The evidence is described as author-confirmed independent-user validation, not as signed third-party certification.
 
 **Table 2. Release-validation and QA evidence used in this manuscript.**
