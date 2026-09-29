@@ -9,6 +9,7 @@ tags:
   - offline-first
   - Persian RTL
   - evidence integrity
+author: Yousef Bahrambeigi
 authors:
   - name: Yousef Bahrambeigi
     affiliation: 1
@@ -20,6 +21,12 @@ affiliations:
 date: 10 September 2026
 bibliography: paper.bib
 ---
+
+**Affiliation:** Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran
+
+**ORCID:** 0000-0002-3421-8679
+
+**Corresponding author:** yousef.bahrambeigi@iau.ac.ir
 
 # Abstract
 
