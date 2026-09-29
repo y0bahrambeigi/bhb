@@ -20,7 +20,7 @@ jobs:
       - name: Install Pandoc
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc libreoffice-writer
+          sudo apt-get install -y pandoc libreoffice-writer librsvg2-bin
 
       - name: Verify Figshare DOI resolves
         run: |
@@ -71,10 +71,7 @@ jobs:
             --to docx \
             -o submission-build/MohandesYar_AI_2.0_Cover_Letter.docx
 
-          libreoffice -env:UserInstallation=file:///tmp/lo-mohandesyar-softwarex \\
-            --headless --convert-to pdf \\
-            --outdir submission-build \\
-            submission-build/MohandesYar_AI_2.0_SoftwareX_Manuscript.docx
+          libreoffice -env:UserInstallation=file:///tmp/lo-mohandesyar-softwarex --headless --convert-to pdf --outdir submission-build submission-build/MohandesYar_AI_2.0_SoftwareX_Manuscript.docx
 
           cp EDITORIAL_PORTAL_FIELDS.md submission-build/
           cp SUBMISSION_PACKAGE.md submission-build/
