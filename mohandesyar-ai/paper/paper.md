@@ -304,4 +304,3 @@ inference service.
 
 No additional acknowledgements.
 
-# References
