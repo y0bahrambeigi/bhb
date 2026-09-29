@@ -1,6 +1,7 @@
 # SoftwareX 2026 submission requirements used for MohandesYar AI 2.0
 
-Checked on 10 September 2026.
+Original source check: 10 September 2026.
+Internal manuscript-structure synchronization: 29 September 2026.
 
 ## Journal fit
 
@@ -19,18 +20,21 @@ https://legacyfileshare.elsevier.com/promis_misc/softwarex-osp-template.docx
 
 ## Manuscript structure adopted
 
-The MohandesYar manuscript follows the SoftwareX Original Software Publication
-structure reflected in the official template and current/recent SoftwareX
-articles:
+The MohandesYar manuscript retains the SoftwareX Original Software Publication
+core structure and adds a dedicated related-work section so that novelty and
+positioning are stated conservatively rather than implied from generic mobile
+inspection features:
 
 1. Motivation and significance
-2. Software description
-3. Illustrative example
-4. Impact
-5. Conclusions
+2. Related work and positioning
+3. Software description
+4. Illustrative example
+5. Impact
+6. Conclusions
 
 The manuscript also contains separate Code metadata and Software metadata
-tables.
+tables. The added Related work section is an editorial extension of the core
+OSP structure, not a change to the software artifact.
 
 ## Metadata expectations
 
@@ -60,20 +64,21 @@ Software metadata records:
 - Maximum six keywords is respected.
 - The manuscript uses a clear single-column logical structure suitable for
   initial peer review.
-- Editable source material must remain available for later production.
+- Editable source material remains available for later production.
 - CRediT, funding, competing-interest, data/software-availability, and AI-use
-  declarations are maintained separately until author verification.
+  declarations are maintained in the submission package.
 - Generative AI used for manuscript preparation is explicitly disclosed.
 - Generative AI used materially in the research/software-development process is
   also described in the methodology/software-development record.
 - Software, test procedures, release evidence, and supporting materials are
-  publicly available or identified as pending only when genuinely unresolved.
+  publicly available or identified as unresolved only when genuinely unresolved.
 
 ## Reviewer-facing checks
 
 The manuscript is designed to address the SoftwareX reviewer form by making the
 following explicit:
 - scientific scope and motivation;
+- related-work context and conservative positioning;
 - architecture and functionality;
 - experimental/validation setting;
 - at least one controlled illustrative example;
@@ -83,9 +88,19 @@ following explicit:
 - complete metadata tables;
 - public version-specific software release.
 
+The reproducible CI path is public in `.github/workflows/mohandesyar-verify.yml`:
+GitHub Actions `ubuntu-latest`, Node.js 22, repository-locked QA dependencies,
+workflow-installed Chromium, `npm run verify`, and `npm run qa:browser`.
+Physical-device model/OS/browser details that were not originally recorded are
+left explicitly unavailable rather than reconstructed.
+
 ## Current unresolved items
 
 - Final submission-portal entry and upload.
+- A live, non-sensitive UI screenshot has been captured for reviewer-facing
+  visual review; it should only be committed as a manuscript figure if an
+  actual image file is exported from the capture workflow. A descriptive or
+  synthetic substitute must not be presented as a real screenshot.
 
 ## DOI resolution confirmation
 
@@ -101,3 +116,5 @@ HTTP 200 in GitHub Actions run 34433833072 on 10 September 2026.
 - Abstract is concise and contains no citations.
 - SoftwareX code and software metadata tables are complete.
 - Frozen GitHub release and Figshare archival DOI are recorded.
+- Manuscript numbering, static validation, and Related work positioning are
+  synchronized with the current branch.
