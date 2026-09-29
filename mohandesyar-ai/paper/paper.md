@@ -30,24 +30,9 @@ bibliography: paper.bib
 
 # Abstract
 
-MohandesYar AI 2.0 is an open-source, offline-first progressive web application
-for Persian right-to-left civil-engineering field documentation. It enables
-users to create project dossiers, retain original image and video evidence in
-browser-local IndexedDB storage, record optional geolocation and SHA-256
-integrity metadata, export and restore project backups, and generate multi-page
-Persian A4 reports. The public release is a static web application with no
-runtime server dependency and does not transmit project data to an external AI
-inference service. Release validation combines automated static checks,
-browser-based end-to-end tests, physical-device checks, and an
-independent-user Windows test confirmed by the author. A controlled reinforced-concrete
-inspection scenario demonstrates evidence persistence, hash verification,
-backup/restore, Persian reporting, service-worker update retention, and offline
-relaunch. The software is intended for research, teaching, and practical
-evaluation of local-first engineering-documentation workflows rather than as a
-trusted timestamping, regulatory submission, or legal chain-of-custody system.
+MohandesYar AI 2.0 is an open-source, offline-first progressive web application for Persian right-to-left civil-engineering field documentation. It enables users to create project dossiers, retain original image and video evidence in browser-local IndexedDB storage, record optional geolocation and SHA-256 integrity metadata, export and restore project backups, and generate multi-page Persian A4 reports. The public release is a static web application with no runtime server dependency and does not transmit project data to an external AI inference service. Release validation combines automated static checks, browser-based end-to-end tests, physical-device checks, and an independent-user Windows test confirmed by the author. A controlled reinforced-concrete inspection scenario demonstrates evidence persistence, hash verification, backup/restore, Persian reporting, service-worker update retention, and offline relaunch. The software is intended for research, teaching, and practical evaluation of local-first engineering-documentation workflows rather than as a trusted timestamping, regulatory submission, or legal chain-of-custody system.
 
-**Keywords:** civil engineering; field documentation; progressive web
-application; offline-first; Persian RTL; evidence integrity
+**Keywords:** civil engineering; field documentation; progressive web application; offline-first; Persian RTL; evidence integrity
 
 # Code metadata
 
@@ -96,120 +81,49 @@ application; offline-first; Persian RTL; evidence integrity
 
 # 1. Motivation and significance
 
-Civil-engineering field documentation is often performed under intermittent
-network connectivity, while records may need to remain readable and printable
-in Persian right-to-left format. In this setting, a useful field tool should
-continue operating after connectivity is lost, preserve the association between
-a project and its original evidence files, expose enough integrity metadata to
-detect file changes, and allow users to move their records without depending on
-a remote account.
+Civil-engineering field documentation is often performed under intermittent network connectivity, while records may need to remain readable and printable in Persian right-to-left format. In this setting, a useful field tool should continue operating after connectivity is lost, preserve the association between a project and its original evidence files, expose enough integrity metadata to detect file changes, and allow users to move their records without depending on a remote account.
 
-MohandesYar addresses this design problem with an installable, local-first web
-application. The local-first approach follows the broader principle that users
-should retain access to their work without continuous reliance on a server
-[@kleppmann2019localfirst]. The software combines Persian RTL project
-documentation, browser-local original-media storage, optional geolocation,
-content hashing, backup/restore, and print-oriented reporting in a single,
-open-source implementation.
+MohandesYar addresses this design problem with an installable, local-first web application. The local-first approach follows the broader principle that users should retain access to their work without continuous reliance on a server [@kleppmann2019localfirst]. The software combines Persian RTL project documentation, browser-local original-media storage, optional geolocation, content hashing, backup/restore, and print-oriented reporting in a single, open-source implementation.
 
-The software is not presented as a replacement for general-purpose field-data
-platforms, cloud document systems, or institutional records software. Its
-scientific value is as a reproducible reference implementation for studying a
-narrower workflow: local-first engineering evidence capture and reporting in a
-Persian RTL environment. The intended users include civil-engineering
-researchers, educators, students, and practitioners evaluating offline field
-documentation, browser data persistence, evidence integrity, and localized
-report-generation workflows.
+The software is not presented as a replacement for general-purpose field-data platforms, cloud document systems, or institutional records software. Its scientific value is as a reproducible reference implementation for studying a narrower workflow: local-first engineering evidence capture and reporting in a Persian RTL environment. The intended users include civil-engineering researchers, educators, students, and practitioners evaluating offline field documentation, browser data persistence, evidence integrity, and localized report-generation workflows.
 
-A SHA-256 digest can help detect whether file content has changed but cannot by
-itself establish when, where, or by whom a file was created. For that reason,
-MohandesYar uses SHA-256 only as integrity metadata in accordance with the
-Secure Hash Standard [@nist2015sha] and makes no claim of trusted timestamping,
-immutable provenance, digital signature, or legal chain of custody.
+A SHA-256 digest can help detect whether file content has changed but cannot by itself establish when, where, or by whom a file was created. For that reason, MohandesYar uses SHA-256 only as integrity metadata in accordance with the Secure Hash Standard [@nist2015sha] and makes no claim of trusted timestamping, immutable provenance, digital signature, or legal chain of custody.
 
 # 2. Related work and positioning
 
-Mobile computing for construction and infrastructure inspection is an established
-research direction rather than a new capability introduced by MohandesYar. Early
-work investigated mobile and sensor-supported infrastructure inspection
-[@ballado2003mobileinspection], while later systems demonstrated smartphone-based
-capture of defect images, defect metadata, GPS position, and inspection reports
-[@nguyen2015insite]. Mobile augmented-reality systems have also been used for
-construction-site monitoring and documentation [@zollmann2014arconstruction] and
-for field visualization and data capture associated with underground
-infrastructure [@schall2013smartvidente]. More recent review work frames remote
-and virtual building inspection as a broader ecosystem involving data capture,
-information extraction, automation, real-time operation, and policy constraints
-[@einizinab2023virtualinspection].
+Mobile computing for construction and infrastructure inspection is an established research direction rather than a new capability introduced by MohandesYar. Early work investigated mobile and sensor-supported infrastructure inspection [@ballado2003mobileinspection], while later systems demonstrated smartphone-based capture of defect images, defect metadata, GPS position, and inspection reports [@nguyen2015insite]. Mobile augmented-reality systems have also been used for construction-site monitoring and documentation [@zollmann2014arconstruction] and for field visualization and data capture associated with underground infrastructure [@schall2013smartvidente]. More recent review work frames remote and virtual building inspection as a broader ecosystem involving data capture, information extraction, automation, real-time operation, and policy constraints [@einizinab2023virtualinspection].
 
-These studies mean that MohandesYar should not claim novelty merely for mobile
-inspection, photographs, geolocation, or digital reporting. Its contribution is
-instead the reproducible integration of a narrower set of design choices: an
-offline-first browser workflow; browser-local retention of original media;
-optional geolocation; per-evidence SHA-256 integrity metadata; portable
-backup/restore; Persian RTL A4 reporting; and versioned open-software QA without
-a runtime application server. The manuscript therefore treats related systems as
-context rather than as targets for unsupported performance or superiority
-claims.
+These studies mean that MohandesYar should not claim novelty merely for mobile inspection, photographs, geolocation, or digital reporting. Its contribution is instead the reproducible integration of a narrower set of design choices: an offline-first browser workflow; browser-local retention of original media; optional geolocation; per-evidence SHA-256 integrity metadata; portable backup/restore; Persian RTL A4 reporting; and versioned open-software QA without a runtime application server. The manuscript therefore treats related systems as context rather than as targets for unsupported performance or superiority claims.
 
 # 3. Software description
 
 ## 3.1. Architecture
 
-MohandesYar is implemented as a static progressive web application using HTML,
-CSS, and JavaScript. Its principal components are:
+MohandesYar is implemented as a static progressive web application using HTML, CSS, and JavaScript. Its principal components are: (1) a project-dossier interface for creating and editing local project records; (2) an IndexedDB data layer for project metadata and original evidence blobs; (3) a service worker for application-shell caching and offline relaunch; (4) a reporting module for Persian RTL A4 output; and (5) export/restore routines that preserve evidence and verify restored hashes.
 
-1. a project-dossier interface for creating and editing local project records;
-2. an IndexedDB data layer for project metadata and original evidence blobs;
-3. a service worker for application-shell caching and offline relaunch;
-4. a reporting module for Persian RTL A4 output; and
-5. export/restore routines that preserve evidence and verify restored hashes.
-
-Project and evidence data remain inside the browser origin. The application does
-not require a runtime application server, user account, or cloud database.
-Static application assets are served from GitHub Pages, while project records
-are stored locally in IndexedDB.
+Project and evidence data remain inside the browser origin. The application does not require a runtime application server, user account, or cloud database. Static application assets are served from GitHub Pages, while project records are stored locally in IndexedDB.
 
 ![Figure 1. Component overview of the MohandesYar AI 2.0 local-first architecture.](figures/architecture.svg)
 
-Project data and original evidence remain browser-local in the documented
-workflow; no runtime application server or cloud database is required.
+Project data and original evidence remain browser-local in the documented workflow; no runtime application server or cloud database is required.
 
 ## 3.2. Evidence and reporting workflow
 
-For each evidence item, the application records the original file object
-together with file name, media type, size, capture/import time, SHA-256 digest,
-and optional geolocation with reported accuracy. Images can be rendered in the
-report. Videos are represented by metadata and digest rather than embedded
-inside the PDF-oriented report.
+For each evidence item, the application records the original file object together with file name, media type, size, capture/import time, SHA-256 digest, and optional geolocation with reported accuracy. Images can be rendered in the report. Videos are represented by metadata and digest rather than embedded inside the PDF-oriented report.
 
-Backup files contain the project records and evidence needed to reconstruct the
-local workspace. During restoration, evidence hashes are recomputed and
-compared with the stored values. A mismatch is rejected rather than silently
-restored with inconsistent integrity metadata.
+Backup files contain the project records and evidence needed to reconstruct the local workspace. During restoration, evidence hashes are recomputed and compared with the stored values. A mismatch is rejected rather than silently restored with inconsistent integrity metadata.
 
-The reporting component generates a Persian RTL project report targeted at A4
-printing. Report status is visually identified as draft, review-required, or
-approved within the software workflow. This internal status is not equivalent
-to professional approval, institutional registration, signature, seal, or
-regulatory acceptance.
+The reporting component generates a Persian RTL project report targeted at A4 printing. Report status is visually identified as draft, review-required, or approved within the software workflow. This internal status is not equivalent to professional approval, institutional registration, signature, seal, or regulatory acceptance.
+
+![Figure 2. End-to-end field-documentation workflow and evidence-integrity path, from project creation and media capture through local persistence, SHA-256 verification, backup/restore, reporting, and offline reuse.](figures/workflow-integrity.svg)
+
+Figure 2 summarizes the two operational paths validated in the documented release: the field workflow from dossier creation to reporting, and the integrity workflow in which evidence hashes are stored, recomputed during restore, and rejected on mismatch.
 
 ## 3.3. Quality assurance and release evidence
 
-The repository includes static release-contract checks and browser-based
-end-to-end tests. Browser automation is implemented with Playwright
-[@playwright] and exercises JavaScript syntax, public paths, RTL presentation,
-cache separation, IndexedDB persistence, image/video evidence, geolocation
-metadata, backup and restore, deliberate hash-mismatch rejection, multi-page
-report generation, service-worker update behavior, and offline relaunch.
+The repository includes static release-contract checks and browser-based end-to-end tests. Browser automation is implemented with Playwright [@playwright] and exercises JavaScript syntax, public paths, RTL presentation, cache separation, IndexedDB persistence, image/video evidence, geolocation metadata, backup and restore, deliberate hash-mismatch rejection, multi-page report generation, service-worker update behavior, and offline relaunch.
 
-Physical-device checks are recorded for Android Chrome, iPhone Safari, and
-Windows. The Windows validation was performed successfully by an independent
-user outside the development workflow and was confirmed by the author on 10
-September 2026. Device model, exact operating-system/browser versions, tester
-identity, and original test date were not supplied and therefore are not
-reconstructed after the fact. The evidence is described as author-confirmed
-independent-user validation, not as signed third-party certification.
+Physical-device checks are recorded for Android Chrome, iPhone Safari, and Windows. The Windows validation was performed successfully by an independent user outside the development workflow and was confirmed by the author on 10 September 2026. Device model, exact operating-system/browser versions, tester identity, and original test date were not supplied and therefore are not reconstructed after the fact. The evidence is described as author-confirmed independent-user validation, not as signed third-party certification.
 
 **Table 2. Release-validation and QA evidence used in this manuscript.**
 
@@ -221,56 +135,25 @@ independent-user validation, not as signed third-party certification.
 | Browser end-to-end QA | Pass | Automated Playwright workflow | Validates the defined browser workflow rather than every browser/device combination |
 | Release-contract checks | Pass | Automated repository/release checks | Verifies the specified release contract; it is not external certification |
 
-The frozen release is `mohandesyar-ai-v2.0.0`, published on 10 September
-2026 [@mohandesyar2026software]. Its version-specific ZIP has SHA-256
-`9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
-The release workflow independently re-downloaded the published archive and
-verified the checksum.
+The frozen release is `mohandesyar-ai-v2.0.0`, published on 10 September 2026 [@mohandesyar2026software]. Its version-specific ZIP has SHA-256 `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`. The release workflow independently re-downloaded the published archive and verified the checksum.
 
 # 4. Illustrative example
 
-A controlled, non-sensitive reinforced-concrete inspection scenario,
-`DEMO-RC-B01`, is included in the browser QA workflow. It contains no real
-project address, client information, personal media, credentials, or private
-geolocation data. The scenario exercises the same software path expected for a
-small field-inspection dossier: project creation, evidence attachment, SHA-256
-calculation, local persistence, backup, deliberate integrity-failure detection,
-restoration, Persian report generation, service-worker update, and offline
-relaunch.
+A controlled, non-sensitive reinforced-concrete inspection scenario, `DEMO-RC-B01`, is included in the browser QA workflow. It contains no real project address, client information, personal media, credentials, or private geolocation data. The scenario exercises the same software path expected for a small field-inspection dossier: project creation, evidence attachment, SHA-256 calculation, local persistence, backup, deliberate integrity-failure detection, restoration, Persian report generation, service-worker update, and offline relaunch.
 
-The scenario uses six synthetic image items and one synthetic video item. After
-project creation, the evidence is stored locally and a backup is exported. One
-evidence payload is deliberately modified in the test data to confirm that
-restoration rejects a hash mismatch. The untampered backup is then restored.
-The report path verifies RTL rendering, non-empty image previews, evidence
-notes, watermark visibility, and multi-page A4 output. The application is
-subsequently reopened after a service-worker update and again with network
-access disabled to verify that project and evidence data remain available.
+The scenario uses six synthetic image items and one synthetic video item. After project creation, the evidence is stored locally and a backup is exported. One evidence payload is deliberately modified in the test data to confirm that restoration rejects a hash mismatch. The untampered backup is then restored. The report path verifies RTL rendering, non-empty image previews, evidence notes, watermark visibility, and multi-page A4 output. The application is subsequently reopened after a service-worker update and again with network access disabled to verify that project and evidence data remain available.
 
-The example evaluates software behavior, data persistence, integrity checking,
-and report generation only. It does not evaluate the engineering condition or
-safety of a real reinforced-concrete member and does not establish regulatory
-or legal admissibility.
+The example evaluates software behavior, data persistence, integrity checking, and report generation only. It does not evaluate the engineering condition or safety of a real reinforced-concrete member and does not establish regulatory or legal admissibility.
 
 # 5. Impact
 
-MohandesYar contributes a public, reusable implementation for examining
-local-first civil-engineering documentation in a Persian RTL environment. It
-supports research and teaching exercises on field-data organization, browser
-storage behavior, offline web architecture, evidence hashing, portable
-backup/restore, and localized technical-report generation. These workflows can
-be reproduced without provisioning a server-side application stack.
+MohandesYar contributes a public, reusable implementation for examining local-first civil-engineering documentation in a Persian RTL environment. It supports research and teaching exercises on field-data organization, browser storage behavior, offline web architecture, evidence hashing, portable backup/restore, and localized technical-report generation. These workflows can be reproduced without provisioning a server-side application stack.
 
-The software may also reduce the setup burden for small controlled field studies
-that require offline records and Persian reporting, because a browser and the
-published application are sufficient for the tested workflow. The versioned
-release, automated QA, physical-device evidence, and controlled example provide
-a basis for independent replication and future usability or reliability
-studies.
+The software also provides an inspectable platform for future controlled studies that compare conventional field-documentation practice with an offline-first digital workflow. Such studies can measure task time, report-preparation time, evidence completeness, retrieval time, offline completion rate, usability, workload, and recovery from corrupted or modified evidence without changing the core software architecture. These outcomes are proposed as future evaluation targets; version 2.0.0 does not claim measured productivity or safety improvements.
 
-For context, QField, ODK Collect, and KoboCollect are established field-data
-tools with broader use cases. MohandesYar is intentionally narrower and is not
-claimed to outperform them.
+The versioned release, automated QA, physical-device evidence, controlled example, DOI-linked archive, and explicit limitations provide a basis for independent replication and for extending the software to larger usability or reliability studies.
+
+For context, QField, ODK Collect, and KoboCollect are established field-data tools with broader use cases. MohandesYar is intentionally narrower and is not claimed to outperform them.
 
 **Table 3. Scope-oriented comparison with established field-data tools. The table describes documented design scope, not performance superiority.**
 
@@ -286,73 +169,35 @@ claimed to outperform them.
 | Installable browser PWA evaluated in this work | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
 | No runtime application server required for the documented local workflow | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
 
-The comparison is deliberately limited to documented design scope rather than
-an artificial performance ranking [@qfield; @odkcollect; @kobocollect].
-Version 2.0.0 has not yet accumulated sufficient independent adoption,
-citation, or commercialization evidence to support claims of widespread uptake.
-Those outcomes should be evaluated separately as the software is reused.
+The comparison is deliberately limited to documented design scope rather than an artificial performance ranking [@qfield; @odkcollect; @kobocollect]. Version 2.0.0 has not yet accumulated sufficient independent adoption, citation, or commercialization evidence to support claims of widespread uptake. Those outcomes should be evaluated separately as the software is reused.
 
 # 6. Conclusions
 
-MohandesYar AI 2.0 demonstrates that a static, installable web application can
-combine Persian RTL civil-engineering documentation, browser-local original
-media, optional geolocation, SHA-256 integrity metadata, backup/restore,
-multi-page reporting, and offline relaunch without a runtime server.
+MohandesYar AI 2.0 demonstrates that a static, installable web application can combine Persian RTL civil-engineering documentation, browser-local original media, optional geolocation, SHA-256 integrity metadata, backup/restore, multi-page reporting, and offline relaunch without a runtime server.
 
-The principal contribution is the integration and reproducible validation of
-this local-first workflow rather than a claim of legal evidence certification
-or structural decision automation. Current limitations include single-device
-local storage, browser storage quotas, absence of cloud synchronization,
-server-side identity, organizational authorization, trusted timestamps,
-digital signatures, immutable provenance, and automatic authority submission.
-Future work can evaluate usability, long-term data-loss recovery, cross-device
-transfer, larger independent-user studies, and any separately designed
-AI-assisted engineering functionality.
+The principal contribution is the integration and reproducible validation of this local-first workflow rather than a claim of legal evidence certification or structural decision automation. Current limitations include single-device local storage, browser storage quotas, absence of cloud synchronization, server-side identity, organizational authorization, trusted timestamps, digital signatures, immutable provenance, and automatic authority submission. Future work can evaluate usability, long-term data-loss recovery, cross-device transfer, larger independent-user studies, and any separately designed AI-assisted engineering functionality.
 
 # Data and software availability
 
-The source code and version-specific release are publicly available at
-https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0. The
-live PWA is available at
-https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/. The source code, test
-procedures, independent-user evidence record, controlled example, release
-notes, and checksum evidence are included in the public repository.
+The source code and version-specific release are publicly available at https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0. The live PWA is available at https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/. The source code, test procedures, independent-user evidence record, controlled example, release notes, and checksum evidence are included in the public repository.
 
-The release ZIP SHA-256 is
-`9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
-The same frozen version 2.0.0 software archive is published on Figshare as
-item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1** [@mohandesyar2026software].
-The version-specific DOI is used so that the software artifact described by
-this manuscript remains unambiguous if later Figshare versions are created.
+The release ZIP SHA-256 is `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`. The same frozen version 2.0.0 software archive is published on Figshare as item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1** [@mohandesyar2026software]. The version-specific DOI is used so that the software artifact described by this manuscript remains unambiguous if later Figshare versions are created.
 
 # CRediT authorship contribution statement
 
-**Yousef Bahrambeigi:** Conceptualization; Methodology; Software; Validation;
-Investigation; Data curation; Writing - original draft; Writing - review &
-editing; Visualization; Project administration.
+**Yousef Bahrambeigi:** Conceptualization; Methodology; Software; Validation; Investigation; Data curation; Writing - original draft; Writing - review & editing; Visualization; Project administration.
 
 # Funding
 
-This research did not receive any specific grant from funding agencies in the
-public, commercial, or not-for-profit sectors.
+This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
 
 # Declaration of competing interest
 
-The author declares that he has no known competing financial interests or
-personal relationships that could have appeared to influence the work reported
-in this paper.
+The author declares that he has no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
 # Declaration of generative AI and AI-assisted technologies in the manuscript preparation process
 
-During the preparation of this work, the author used OpenAI ChatGPT and Codex
-to assist with manuscript organization, drafting, language editing, code
-review, refactoring, and test scaffolding. After using these tools, the author
-reviewed and edited the resulting content as needed and takes full
-responsibility for the software and the published article. AI-assisted
-software-development activity that materially affected implementation or
-testing is also documented as part of the development methodology. The public
-MohandesYar AI 2.0 application does not transmit project data to an external AI
-inference service.
+During the preparation of this work, the author used OpenAI ChatGPT and Codex to assist with manuscript organization, drafting, language editing, code review, refactoring, and test scaffolding. After using these tools, the author reviewed and edited the resulting content as needed and takes full responsibility for the software and the published article. AI-assisted software-development activity that materially affected implementation or testing is also documented as part of the development methodology. The public MohandesYar AI 2.0 application does not transmit project data to an external AI inference service.
 
 # Acknowledgements
 
