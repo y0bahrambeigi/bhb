@@ -76,6 +76,24 @@ application; offline-first; Persian RTL; evidence integrity
 | S7 | Link to user manual | https://github.com/y0bahrambeigi/bhb/blob/mohandesyar-ai-v2.0.0/mohandesyar-ai/README.md |
 | S8 | Support email for questions | yousef.bahrambeigi@iau.ac.ir |
 
+**Table 1. Principal characteristics of MohandesYar AI 2.0.**
+
+| Characteristic | Implementation in version 2.0.0 |
+|---|---|
+| Application type | Installable progressive web application (PWA) |
+| Primary use | Civil-engineering field documentation and report preparation |
+| User-interface language | Persian, right-to-left (RTL) |
+| Local persistence | Browser-local IndexedDB |
+| Offline behavior | Offline relaunch after the first successful application load |
+| Evidence types | Original image and video files |
+| Geolocation | Optional and permission-based |
+| Integrity metadata | Per-evidence SHA-256 digest |
+| Portability | Project backup export and restore |
+| Reporting | Multi-page Persian A4-oriented report |
+| Runtime application server | Not required for the documented workflow |
+| License | MIT License |
+| Version DOI | 10.6084/m9.figshare.33511795.v1 |
+
 # 1. Motivation and significance
 
 Civil-engineering field documentation is often performed under intermittent
@@ -193,6 +211,16 @@ identity, and original test date were not supplied and therefore are not
 reconstructed after the fact. The evidence is described as author-confirmed
 independent-user validation, not as signed third-party certification.
 
+**Table 2. Release-validation and QA evidence used in this manuscript.**
+
+| Validation environment | Result | Evidence basis | Evidence limitation |
+|---|---|---|---|
+| Android Chrome | Pass | Physical-device test, author-confirmed | Exact device model and browser/OS versions not recorded |
+| iPhone Safari | Pass | Physical-device test, author-confirmed | Exact iOS/Safari versions not recorded |
+| Microsoft Windows | Pass | Independent-user test subsequently confirmed by the author | Exact machine/browser details, tester identity, and original test date not reconstructed |
+| Browser end-to-end QA | Pass | Automated Playwright workflow | Validates the defined browser workflow rather than every browser/device combination |
+| Release-contract checks | Pass | Automated repository/release checks | Verifies the specified release contract; it is not external certification |
+
 The frozen release is `mohandesyar-ai-v2.0.0`, published on 10 September
 2026 [@mohandesyar2026software]. Its version-specific ZIP has SHA-256
 `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`.
@@ -244,15 +272,19 @@ For context, QField, ODK Collect, and KoboCollect are established field-data
 tools with broader use cases. MohandesYar is intentionally narrower and is not
 claimed to outperform them.
 
+**Table 3. Scope-oriented comparison with established field-data tools. The table describes documented design scope, not performance superiority.**
+
 | Capability or design focus | MohandesYar AI 2.0 | QField | ODK Collect | KoboCollect |
 |---|---|---|---|---|
-| Primary focus | Persian civil-engineering project dossiers and reporting | GIS/QGIS fieldwork | General structured field-data collection | General structured field-data collection |
+| Primary focus | Persian civil-engineering project dossiers and reporting | GIS/QGIS-oriented fieldwork | General structured field-data collection | General structured field-data collection |
 | Offline workflow | Yes, after first successful application load | Yes | Yes | Yes |
 | Image/media evidence | Yes | Yes | Yes | Yes |
 | Geolocation | Optional | Yes | Yes | Yes |
-| Persistence model emphasized here | Browser-local IndexedDB | QGIS-oriented local/offline workflow with synchronization options | Offline collection with synchronization workflows | Offline collection with synchronization workflows |
+| Persistence model emphasized in this work | Browser-local IndexedDB | Local/offline GIS workflow with synchronization options | Offline collection with synchronization workflows | Offline collection with synchronization workflows |
 | Persian RTL engineering A4 reporting evaluated in this work | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
 | Per-evidence SHA-256 metadata evaluated in this work | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
+| Installable browser PWA evaluated in this work | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
+| No runtime application server required for the documented local workflow | Yes | Not evaluated here | Not evaluated here | Not evaluated here |
 
 The comparison is deliberately limited to documented design scope rather than
 an artificial performance ranking [@qfield; @odkcollect; @kobocollect].
