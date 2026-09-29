@@ -85,6 +85,9 @@ jobs:
           done
           unzip -p MohandesYar_AI_2.0_SoftwareX_Manuscript.docx word/document.xml | grep -F "10.6084/m9.figshare.33511795.v1" >/dev/null
           unzip -p MohandesYar_AI_2.0_SoftwareX_Manuscript.docx word/document.xml | grep -F "MohandesYar AI 2.0" >/dev/null
+          for field in "Yousef Bahrambeigi" "Civil Engineering, Islamic Azad University, Mahabad Branch, Mahabad, Iran" "0000-0002-3421-8679" "yousef.bahrambeigi@iau.ac.ir"; do
+            unzip -p MohandesYar_AI_2.0_SoftwareX_Manuscript.docx word/document.xml | grep -F "$field" >/dev/null
+          done
 
       - name: Upload SoftwareX submission package
         uses: actions/upload-artifact@v4
