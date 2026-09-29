@@ -109,9 +109,34 @@ MohandesYar uses SHA-256 only as integrity metadata in accordance with the
 Secure Hash Standard [@nist2015sha] and makes no claim of trusted timestamping,
 immutable provenance, digital signature, or legal chain of custody.
 
-# 2. Software description
+# 2. Related work and positioning
 
-## 2.1. Architecture
+Mobile computing for construction and infrastructure inspection is an established
+research direction rather than a new capability introduced by MohandesYar. Early
+work investigated mobile and sensor-supported infrastructure inspection
+[@ballado2003mobileinspection], while later systems demonstrated smartphone-based
+capture of defect images, defect metadata, GPS position, and inspection reports
+[@nguyen2015insite]. Mobile augmented-reality systems have also been used for
+construction-site monitoring and documentation [@zollmann2014arconstruction] and
+for field visualization and data capture associated with underground
+infrastructure [@schall2013smartvidente]. More recent review work frames remote
+and virtual building inspection as a broader ecosystem involving data capture,
+information extraction, automation, real-time operation, and policy constraints
+[@einizinab2023virtualinspection].
+
+These studies mean that MohandesYar should not claim novelty merely for mobile
+inspection, photographs, geolocation, or digital reporting. Its contribution is
+instead the reproducible integration of a narrower set of design choices: an
+offline-first browser workflow; browser-local retention of original media;
+optional geolocation; per-evidence SHA-256 integrity metadata; portable
+backup/restore; Persian RTL A4 reporting; and versioned open-software QA without
+a runtime application server. The manuscript therefore treats related systems as
+context rather than as targets for unsupported performance or superiority
+claims.
+
+# 3. Software description
+
+## 3.1. Architecture
 
 MohandesYar is implemented as a static progressive web application using HTML,
 CSS, and JavaScript. Its principal components are:
@@ -132,7 +157,7 @@ are stored locally in IndexedDB.
 Project data and original evidence remain browser-local in the documented
 workflow; no runtime application server or cloud database is required.
 
-## 2.2. Evidence and reporting workflow
+## 3.2. Evidence and reporting workflow
 
 For each evidence item, the application records the original file object
 together with file name, media type, size, capture/import time, SHA-256 digest,
@@ -151,7 +176,7 @@ approved within the software workflow. This internal status is not equivalent
 to professional approval, institutional registration, signature, seal, or
 regulatory acceptance.
 
-## 2.3. Quality assurance and release evidence
+## 3.3. Quality assurance and release evidence
 
 The repository includes static release-contract checks and browser-based
 end-to-end tests. Browser automation is implemented with Playwright
@@ -174,7 +199,7 @@ The frozen release is `mohandesyar-ai-v2.0.0`, published on 10 September
 The release workflow independently re-downloaded the published archive and
 verified the checksum.
 
-# 3. Illustrative example
+# 4. Illustrative example
 
 A controlled, non-sensitive reinforced-concrete inspection scenario,
 `DEMO-RC-B01`, is included in the browser QA workflow. It contains no real
@@ -199,7 +224,7 @@ and report generation only. It does not evaluate the engineering condition or
 safety of a real reinforced-concrete member and does not establish regulatory
 or legal admissibility.
 
-# 4. Impact
+# 5. Impact
 
 MohandesYar contributes a public, reusable implementation for examining
 local-first civil-engineering documentation in a Persian RTL environment. It
@@ -235,7 +260,7 @@ Version 2.0.0 has not yet accumulated sufficient independent adoption,
 citation, or commercialization evidence to support claims of widespread uptake.
 Those outcomes should be evaluated separately as the software is reused.
 
-# 5. Conclusions
+# 6. Conclusions
 
 MohandesYar AI 2.0 demonstrates that a static, installable web application can
 combine Persian RTL civil-engineering documentation, browser-local original
@@ -267,7 +292,6 @@ The same frozen version 2.0.0 software archive is published on Figshare as
 item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1** [@mohandesyar2026software].
 The version-specific DOI is used so that the software artifact described by
 this manuscript remains unambiguous if later Figshare versions are created.
-
 
 # CRediT authorship contribution statement
 
@@ -301,4 +325,3 @@ inference service.
 # Acknowledgements
 
 No additional acknowledgements.
-
