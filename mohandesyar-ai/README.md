@@ -6,6 +6,35 @@
 
 <https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/>
 
+## English quick start
+
+MohandesYar AI 2.0 is an offline-first Persian RTL progressive web application for civil-engineering field documentation. The public application runs as a static PWA and stores project records and original media locally in the browser.
+
+1. Open <https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/> in a modern browser.
+2. Create or select a project dossier.
+3. Add image or video evidence; optional geolocation can be recorded only with browser permission.
+4. The application stores the original evidence locally in IndexedDB and records a per-evidence SHA-256 digest.
+5. Export a project backup after important field work. During restore, evidence hashes are recomputed and a mismatch is rejected.
+6. Generate the Persian RTL A4-oriented report from the active project.
+7. After one successful online load, relaunch the installed PWA offline to verify local availability.
+
+Installation shortcuts:
+- **Android / Chrome:** use **Install app** or **Add to Home screen**.
+- **iPhone / Safari:** use **Share → Add to Home Screen**.
+- **Windows / Chrome or Edge:** use the browser install control in the address bar or the in-app install button when offered.
+
+For reproducible automated QA:
+
+```bash
+cd mohandesyar-ai
+npm ci
+npm run verify
+npx playwright install --with-deps chromium
+npm run qa:browser
+```
+
+The public version does not require a runtime application server, user account, or cloud database. Project data remain browser-local unless the user explicitly exports a backup or report.
+
 ## امکانات عملیاتی
 
 - ایجاد، ویرایش، انتخاب و حذف چند پرونده پروژه
