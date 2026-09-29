@@ -82,10 +82,11 @@ assert.match(manuscript, /does\s+not\s+transmit\s+project\s+data\s+to\s+an\s+ext
 assert.match(manuscript, /# Code metadata/, "SoftwareX code metadata table is required");
 assert.match(manuscript, /# Software metadata/, "SoftwareX software metadata table is required");
 assert.match(manuscript, /# 1\. Motivation and significance/);
-assert.match(manuscript, /# 2\. Software description/);
-assert.match(manuscript, /# 3\. Illustrative example/);
-assert.match(manuscript, /# 4\. Impact/);
-assert.match(manuscript, /# 5\. Conclusions/);
+assert.match(manuscript, /# 2\. Related work and positioning/);
+assert.match(manuscript, /# 3\. Software description/);
+assert.match(manuscript, /# 4\. Illustrative example/);
+assert.match(manuscript, /# 5\. Impact/);
+assert.match(manuscript, /# 6\. Conclusions/);
 assert.match(manuscript, /# Declaration of generative AI and AI-assisted technologies in the manuscript preparation process/);
 assert.match(manuscript, /# CRediT authorship contribution statement/, "CRediT statement must remain in manuscript");
 assert.match(manuscript, /This research did not receive any specific grant/, "Final funding statement must remain in manuscript");
