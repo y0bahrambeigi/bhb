@@ -183,7 +183,7 @@ The principal contribution is the integration and reproducible validation of thi
 
 The source code and version-specific release are publicly available at https://github.com/y0bahrambeigi/bhb/releases/tag/mohandesyar-ai-v2.0.0. The live PWA is available at https://y0bahrambeigi.github.io/bhb/mohandesyar-ai/. The source code, test procedures, independent-user evidence record, controlled example, release notes, and checksum evidence are included in the public repository.
 
-The release ZIP SHA-256 is `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`. The same frozen version 2.0.0 software archive is published on Figshare as item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1** [@mohandesyar2026software]. The version-specific DOI is used so that the software artifact described by this manuscript remains unambiguous if later Figshare versions are created.
+The release ZIP SHA-256 is `9635e7fc37fb4fa1dca6be169bbc678ae5c6d45113b4cb6cde9e4f3460f25173`. The same frozen version 2.0.0 software archive is published on Figshare as item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1** [@mohandesyar2026software]. A distinct technical report supporting the frozen release is archived separately on Figshare as item 33935692 with version DOI **10.6084/m9.figshare.33935692.v2**. These two DOIs identify different research objects; the software DOI remains the canonical identifier for the executable scholarly release. The version-specific software DOI is used so that the artifact described by this manuscript remains unambiguous if later Figshare versions are created.
 
 # CRediT authorship contribution statement
 
