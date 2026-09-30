@@ -20,7 +20,7 @@ author-confirmed independent-user Windows validation. The exact software
 version described by the manuscript is frozen in the public GitHub Release
 `mohandesyar-ai-v2.0.0`; its published ZIP was independently re-downloaded and
 verified against its SHA-256 checksum. The same version is publicly archived
-on Figshare as item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1**.
+on Figshare as item 33511795 with version DOI **10.6084/m9.figshare.33511795.v1**. A distinct supporting technical report is archived separately as Figshare item 33935692 with version DOI **10.6084/m9.figshare.33935692.v2**; the two identifiers refer to different research objects.
 
 The manuscript explicitly documents important limitations. The application does
 not provide trusted timestamps, organizational identity management, server-side
