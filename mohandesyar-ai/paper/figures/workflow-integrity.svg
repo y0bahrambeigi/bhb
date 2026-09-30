@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">MohandesYar AI 2.0 field workflow and integrity path</title>
+<desc id="desc">Two-panel scientific figure showing the inspection workflow from project creation to reporting, and the evidence integrity path from capture through SHA-256 hashing, IndexedDB storage, backup, verification, restore, and reuse.</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#1f2937"/></marker></defs>
+<rect width="1600" height="900" fill="#ffffff"/>
+<g font-family="Arial, Helvetica, sans-serif" fill="#111827">
+<text x="800" y="55" text-anchor="middle" font-size="34" font-weight="700">MohandesYar AI 2.0 — Field Workflow and Evidence Integrity</text>
+<text x="90" y="115" font-size="26" font-weight="700">A. Field documentation workflow</text>
+<text x="90" y="500" font-size="26" font-weight="700">B. Integrity, backup, and restore path</text>
+</g>
+<g font-family="Arial, Helvetica, sans-serif" stroke="#334155" stroke-width="2" fill="#f8fafc">
+<rect x="90" y="160" width="240" height="120" rx="18"/><rect x="385" y="160" width="240" height="120" rx="18"/><rect x="680" y="160" width="240" height="120" rx="18"/><rect x="975" y="160" width="240" height="120" rx="18"/><rect x="1270" y="160" width="240" height="120" rx="18"/>
+<rect x="90" y="545" width="240" height="120" rx="18"/><rect x="385" y="545" width="240" height="120" rx="18"/><rect x="680" y="545" width="240" height="120" rx="18"/><rect x="975" y="545" width="240" height="120" rx="18"/><rect x="1270" y="545" width="240" height="120" rx="18"/>
+</g>
+<g font-family="Arial, Helvetica, sans-serif" fill="#0f172a" text-anchor="middle">
+<text x="210" y="205" font-size="22" font-weight="700">Create project dossier</text><text x="210" y="238" font-size="17">Metadata • visit details</text>
+<text x="505" y="205" font-size="22" font-weight="700">Capture evidence</text><text x="505" y="238" font-size="17">Images • video • optional GPS</text>
+<text x="800" y="205" font-size="22" font-weight="700">Store locally</text><text x="800" y="238" font-size="17">IndexedDB • original media</text>
+<text x="1095" y="205" font-size="22" font-weight="700">Prepare report</text><text x="1095" y="238" font-size="17">Persian RTL • A4 output</text>
+<text x="1390" y="205" font-size="22" font-weight="700">Archive / share</text><text x="1390" y="238" font-size="17">Exported report + backup</text>
+<text x="210" y="590" font-size="22" font-weight="700">Evidence input</text><text x="210" y="623" font-size="17">Original file payload</text>
+<text x="505" y="590" font-size="22" font-weight="700">SHA-256 digest</text><text x="505" y="623" font-size="17">Per-evidence integrity metadata</text>
+<text x="800" y="590" font-size="22" font-weight="700">Local persistence</text><text x="800" y="623" font-size="17">IndexedDB + project linkage</text>
+<text x="1095" y="590" font-size="22" font-weight="700">Backup / verification</text><text x="1095" y="623" font-size="17">Recompute and compare hashes</text>
+<text x="1390" y="590" font-size="22" font-weight="700">Restore / reuse</text><text x="1390" y="623" font-size="17">Reject mismatch; reopen offline</text>
+</g>
+<g stroke="#1f2937" stroke-width="3" fill="none" marker-end="url(#arrow)"><path d="M330 220 H375"/><path d="M625 220 H670"/><path d="M920 220 H965"/><path d="M1215 220 H1260"/><path d="M330 605 H375"/><path d="M625 605 H670"/><path d="M920 605 H965"/><path d="M1215 605 H1260"/></g>
+<g font-family="Arial, Helvetica, sans-serif" fill="#334155" font-size="18">
+<text x="90" y="355">Offline relaunch is supported after the first successful application load; project data remain browser-local in the documented workflow.</text>
+<text x="90" y="735">A hash mismatch during restore is rejected rather than silently accepted. SHA-256 is used for change detection only; it does not provide trusted timestamping or legal chain of custody.</text>
+</g>
+<line x1="90" y1="435" x2="1510" y2="435" stroke="#cbd5e1" stroke-width="2"/>
+<text x="800" y="840" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#475569">Figure: end-to-end workflow used in the documented MohandesYar AI 2.0 release and QA scenario.</text>
+</svg>
