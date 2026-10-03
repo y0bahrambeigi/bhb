@@ -1,0 +1,50 @@
+name: Dynamic discrete dissertation study
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_evaluations:
+        description: Evaluator calls per run
+        required: true
+        default: '35070'
+      seed_start:
+        description: First paired seed
+        required: true
+        default: '2026'
+      seed_end:
+        description: Last paired seed
+        required: true
+        default: '2030'
+
+jobs:
+  equal-budget-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      matrix:
+        benchmark: ['72-bar', '120-bar']
+        variant: ['core', 'discrete-ls', 'qio', 'discrete-ls-qio']
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y octave
+
+      - name: Run paired-seed shard
+        shell: bash
+        run: |
+          cd Dissertation-Truss-Optimization
+          octave --no-gui --quiet --eval "RunDynamicDiscreteShard('${{ matrix.benchmark }}','${{ matrix.variant }}',${{ inputs.max_evaluations }},${{ inputs.seed_start }}:${{ inputs.seed_end }});"
+
+      - name: Upload raw shard artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dynamic-discrete-${{ matrix.benchmark }}-${{ matrix.variant }}
+          path: |
+            Dissertation-Truss-Optimization/results/dynamic-discrete-shards/*.csv
+            Dissertation-Truss-Optimization/results/dynamic-discrete-shards/*.mat
+          if-no-files-found: error
+          retention-days: 90
