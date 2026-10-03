@@ -1,0 +1,38 @@
+name: POA equal-FE pilot
+
+on:
+  pull_request:
+    paths:
+      - "matlab_optimization/**"
+      - ".github/workflows/poa-equal-fe-pilot.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  octave-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends octave
+
+      - name: Run equal-FE regression
+        run: |
+          octave --no-gui --quiet --eval "cd('matlab_optimization'); addpath('tests'); TestEqualFEBudgetComparison;"
+
+      - name: Run five-seed 25-bar pilot
+        run: |
+          octave --no-gui --quiet --eval "cd('matlab_optimization'); addpath('experiments'); RunEqualFEBudgetPilot25Bar;"
+
+      - name: Upload pilot results
+        uses: actions/upload-artifact@v4
+        with:
+          name: poa-equal-fe-25bar
+          path: matlab_optimization/results/equal_fe_25bar/**
