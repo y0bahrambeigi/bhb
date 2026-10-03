@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07131f" />
+    <meta name="description" content="داشبورد آزمایشی BHB Engineering Token روی Ethereum Sepolia" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data:; connect-src 'self' https: wss:; object-src 'none'; base-uri 'self'; frame-ancestors 'none';" />
+    <link rel="icon" href="assets/bhb-mark.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>BHB Engineering Token</title>
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="site-header container">
+      <a class="brand" href="#top" aria-label="BHB Engineering Token">
+        <img src="assets/bhb-mark.svg" width="54" height="54" alt="نشان BHB" />
+        <span>
+          <strong>BHB Engineering Token</strong>
+          <small>داشبورد مدیریت توکن مهندسی</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <span id="networkPill" class="pill pill-warning">شبکه: نامشخص</span>
+        <button id="connectButton" class="button button-primary" type="button">اتصال کیف پول</button>
+      </div>
+    </header>
+
+    <main id="top" class="container">
+      <section class="hero panel">
+        <div>
+          <span class="eyebrow">نسخه آزمایشی شبکه Sepolia</span>
+          <h1>کنترل شفاف و امن توکن BHB</h1>
+          <p>
+            مشاهده موجودی و عرضه، انتقال و سوزاندن توکن و مدیریت اختیارهای مالک؛
+            بدون دریافت یا ذخیره کلید خصوصی شما.
+          </p>
+        </div>
+        <div class="hero-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="connectionStatus">کیف پول متصل نیست</span>
+          <code id="accountLabel">—</code>
+        </div>
+      </section>
+
+      <section id="walletWarning" class="notice notice-warning hidden" role="alert">
+        افزونه یا مرورگر کیف پول شناسایی نشد. این صفحه را در مرورگر داخلی MetaMask باز کنید.
+      </section>
+
+      <section class="panel contract-panel" aria-labelledby="contractTitle">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">اتصال قرارداد</span>
+            <h2 id="contractTitle">آدرس قرارداد Sepolia</h2>
+          </div>
+          <a id="explorerLink" class="text-link disabled" href="#" target="_blank" rel="noopener noreferrer">مشاهده در Etherscan</a>
+        </div>
+        <form id="contractForm" class="inline-form">
+          <label class="sr-only" for="contractAddress">آدرس قرارداد</label>
+          <input id="contractAddress" name="contractAddress" inputmode="text" autocomplete="off" spellcheck="false" placeholder="0x…" required />
+          <button class="button button-secondary" type="submit">ثبت و بررسی</button>
+        </form>
+        <p id="contractMessage" class="field-message">پس از انتشار قرارداد، آدرس آن را اینجا وارد کنید.</p>
+      </section>
+
+      <section class="stats-grid" aria-label="آمار توکن">
+        <article class="stat-card panel">
+          <span>موجودی من</span>
+          <strong id="walletBalance">—</strong>
+          <small>BHB</small>
+        </article>
+        <article class="stat-card panel">
+          <span>عرضه فعلی</span>
+          <strong id="totalSupply">—</strong>
+          <small>BHB</small>
+        </article>
+        <article class="stat-card panel">
+          <span>سقف قطعی</span>
+          <strong id="supplyCap">—</strong>
+          <small>BHB</small>
+        </article>
+        <article class="stat-card panel">
+          <span>سهمیه صدور باقی‌مانده</span>
+          <strong id="mintAllowance">—</strong>
+          <small>BHB</small>
+        </article>
+      </section>
+
+      <section class="operations-grid">
+        <article class="panel operation-card">
+          <div class="card-icon">↗</div>
+          <h2>انتقال BHB</h2>
+          <p>ارسال توکن از کیف پول متصل به یک آدرس دیگر.</p>
+          <form id="transferForm" class="stack-form">
+            <label for="transferRecipient">آدرس دریافت‌کننده</label>
+            <input id="transferRecipient" placeholder="0x…" required />
+            <label for="transferAmount">مقدار BHB</label>
+            <input id="transferAmount" type="number" min="0" step="0.000000000000000001" placeholder="مثلاً 100" required />
+            <button class="button button-primary" type="submit">انتقال با تأیید کیف پول</button>
+          </form>
+        </article>
+
+        <article class="panel operation-card">
+          <div class="card-icon card-icon-danger">◇</div>
+          <h2>سوزاندن توکن</h2>
+          <p>توکن‌های سوزانده‌شده از عرضه فعلی حذف می‌شوند و قابل بازگشت نیستند.</p>
+          <form id="burnForm" class="stack-form">
+            <label for="burnAmount">مقدار BHB</label>
+            <input id="burnAmount" type="number" min="0" step="0.000000000000000001" placeholder="مثلاً 10" required />
+            <button class="button button-danger" type="submit">سوزاندن با تأیید کیف پول</button>
+          </form>
+        </article>
+
+        <article id="mintCard" class="panel operation-card owner-only hidden">
+          <div class="card-icon">＋</div>
+          <h2>صدور محدود</h2>
+          <p>فقط مالک می‌تواند در کل عمر قرارداد حداکثر ۲۰ میلیون BHB اضافی صادر کند.</p>
+          <form id="mintForm" class="stack-form">
+            <label for="mintRecipient">آدرس دریافت‌کننده</label>
+            <input id="mintRecipient" placeholder="0x…" required />
+            <label for="mintAmount">مقدار BHB</label>
+            <input id="mintAmount" type="number" min="0" step="0.000000000000000001" placeholder="مثلاً 5000" required />
+            <button class="button button-primary" type="submit">صدور با تأیید کیف پول</button>
+          </form>
+        </article>
+
+        <article id="pauseCard" class="panel operation-card owner-only hidden">
+          <div class="card-icon card-icon-warning">Ⅱ</div>
+          <h2>توقف اضطراری</h2>
+          <p id="pauseDescription">وضعیت قرارداد پس از اتصال نمایش داده می‌شود.</p>
+          <div class="dual-actions">
+            <button id="pauseButton" class="button button-warning" type="button">توقف عملیات</button>
+            <button id="unpauseButton" class="button button-secondary" type="button">رفع توقف</button>
+          </div>
+        </article>
+
+        <article id="ownershipCard" class="panel operation-card owner-only hidden">
+          <div class="card-icon">⌁</div>
+          <h2>انتقال مالکیت</h2>
+          <p>انتقال دومرحله‌ای است و مالک جدید باید جداگانه آن را بپذیرد.</p>
+          <form id="ownershipForm" class="stack-form">
+            <label for="newOwner">آدرس مالک جدید</label>
+            <input id="newOwner" placeholder="0x…" required />
+            <button class="button button-secondary" type="submit">شروع انتقال مالکیت</button>
+          </form>
+        </article>
+
+        <article id="acceptOwnershipCard" class="panel operation-card hidden">
+          <div class="card-icon">✓</div>
+          <h2>پذیرش مالکیت</h2>
+          <p>این کیف پول به‌عنوان مالک جدید معرفی شده است.</p>
+          <button id="acceptOwnershipButton" class="button button-primary" type="button">پذیرش مالکیت</button>
+        </article>
+      </section>
+
+      <section class="panel transaction-panel" aria-live="polite">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">گزارش عملیات</span>
+            <h2>آخرین وضعیت</h2>
+          </div>
+          <button id="refreshButton" class="button button-ghost" type="button">به‌روزرسانی</button>
+        </div>
+        <ol id="transactionLog" class="transaction-log">
+          <li><span class="log-dot"></span><span>داشبورد آماده اتصال است.</span></li>
+        </ol>
+      </section>
+
+      <section class="notice notice-info">
+        BHB در این نسخه فقط توکن آزمایشی Sepolia است و ارزش پولی واقعی یا تضمین سرمایه‌گذاری ندارد.
+        پیش از هر کاربرد عمومی، ممیزی مستقل و بررسی حقوقی ضروری است.
+      </section>
+    </main>
+
+    <footer class="container site-footer">
+      <span>Designed &amp; Developed by Yousef Bahram Beigi</span>
+      <span>© 2026 BHB Smart Structure Lab</span>
+    </footer>
+
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+    <script defer src="https://cdn.jsdelivr.net/npm/ethers@6.17.0/dist/ethers.umd.min.js"></script>
+    <script defer src="app.js"></script>
+  </body>
+</html>
