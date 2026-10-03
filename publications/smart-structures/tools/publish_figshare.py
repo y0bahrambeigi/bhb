@@ -172,7 +172,7 @@ def create_or_update() -> dict[str, Any]:
         "references": [RELEASE_PAGE, APP_URL, ORCID_URL],
         "categories": get_category_ids(),
         "authors": [{"name": AUTHOR}],
-        "defined_type": "paper",
+        "defined_type": "book",
         "license": get_ccby_license_id(),
     }
     existing = find_existing()
