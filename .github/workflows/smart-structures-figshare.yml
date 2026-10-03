@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: smart-structures-figshare-rc1
@@ -84,6 +84,32 @@ jobs:
           with urllib.request.urlopen(req, timeout=90) as response:
               print("DOI:", doi)
               print("Resolved:", response.geturl())
+
+      - name: Add archival DOI to GitHub Release notes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          DOI="$(python -c 'import json; print(json.load(open("figshare_result.json"))["doi"])')"
+          cat > /tmp/smart-structures-release-notes.md <<EOF
+          ## Smart Structures v1.0.0-rc1
+
+          نخستین نامزد انتشار دیجیتال کتاب «سازه‌های هوشمند و کنترل پاسخ لرزه‌ای» اثر یوسف بهرام بیگی.
+
+          **Archival DOI for RC1:** https://doi.org/$DOI
+
+          ### Included
+          - منبع DOCX نسخه‌گذاری‌شده
+          - PDF دیجیتال Tagged با زبان `fa-IR`
+          - فراداده استناد `CITATION.cff` و `CITATION.bib`
+          - مجوز CC BY 4.0
+          - `SHA256SUMS`
+
+          ### Release boundary
+          این DOI فقط متعلق به `v1.0.0-rc1` است. نسخه نهایی `v1.0.0` یک milestone مستقل است و DOI/دارایی‌های نهایی خود را خواهد داشت.
+          EOF
+          gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --notes-file /tmp/smart-structures-release-notes.md
 
       - name: Upload publication result
         if: always()
