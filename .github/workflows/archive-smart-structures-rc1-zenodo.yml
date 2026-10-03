@@ -1,0 +1,314 @@
+name: Archive Smart Structures RC1 on Zenodo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/archive-smart-structures-rc1-zenodo.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    env:
+      ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
+      TAG: "smart-structures-v1.0.0-rc1"
+      VERSION: "1.0.0-rc1"
+      TITLE: "سازه‌های هوشمند و کنترل پاسخ لرزه‌ای"
+      RELEASE_URL: "https://github.com/y0bahrambeigi/bhb/releases/tag/smart-structures-v1.0.0-rc1"
+      PDF_ASSET: "Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_digital.pdf"
+      DOCX_ASSET: "Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_source.docx"
+      PRINT_ASSET: "Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_print-candidate.pdf"
+      CHECKSUM_ASSET: "SHA256SUMS"
+      LICENSE_ASSET: "LICENSE.md"
+      ORCID: "0000-0002-3421-8679"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate webapp before archival publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check publications/smart-structures/webapp/app.js
+          node --check publications/smart-structures/webapp/calculations.js
+          node --check publications/smart-structures/webapp/sw.js
+          node publications/smart-structures/webapp/tests/validate.mjs
+
+      - name: Download and verify exact GitHub release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p zenodo_upload
+          cd zenodo_upload
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY"             -p "$PDF_ASSET"             -p "$DOCX_ASSET"             -p "$PRINT_ASSET"             -p "$CHECKSUM_ASSET"             -p "$LICENSE_ASSET"
+          sha256sum -c "$CHECKSUM_ASSET"
+          rm -f "$PRINT_ASSET"
+          ls -lh
+
+      - name: Guarded Zenodo book publication
+        shell: python
+        run: |
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          token = os.environ.get("ZENODO_TOKEN", "").strip()
+          if not token:
+              raise SystemExit("ZENODO_TOKEN is not configured; no Zenodo action was taken.")
+
+          title = os.environ["TITLE"]
+          version = os.environ["VERSION"]
+          release_url = os.environ["RELEASE_URL"]
+          pdf_asset = os.environ["PDF_ASSET"]
+          docx_asset = os.environ["DOCX_ASSET"]
+          checksum_asset = os.environ["CHECKSUM_ASSET"]
+          license_asset = os.environ["LICENSE_ASSET"]
+          orcid = os.environ["ORCID"]
+          upload_dir = Path("zenodo_upload")
+
+          headers = {
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/json",
+              "User-Agent": "Smart-Structures-Book-Zenodo-Publisher/1.0",
+          }
+
+          def request_json(url, method="GET", payload=None, raw=None, extra_headers=None, timeout=120):
+              h = dict(headers)
+              if extra_headers:
+                  h.update(extra_headers)
+              data = raw
+              if payload is not None:
+                  data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+                  h["Content-Type"] = "application/json"
+              req = urllib.request.Request(url, data=data, headers=h, method=method)
+              try:
+                  with urllib.request.urlopen(req, timeout=timeout) as resp:
+                      body = resp.read()
+                      parsed = json.loads(body.decode("utf-8")) if body else {}
+                      return resp.status, parsed
+              except urllib.error.HTTPError as e:
+                  body = e.read().decode("utf-8", "replace")
+                  raise SystemExit(f"Zenodo API {method} {url} failed HTTP {e.code}: {body}")
+
+          # Exact title+version duplicate guard.
+          status, deposits = request_json("https://zenodo.org/api/deposit/depositions?size=100")
+          if status != 200 or not isinstance(deposits, list):
+              raise SystemExit("Could not safely list existing Zenodo depositions.")
+
+          matches = []
+          for dep in deposits:
+              md = dep.get("metadata") or {}
+              if md.get("title") == title and str(md.get("version", "")) == version:
+                  matches.append(dep)
+
+          if len(matches) > 1:
+              raise SystemExit(
+                  f"Found {len(matches)} Zenodo deposits with identical title+version; refusing duplicate publication."
+              )
+
+          if len(matches) == 1 and (matches[0].get("submitted") is True or matches[0].get("state") == "done"):
+              dep = matches[0]
+              result = {
+                  "status": "already-published",
+                  "doi": dep.get("doi") or (dep.get("metadata") or {}).get("doi"),
+                  "doi_url": dep.get("doi_url"),
+                  "record_url": dep.get("record_url") or (dep.get("links") or {}).get("record"),
+                  "record_id": dep.get("record_id") or dep.get("id"),
+                  "version": version,
+                  "title": title,
+              }
+              Path("zenodo_result.json").write_text(
+                  json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8"
+              )
+              print("ZENODO_ALREADY_PUBLISHED")
+              print(json.dumps(result, indent=2, ensure_ascii=False))
+              sys.exit(0)
+
+          if len(matches) == 1:
+              dep = matches[0]
+              print("Reusing existing matching unpublished draft:", dep.get("id"))
+          else:
+              create_status, dep = request_json(
+                  "https://zenodo.org/api/deposit/depositions",
+                  method="POST",
+                  payload={},
+              )
+              if create_status != 201:
+                  raise SystemExit(f"Unexpected Zenodo draft create status {create_status}")
+              print("Created new Zenodo draft:", dep.get("id"))
+
+          dep_id = dep["id"]
+
+          metadata = {
+              "metadata": {
+                  "title": title,
+                  "upload_type": "publication",
+                  "publication_type": "book",
+                  "description": (
+                      "نامزد انتشار دیجیتال کتاب فارسی «سازه‌های هوشمند و کنترل پاسخ لرزه‌ای» "
+                      "اثر یوسف بهرام بیگی. این اثر مباحث جداسازی پایه، کنترل غیرفعال و فعال، "
+                      "حسگرها، دوقلوهای دیجیتال و هوشمندی سازه‌ای را پوشش می‌دهد. این رکورد "
+                      "نسخه 1.0.0-rc1 است و نسخه نهایی 1.0.0 به‌صورت جداگانه پس از همگام‌سازی "
+                      "فراداده و فایل‌های نهایی منتشر خواهد شد."
+                  ),
+                  "creators": [{
+                      "name": "Bahrambeigi, Yousef",
+                      "orcid": orcid,
+                  }],
+                  "publication_date": "2026-10-03",
+                  "version": version,
+                  "access_right": "open",
+                  "license": "cc-by-4.0",
+                  "keywords": [
+                      "smart structures",
+                      "seismic response control",
+                      "structural control",
+                      "base isolation",
+                      "passive control",
+                      "active control",
+                      "digital twin",
+                      "civil engineering",
+                      "Persian"
+                  ],
+                  "related_identifiers": [{
+                      "identifier": release_url,
+                      "relation": "isIdenticalTo",
+                      "scheme": "url"
+                  }]
+              }
+          }
+
+          update_status, dep = request_json(
+              f"https://zenodo.org/api/deposit/depositions/{dep_id}",
+              method="PUT",
+              payload=metadata,
+          )
+          if update_status != 200:
+              raise SystemExit(f"Unexpected metadata update status {update_status}")
+
+          bucket = (dep.get("links") or {}).get("bucket")
+          if not bucket:
+              raise SystemExit("Zenodo draft did not expose a file bucket.")
+
+          for filename in (pdf_asset, docx_asset, checksum_asset, license_asset):
+              path = upload_dir / filename
+              if not path.is_file():
+                  raise SystemExit(f"Missing verified GitHub Release asset: {path}")
+              target = bucket.rstrip("/") + "/" + urllib.parse.quote(filename)
+              with path.open("rb") as fp:
+                  upload_headers = dict(headers)
+                  upload_headers["Content-Type"] = "application/octet-stream"
+                  req = urllib.request.Request(target, data=fp.read(), headers=upload_headers, method="PUT")
+                  try:
+                      with urllib.request.urlopen(req, timeout=180) as resp:
+                          if resp.status not in (200, 201):
+                              raise SystemExit(f"Unexpected upload status {resp.status} for {filename}")
+                          resp.read()
+                  except urllib.error.HTTPError as e:
+                      body = e.read().decode("utf-8", "replace")
+                      raise SystemExit(f"Upload failed for {filename}: HTTP {e.code}: {body}")
+              print("Uploaded:", filename)
+
+          # Re-fetch and verify before the irreversible publish action.
+          _, dep = request_json(f"https://zenodo.org/api/deposit/depositions/{dep_id}")
+          md = dep.get("metadata") or {}
+          failures = []
+          if md.get("title") != title:
+              failures.append("title mismatch")
+          if md.get("upload_type") != "publication":
+              failures.append("upload_type is not publication")
+          if md.get("publication_type") != "book":
+              failures.append("publication_type is not book")
+          if str(md.get("version", "")) != version:
+              failures.append("version mismatch")
+          creators = md.get("creators") or []
+          if not any(
+              c.get("name") == "Bahrambeigi, Yousef"
+              and (c.get("orcid") or "").replace("https://orcid.org/", "") == orcid
+              for c in creators
+          ):
+              failures.append("creator/ORCID mismatch")
+          names = {
+              f.get("filename") or f.get("name")
+              for f in (dep.get("files") or [])
+          }
+          for required in (pdf_asset, docx_asset, checksum_asset, license_asset):
+              if required not in names:
+                  failures.append(f"missing file {required}")
+
+          if failures:
+              print("Zenodo publication gate FAILED:")
+              for item in failures:
+                  print(" -", item)
+              raise SystemExit("No publish action was taken.")
+
+          reserved = (md.get("prereserve_doi") or {}).get("doi")
+          print("Reserved DOI:", reserved)
+
+          publish_url = (dep.get("links") or {}).get("publish") or               f"https://zenodo.org/api/deposit/depositions/{dep_id}/actions/publish"
+          pub_status, published = request_json(publish_url, method="POST")
+          if pub_status not in (200, 201, 202):
+              raise SystemExit(f"Unexpected Zenodo publish status {pub_status}")
+
+          doi = published.get("doi") or (published.get("metadata") or {}).get("doi") or reserved
+          doi_url = published.get("doi_url") or (f"https://doi.org/{doi}" if doi else None)
+          record_url = published.get("record_url") or (published.get("links") or {}).get("record")
+          result = {
+              "status": "published",
+              "doi": doi,
+              "doi_url": doi_url,
+              "record_url": record_url,
+              "record_id": published.get("record_id") or published.get("id") or dep_id,
+              "version": version,
+              "title": title,
+              "github_release": release_url,
+          }
+          Path("zenodo_result.json").write_text(
+              json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8"
+          )
+          print("ZENODO_PUBLISH_SUCCESS")
+          print(json.dumps(result, indent=2, ensure_ascii=False))
+
+      - name: Verify DOI resolution
+        if: success()
+        shell: python
+        run: |
+          import json
+          import urllib.request
+          from pathlib import Path
+
+          result = json.loads(Path("zenodo_result.json").read_text(encoding="utf-8"))
+          doi = result.get("doi")
+          if not doi:
+              raise SystemExit("Zenodo result contains no DOI.")
+          req = urllib.request.Request(
+              f"https://doi.org/{doi}",
+              headers={"User-Agent": "Smart-Structures-Book-DOI-Verifier/1.0"}
+          )
+          with urllib.request.urlopen(req, timeout=60) as resp:
+              resolved = resp.geturl()
+              print("Resolved URL:", resolved)
+              if "zenodo.org" not in resolved.lower():
+                  raise SystemExit("DOI did not resolve to Zenodo.")
+
+      - name: Upload Zenodo result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-structures-zenodo-result
+          path: zenodo_result.json
+          if-no-files-found: warn
