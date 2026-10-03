@@ -1,22 +1,16 @@
-# Release presentation
+# Smart Structures release status
 
-## GitHub Release draft for the current package
+## Current public release
 
 **Tag:** `smart-structures-v1.0.0-rc1`
 
 **Title:** `Smart Structures v1.0.0-rc1`
 
-**Body:**
+**Published:** 2026-10-03
 
-> نامزد انتشار نخست کتاب «سازه‌های هوشمند و کنترل پاسخ لرزه‌ای» اثر یوسف بهرام بیگی.
->
-> این بسته شامل منبع DOCX با فونت‌های فارسی جاسازی‌شده، PDF دیجیتال Tagged با زبان `fa-IR` و وب‌اپ تعاملی و آفلاین کتاب است. کتابنامه و پیوندهای DOI بازبینی شده‌اند و مطالب اصیل کتاب تحت CC BY 4.0 عرضه می‌شوند.
->
-> این انتشار صرفاً دیجیتال است. فایل `print-candidate` دارایی انتشار نهایی نیست و PDF/X-4، قطع، bleed و ICC در دامنه این نسخه قرار ندارند. انتشار نهایی `v1.0.0` پس از رزرو DOI نسخه در Zenodo و همگام‌سازی فراداده انجام می‌شود.
->
-> تمامیت فایل‌ها را با `SHA256SUMS` بررسی کنید.
+**Status:** Public GitHub prerelease; digital RC1.
 
-Attach these assets:
+RC1 was published after the release workflow verified the publication checksums and Smart Structures PWA validation suite. The public release contains:
 
 - `Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_source.docx`
 - `Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_digital.pdf`
@@ -25,15 +19,26 @@ Attach these assets:
 - `CITATION.cff`
 - `LICENSE.md`
 
-## Exact PR note now
+The print-candidate PDF is intentionally excluded from the digital release.
 
-> QA نامزد انتشار دیجیتال Smart Structures v1.0.0-rc1 تکمیل شد. منبع DOCX، PDF دیجیتال Tagged، وب‌اپ نصب‌شونده، کتابنامه، مجوز CC BY 4.0، فرادادهٔ استناد، مجوز فونت‌ها و checksumها آماده‌اند. نسخه چاپی خارج از دامنه است. PR باید Draft بماند تا DOI نسخه در Zenodo رزرو و در همه دارایی‌های دیجیتال یکسان‌سازی شود.
+## Public webapp
 
-## Final release gate
+The Smart Structures PWA is part of the repository and its GitHub Pages deployment completed successfully after the RC1 publication changes. The webapp validation workflow checks JavaScript syntax, PWA requirements, and engineering calculations.
 
-Only after the exact Zenodo DOI, digital publication date, synchronized metadata, webapp validation, and final checksums exist:
+## Zenodo archival status
 
-- create tag `smart-structures-v1.0.0`;
-- title the release `Smart Structures v1.0.0`;
-- use squash-merge title `Publish Smart Structures digital book v1.0.0 (#12)`;
-- post the final QA note, replacing every release-candidate statement with evidence from the final files.
+A guarded Zenodo workflow is present. It downloads the exact RC1 release assets, validates the released primary assets against `SHA256SUMS`, checks for duplicate title+version deposits, validates metadata and uploaded files, publishes only after those checks pass, verifies DOI resolution, and then updates the GitHub Release notes.
+
+The current external blocker is repository credential configuration: `ZENODO_TOKEN` is not configured. The workflow therefore stops before contacting Zenodo and no partial or fabricated DOI is created.
+
+## Final v1.0.0 gate
+
+Create the final tag `smart-structures-v1.0.0` only after all of the following are true:
+
+1. a real Zenodo DOI for this book is reserved/published and resolves through DOI.org;
+2. DOI and publication date are synchronized across DOCX/PDF, `README.md`, `CITATION.cff`, `CITATION.bib`, Zenodo metadata, and GitHub Release metadata;
+3. final digital assets pass the publication QA again;
+4. final checksums are regenerated from the frozen assets;
+5. release-candidate wording is removed from final citation metadata.
+
+Until then, `smart-structures-v1.0.0-rc1` is the canonical public release candidate.
