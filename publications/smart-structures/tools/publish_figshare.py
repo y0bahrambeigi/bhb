@@ -260,8 +260,9 @@ def verify_primary_checksums(directory: pathlib.Path) -> None:
 def reserve_and_publish(article: dict[str, Any]) -> tuple[int, str, str]:
     article_id = int(article["id"])
     if article.get("published_date"):
-        doi = str(article.get("doi") or "")
-        public_url = str(article.get("url_public_api") or article.get("url") or "")
+        public = j(request("GET", f"articles/{article_id}", auth=False))
+        doi = str(public.get("doi") or article.get("doi") or "")
+        public_url = str(public.get("url_public_api") or public.get("url") or article.get("url") or "")
         return article_id, doi, public_url
 
     reserved = j(request("POST", f"account/articles/{article_id}/reserve_doi"))
