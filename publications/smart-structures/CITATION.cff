@@ -1,8 +1,9 @@
 cff-version: 1.2.0
-message: "Please cite this release candidate using the preferred citation below; use the final DOI or ISBN once published."
+message: "Please cite this v1.0.0-rc1 release candidate using the archival DOI below; the final v1.0.0 DOI will be separate."
 title: "سازه‌های هوشمند و کنترل پاسخ لرزه‌ای"
 version: 1.0.0-rc1
-date-released: 2026-08-25
+doi: "10.6084/m9.figshare.34063335.v1"
+date-released: 2026-10-03
 authors:
   - family-names: Bahrambeigi
     given-names: Yousef
@@ -21,4 +22,5 @@ preferred-citation:
       given-names: Yousef
   edition: 1
   year: 2026
-  notes: "Release candidate 1 for version 1.0.0; official DOI or ISBN and publisher pending final metadata confirmation."
+  doi: "10.6084/m9.figshare.34063335.v1"
+  notes: "Archival DOI for release candidate 1 only; the final v1.0.0 DOI is a separate publication milestone."
