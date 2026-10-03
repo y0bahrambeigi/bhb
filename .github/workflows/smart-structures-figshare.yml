@@ -1,0 +1,94 @@
+name: Publish Smart Structures RC1 to Figshare
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/smart-structures-figshare.yml"
+      - "publications/smart-structures/tools/publish_figshare.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: smart-structures-figshare-rc1
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      TAG: "smart-structures-v1.0.0-rc1"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Require Figshare API token
+        shell: bash
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${FIGSHARE_TOKEN}" ]]; then
+            echo "FIGSHARE_TOKEN repository secret is not configured."
+            exit 1
+          fi
+
+      - name: Download exact Smart Structures release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p figshare_upload
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir figshare_upload \
+            -p "Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_digital.pdf" \
+            -p "Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_source.docx" \
+            -p "SHA256SUMS" \
+            -p "CITATION.cff" \
+            -p "CITATION.bib" \
+            -p "LICENSE.md"
+          ls -lh figshare_upload
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependency
+        run: python -m pip install --disable-pip-version-check requests==2.32.5
+
+      - name: Publish archival Figshare record
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+          SMART_STRUCTURES_ASSET_DIR: "figshare_upload"
+        run: python publications/smart-structures/tools/publish_figshare.py
+
+      - name: Verify DOI resolves
+        shell: python
+        run: |
+          import json
+          import urllib.request
+
+          result = json.load(open("figshare_result.json", encoding="utf-8"))
+          doi = result.get("doi")
+          if not doi:
+              raise SystemExit("No DOI returned by Figshare.")
+          req = urllib.request.Request(
+              f"https://doi.org/{doi}",
+              headers={"User-Agent": "Smart-Structures-Figshare-DOI-Verifier/1.0"},
+          )
+          with urllib.request.urlopen(req, timeout=90) as response:
+              print("DOI:", doi)
+              print("Resolved:", response.geturl())
+
+      - name: Upload publication result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-structures-figshare-result
+          path: figshare_result.json
+          if-no-files-found: warn
