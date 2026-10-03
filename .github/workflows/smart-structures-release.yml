@@ -1,0 +1,88 @@
+name: Publish Smart Structures RC1
+
+on:
+  pull_request:
+    paths:
+      - "publications/smart-structures/**"
+      - ".github/workflows/smart-structures-release.yml"
+  push:
+    branches: [main]
+    paths:
+      - "publications/smart-structures/**"
+      - ".github/workflows/smart-structures-release.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Verify Smart Structures assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd publications/smart-structures
+          test -f Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_source.docx
+          test -f Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_digital.pdf
+          test -f SHA256SUMS
+          test -f CITATION.cff
+          test -f CITATION.bib
+          test -f LICENSE.md
+          sha256sum -c SHA256SUMS
+
+      - name: Validate Smart Structures webapp
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check publications/smart-structures/webapp/app.js
+          node --check publications/smart-structures/webapp/calculations.js
+          node --check publications/smart-structures/webapp/sw.js
+          node publications/smart-structures/webapp/tests/validate.mjs
+
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: preflight
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish Smart Structures v1.0.0-rc1
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TAG="smart-structures-v1.0.0-rc1"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists; leaving it unchanged."
+            exit 0
+          fi
+
+          cat > /tmp/smart-structures-release-notes.md <<'EOF'
+          ## Smart Structures v1.0.0-rc1
+
+          نخستین نامزد انتشار دیجیتال کتاب «سازه‌های هوشمند و کنترل پاسخ لرزه‌ای» اثر یوسف بهرام بیگی.
+
+          ### Included
+          - منبع DOCX نسخه‌گذاری‌شده با فونت‌های فارسی جاسازی‌شده
+          - PDF دیجیتال Tagged با زبان `fa-IR`
+          - وب‌اپ/PWA تعاملی و آفلاین کتاب در مخزن
+          - فراداده استناد `CITATION.cff` و `CITATION.bib`
+          - مجوز CC BY 4.0 برای محتوای اصیل
+          - `SHA256SUMS` برای کنترل تمامیت دارایی‌ها
+
+          ### Release boundary
+          این انتشار یک **release candidate** دیجیتال است. DOI نهایی کتاب هنوز در فراداده ثبت نشده و این RC نباید به‌عنوان نسخه نهایی `v1.0.0` یا رکورد DOIدار معرفی شود.
+
+          نسخه چاپی و PDF/X خارج از دامنه این RC دیجیتال هستند.
+          EOF
+
+          gh release create "$TAG"             --target "$GITHUB_SHA"             --title "Smart Structures v1.0.0-rc1"             --notes-file /tmp/smart-structures-release-notes.md             --prerelease             publications/smart-structures/Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_source.docx             publications/smart-structures/Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_digital.pdf             publications/smart-structures/SHA256SUMS             publications/smart-structures/CITATION.cff             publications/smart-structures/CITATION.bib             publications/smart-structures/LICENSE.md
