@@ -2,43 +2,34 @@
 
 ## Current public release
 
-**Tag:** `smart-structures-v1.0.0-rc1`
+**Tag:** `smart-structures-v1.0.0`
 
-**Title:** `Smart Structures v1.0.0-rc1`
+**Title:** `Smart Structures v1.0.0`
 
-**Published:** 2026-10-03
+**Published:** 2026-10-08
 
-**Status:** Public GitHub prerelease; digital RC1.
+**Status:** Final public digital release.
 
-RC1 was published after the release workflow verified the publication checksums and Smart Structures PWA validation suite. The public release contains:
+**Canonical Figshare DOI:** `10.6084/m9.figshare.34063335`
 
-- `Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_source.docx`
-- `Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_digital.pdf`
-- `SHA256SUMS`
-- `CITATION.bib`
-- `CITATION.cff`
-- `LICENSE.md`
+**Version DOI:** `10.6084/m9.figshare.34063335.v2`
 
-The print-candidate PDF is intentionally excluded from the digital release.
+نسخهٔ نهایی از مبنای محتوایی ۴۰صفحه‌ای ساخته شده است. PDF، DOCX، checksum، citation metadata، مجوز و گزارش QA در GitHub Release نهایی منتشر شده‌اند.
 
-## Public webapp
+## Verification
 
-The Smart Structures PWA is part of the repository and its GitHub Pages deployment completed successfully after the RC1 publication changes. The webapp validation workflow checks JavaScript syntax, PWA requirements, and engineering calculations.
+- Figshare version: 2
+- DOI پایه و DOI نسخه‌ای در workflow انتشار resolve شدند.
+- PDF نهایی ۴۰ صفحه، Tagged و دارای metadata زبان `fa-IR` است.
+- DOCX نهایی شش فایل فونت فارسی جاسازی‌شده دارد.
+- آزمون وب‌اپ و کنترل منابع پیش از انتشار موفق بوده‌اند.
+- `CITATION.cff` و `CITATION.bib` به نسخهٔ `1.0.0` و DOI پایدار Figshare همگام شده‌اند.
+- Git tag و GitHub Release نهایی ایجاد شده‌اند.
 
-## Archival DOI status
+## Historical RC1
 
-RC1 has been published as a Figshare **book** research object with version DOI `10.6084/m9.figshare.34063335.v1`. DOI resolution through DOI.org was verified in CI. The Figshare record ID is `34063335`.
+RC1 با tag `smart-structures-v1.0.0-rc1` و DOI نسخه‌ای `10.6084/m9.figshare.34063335.v1` به‌عنوان سابقهٔ تاریخی حفظ شده و دیگر نسخهٔ عمومی جاری پروژه نیست.
 
-A guarded Zenodo workflow is also present as an optional secondary archival route, but `ZENODO_TOKEN` is not currently configured. No duplicate Zenodo record has been created.
+## Scope and limitations
 
-## Final v1.0.0 gate
-
-Create the final tag `smart-structures-v1.0.0` only after all of the following are true:
-
-1. final DOI/version metadata are embedded in the final DOCX/PDF and synchronized with `README.md`, `CITATION.cff`, `CITATION.bib`, the archival record, and GitHub Release metadata;
-2. final digital assets pass the publication QA again;
-3. final checksums are regenerated from the frozen assets;
-4. a final archival version/record is published and its DOI resolves through DOI.org;
-5. release-candidate wording is removed from final citation metadata.
-
-Until then, `smart-structures-v1.0.0-rc1` is the canonical public release candidate.
+انتشار حاضر دیجیتال است؛ چاپ و PDF/X خارج از دامنه‌اند. نصب/آفلاین روی دستگاه واقعی و اجرای مستقیم نمونه‌کد توسعه‌یافته در MATLAB/Octave در این چرخهٔ نهایی دوباره احراز نشده‌اند.
