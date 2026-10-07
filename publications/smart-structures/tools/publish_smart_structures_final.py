@@ -78,6 +78,96 @@ def final_public_version():
     title=str(public.get("title",""))
     return public if ("v1.0.0" in title and "rc1" not in title.casefold()) else None
 
+def download_existing_final(public: dict[str, Any], output_dir: pathlib.Path, result_path: pathlib.Path):
+    output_dir.mkdir(parents=True, exist_ok=True)
+    files = public.get("files") or []
+    if not files:
+        fail("Published final Figshare version has no files.")
+    required = {
+        "Smart_Structures_Yousef_Bahrambeigi_v1.0.0_source.docx",
+        "Smart_Structures_Yousef_Bahrambeigi_v1.0.0_digital.pdf",
+        "SHA256SUMS", "CITATION.cff", "CITATION.bib", "LICENSE.md", "QA_REPORT.json",
+    }
+    present = {str(item.get("name")) for item in files}
+    missing = sorted(required - present)
+    if missing:
+        fail(f"Published final Figshare version is missing files: {missing}")
+    for item in files:
+        name = str(item.get("name") or "")
+        if name not in required:
+            continue
+        url = str(item.get("download_url") or "")
+        if not url:
+            fail(f"No download URL for published file {name}")
+        response = requests.get(url, headers={"User-Agent":"Smart-Structures-Final-Release/1.0"}, timeout=180)
+        if response.status_code >= 400:
+            fail(f"Download failed for {name}: HTTP {response.status_code}")
+        path = output_dir / name
+        path.write_bytes(response.content)
+        expected_md5 = str(item.get("computed_md5") or item.get("supplied_md5") or "").strip()
+        if expected_md5 and hashlib.md5(response.content).hexdigest() != expected_md5:
+            fail(f"MD5 mismatch after downloading published file {name}")
+    manifest = output_dir / "SHA256SUMS"
+    expected = {}
+    for line in manifest.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            digest, name = line.split(maxsplit=1)
+            expected[name.strip()] = digest.strip()
+    for name in (
+        "Smart_Structures_Yousef_Bahrambeigi_v1.0.0_source.docx",
+        "Smart_Structures_Yousef_Bahrambeigi_v1.0.0_digital.pdf",
+    ):
+        path = output_dir / name
+        actual = hashlib.sha256(path.read_bytes()).hexdigest()
+        if expected.get(name) != actual:
+            fail(f"SHA-256 mismatch for downloaded published file {name}")
+    public_doi = str(public.get("doi") or "").strip()
+    if not public_doi:
+        fail("Published final Figshare version has no DOI.")
+    concept_doi = public_doi.rsplit(".v", 1)[0] if ".v" in public_doi else public_doi
+    authors = public.get("authors") or []
+    ids = [int(a.get("id",-1)) for a in authors]
+    if ids != [AUTHOR_ID]:
+        fail(f"Published final Figshare author list is unexpected: {ids}")
+    version = int(public.get("version") or 0)
+    doi_url = f"https://doi.org/{public_doi}"
+    resolved = requests.get(
+        doi_url,
+        headers={"User-Agent":"Smart-Structures-Final-DOI-Verifier/1.0"},
+        timeout=90,
+        allow_redirects=True,
+    )
+    if resolved.status_code >= 400:
+        fail(f"DOI resolution HTTP {resolved.status_code}")
+    result = {
+        "article_id": ARTICLE_ID,
+        "version": version,
+        "doi": public_doi,
+        "concept_doi": concept_doi,
+        "doi_url": doi_url,
+        "resolved_url": resolved.url,
+        "public_url": public.get("url_public_api") or public.get("url_public_html") or "",
+        "release_tag": RELEASE_TAG,
+        "status": "published",
+        "author_count": len(authors),
+        "source_assets": "downloaded verbatim from published Figshare final version",
+    }
+    result_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    pathlib.Path("figshare_final_reservation.json").write_text(
+        json.dumps(
+            {
+                "article_id": ARTICLE_ID,
+                "doi": concept_doi,
+                "version_doi": public_doi,
+                "status": "already-published",
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    return result
+
 def reserve_final_doi(result_path:pathlib.Path):
     already=final_public_version()
     if already:
@@ -332,6 +422,11 @@ def parse_args():
 
 def main():
     args=parse_args()
+    existing = final_public_version()
+    if existing:
+        result = download_existing_final(existing, args.output_dir, args.result)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
     for p in (args.expanded_docx,args.expanded_pdf,args.rc1_docx,args.license_file):
         if not p.is_file(): fail(f"Missing input: {p}")
     doi=reserve_final_doi(pathlib.Path("figshare_final_reservation.json"))
