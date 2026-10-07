@@ -87,8 +87,11 @@ jobs:
           assert int(result["version"]) >= 2
           assert int(result["author_count"]) == 1
           assert result["doi"]
-          print("Final DOI:", result["doi"])
-          print("Resolved:", result["resolved_url"])
+          assert result["version_doi"]
+          print("Canonical DOI:", result["doi"])
+          print("Version DOI:", result["version_doi"])
+          print("Canonical resolved:", result["resolved_url"])
+          print("Version resolved:", result["version_resolved_url"])
           PY
 
       - name: Sync final citation metadata to main
@@ -103,14 +106,18 @@ jobs:
           from pathlib import Path
           r = json.load(open("figshare_final_result.json", encoding="utf-8"))
           doi = r["doi"]
+          version_doi = r["version_doi"]
           version = r["version"]
           resolved = r["resolved_url"]
+          version_resolved = r["version_resolved_url"]
           Path("publications/smart-structures/FINAL_RELEASE.md").write_text(
               "# Final digital release v1.0.0\n\n"
               "- Publication date: 2026-10-08\n"
               f"- Figshare version: {version}\n"
-              f"- DOI: https://doi.org/{doi}\n"
-              f"- DOI resolved to: {resolved}\n"
+              f"- Canonical DOI: https://doi.org/{doi}\n"
+              f"- Version DOI: https://doi.org/{version_doi}\n"
+              f"- Canonical DOI resolved to: {resolved}\n"
+              f"- Version DOI resolved to: {version_resolved}\n"
               "- GitHub tag: smart-structures-v1.0.0\n"
               "- Scope: digital-only; print/PDF-X is outside this release.\n",
               encoding="utf-8",
@@ -131,6 +138,7 @@ jobs:
         run: |
           set -euo pipefail
           DOI="$(python -c 'import json; print(json.load(open("figshare_final_result.json"))["doi"])')"
+          VERSION_DOI="$(python -c 'import json; print(json.load(open("figshare_final_result.json"))["version_doi"])')"
           git fetch origin main
           TARGET="$(git rev-parse origin/main)"
           cat > /tmp/final-release-notes.md <<EOF
@@ -138,7 +146,8 @@ jobs:
 
           نسخه نهایی دیجیتال کتاب «سازه‌های هوشمند و کنترل پاسخ لرزه‌ای» اثر یوسف بهرام بیگی.
 
-          **DOI:** https://doi.org/$DOI
+          **Canonical DOI:** https://doi.org/$DOI
+          **Version DOI (v1.0.0):** https://doi.org/$VERSION_DOI
 
           ### Included
           - PDF دیجیتال توسعه‌یافته ۴۰صفحه‌ای

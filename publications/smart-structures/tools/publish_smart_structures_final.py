@@ -51,6 +51,11 @@ def request(method,path_or_url,*,payload=None,binary=None,auth=True,allow_redire
     return r
 def j(r): return r.json() if r.content else None
 
+def concept_doi(doi: str) -> str:
+    """Return the stable Figshare concept DOI for a version DOI or concept DOI."""
+    import re
+    return re.sub(r"\\.v\\d+$", "", doi.strip())
+
 def get_ccby_license_id():
     licenses=j(request("GET","licenses",auth=False)) or []
     ranked=[]
@@ -76,9 +81,15 @@ def final_public_version():
 def reserve_final_doi(result_path:pathlib.Path):
     already=final_public_version()
     if already:
-        doi=str(already.get("doi","")).strip()
-        if not doi: fail("Final public version exists without DOI.")
-        result_path.write_text(json.dumps({"article_id":ARTICLE_ID,"doi":doi,"status":"already-published"},indent=2),encoding="utf-8")
+        version_doi=str(already.get("doi","")).strip()
+        if not version_doi: fail("Final public version exists without DOI.")
+        doi=concept_doi(version_doi)
+        result_path.write_text(json.dumps({
+            "article_id":ARTICLE_ID,
+            "doi":doi,
+            "version_doi":version_doi,
+            "status":"already-published"
+        },indent=2),encoding="utf-8")
         return doi
     article=j(request("GET",f"account/articles/{ARTICLE_ID}"))
     categories=[int(x["id"]) for x in (article.get("categories") or []) if x.get("id")]
@@ -92,10 +103,16 @@ def reserve_final_doi(result_path:pathlib.Path):
     ids=[int(a.get("id",-1)) for a in authors]
     if ids!=[AUTHOR_ID]: fail(f"Author replacement failed; got {ids}")
     reserved=j(request("POST",f"account/articles/{ARTICLE_ID}/reserve_doi")) or {}
-    doi=str(reserved.get("doi","")).strip()
-    if not doi: fail("Figshare did not return reserved DOI.")
-    result_path.write_text(json.dumps({"article_id":ARTICLE_ID,"doi":doi,"status":"reserved"},indent=2),encoding="utf-8")
-    print("Reserved final DOI:",doi); return doi
+    reserved_doi=str(reserved.get("doi","")).strip()
+    if not reserved_doi: fail("Figshare did not return reserved DOI.")
+    doi=concept_doi(reserved_doi)
+    result_path.write_text(json.dumps({
+        "article_id":ARTICLE_ID,
+        "doi":doi,
+        "reserved_doi":reserved_doi,
+        "status":"reserved"
+    },indent=2),encoding="utf-8")
+    print("Reserved canonical DOI:",doi); return doi
 
 def replace_or_append_notice(doc:Document,doi:str,release_date:str):
     text=f"نسخه ۱.۰.۰ | DOI: {doi} | تاریخ انتشار: {release_date}"
@@ -277,17 +294,27 @@ def publish_verify(doi,assets,result_path):
     if not public:
         replace_files(assets); request("POST",f"account/articles/{ARTICLE_ID}/publish")
         public=j(request("GET",f"articles/{ARTICLE_ID}",auth=False))
-    public_doi=str(public.get("doi","")).strip()
-    if public_doi!=doi: fail(f"Published DOI {public_doi} != reserved {doi}")
+    version_doi=str(public.get("doi","")).strip()
+    if not version_doi:
+        fail("Published Figshare version has no DOI.")
+    canonical_doi=concept_doi(version_doi)
+    if canonical_doi!=concept_doi(doi):
+        fail(f"Published DOI {version_doi} is not a version of canonical DOI {doi}")
     authors=public.get("authors") or []; ids=[int(a.get("id",-1)) for a in authors]
     if ids!=[AUTHOR_ID]: fail(f"Published authors unexpected: {ids}")
     title=str(public.get("title",""))
     if "v1.0.0" not in title or "rc1" in title.casefold(): fail(f"Published title not final: {title}")
     versions=j(request("GET",f"articles/{ARTICLE_ID}/versions",auth=False)) or []; newest=max((int(v.get("version",0)) for v in versions),default=0)
     if newest<2: fail(f"Expected Figshare version >=2, got {newest}")
-    doi_url=f"https://doi.org/{public_doi}"; r=requests.get(doi_url,headers={"User-Agent":"Smart-Structures-Final-DOI-Verifier/1.0"},timeout=90,allow_redirects=True)
-    if r.status_code>=400: fail(f"DOI resolution HTTP {r.status_code}")
-    result={"article_id":ARTICLE_ID,"version":newest,"doi":public_doi,"doi_url":doi_url,"resolved_url":r.url,
+    doi_url=f"https://doi.org/{canonical_doi}"
+    version_doi_url=f"https://doi.org/{version_doi}"
+    r=requests.get(doi_url,headers={"User-Agent":"Smart-Structures-Final-DOI-Verifier/1.0"},timeout=90,allow_redirects=True)
+    if r.status_code>=400: fail(f"Canonical DOI resolution HTTP {r.status_code}")
+    rv=requests.get(version_doi_url,headers={"User-Agent":"Smart-Structures-Final-Version-DOI-Verifier/1.0"},timeout=90,allow_redirects=True)
+    if rv.status_code>=400: fail(f"Version DOI resolution HTTP {rv.status_code}")
+    result={"article_id":ARTICLE_ID,"version":newest,"doi":canonical_doi,"version_doi":version_doi,
+            "doi_url":doi_url,"version_doi_url":version_doi_url,
+            "resolved_url":r.url,"version_resolved_url":rv.url,
             "public_url":public.get("url_public_api") or public.get("url") or "","release_tag":RELEASE_TAG,
             "status":"published","author_count":len(authors)}
     result_path.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8"); return result
