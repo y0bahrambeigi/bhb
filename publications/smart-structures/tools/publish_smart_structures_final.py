@@ -54,7 +54,7 @@ def j(r): return r.json() if r.content else None
 def concept_doi(doi: str) -> str:
     """Return the stable Figshare concept DOI for a version DOI or concept DOI."""
     import re
-    return re.sub(r"\\.v\\d+$", "", doi.strip())
+    return re.sub(r"\.v\d+$", "", doi.strip())
 
 def get_ccby_license_id():
     licenses=j(request("GET","licenses",auth=False)) or []
