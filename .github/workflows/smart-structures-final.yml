@@ -1,0 +1,169 @@
+name: Publish Smart Structures v1.0.0 final
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/smart-structures-final.yml"
+      - "publications/smart-structures/tools/publish_smart_structures_final.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: smart-structures-final-v1
+  cancel-in-progress: false
+
+jobs:
+  publish-final:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Require Figshare token
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$FIGSHARE_TOKEN" || { echo "FIGSHARE_TOKEN is not configured."; exit 1; }
+
+      - name: Install publication dependencies
+        run: python -m pip install --disable-pip-version-check requests==2.32.5 python-docx==1.2.0 lxml==6.0.2 pypdf==6.1.1
+
+      - name: Validate webapp and source assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check publications/smart-structures/webapp/app.js
+          node --check publications/smart-structures/webapp/calculations.js
+          node --check publications/smart-structures/webapp/sw.js
+          node publications/smart-structures/webapp/tests/validate.mjs
+          (cd publications/smart-structures && sha256sum -c SHA256SUMS)
+          (cd publications/smart-structures/expanded-draft && sha256sum -c SHA256SUMS)
+          python - <<'PY'
+          import zipfile
+          from pathlib import Path
+          paths = [
+              Path("publications/smart-structures/expanded-draft/Smart_Structures_Yousef_Bahram_Beigi_Expanded.docx"),
+              Path("publications/smart-structures/Smart_Structures_Yousef_Bahrambeigi_v1.0.0-rc1_source.docx"),
+          ]
+          for path in paths:
+              with zipfile.ZipFile(path) as z:
+                  bad = z.testzip()
+                  if bad:
+                      raise SystemExit(f"Corrupt DOCX member {bad} in {path}")
+          print("DOCX ZIP validation passed.")
+          PY
+
+      - name: Build and publish final Figshare version
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python publications/smart-structures/tools/publish_smart_structures_final.py --release-date 2026-10-08
+
+      - name: Verify final publication result
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd final_release && sha256sum -c SHA256SUMS)
+          python - <<'PY'
+          import json
+          result = json.load(open("figshare_final_result.json", encoding="utf-8"))
+          assert result["status"] == "published"
+          assert int(result["version"]) >= 2
+          assert int(result["author_count"]) == 1
+          assert result["doi"]
+          print("Final DOI:", result["doi"])
+          print("Resolved:", result["resolved_url"])
+          PY
+
+      - name: Sync final citation metadata to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp final_release/CITATION.cff publications/smart-structures/CITATION.cff
+          cp final_release/CITATION.bib publications/smart-structures/CITATION.bib
+          cp final_release/QA_REPORT.json publications/smart-structures/FINAL_QA_v1.0.0.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.load(open("figshare_final_result.json", encoding="utf-8"))
+          doi = r["doi"]
+          version = r["version"]
+          resolved = r["resolved_url"]
+          Path("publications/smart-structures/FINAL_RELEASE.md").write_text(
+              "# Final digital release v1.0.0\n\n"
+              "- Publication date: 2026-10-08\n"
+              f"- Figshare version: {version}\n"
+              f"- DOI: https://doi.org/{doi}\n"
+              f"- DOI resolved to: {resolved}\n"
+              "- GitHub tag: smart-structures-v1.0.0\n"
+              "- Scope: digital-only; print/PDF-X is outside this release.\n",
+              encoding="utf-8",
+          )
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publications/smart-structures/CITATION.cff                   publications/smart-structures/CITATION.bib                   publications/smart-structures/FINAL_QA_v1.0.0.json                   publications/smart-structures/FINAL_RELEASE.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Finalize Smart Structures v1.0.0 metadata [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Create final GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          DOI="$(python -c 'import json; print(json.load(open("figshare_final_result.json"))["doi"])')"
+          git fetch origin main
+          TARGET="$(git rev-parse origin/main)"
+          cat > /tmp/final-release-notes.md <<EOF
+          ## Smart Structures v1.0.0
+
+          نسخه نهایی دیجیتال کتاب «سازه‌های هوشمند و کنترل پاسخ لرزه‌ای» اثر یوسف بهرام بیگی.
+
+          **DOI:** https://doi.org/$DOI
+
+          ### Included
+          - PDF دیجیتال توسعه‌یافته ۴۰صفحه‌ای
+          - DOCX منبع با فونت‌های فارسی جاسازی‌شده
+          - citation metadata
+          - CC BY 4.0 license
+          - SHA-256 checksums
+          - QA report
+
+          RC1 به‌عنوان سابقه تاریخی حفظ شده است. نسخه چاپی و PDF/X خارج از دامنه این انتشار دیجیتال‌اند.
+          EOF
+          if gh release view "smart-structures-v1.0.0" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "smart-structures-v1.0.0" --repo "$GITHUB_REPOSITORY" --clobber               final_release/Smart_Structures_Yousef_Bahrambeigi_v1.0.0_source.docx               final_release/Smart_Structures_Yousef_Bahrambeigi_v1.0.0_digital.pdf               final_release/SHA256SUMS final_release/CITATION.cff final_release/CITATION.bib               final_release/LICENSE.md final_release/QA_REPORT.json
+            gh release edit "smart-structures-v1.0.0" --repo "$GITHUB_REPOSITORY"               --title "Smart Structures v1.0.0" --notes-file /tmp/final-release-notes.md
+          else
+            gh release create "smart-structures-v1.0.0" --repo "$GITHUB_REPOSITORY"               --target "$TARGET" --title "Smart Structures v1.0.0"               --notes-file /tmp/final-release-notes.md               final_release/Smart_Structures_Yousef_Bahrambeigi_v1.0.0_source.docx               final_release/Smart_Structures_Yousef_Bahrambeigi_v1.0.0_digital.pdf               final_release/SHA256SUMS final_release/CITATION.cff final_release/CITATION.bib               final_release/LICENSE.md final_release/QA_REPORT.json
+          fi
+
+      - name: Upload publication evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-structures-v1.0.0-publication
+          path: |
+            figshare_final_reservation.json
+            figshare_final_result.json
+            final_release/
+          if-no-files-found: warn
