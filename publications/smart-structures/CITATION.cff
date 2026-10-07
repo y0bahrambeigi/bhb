@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "Please cite the final v1.0.0 digital book using the DOI below."
 title: "سازه‌های هوشمند و کنترل پاسخ لرزه‌ای"
 version: 1.0.0
-doi: "10.6084/m9.figshare.34063335.v2"
+doi: "10.6084/m9.figshare.34063335"
 date-released: 2026-10-08
 authors:
   - family-names: Bahrambeigi
@@ -10,7 +10,7 @@ authors:
     orcid: "https://orcid.org/0000-0002-3421-8679"
 license: CC-BY-4.0
 repository-code: "https://github.com/y0bahrambeigi/bhb"
-url: "https://doi.org/10.6084/m9.figshare.34063335.v2"
+url: "https://doi.org/10.6084/m9.figshare.34063335"
 preferred-citation:
   type: book
   title: "سازه‌های هوشمند و کنترل پاسخ لرزه‌ای: از جداسازی پایه و میرایی تا کنترل فعال، دوقلوی دیجیتال و هوش سازه‌ای"
@@ -19,5 +19,5 @@ preferred-citation:
       given-names: Yousef
   edition: 1
   year: 2026
-  doi: "10.6084/m9.figshare.34063335.v2"
+  doi: "10.6084/m9.figshare.34063335"
   publisher: Figshare
