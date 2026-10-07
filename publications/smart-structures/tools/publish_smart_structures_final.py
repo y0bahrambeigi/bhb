@@ -124,13 +124,14 @@ def download_existing_final(public: dict[str, Any], output_dir: pathlib.Path, re
     public_doi = str(public.get("doi") or "").strip()
     if not public_doi:
         fail("Published final Figshare version has no DOI.")
-    concept_doi = public_doi.rsplit(".v", 1)[0] if ".v" in public_doi else public_doi
+    canonical_doi = concept_doi(public_doi)
     authors = public.get("authors") or []
     ids = [int(a.get("id",-1)) for a in authors]
     if ids != [AUTHOR_ID]:
         fail(f"Published final Figshare author list is unexpected: {ids}")
     version = int(public.get("version") or 0)
-    doi_url = f"https://doi.org/{public_doi}"
+    doi_url = f"https://doi.org/{canonical_doi}"
+    version_doi_url = f"https://doi.org/{public_doi}"
     resolved = requests.get(
         doi_url,
         headers={"User-Agent":"Smart-Structures-Final-DOI-Verifier/1.0"},
@@ -138,14 +139,25 @@ def download_existing_final(public: dict[str, Any], output_dir: pathlib.Path, re
         allow_redirects=True,
     )
     if resolved.status_code >= 400:
-        fail(f"DOI resolution HTTP {resolved.status_code}")
+        fail(f"Canonical DOI resolution HTTP {resolved.status_code}")
+    version_resolved = requests.get(
+        version_doi_url,
+        headers={"User-Agent":"Smart-Structures-Final-Version-DOI-Verifier/1.0"},
+        timeout=90,
+        allow_redirects=True,
+    )
+    if version_resolved.status_code >= 400:
+        fail(f"Version DOI resolution HTTP {version_resolved.status_code}")
     result = {
         "article_id": ARTICLE_ID,
         "version": version,
-        "doi": public_doi,
-        "concept_doi": concept_doi,
+        "doi": canonical_doi,
+        "concept_doi": canonical_doi,
+        "version_doi": public_doi,
         "doi_url": doi_url,
+        "version_doi_url": version_doi_url,
         "resolved_url": resolved.url,
+        "version_resolved_url": version_resolved.url,
         "public_url": public.get("url_public_api") or public.get("url_public_html") or "",
         "release_tag": RELEASE_TAG,
         "status": "published",
@@ -157,7 +169,7 @@ def download_existing_final(public: dict[str, Any], output_dir: pathlib.Path, re
         json.dumps(
             {
                 "article_id": ARTICLE_ID,
-                "doi": concept_doi,
+                "doi": canonical_doi,
                 "version_doi": public_doi,
                 "status": "already-published",
             },
