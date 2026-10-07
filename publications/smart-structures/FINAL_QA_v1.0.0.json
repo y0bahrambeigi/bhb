@@ -1,0 +1,18 @@
+{
+  "release": "v1.0.0",
+  "release_date": "2026-10-08",
+  "doi": "10.6084/m9.figshare.34063335.v2",
+  "source": "expanded 40-page draft",
+  "docx_embedded_fonts": 6,
+  "pdf": {
+    "pages": 40,
+    "outline_entries": 31,
+    "tagged": true
+  },
+  "checksums": {
+    "Smart_Structures_Yousef_Bahrambeigi_v1.0.0_source.docx": "5b1d8cd5ad3564d1050442cf4195db651f35f150089d182c720f48bed96bbed9",
+    "Smart_Structures_Yousef_Bahrambeigi_v1.0.0_digital.pdf": "298fc9692d4d1fd3633c041deb58d463eb8991cd30a7c3a4aa70317cf7c80067"
+  },
+  "webapp_validation": "performed by GitHub Actions before publication",
+  "scope": "digital-only; print/PDF-X outside this release"
+}
