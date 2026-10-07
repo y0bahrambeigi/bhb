@@ -138,6 +138,7 @@ jobs:
         run: |
           set -euo pipefail
           DOI="$(python -c 'import json; print(json.load(open("figshare_final_result.json"))["doi"])')"
+          CONCEPT_DOI="$(python -c 'import json; r=json.load(open("figshare_final_result.json")); print(r.get("concept_doi", r["doi"].rsplit(".v",1)[0] if ".v" in r["doi"] else r["doi"]))')"
           VERSION_DOI="$(python -c 'import json; print(json.load(open("figshare_final_result.json"))["version_doi"])')"
           git fetch origin main
           TARGET="$(git rev-parse origin/main)"
