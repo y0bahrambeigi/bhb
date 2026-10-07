@@ -92,12 +92,12 @@ jobs:
         run: |
           set -euo pipefail
           DOI="$(python -c 'import json; print(json.load(open("figshare_result.json"))["doi"])')"
-          cat > /tmp/smart-structures-release-notes.md <<EOF
+          cat > /tmp/smart-structures-release-notes.md <<'EOF'
           ## Smart Structures v1.0.0-rc1
 
           نخستین نامزد انتشار دیجیتال کتاب «سازه‌های هوشمند و کنترل پاسخ لرزه‌ای» اثر یوسف بهرام بیگی.
 
-          **Archival DOI for RC1:** https://doi.org/$DOI
+          **Archival DOI for RC1:** https://doi.org/__ARCHIVAL_DOI__
 
           ### Included
           - منبع DOCX نسخه‌گذاری‌شده
@@ -109,6 +109,13 @@ jobs:
           ### Release boundary
           این DOI فقط متعلق به `v1.0.0-rc1` است. نسخه نهایی `v1.0.0` یک milestone مستقل است و DOI/دارایی‌های نهایی خود را خواهد داشت.
           EOF
+          export DOI
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          path = Path("/tmp/smart-structures-release-notes.md")
+          path.write_text(path.read_text().replace("__ARCHIVAL_DOI__", os.environ["DOI"]))
+          PY
           gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --notes-file /tmp/smart-structures-release-notes.md
 
       - name: Upload publication result

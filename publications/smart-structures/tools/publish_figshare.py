@@ -27,6 +27,8 @@ DESCRIPTION = (
     "PWA. This DOI identifies v1.0.0-rc1 only; final v1.0.0 is a separate milestone."
 )
 AUTHOR = "Yousef Bahrambeigi"
+# Active author verified on public Figshare record 34063335.
+AUTHOR_ID = 24753196
 ORCID_URL = "https://orcid.org/0000-0002-3421-8679"
 RELEASE_PAGE = "https://github.com/y0bahrambeigi/bhb/releases/tag/smart-structures-v1.0.0-rc1"
 APP_URL = "https://y0bahrambeigi.github.io/bhb/publications/smart-structures/webapp/"
@@ -171,7 +173,7 @@ def create_or_update() -> dict[str, Any]:
         "tags": TAGS,
         "references": [RELEASE_PAGE, APP_URL, ORCID_URL],
         "categories": get_category_ids(),
-        "authors": [{"name": AUTHOR}],
+        "authors": [{"id": AUTHOR_ID}],
         "defined_type": "book",
         "license": get_ccby_license_id(),
     }
