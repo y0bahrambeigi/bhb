@@ -24,6 +24,12 @@
 - **مانع جاری:** گردش‌کار ثبت مجوز در Figshare به دلیل پاسخ `OAuthInvalidToken` شکست خورد. مخزن به تنظیم دوباره secret محرمانه `FIGSHARE_TOKEN` نیاز دارد. [اجرای شکست‌خورده](https://github.com/y0bahrambeigi/bhb/actions/runs/37960728977).
 - پس از اصلاح دسترسی: اجرای دوباره گردش‌کار مجوز، بارگذاری پرونده‌های نهایی، تطبیق checksumها، انتشار عمومی رکورد و آزمون resolve شدن DOI.
 
+### پیوست‌های بازتولیدپذیر و کنترل انتشار
+- [کد Python پایش فرکانس سازه با داده مصنوعی](code/SHM_synthetic_Python.py) — اجرای مجدد: آستانه آموزش ۰٫۰۲۹۱۲۱ هرتز؛ ۰ هشدار پایدار در ۱۴ روز اعتبارسنجی و ۱۵ هشدار در ۱۶ روز داده مصنوعی تغییر‌یافته.
+- [کد MATLAB تحلیل طیفی ولش](code/SHM_Welch_MATLAB.m) — فایل منتشر شده است ولی اجرای مستقیم در MATLAB/Octave هنوز تأیید نشده.
+- [چک‌لیست ثبت و انتشار Figshare](UPLOAD_AND_PUBLICATION_CHECKLIST_FA.md) — شامل کنترل مجوز، فایل‌ها، checksum و فعال‌شدن DOI.
+- [گزارش ثبت حقوق CC BY 4.0](LICENSE_AND_RIGHTS.md)
+
 ### فرایند رزرو DOI
 - [گزارش واقعی رزرو Figshare](FIGSHARE_RESERVATION.json)؛ اجرای GitHub Actions: https://github.com/y0bahrambeigi/bhb/actions/runs/37958917665
 - **هشدار:** شناسه در حال حاضر برای ارجاع کتاب منتشرشده معتبر نیست.
