@@ -1,0 +1,49 @@
+name: AI Smart Building - Set private Figshare CC BY 4.0
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ai-smart-building-figshare-license.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-smart-building-figshare-metadata
+  cancel-in-progress: false
+
+jobs:
+  update-private-book-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Set and verify author-approved CC BY 4.0 on PRIVATE draft
+        env:
+          FIGSHARE_TOKEN: \${{ secrets.FIGSHARE_TOKEN }}
+        run: |
+          set -euo pipefail
+          python publications/ai-smart-building/tools/set_figshare_private_license.py
+      - name: Record verified private Figshare metadata
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publications/ai-smart-building/FIGSHARE_METADATA_CC_BY_4_0.json
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(book): verify private Figshare CC BY 4.0 metadata [skip ci]"
+            git push origin HEAD:main
+          fi
+      - name: Save metadata verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-smart-building-figshare-license-check
+          path: publications/ai-smart-building/FIGSHARE_METADATA_CC_BY_4_0.json
+          if-no-files-found: ignore
