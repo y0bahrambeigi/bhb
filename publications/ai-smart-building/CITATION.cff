@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "Please cite this independently published Persian educational digital book. No DOI or ISBN is assigned."
+title: "پایش هوشمند ساختمان با هوش مصنوعی"
+version: "1.0"
+date-released: 2026-10-09
+authors:
+  - family-names: Bahrambeigi
+    given-names: Yousef
+preferred-citation:
+  type: book
+  title: "پایش هوشمند ساختمان با هوش مصنوعی: از حسگرهای هوشمند و پایش سلامت سازه تا یادگیری ماشین، دوقلوی دیجیتال و نگهداری پیش‌بینانه"
+  authors:
+    - family-names: Bahrambeigi
+      given-names: Yousef
+  year: 2026
+  edition: 1
+  publisher: "Independently published by the author"
