@@ -1,6 +1,11 @@
 # پایش هوشمند ساختمان با هوش مصنوعی
 ## AI-Enabled Smart Building Monitoring
 
+## نسخه متنی آنلاین (دسترسی عمومی)
+
+متن کامل کتاب به صورت **نسخه متنی HTML راست‌به‌چپ** در GitHub Pages در دسترس است: [مطالعه آنلاین کتاب](https://y0bahrambeigi.github.io/bhb/publications/ai-smart-building/book-fulltext.html). صفحه در ۹ اکتبر ۲۰۲۶ بعد از استقرار GitHub Pages به صورت عمومی بازخوانی و تأیید شد. این نسخه **تصاویر، جداول با قالب صفحه‌آرایی چاپی و خروجی PDF را شامل نمی‌شود**؛ فایل‌های PDF/DOCX/ZIP هنوز در Figshare منتشر نشده‌اند.
+
+
 **نویسنده:** یوسف بهرام بیگی — Yousef Bahrambeigi  
 **ناشر:** انتشار مستقل مؤلف / Independently published by the author  
 **زبان و کشور:** فارسی، ایران  
