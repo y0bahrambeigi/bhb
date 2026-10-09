@@ -1,0 +1,57 @@
+name: AI Smart Building Book - Reserve Figshare DOI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ai-smart-building-figshare-reserve.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-smart-building-figshare-reservation
+  cancel-in-progress: false
+
+jobs:
+  reserve-draft-doi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Reserve Figshare DOI (private draft only)
+        env:
+          FIGSHARE_TOKEN: ${{ secrets.FIGSHARE_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python publications/ai-smart-building/tools/reserve_figshare_doi.py
+
+      - name: Save reservation evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publications/ai-smart-building/FIGSHARE_RESERVATION.json
+          if ! git diff --cached --quiet; then
+            git commit -m "docs(book): record private Figshare DOI reservation [skip ci]"
+            git push origin HEAD:main
+          fi
+
+      - name: Keep publication status artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-smart-building-doi-reservation
+          path: publications/ai-smart-building/FIGSHARE_RESERVATION.json
+          if-no-files-found: ignore
