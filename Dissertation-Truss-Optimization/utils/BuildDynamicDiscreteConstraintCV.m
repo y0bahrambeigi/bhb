@@ -29,7 +29,7 @@ function [cv, g] = BuildDynamicDiscreteConstraintCV(problem, info, opts)
     g.stress = info.stressRatio(:) - 1;
 
     U = info.displacement;
-    if contains(lower(info.benchmarkId), '72-bar')
+    if ~isempty(strfind(lower(info.benchmarkId), '72-bar'))
         controlNodes = info.controlNodes;
         controlDOFs = reshape([3*controlNodes-2; 3*controlNodes-1; 3*controlNodes], 1, []);
         displacementRatio = abs(U(controlDOFs,:)) / problem.deltaMax;
