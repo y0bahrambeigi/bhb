@@ -71,7 +71,7 @@ for q = 1:nGroup
 end
 DUstack = -(Kff\RHS);
 
-if contains(lower(info.benchmarkId),'72-bar')
+if ~isempty(strfind(lower(info.benchmarkId),'72-bar'))
     cNodes = info.controlNodes;
     dispDOFs = reshape([3*cNodes-2;3*cNodes-1;3*cNodes],1,[]);
 else
@@ -80,7 +80,7 @@ end
 
 dgdA.stress = zeros(numel(info.stressRatio),nGroup);
 dgdA.disp = zeros(numel(U(dispDOFs,:)),nGroup);
-is120 = contains(lower(info.benchmarkId),'120-bar');
+is120 = ~isempty(strfind(lower(info.benchmarkId),'120-bar'));
 
 if is120
     memberAreas = info.memberAreas(:);
