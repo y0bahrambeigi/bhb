@@ -2,9 +2,11 @@ name: SG-DLS full 30-run ablation
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feat/sgdls-feasibility-first-2026-10-19
+
+concurrency:
+  group: sgdls-full-ablation
+  cancel-in-progress: false
+
 
 permissions:
   contents: read
