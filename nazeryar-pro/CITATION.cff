@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Please cite this software if you use it."
+title: "Nazeryar PRO: Foundation Inspection Documentation"
+authors:
+  - family-names: "Bahram Beigi"
+    given-names: "Yousef"
+version: 2.0.0
+date-released: 2026-10-19
+url: "https://y0bahrambeigi.github.io/bhb/nazeryar-pro/"
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/nazeryar-pro"
+abstract: "Persian browser-local engineering inspection documentation with evidence attachments, checklists, follow-up tasks and editable reports."

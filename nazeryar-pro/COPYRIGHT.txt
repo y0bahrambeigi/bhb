@@ -1,0 +1,1 @@
+Copyright (c) 2026 Yousef Bahram Beigi / یوسف بهرام بیگی. All rights reserved for original application code. Bundled Noto fonts are separately licensed under SIL OFL 1.1; see fonts/NOTICE.txt and fonts/OFL.txt.
