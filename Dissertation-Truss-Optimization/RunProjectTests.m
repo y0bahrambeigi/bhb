@@ -9,5 +9,6 @@ assert(isstruct(smokeSummary) && isfield(smokeSummary, 'columns') && ...
 TestTenBarTrussTopology();
 TestDissertationBenchmarkFramework();
 TestDynamicDiscreteSteelTruss();
+TestDynamicDiscreteShard();
 fprintf('Standalone project regression suite PASSED.\n');
 end
