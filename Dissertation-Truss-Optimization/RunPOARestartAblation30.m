@@ -1,4 +1,4 @@
-function summary = RunPOARestartAblation30(benchmarkId)
+function summary = RunPOARestartAblation30(benchmarkId, seedStart, seedEnd)
 %RunPOARestartAblation30 Dissertation-grade 30-seed ablation.
 % Compares four explicitly versioned BMPOA variants under an identical
 % objective/constraint evaluator-call budget.
@@ -9,9 +9,22 @@ function summary = RunPOARestartAblation30(benchmarkId)
 %   RunPOARestartAblation30('72-bar')
 %   RunPOARestartAblation30('120-bar')
 %   RunPOARestartAblation30('all')   % default
+%   RunPOARestartAblation30('25-bar', 2026, 2030) % reproducible shard
 
 if nargin < 1
     benchmarkId = 'all';
+end
+if nargin < 2
+    seedStart = 2026;
+end
+if nargin < 3
+    seedEnd = 2055;
+end
+if ~isscalar(seedStart) || ~isscalar(seedEnd) || ...
+        seedStart ~= floor(seedStart) || seedEnd ~= floor(seedEnd) || ...
+        seedStart < 2026 || seedEnd > 2055 || seedStart > seedEnd
+    error('RunPOARestartAblation30:InvalidSeedRange', ...
+        'Seed range must be integer values within 2026:2055.');
 end
 
 rootDir = fileparts(mfilename('fullpath'));
@@ -34,7 +47,7 @@ else
     end
 end
 
-seeds = 2026:2055;
+seeds = seedStart:seedEnd;
 
 algorithms = {'BMPOA-core-v1', 'BMPOA-problem-aware-ls-v1', ...
     'BMPOA-restart-v1', 'BMPOA-problem-aware-ls-restart-v1'};
@@ -124,6 +137,9 @@ if strcmpi(benchmarkId, 'all')
     suffix = 'all';
 else
     suffix = lower(strrep(benchmarkId, '-', ''));
+end
+if seedStart ~= 2026 || seedEnd ~= 2055
+    suffix = sprintf('%s_seeds%d-%d', suffix, seedStart, seedEnd);
 end
 
 csvFile = fullfile(outputDir, ['poa_restart_ablation_30seed_' suffix '.csv']);
