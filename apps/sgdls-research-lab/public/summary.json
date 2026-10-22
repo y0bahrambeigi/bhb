@@ -1,0 +1,54 @@
+{
+  "120-bar-steel-dynamic-discrete": {
+    "BMPOA-FF-RandomDiscreteLS": {
+      "runs": 5,
+      "feasibility_rate": 1.0,
+      "median_feasible_weight": 38485.93004374057,
+      "mean_feasible_weight": 38508.27725411628,
+      "median_first_feasible_FE": 1.0,
+      "median_elapsed_seconds": 945.6817381381989
+    },
+    "BMPOA-FF-SGDLS": {
+      "runs": 5,
+      "feasibility_rate": 1.0,
+      "median_feasible_weight": 38512.1489574582,
+      "mean_feasible_weight": 38503.22000922472,
+      "median_first_feasible_FE": 1.0,
+      "median_elapsed_seconds": 971.6234378814697
+    },
+    "BMPOA-FF-core": {
+      "runs": 5,
+      "feasibility_rate": 1.0,
+      "median_feasible_weight": 38512.1489574582,
+      "mean_feasible_weight": 38519.39641622296,
+      "median_first_feasible_FE": 1.0,
+      "median_elapsed_seconds": 939.2191798686981
+    }
+  },
+  "72-bar-steel-dynamic-discrete": {
+    "BMPOA-FF-RandomDiscreteLS": {
+      "runs": 5,
+      "feasibility_rate": 1.0,
+      "median_feasible_weight": 790.5994437177098,
+      "mean_feasible_weight": 793.3220037177098,
+      "median_first_feasible_FE": 1.0,
+      "median_elapsed_seconds": 282.99574089050293
+    },
+    "BMPOA-FF-SGDLS": {
+      "runs": 5,
+      "feasibility_rate": 1.0,
+      "median_feasible_weight": 790.5994437177098,
+      "mean_feasible_weight": 791.9607237177098,
+      "median_first_feasible_FE": 1.0,
+      "median_elapsed_seconds": 331.7078628540039
+    },
+    "BMPOA-FF-core": {
+      "runs": 5,
+      "feasibility_rate": 1.0,
+      "median_feasible_weight": 790.5994437177098,
+      "mean_feasible_weight": 793.3220037177098,
+      "median_first_feasible_FE": 1.0,
+      "median_elapsed_seconds": 284.96775484085083
+    }
+  }
+}
