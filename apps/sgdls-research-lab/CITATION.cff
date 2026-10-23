@@ -3,11 +3,11 @@ message: "Please cite this application when using its interactive research resul
 type: software
 title: "SG-DLS Research Lab: Interactive Steel-Truss Optimization Results Explorer"
 version: "0.1.0"
+license: MIT
 date-released: "2026-10-22"
 authors:
   - family-names: "Bahram Beigi"
     given-names: "Yousef"
-    name-particle: ""
 repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/apps/sgdls-research-lab"
 url: "https://sgdls-research-lab.yousefbhb.chatgpt.site"
 abstract: >-

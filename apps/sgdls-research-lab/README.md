@@ -48,3 +48,9 @@ Run node node_modules/typescript/bin/tsc --noEmit and the Sites build helper. Br
 ## Deployment
 
 This project uses the Sites-managed Git source repository. The app is deployed with the assistant disabled. Configure the OpenAI runtime secret and verify a live response before enabling the assistant. Preserve owner-private access unless the owner requests otherwise.
+
+## Licensing and citation
+
+Original application code is licensed under [MIT](LICENSE). Original documentation is licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Preserve all third-party notices; see [license scope](docs/LICENSES.md).
+
+Use [CITATION.cff](CITATION.cff) to cite the application. DOI registration is in progress; no assigned DOI is claimed yet.

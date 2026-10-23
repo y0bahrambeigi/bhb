@@ -14,7 +14,7 @@ Status: prepared metadata; no DOI has been reserved or registered.
 - Deployed Site source snapshot: 2bad8ebf9f00df527b7400ef0084aed283b720dc
 - Application URL: https://sgdls-research-lab.yousefbhb.chatgpt.site (owner-private)
 - Code URL: https://github.com/y0bahrambeigi/bhb/tree/main/apps/sgdls-research-lab
-- License: awaiting creator's choice; do not infer a license from unrelated projects in this monorepository.
+- License: MIT for original code and CC BY 4.0 for original documentation; creator selected these on 2026-10-23. Third-party notices are preserved.
 - ORCID: not supplied; omit instead of guessing.
 
 This deposit must archive the application subdirectory, not all unrelated
@@ -43,9 +43,8 @@ been live-tested.
 
 ## Remaining steps
 
-1. Creator chooses the application/documentation license; preserve bundled
-   third-party notices and licenses.
-2. Access the creator's chosen repository account (Zenodo proposed).
+1. DONE: Creator selected MIT (code) and CC BY 4.0 (documentation); bundled third-party notices retained.
+2. Access the creator's chosen repository account (Zenodo selected).
 3. Check the account for an existing record for this exact software to avoid
    duplicate deposition.
 4. Prepare a source ZIP with citation metadata, dependency lockfile, original
