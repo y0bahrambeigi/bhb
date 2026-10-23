@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "Please cite this application when using its interactive research results explorer. DOI registration is pending."
+type: software
+title: "SG-DLS Research Lab: Interactive Steel-Truss Optimization Results Explorer"
+version: "0.1.0"
+date-released: "2026-10-22"
+authors:
+  - family-names: "Bahram Beigi"
+    given-names: "Yousef"
+    name-particle: ""
+repository-code: "https://github.com/y0bahrambeigi/bhb/tree/main/apps/sgdls-research-lab"
+url: "https://sgdls-research-lab.yousefbhb.chatgpt.site"
+abstract: >-
+  A Persian right-to-left research application for exploring a controlled
+  steel-truss optimization ablation with two benchmarks, three methods and
+  five paired seeds per method/benchmark. It presents final weight, runtime,
+  feasibility, diagnostics, provenance and downloadable data. The 30 archived
+  rows use 35,070 evaluator calls each. Statistical superiority of SG-DLS is
+  not established. The implemented OpenAI assistant remains inactive pending
+  runtime configuration and live verification. This application release is
+  separate from the pending scientific release of BMPOA-FF-SG-DLS.
+keywords:
+  - steel truss
+  - structural optimization
+  - feasibility-first
+  - SG-DLS
+  - research software
+  - reproducibility
