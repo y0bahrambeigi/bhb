@@ -46,7 +46,7 @@ Release cannot proceed unless:
 - no benchmark/method/seed combination is missing or duplicated;
 - final aggregate artifact and SHA-256 checksum are produced.
 
-Status: **IN PROGRESS**.
+Status: **COMPLETE for the authoritative run 39207965973**. All ten shards and aggregation succeeded. Issue #84 records the independent 2026-10-22 artifact audit: 30 unique rows, exactly 35,070 evaluator calls each, and verified aggregate checksums. This does not close the scientific-audit gate.
 
 ### Gate 3 — Scientific result audit
 
@@ -65,7 +65,7 @@ No superiority claim is allowed from only the single best run.
 ### Gate 4 — Reproducibility freeze
 
 Once Gate 3 passes:
-- record the exact merge commit SHA;
+- preserve experiment source SHA `a8d9fc46966842ec56980853a4ee4ab56395a7e0`; defer the actual merge SHA until after Gate 5;
 - freeze benchmark definitions and algorithm parameters;
 - archive CSV and MAT outputs;
 - archive provenance metadata;
@@ -80,6 +80,8 @@ PR #83 may be marked ready for review and merged only after:
 - no unresolved regression or sensitivity anomaly remains.
 
 Preferred merge method: squash merge unless repository policy requires otherwise.
+
+After merge, record and verify the actual merge SHA and the relevant merged-source checks. Do not use an open PR's synthetic merge commit as the release identity.
 
 ### Gate 6 — Version tag and GitHub release
 
@@ -138,12 +140,29 @@ QIO remains outside the current main ablation because the repository's existing 
 - [x] SG-DLS implementation published
 - [x] Preflight validation passed
 - [x] Sharded 30-run workflow launched
-- [ ] All 10 shards complete
-- [ ] 30-row aggregate verified
-- [ ] SHA-256 checksum verified
+- [x] All 10 shards complete
+- [x] 30-row aggregate verified
+- [x] SHA-256 checksum verified
 - [ ] Statistical/diagnostic audit complete
 - [ ] PR marked ready
 - [ ] PR merged
 - [ ] Version tag created
 - [ ] GitHub release published
 - [ ] Reproducibility package archived
+
+## Release readiness — 2026-10-24
+
+Status: **BLOCKED pending scientific validation**. The 30-run execution is complete; release is not complete.
+
+Remaining evidence:
+- final feasibility/weight/first-feasible-FE/runtime audit sign-off;
+- documented explanation of 72-bar seed 2030 SG-DLS acceptance (25/239);
+- independent static/modal derivative checks in both catalog directions, including repeated/near-repeated modes;
+- no unresolved scientific anomaly;
+- explicit resolution of the missing convergence/evaluation-history deliverable;
+- final-head review/checks, merge, actual merge SHA freeze;
+- complete reproducibility archive, environment evidence, checksums, tag and release.
+
+The archived study does not establish SG-DLS statistical superiority. FE=1 is consistent with deterministic feasible midpoint initialization. Report equal evaluator-call budgets separately from runtime and sensitivity overhead. Do not mix diagnostic reruns or duplicate workflows into the authoritative dataset.
+
+Historical convergence plots cannot be reconstructed from the current MAT result tables. If retained as a release requirement, use a separately identified history-logging run; otherwise explicitly document the scope change in Issue #84.
