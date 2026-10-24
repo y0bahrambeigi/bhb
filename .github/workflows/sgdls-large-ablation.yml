@@ -1,0 +1,229 @@
+name: SG-DLS full 30-run ablation
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: sgdls-full-ablation
+  cancel-in-progress: false
+
+
+permissions:
+  contents: read
+
+jobs:
+  validate-sgdls:
+    name: SG-DLS preflight validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y octave
+
+      - name: Exercise FF and analytical sensitivity paths
+        run: |
+          octave --no-gui --quiet --eval "
+            cd('Dissertation-Truss-Optimization');
+            startup;
+            for B={'72-bar','120-bar'}
+              problem=DiscreteDynamicSteelTruss(B{1});
+              bd=problem.getBounds();
+              x=problem.projectDecision(0.5*(bd.lb+bd.ub));
+              [f,~,info]=problem.evaluate(x);
+              [cv,g]=BuildDynamicDiscreteConstraintCV(problem,info,struct('p',4,'feasibilityTol',1e-6));
+              [sens,stats]=ComputeDynamicDiscreteSensitivities(problem,x,info,struct('modalClusterTol',1e-5));
+              assert(rows(sens.dgdA.stress)==numel(g.stress));
+              assert(columns(sens.dgdA.stress)==problem.nVar);
+              assert(rows(sens.dgdA.disp)==numel(g.disp));
+              assert(columns(sens.dgdA.disp)==problem.nVar);
+              assert(rows(sens.dgdA.freq)==numel(g.freq));
+              assert(columns(sens.dgdA.freq)==problem.nVar);
+              assert(isfinite(cv.Vp));
+              assert(stats.frequencyConsistencyOK);
+              current.x=x; current.W=f; current.cv=cv; current.g=g;
+              ro.safetyMargin=1e-4;
+              ro.constraintOptions=struct('p',4,'feasibilityTol',1e-6);
+              ro.allowRepairFallback=true;
+              moves=RankDynamicSGDLSMoves(problem,current,sens,ro);
+              fprintf('PRECHECK %s: Vp=%g, modalErr=%g, moves=%d, clusterMax=%d\n', ...
+                problem.benchmarkId,cv.Vp,stats.frequencyConsistencyError,numel(moves),stats.maxModalClusterSize);
+            end
+          "
+
+      - name: Short three-variant smoke run
+        run: |
+          octave --no-gui --quiet --eval "
+            cd('Dissertation-Truss-Optimization');
+            RunDynamicDiscreteSGDLSAblation(350,2026,{'72-bar'},4);
+          "
+
+      - name: Validate smoke accounting
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          p = Path('Dissertation-Truss-Optimization/results/dynamic-discrete-sgdls/dynamic_discrete_sgdls_equal_budget_350_p4.csv')
+          rows = list(csv.DictReader(p.open(encoding='utf-8')))
+          assert len(rows) == 3, len(rows)
+          expected = {'BMPOA-FF-core','BMPOA-FF-RandomDiscreteLS','BMPOA-FF-SGDLS'}
+          assert {r['algorithm'] for r in rows} == expected
+          assert all(int(float(r['evaluator_calls'])) == 350 for r in rows)
+          by = {r['algorithm']:r for r in rows}
+          assert int(float(by['BMPOA-FF-core']['random_ls_attempts'])) == 0
+          assert int(float(by['BMPOA-FF-core']['sgdls_attempts'])) == 0
+          assert int(float(by['BMPOA-FF-RandomDiscreteLS']['random_ls_attempts'])) > 0
+          assert int(float(by['BMPOA-FF-SGDLS']['sensitivity_calls'])) > 0
+          assert int(float(by['BMPOA-FF-SGDLS']['sgdls_attempts'])) > 0
+          print('SG-DLS preflight PASSED')
+          PY
+
+  large-run:
+    name: "${{ matrix.benchmark }} / seed ${{ matrix.seed }}"
+    needs: validate-sgdls
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        benchmark: ['72-bar', '120-bar']
+        seed: [2026, 2027, 2028, 2029, 2030]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GNU Octave
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y octave
+
+      - name: Run three-method equal-budget shard
+        run: |
+          octave --no-gui --quiet --eval "
+            cd('Dissertation-Truss-Optimization');
+            RunDynamicDiscreteSGDLSAblation(35070,${{ matrix.seed }},{'${{ matrix.benchmark }}'},4);
+          "
+
+      - name: Validate shard
+        run: |
+          python - <<'PY'
+          import csv
+          from pathlib import Path
+          p = Path('Dissertation-Truss-Optimization/results/dynamic-discrete-sgdls/dynamic_discrete_sgdls_equal_budget_35070_p4.csv')
+          rows = list(csv.DictReader(p.open(encoding='utf-8')))
+          expected = {'BMPOA-FF-core','BMPOA-FF-RandomDiscreteLS','BMPOA-FF-SGDLS'}
+          assert len(rows) == 3, f'Expected 3 rows, got {len(rows)}'
+          assert {r['algorithm'] for r in rows} == expected
+          assert all(int(float(r['evaluator_calls'])) == 35070 for r in rows)
+          by = {r['algorithm']:r for r in rows}
+          assert int(float(by['BMPOA-FF-RandomDiscreteLS']['random_ls_attempts'])) > 0
+          assert int(float(by['BMPOA-FF-SGDLS']['sensitivity_calls'])) > 0
+          assert int(float(by['BMPOA-FF-SGDLS']['sgdls_attempts'])) > 0
+          print('Shard validation PASSED')
+          PY
+
+      - name: Record provenance
+        run: |
+          mkdir -p Dissertation-Truss-Optimization/results/dynamic-discrete-sgdls/provenance
+          cat > Dissertation-Truss-Optimization/results/dynamic-discrete-sgdls/provenance/run.txt <<EOF
+          commit_sha=${GITHUB_SHA}
+          workflow_run_id=${GITHUB_RUN_ID}
+          benchmark=${{ matrix.benchmark }}
+          seed=${{ matrix.seed }}
+          evaluator_budget=35070
+          p_norm=4
+          runner=GNU Octave
+          EOF
+
+      - name: Upload shard artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: "sgdls-${{ matrix.benchmark }}-${{ matrix.seed }}"
+          path: |
+            Dissertation-Truss-Optimization/results/dynamic-discrete-sgdls/*.csv
+            Dissertation-Truss-Optimization/results/dynamic-discrete-sgdls/*.mat
+            Dissertation-Truss-Optimization/results/dynamic-discrete-sgdls/provenance/run.txt
+          if-no-files-found: error
+          retention-days: 90
+
+  aggregate:
+    name: Aggregate and validate 30-run dataset
+    needs: large-run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: sgdls-*
+          path: shards
+
+      - name: Combine all shards and compute descriptive summary
+        run: |
+          python - <<'PY'
+          import csv, json, hashlib, statistics
+          from pathlib import Path
+
+          files = sorted(Path('shards').glob('**/dynamic_discrete_sgdls_equal_budget_35070_p4.csv'))
+          assert len(files) == 10, f'Expected 10 shard CSVs, got {len(files)}'
+
+          rows = []
+          for f in files:
+              with f.open(encoding='utf-8', newline='') as fh:
+                  part = list(csv.DictReader(fh))
+              assert len(part) == 3, (f, len(part))
+              rows.extend(part)
+
+          assert len(rows) == 30, len(rows)
+          algorithms = {'BMPOA-FF-core','BMPOA-FF-RandomDiscreteLS','BMPOA-FF-SGDLS'}
+          seeds = {'2026','2027','2028','2029','2030'}
+          benchmark_tokens = {'72-bar-steel-dynamic-discrete','120-bar-steel-dynamic-discrete'}
+          actual = {(r['benchmark'],r['algorithm'],r['seed']) for r in rows}
+          expected = {(b,a,s) for b in benchmark_tokens for a in algorithms for s in seeds}
+          assert actual == expected, f'Missing={expected-actual}; extra={actual-expected}'
+          assert all(int(float(r['evaluator_calls'])) == 35070 for r in rows)
+
+          rows.sort(key=lambda r:(r['benchmark'],r['algorithm'],int(r['seed'])))
+          out = Path('SGDLS_FULL_30RUN_35070_P4.csv')
+          with out.open('w',encoding='utf-8',newline='') as fh:
+              w=csv.DictWriter(fh,fieldnames=rows[0].keys())
+              w.writeheader(); w.writerows(rows)
+
+          summary = {}
+          for b in sorted(benchmark_tokens):
+              summary[b] = {}
+              for a in sorted(algorithms):
+                  rr=[r for r in rows if r['benchmark']==b and r['algorithm']==a]
+                  weights=[float(r['weight']) for r in rr if str(r['feasible']).strip().lower() in {'1','true'}]
+                  feas=[str(r['feasible']).strip().lower() in {'1','true'} for r in rr]
+                  first=[float(r['first_feasible_FE']) for r in rr if r['first_feasible_FE'] not in {'','NaN','nan'}]
+                  summary[b][a]={
+                      'runs':len(rr),
+                      'feasibility_rate':sum(feas)/len(feas),
+                      'median_feasible_weight':statistics.median(weights) if weights else None,
+                      'mean_feasible_weight':statistics.mean(weights) if weights else None,
+                      'median_first_feasible_FE':statistics.median(first) if first else None,
+                      'median_elapsed_seconds':statistics.median(float(r['elapsed_seconds']) for r in rr),
+                  }
+
+          Path('SGDLS_FULL_30RUN_SUMMARY.json').write_text(
+              json.dumps(summary,indent=2,ensure_ascii=False),encoding='utf-8')
+
+          digest=hashlib.sha256(out.read_bytes()).hexdigest()
+          Path('SHA256SUMS.txt').write_text(f'{digest}  {out.name}\n',encoding='utf-8')
+          print(json.dumps(summary,indent=2))
+          print('SHA256',digest)
+          PY
+
+      - name: Upload final 30-run research dataset
+        uses: actions/upload-artifact@v4
+        with:
+          name: sgdls-full-30run-35070-p4
+          path: |
+            SGDLS_FULL_30RUN_35070_P4.csv
+            SGDLS_FULL_30RUN_SUMMARY.json
+            SHA256SUMS.txt
+            shards/
+          retention-days: 90

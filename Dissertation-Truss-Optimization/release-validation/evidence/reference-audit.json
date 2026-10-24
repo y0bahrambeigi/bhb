@@ -1,0 +1,95 @@
+{
+  "pass_audit": true,
+  "reference_run": 39207965973,
+  "experiment_source": "a8d9fc46966842ec56980853a4ee4ab56395a7e0",
+  "zip_sha256": "3f2986f47f5d28d859427224c3d5c1387ddc3b31185608e0f844947a2ee05bbd",
+  "summary": [
+    {
+      "benchmark": "72-bar-steel-dynamic-discrete",
+      "method": "BMPOA-FF-core",
+      "runs": 5,
+      "mean_weight": 793.3220037177098,
+      "median_weight": 790.5994437177098,
+      "median_seconds": 284.96775484085083
+    },
+    {
+      "benchmark": "72-bar-steel-dynamic-discrete",
+      "method": "BMPOA-FF-RandomDiscreteLS",
+      "runs": 5,
+      "mean_weight": 793.3220037177098,
+      "median_weight": 790.5994437177098,
+      "median_seconds": 282.99574089050293
+    },
+    {
+      "benchmark": "72-bar-steel-dynamic-discrete",
+      "method": "BMPOA-FF-SGDLS",
+      "runs": 5,
+      "mean_weight": 791.9607237177098,
+      "median_weight": 790.5994437177098,
+      "median_seconds": 331.7078628540039
+    },
+    {
+      "benchmark": "120-bar-steel-dynamic-discrete",
+      "method": "BMPOA-FF-core",
+      "runs": 5,
+      "mean_weight": 38519.39641622296,
+      "median_weight": 38512.1489574582,
+      "median_seconds": 939.2191798686981
+    },
+    {
+      "benchmark": "120-bar-steel-dynamic-discrete",
+      "method": "BMPOA-FF-RandomDiscreteLS",
+      "runs": 5,
+      "mean_weight": 38508.27725411628,
+      "median_weight": 38485.93004374057,
+      "median_seconds": 945.6817381381989
+    },
+    {
+      "benchmark": "120-bar-steel-dynamic-discrete",
+      "method": "BMPOA-FF-SGDLS",
+      "runs": 5,
+      "mean_weight": 38503.22000922472,
+      "median_weight": 38512.1489574582,
+      "median_seconds": 971.6234378814697
+    }
+  ],
+  "paired": [
+    {
+      "benchmark": "72-bar-steel-dynamic-discrete",
+      "baseline": "BMPOA-FF-core",
+      "wins": 2,
+      "ties": 2,
+      "losses": 1,
+      "sign_flip_p": 1.0,
+      "median_paired_runtime_overhead_percent": 16.45538472271255
+    },
+    {
+      "benchmark": "72-bar-steel-dynamic-discrete",
+      "baseline": "BMPOA-FF-RandomDiscreteLS",
+      "wins": 1,
+      "ties": 4,
+      "losses": 0,
+      "sign_flip_p": 1.0,
+      "median_paired_runtime_overhead_percent": 17.136354647100262
+    },
+    {
+      "benchmark": "120-bar-steel-dynamic-discrete",
+      "baseline": "BMPOA-FF-core",
+      "wins": 2,
+      "ties": 2,
+      "losses": 1,
+      "sign_flip_p": 0.75,
+      "median_paired_runtime_overhead_percent": 3.395532334066931
+    },
+    {
+      "benchmark": "120-bar-steel-dynamic-discrete",
+      "baseline": "BMPOA-FF-RandomDiscreteLS",
+      "wins": 1,
+      "ties": 2,
+      "losses": 2,
+      "sign_flip_p": 1.0,
+      "median_paired_runtime_overhead_percent": 1.5665809571170142
+    }
+  ],
+  "claim": "No established statistical superiority; equal evaluator budget is not equal computational cost."
+}

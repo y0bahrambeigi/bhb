@@ -1,0 +1,5 @@
+Dissertation Truss Optimization paths loaded from:
+/workspace/scratch/9a092016de9b/bhb/Dissertation-Truss-Optimization
+8.4.0
+-lblas
+-llapack

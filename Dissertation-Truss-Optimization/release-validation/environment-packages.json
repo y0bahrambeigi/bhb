@@ -1,0 +1,376 @@
+{
+  "octave": "8.4.0",
+  "source": "Ubuntu snapshot 20260828T000000Z; extracted private runtime",
+  "openblas_num_threads": 1,
+  "omp_num_threads": 1,
+  "packages": [
+    {
+      "package_archive": "ibverbs-providers_50.0-2ubuntu0.2_amd64.deb",
+      "sha256": "69847c5522d32c14aa3de318da8edea1a1cac6a7d936d81082bf292975f83bb6"
+    },
+    {
+      "package_archive": "libaec0_1.1.2-1build1_amd64.deb",
+      "sha256": "c045fd79f37e38e69520172137700cee2dd2be72fa2ce5698a3a835809bfd2e0"
+    },
+    {
+      "package_archive": "libamd-comgr2_6.0+git20231212.4510c28+dfsg-3build2_amd64.deb",
+      "sha256": "92b588dd48ea1c49bd1e1c295a0796a0c3dae1d93d6ffc69debf7c0c86497979"
+    },
+    {
+      "package_archive": "libamd3_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "557b88b1688b6ebfb058bd6c621daadb62bbb40059a1e33ed3fd3b7bef744f06"
+    },
+    {
+      "package_archive": "libamdhip64-5_5.7.1-3_amd64.deb",
+      "sha256": "5691dfcb82ccb2bc45616793574599fcb18af95e7f1a9fcf4728535e7ab34813"
+    },
+    {
+      "package_archive": "libarpack2t64_3.9.1-1.1build2_amd64.deb",
+      "sha256": "b9d203dd5fbbd8ce353c9ac366d02fe029f4e59d9e29554d8f63ef5674d62519"
+    },
+    {
+      "package_archive": "libbtf2_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "ce8d3be0501db2f6189b0a973d514e985146e1883f35e8c8e80d041ff6b0c950"
+    },
+    {
+      "package_archive": "libcamd3_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "40c209739ede6dde19f1d32428e0ff36f1d6ba9c142762946ac486c2b45e78a8"
+    },
+    {
+      "package_archive": "libccolamd3_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "002dc5a486cc312aececd7a92c500941a550cae1c5901e15aae2b43504431c9c"
+    },
+    {
+      "package_archive": "libcholmod5_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "5766e1c220c315850680c4f19c6bd12b953a20ef1b30754392ef956bd65df94e"
+    },
+    {
+      "package_archive": "libcolamd3_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "8f4c416275c325b2a14463da0e040b90802e3eb72d7fae4e4a6c3cd497e71e48"
+    },
+    {
+      "package_archive": "libcombblas2.0.0t64_2.0.0-3.1build2_amd64.deb",
+      "sha256": "ad4be3717ae2b9e1e103635bfa5527868475fc74e4d9ec4feadc3140faf104fa"
+    },
+    {
+      "package_archive": "libcxsparse4_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "1d8a3d16c38979c09d2a968459472073a40debab79695b8c2a17ab0fdde05a27"
+    },
+    {
+      "package_archive": "libevent-core-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb",
+      "sha256": "3da51e864e4067779a2ba3a87daf5e4d8030c0aaa6291a1ce12483d4f73bf752"
+    },
+    {
+      "package_archive": "libevent-pthreads-2.1-7t64_2.1.12-stable-9ubuntu2_amd64.deb",
+      "sha256": "f9bf6e3681179df772eea7d04b98b597560c428c39b7fca05bfaf64691c327b1"
+    },
+    {
+      "package_archive": "libfabric1_1.17.0-3build2_amd64.deb",
+      "sha256": "804fe1206ed62d370bc5f5b1714ddb75264012c4181fb46e493e262d3102f5ca"
+    },
+    {
+      "package_archive": "libfftw3-long3_3.3.10-1ubuntu3_amd64.deb",
+      "sha256": "9c18f1b4782a7d920f8c86853fbc649bb4954fbb9b472a73d7459df9b8a32071"
+    },
+    {
+      "package_archive": "libfftw3-mpi3_3.3.10-1ubuntu3_amd64.deb",
+      "sha256": "889ffee0bc69ac7f176908b2a5e68561beb5d44eb60398d959f69697310f207d"
+    },
+    {
+      "package_archive": "libfftw3-single3_3.3.10-1ubuntu3_amd64.deb",
+      "sha256": "07d67e30d98e41e00ce9edcfd885e0ba7f4fe99fcf390f84726a69144b17cf2b"
+    },
+    {
+      "package_archive": "libfltk-gl1.3t64_1.3.8-6.1build2_amd64.deb",
+      "sha256": "e67925c30c2eed920edb227b1f03e084d8f984483be03a88735507c713c5d2a6"
+    },
+    {
+      "package_archive": "libfltk1.3t64_1.3.8-6.1build2_amd64.deb",
+      "sha256": "98b0769a8df852e0615a5a11fca4ef0bb01c6069da9ed3bca27f7ca8be8104f0"
+    },
+    {
+      "package_archive": "libgl2ps1.4_1.4.2+dfsg1-2build1_amd64.deb",
+      "sha256": "2ccbf05cf368716da952c8dee7f3d8f903d522d13bf31389968880ef0d42458c"
+    },
+    {
+      "package_archive": "libglpk40_5.0-1build2_amd64.deb",
+      "sha256": "93d855e7d9a394ea21b1e8b551210549c3b6af1c92f39065ac92237a54547a67"
+    },
+    {
+      "package_archive": "libgraphicsmagick++-q16-12t64_1.4+really1.3.42-1.1build3_amd64.deb",
+      "sha256": "32192bb60b0698df13c3b8b1dee083be233ca14c47cacffc30ceb1e897ad947e"
+    },
+    {
+      "package_archive": "libgraphicsmagick-q16-3t64_1.4+really1.3.42-1.1build3_amd64.deb",
+      "sha256": "e60230a95496b649c3fecd22a74b3e7df095a4386d1f12e3cb7c5194d8c424c2"
+    },
+    {
+      "package_archive": "libhdf5-103-1t64_1.10.10+repack-3.1ubuntu4_amd64.deb",
+      "sha256": "875e7de8aff8e6af3df2ed8b4455f767c3e9b021652a1ee2bd924f76932d22d1"
+    },
+    {
+      "package_archive": "libhdf5-openmpi-103-1t64_1.10.10+repack-3.1ubuntu4_amd64.deb",
+      "sha256": "b4cbc860dfabac1a5f0de53ea29180f755c3857e91cde4bd7a1c3e19b7d4ccb4"
+    },
+    {
+      "package_archive": "libhsa-runtime64-1_5.7.1-2build1_amd64.deb",
+      "sha256": "a4085bb731f885aa87eed5cbd6e7f76edcd99ff1d5c7d83a538a0081c7925ab9"
+    },
+    {
+      "package_archive": "libhsakmt1_5.7.0-1build1_amd64.deb",
+      "sha256": "ac17b06fefb4dc7ba1b46e01a9dc6a889b4ef157883d54a9796716260c4453e4"
+    },
+    {
+      "package_archive": "libhwloc-plugins_2.10.0-1build1_amd64.deb",
+      "sha256": "64ef2b2cdf1d657ee491583931648bd805e8dfb4097de8072946cb94efc6f352"
+    },
+    {
+      "package_archive": "libhwloc15_2.10.0-1build1_amd64.deb",
+      "sha256": "45acb4e6676f968d0f32ff1c5115cad0b61165931afa1a59282bda6f00d13c3b"
+    },
+    {
+      "package_archive": "libhypre-2.28.0_2.28.0-8build2_amd64.deb",
+      "sha256": "2be1578d4e89d1508adffa7833b4988b58e31cd8d6be77cec22725ba4fe93d92"
+    },
+    {
+      "package_archive": "libibverbs1_50.0-2ubuntu0.2_amd64.deb",
+      "sha256": "8489558105ee1d1c65ae6e0f1bac0e9b15f314a68f106ee9a63c89821242bd8e"
+    },
+    {
+      "package_archive": "libklu2_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "62b08bb498300c3b37ccd357de537539fd778d51879cfcacf4990cf41b079a7f"
+    },
+    {
+      "package_archive": "libllvm17t64_1%3a17.0.6-9ubuntu1_amd64.deb",
+      "sha256": "1863b5459ca4a6691f5e039e76157f074ee08b48176267642ee4dfea065f5db4"
+    },
+    {
+      "package_archive": "libmetis5_5.1.0.dfsg-7build3_amd64.deb",
+      "sha256": "ab24cdd5afad4cd794a5b273032730b80685cac08dbcbc8cf07e46cac814ea49"
+    },
+    {
+      "package_archive": "libmumps-5.6t64_5.6.2-2.1build2_amd64.deb",
+      "sha256": "b2f1d18375faa772b73591925196923711deafac11e815fa0e68223b04779dbf"
+    },
+    {
+      "package_archive": "libmunge2_0.5.15-4ubuntu0.1_amd64.deb",
+      "sha256": "1cd371adfbe0cb19bb2479a0fe2340a12b09d42bffbcb85d2beb9bb2d4ef09ca"
+    },
+    {
+      "package_archive": "libnl-route-3-200_3.7.0-0.3build1.1_amd64.deb",
+      "sha256": "c9dbd29cb7fdcf1a0587726cbc5432a7d3e81242108dfcfa2dd6716c44c74d4d"
+    },
+    {
+      "package_archive": "libopenmpi3t64_4.1.6-7ubuntu2_amd64.deb",
+      "sha256": "4709aa89fd1064c6df3b8e7e460f530d8f2df24937a1d8df8fbf4948b391e99b"
+    },
+    {
+      "package_archive": "libpetsc-real3.19t64_3.19.6+dfsg1-2.2ubuntu2_amd64.deb",
+      "sha256": "b6f16e62e85870d8c84ba5cad4c5f19d911b6bb2945e6ecd697fa3da044e2dca"
+    },
+    {
+      "package_archive": "libpmix2t64_5.0.1-4.1build1_amd64.deb",
+      "sha256": "54874f3e936e9862c2fdc2785a61e6e7220739228f911c150d41dffd788bedd0"
+    },
+    {
+      "package_archive": "libportaudio2_19.6.0-1.2build3_amd64.deb",
+      "sha256": "bb4f406736fbb213e905229452261ca8ccf47b678febfeb4ebf53a56088fc159"
+    },
+    {
+      "package_archive": "libpsm-infinipath1_3.3+20.604758e7-6.3build1_amd64.deb",
+      "sha256": "56e190ab22563014ed60bf9c15e20a46949dda21284ff32a5e5354addde6c6bc"
+    },
+    {
+      "package_archive": "libpsm2-2_11.2.185-2build1_amd64.deb",
+      "sha256": "ff1c78b8feda2bb3537a8a2e93d5266be76c0c172b9e52dddc98509b7e18c420"
+    },
+    {
+      "package_archive": "libptscotch-7.0_7.0.4-1ubuntu2_amd64.deb",
+      "sha256": "62e612c5aaa5de5e2d8ecac038e26ad07c0b8c130db2985a958c5c3baae77c64"
+    },
+    {
+      "package_archive": "libqhull-r8.0_2020.2-6build1_amd64.deb",
+      "sha256": "5b569643ef0cf284ccd7b81cd1bcbce820dd33deb02b1edede5287fd24c53bec"
+    },
+    {
+      "package_archive": "libqrupdate1_1.1.2-4build1_amd64.deb",
+      "sha256": "9572d931457d49576281e3f17960d79a7484d6dae1de2af748807b41aebffc6f"
+    },
+    {
+      "package_archive": "libqt5help5_5.15.13-1_amd64.deb",
+      "sha256": "8960c0a80c7c641d3cb6013df314ea5db7c0d3981d4f4aeb7abc10ea7d2c1cfd"
+    },
+    {
+      "package_archive": "libqt5sql5t64_5.15.13+dfsg-1ubuntu1_amd64.deb",
+      "sha256": "b03b73eda8d1a7c441c8e23d9e87644aec97cbfc0fcafb2a557269f3981483e1"
+    },
+    {
+      "package_archive": "libqt5xml5t64_5.15.13+dfsg-1ubuntu1_amd64.deb",
+      "sha256": "01defcb7aa581d1a744e9824394c783b38623fc51ecc500b75d52abedf8982af"
+    },
+    {
+      "package_archive": "librdmacm1t64_50.0-2ubuntu0.2_amd64.deb",
+      "sha256": "7b7cc2fa16564bf301751b43d05d16f0846288b080d9a25a92a691d0df33fc68"
+    },
+    {
+      "package_archive": "libscalapack-openmpi2.2_2.2.1-3.1ubuntu1_amd64.deb",
+      "sha256": "cf0762a825f10403648e72d8dc055a5a6d6fe1424c70d5ac760da3cc82e6e67a"
+    },
+    {
+      "package_archive": "libscotch-7.0_7.0.4-1ubuntu2_amd64.deb",
+      "sha256": "aea6cb51c92c259751c065ec061908ed3beba62d54185e4dfae5d8eb3230160a"
+    },
+    {
+      "package_archive": "libspqr4_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "d5192cfafcc9d9eca9162443985b9ed5f84cc6894bc0136e52060b8e556ccfbe"
+    },
+    {
+      "package_archive": "libsuitesparseconfig7_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "a27c55b471ebd184136567f0649f2d1425825ec535b0329ea3917c0fe6440471"
+    },
+    {
+      "package_archive": "libsundials-ida6_6.4.1+dfsg1-3build4_amd64.deb",
+      "sha256": "b6dd788d0af5c84a840715cdee2865d11ed26fe29228bc805d9de0956b33af07"
+    },
+    {
+      "package_archive": "libsundials-nvecparallel-petsc6_6.4.1+dfsg1-3build4_amd64.deb",
+      "sha256": "b367b9e9523a9c6e0d5055b163cae87d13fc8d7d83aed2db00217544ac22bc42"
+    },
+    {
+      "package_archive": "libsundials-sunlinsol3_6.4.1+dfsg1-3build4_amd64.deb",
+      "sha256": "516aa5aa88b755c271a36d9e13c1844edde10f33077b713e58b0e2ff06252143"
+    },
+    {
+      "package_archive": "libsundials-sunmatrix4_6.4.1+dfsg1-3build4_amd64.deb",
+      "sha256": "e844d0f4d36c2a451b66078a6e6169e2ce7657af3ca320812d5d218a073bc0d6"
+    },
+    {
+      "package_archive": "libsuperlu-dist8_8.2.1+dfsg1-1build2_amd64.deb",
+      "sha256": "4558b7631e435227e8cd41708b9406bc6315215dd66859c7f30fb59ce4bd93c3"
+    },
+    {
+      "package_archive": "libsuperlu6_6.0.1+dfsg1-1build1_amd64.deb",
+      "sha256": "f4aa8ba3ccbac5595c5e901e1ec1d07f67f792937990247333bbc64f79b049cb"
+    },
+    {
+      "package_archive": "libsz2_1.1.2-1build1_amd64.deb",
+      "sha256": "d442719f0f7597886df1d87fb4978f15941c468a452bba7f85fd7b2d93f1400f"
+    },
+    {
+      "package_archive": "libtext-unidecode-perl_1.30-3_all.deb",
+      "sha256": "6595aa8edd7f2de116acd4043652697346fa8e157e9fdf14ada152a0ce04f0b2"
+    },
+    {
+      "package_archive": "libtrilinos-amesos-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "3c760f8d18d529da1cc928612f51eb66afee2d918c30d402a94631f849817e67"
+    },
+    {
+      "package_archive": "libtrilinos-aztecoo-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "e983d19681c162e3b7076f3864ae14603428abcf3c3c3f995d77a212a145115a"
+    },
+    {
+      "package_archive": "libtrilinos-epetra-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "3fbc3ad6d28ab9a63dcf7b151f600f2b5f2affc9afe5442c01ce6c47dfbe1867"
+    },
+    {
+      "package_archive": "libtrilinos-epetraext-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "d3a73f3401be6fce4a7b0a988871e290fe6b1a14df1039de312c3b47cb282157"
+    },
+    {
+      "package_archive": "libtrilinos-galeri-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "cd415c34a0a86d9a80059056f766c9f627249473bf8888a5778ec9d8c3022ec3"
+    },
+    {
+      "package_archive": "libtrilinos-ifpack-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "fc057f8fd6f3c28ebcdc663aa3e810e5cc62284a62231aec313d88ee31376874"
+    },
+    {
+      "package_archive": "libtrilinos-kokkos-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "f3a46ab69e7e38534c8e5578d5e0391f9764f03c1bd395535c08c66f8409a186"
+    },
+    {
+      "package_archive": "libtrilinos-ml-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "1bd99821127cfa32f0efac9905c3b9ad53cfc1f74bd43f3b4db8a949f98cf7d3"
+    },
+    {
+      "package_archive": "libtrilinos-teuchos-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "e0edd5f1d9508cbec660062e594571554ce8a27a80b483416cd408c4838c1d72"
+    },
+    {
+      "package_archive": "libtrilinos-trilinosss-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "5422e7b2d9922e2eb2d00d2b7787205e6e8f4daedea5073959039d6b8e0571c2"
+    },
+    {
+      "package_archive": "libtrilinos-triutils-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "89a3139d43a9da7bf4a8b34da179d06cd18652ea38501d50b83008a944bbc5a0"
+    },
+    {
+      "package_archive": "libtrilinos-zoltan-13.2_13.2.0-5build2_amd64.deb",
+      "sha256": "d5ce428dece936b9f63ca68ebbaa40be88650be9e29cc11983ea6ffc81693002"
+    },
+    {
+      "package_archive": "libucx0_1.16.0+ds-5ubuntu1_amd64.deb",
+      "sha256": "1138ee6dd436a0111a7d5dbbad38ec4d82f3245bf3b32782973426ebf9b05e15"
+    },
+    {
+      "package_archive": "libumfpack6_1%3a7.6.1+dfsg-1build1_amd64.deb",
+      "sha256": "5f947859dd49e944c6e8ed3d627cfa99da29045ea301d696c88a4a8affbaf483"
+    },
+    {
+      "package_archive": "libwmflite-0.2-7_0.2.13-1.1build3_amd64.deb",
+      "sha256": "8925cd95fba52276b562175a9adc9de2f3cc272a248c21e0b8490db8122f3959"
+    },
+    {
+      "package_archive": "libxft2_2.3.6-1build1_amd64.deb",
+      "sha256": "b4f4f3255c0b8773b260c61cbe20ee7c63799cfc0e4e389fa58375dd480b093a"
+    },
+    {
+      "package_archive": "libxml-libxml-perl_2.0207+dfsg+really+2.0134-1build4_amd64.deb",
+      "sha256": "9fb537ee60e15fd709b3315fcf963ce501d11894938e0e732108a410042bbba6"
+    },
+    {
+      "package_archive": "libxml-namespacesupport-perl_1.12-2_all.deb",
+      "sha256": "fa5c5ba9beb445220d9c73282f0845bfc3a0e1481e324175792b07155276807b"
+    },
+    {
+      "package_archive": "libxml-sax-base-perl_1.09-3_all.deb",
+      "sha256": "08ed3ee24927c53638871d2be63d5dd9c0f1f42a58124b4b28c776bb8f0b5888"
+    },
+    {
+      "package_archive": "libxml-sax-perl_1.02+dfsg-3_all.deb",
+      "sha256": "c75639a373b5873248e03c53ae204e0832e5b9addc22b6484e3851141868af65"
+    },
+    {
+      "package_archive": "libxnvctrl0_510.47.03-0ubuntu4.24.04.1_amd64.deb",
+      "sha256": "7947ecbae8e3b5a2b83a1a1cd620d939b47c3ea282b0d1eda12b907994bae56d"
+    },
+    {
+      "package_archive": "mpi-default-bin_1.15build1_amd64.deb",
+      "sha256": "1224761a93a9273969cb25bce0ad2ed435187cf6c5e689502bd7816358faf2af"
+    },
+    {
+      "package_archive": "octave-common_8.4.0-1build5_all.deb",
+      "sha256": "2ca9fb98c9b09e0a36d9d8a3c6e56bbd3a644116b174819efa4028058dff19ef"
+    },
+    {
+      "package_archive": "octave_8.4.0-1build5_amd64.deb",
+      "sha256": "78aced86ae911d97a51fb9535f374188f74642aa1451842770da4abd06caa5f3"
+    },
+    {
+      "package_archive": "openmpi-bin_4.1.6-7ubuntu2_amd64.deb",
+      "sha256": "b99dc4516afc262ad59b52128784565bda9ef16bbe8de4500699d87ec67b1f34"
+    },
+    {
+      "package_archive": "openmpi-common_4.1.6-7ubuntu2_all.deb",
+      "sha256": "1246554675cd86baa4e7e2e4195bed0f7a16d6538d484c347e2379f82791f821"
+    },
+    {
+      "package_archive": "texinfo-lib_7.1-3build2_amd64.deb",
+      "sha256": "f583b109e8450309deec697639c6dc019eda24f1c38fdabdaa96b843a232cbbb"
+    },
+    {
+      "package_archive": "texinfo_7.1-3build2_all.deb",
+      "sha256": "d45be908b080a764422bf8dc337381b7ba697e4dae0fd59a862f97588a9ef71a"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "Cite this SG-DLS software release and report the release commit and experiment source separately."
+title: "BMPOA-FF-SG-DLS: feasibility-first dynamic-discrete steel-truss sizing"
+type: software
+authors:
+  - family-names: "Bahrambeigi"
+    given-names: "Yousef"
+version: "0.1.0"
+date-released: "2026-10-24"
+repository-code: "https://github.com/y0bahrambeigi/bhb"
+url: "https://github.com/y0bahrambeigi/bhb/releases/tag/sgdls-v0.1.0"
+license: "MIT"
+abstract: "Controlled research release comparing feasibility-first BMPOA core, RandomDiscreteLS and sensitivity-guided discrete local search on two steel-truss benchmarks with five paired seeds and 35,070 evaluator calls per run. The study does not establish statistical superiority of SG-DLS."
+keywords:
+  - structural optimization
+  - discrete truss sizing
+  - analytical sensitivity
+  - feasibility-first optimization
+  - reproducible research
