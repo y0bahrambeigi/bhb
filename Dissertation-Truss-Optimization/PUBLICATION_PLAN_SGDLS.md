@@ -143,7 +143,7 @@ QIO remains outside the current main ablation because the repository's existing 
 - [x] All 10 shards complete
 - [x] 30-row aggregate verified
 - [x] SHA-256 checksum verified
-- [ ] Statistical/diagnostic audit complete
+- [x] Statistical/diagnostic audit complete (independent checks and exact diagnostic replay; see release-validation/SCIENTIFIC_AUDIT.md)
 - [ ] PR marked ready
 - [ ] PR merged
 - [ ] Version tag created
@@ -152,17 +152,17 @@ QIO remains outside the current main ablation because the repository's existing 
 
 ## Release readiness — 2026-10-24
 
-Status: **BLOCKED pending scientific validation**. The 30-run execution is complete; release is not complete.
+Status: **SCIENTIFIC VALIDATION PASSED LOCALLY; final-head CI / merge / publication pending**. See `release-validation/SCIENTIFIC_AUDIT.md`. The original 30-run dataset is unchanged. All 30 designs were structurally re-evaluated; two diagnostic replays reproduce weights and acceptance counts; independent derivative tests and regressions pass.
 
-Remaining evidence:
-- final feasibility/weight/first-feasible-FE/runtime audit sign-off;
-- documented explanation of 72-bar seed 2030 SG-DLS acceptance (25/239);
-- independent static/modal derivative checks in both catalog directions, including repeated/near-repeated modes;
-- no unresolved scientific anomaly;
-- explicit resolution of the missing convergence/evaluation-history deliverable;
-- final-head review/checks, merge, actual merge SHA freeze;
-- complete reproducibility archive, environment evidence, checksums, tag and release.
+Remaining actions:
+- final-head CI/review, merge and actual merge SHA freeze;
+- build and verify the reproducibility bundle on the merged SHA;
+- create the exact-SHA tag and GitHub release, verify downloaded asset checksums, then close Issue #84.
+
+Scientific evidence is archived in `release-validation/`. Historical environment gaps remain explicitly documented; diagnostic histories are separate from the 30-run reference data.
 
 The archived study does not establish SG-DLS statistical superiority. FE=1 is consistent with deterministic feasible midpoint initialization. Report equal evaluator-call budgets separately from runtime and sensitivity overhead. Do not mix diagnostic reruns or duplicate workflows into the authoritative dataset.
 
 Historical convergence plots cannot be reconstructed from the current MAT result tables. If retained as a release requirement, use a separately identified history-logging run; otherwise explicitly document the scope change in Issue #84.
+
+The gated `.github/workflows/sgdls-release.yml` validates branch pushes and publishes only on `main` after its validation job succeeds. It refuses to overwrite an existing tag. The release manifest records the actual merged-source SHA and execution run ID.

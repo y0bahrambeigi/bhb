@@ -1,0 +1,91 @@
+name: SG-DLS validation and gated v0.1.0 release
+on:
+  push:
+    branches: [main, feat/sgdls-feasibility-first-2026-10-19]
+    paths:
+      - 'Dissertation-Truss-Optimization/release-validation/**'
+      - 'Dissertation-Truss-Optimization/RELEASE_NOTES_SGDLS_V0.1.0.md'
+      - 'Dissertation-Truss-Optimization/algorithms/BudgetedMemeticPelicanOptimizationFFSGDLS.m'
+      - '.github/workflows/sgdls-release.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: sgdls-release-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install numerical runtime
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends octave
+          python -m pip install numpy==2.3.5 scipy==1.17.0 matplotlib==3.10.8
+      - name: Audit immutable reference bytes and diagnostic replays
+        working-directory: Dissertation-Truss-Optimization
+        run: |
+          python release-validation/audit_reference.py release-validation/reference-data/reference.zip release-validation/evidence
+          python release-validation/verify_replays.py
+      - name: Validate derivatives, archived designs, trace equivalence and regressions
+        working-directory: Dissertation-Truss-Optimization
+        shell: bash
+        run: |
+          set -o pipefail
+          octave --no-gui --quiet --eval "addpath('release-validation'); assert(strncmp(version,'8.4.',4)); r=ValidateSGDLSDerivatives('release-validation/derivatives'); assert(r.pass); ReevaluateArchivedDesigns('release-validation/structural-reevaluation.csv'); ValidateSGDLSTrace; RunProjectTests; fid=fopen('release-validation/regression-passed.txt','w'); fprintf(fid,'Standalone regression PASSED on Octave %s\n',version); fclose(fid);" | tee release-validation/ci-validation.log
+      - name: Capture environment and build assets
+        working-directory: Dissertation-Truss-Optimization
+        run: |
+          octave --version > release-validation/ci-octave-version.txt
+          dpkg-query -W > release-validation/ci-packages.txt
+          python release-validation/plot_results.py
+          python release-validation/build_release.py "$GITHUB_SHA" "$GITHUB_RUN_ID" "$RUNNER_TEMP/sgdls-assets"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sgdls-release-candidate-${{ github.sha }}
+          path: ${{ runner.temp }}/sgdls-assets/
+          if-no-files-found: error
+          retention-days: 90
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: sgdls-release-candidate-${{ github.sha }}
+          path: assets
+      - name: Verify asset checksums
+        working-directory: assets
+        run: sha256sum --check SHA256SUMS.txt
+      - name: Create exact-SHA tag and publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Never overwrite an existing public version or move an existing tag.
+          if gh api "repos/$GH_REPO/git/ref/tags/sgdls-v0.1.0" > tag.json 2> tag-error.txt; then
+            echo 'sgdls-v0.1.0 already exists; stop for explicit review.' >&2
+            exit 1
+          fi
+          grep -q '404' tag-error.txt || { cat tag-error.txt >&2; exit 1; }
+          gh release create sgdls-v0.1.0 assets/* \
+            --target "$GITHUB_SHA" \
+            --title 'BMPOA-FF-SG-DLS v0.1.0 — controlled research release' \
+            --notes-file assets/release-notes.md \
+            --latest=false
+          test "$(gh api "repos/$GH_REPO/git/ref/tags/sgdls-v0.1.0" --jq .object.sha)" = "$GITHUB_SHA"
+          mkdir verify
+          gh release download sgdls-v0.1.0 --dir verify
+          (cd verify && sha256sum --check SHA256SUMS.txt)

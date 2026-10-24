@@ -1,0 +1,52 @@
+[
+  {
+    "seed": 2026,
+    "reference_attempts": 24,
+    "reference_accepted": 23,
+    "reference_weight": 790.5994437177098,
+    "replay": {
+      "seed": 2026,
+      "benchmark": "72-bar",
+      "weight": 790.5994437177098,
+      "Vp": 0,
+      "maxG": -0.0010626401267561647,
+      "evaluator_calls": 35070,
+      "accepted": 23,
+      "attempts": 24,
+      "sensitivity_calls": 499,
+      "seconds": 260.4807839393616
+    },
+    "exact_reference_match": true,
+    "rejection_active_family": {
+      "freq": 1
+    },
+    "largest_repeated_rejection_count": 1,
+    "rejected_predicted_safe": 1,
+    "max_first_order_maxG_error": 0.027872583906439624
+  },
+  {
+    "seed": 2030,
+    "reference_attempts": 239,
+    "reference_accepted": 25,
+    "reference_weight": 797.4058437177098,
+    "replay": {
+      "seed": 2030,
+      "benchmark": "72-bar",
+      "weight": 797.4058437177098,
+      "Vp": 0,
+      "maxG": -0.0002803354406659686,
+      "evaluator_calls": 35070,
+      "accepted": 25,
+      "attempts": 239,
+      "sensitivity_calls": 496,
+      "seconds": 261.4778981208801
+    },
+    "exact_reference_match": true,
+    "rejection_active_family": {
+      "freq": 214
+    },
+    "largest_repeated_rejection_count": 214,
+    "rejected_predicted_safe": 214,
+    "max_first_order_maxG_error": 0.0004475829452478021
+  }
+]

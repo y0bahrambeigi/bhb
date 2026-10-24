@@ -28,6 +28,13 @@ if ~(isprop(problem,'decisionType') && strcmpi(problem.decisionType,'discrete'))
     error('BudgetedMemeticPelicanOptimizationFFSGDLS:DiscreteOnly','Pure discrete sizing only.');
 end
 
+traceFID=-1;
+if isfield(params,'sgdlsTracePath') && ~isempty(params.sgdlsTracePath)
+    traceFID=fopen(params.sgdlsTracePath,'w');
+    if traceFID<0, error('Cannot open SG-DLS trace file.'); end
+    traceCleanup=onCleanup(@() fclose(traceFID)); %#ok<NASGU>
+    fprintf(traceFID,'evaluation,iteration,group,direction,baseline_weight,candidate_weight,pred_maxG,exact_maxG,stress_maxG,disp_maxG,freq_maxG,baseline_feasible,candidate_feasible,accepted,max_cluster,min_gap\n');
+end
 bounds = problem.getBounds(); nVar = problem.nVar;
 pelicans = repmat(bounds.lb,params.popSize,1) + rand(params.popSize,nVar).*repmat(bounds.ub-bounds.lb,params.popSize,1);
 pelicans(1,:) = 0.5*(bounds.lb+bounds.ub);
@@ -115,7 +122,14 @@ while evaluationCount < params.maxEvaluations
             loadCaseSolveCount=loadCaseSolveCount+localLoadCaseCount(candInfo); modalSolveCount=modalSolveCount+localModalSolveCount(candInfo);
             [candCV,candG]=BuildDynamicDiscreteConstraintCV(problem,candInfo,params.constraintOptions);
             if isnan(firstFeasibleEvaluation) && candCV.feasible, firstFeasibleEvaluation=evaluationCount; end
-            if localIsBetter(candF,candCV,bestObjective,bestCV)
+            acceptedCandidate=localIsBetter(candF,candCV,bestObjective,bestCV);
+            if traceFID>=0
+                fprintf(traceFID,'%d,%d,%d,%d,%.17g,%.17g,%.17g,%.17g,%.17g,%.17g,%.17g,%d,%d,%d,%d,%.17g\n', ...
+                    evaluationCount,iteration,moves(k).group,moves(k).direction,bestObjective,candF,moves(k).predMaxG,candCV.maxG, ...
+                    max(candG.stress),max(candG.disp),max(candG.freq),bestCV.feasible,candCV.feasible,acceptedCandidate, ...
+                    sStats.maxModalClusterSize,sStats.minConstrainedModalRelativeGap);
+            end
+            if acceptedCandidate
                 if isempty(bestLocalSol) || localIsBetter(candF,candCV,bestLocalF,bestLocalCV)
                     bestLocalSol=candidate; bestLocalF=candF; bestLocalCV=candCV; bestLocalG=candG; bestLocalInfo=candInfo;
                 end

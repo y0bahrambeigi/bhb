@@ -18,6 +18,17 @@ The BMPOA dynamic-discrete research software is publicly available as a **Resear
 
 The software is public; final 120-bar performance claims are intentionally withheld until the post-correction dissertation rerun and publication artifact are fully validated.
 
+## BMPOA-FF-SG-DLS v0.1.0
+
+The feasibility-first SG-DLS extension has a complete 30-run reference study and independent scientific validation. Publication uses the gated SG-DLS release workflow; final version availability is shown on the [release page](https://github.com/y0bahrambeigi/bhb/releases/tag/sgdls-v0.1.0).
+
+- [Release notes](RELEASE_NOTES_SGDLS_V0.1.0.md)
+- [Scientific audit and seed-2030 diagnosis](release-validation/SCIENTIFIC_AUDIT.md)
+- [Executable independent validation](release-validation/README.md)
+- [SG-DLS citation](CITATION_SGDLS.cff)
+
+The five-seed data do not establish statistical superiority. Equal evaluator-call budgets do not imply equal computational cost. This extension and its source identity are distinct from the earlier research preview above.
+
 ## Benchmarks
 
 | Benchmark | Model | Variables | Load cases | Bounds / sections |

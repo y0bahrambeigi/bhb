@@ -1,0 +1,1 @@
+{"pass":true,"atol":0.00002,"rtol":0.002,"steps":[0.001,0.0001,0.00001],"max_final_tolerance_ratio":0.19532785489420197,"max_modal_cluster":2,"excluded_nonsmooth_rows_across_checks":1470,"checks":3468,"oracle":"exact evaluator at continuous perturbed group areas"}

@@ -1,0 +1,56 @@
+Dissertation Truss Optimization paths loaded from:
+/workspace/scratch/9a092016de9b/bhb/Dissertation-Truss-Optimization
+Dissertation Truss Optimization paths loaded from:
+/workspace/scratch/9a092016de9b/bhb/Dissertation-Truss-Optimization
+Dissertation Truss Optimization paths loaded from:
+/workspace/scratch/9a092016de9b/bhb/Dissertation-Truss-Optimization
+Dissertation Truss Optimization paths loaded from:
+/workspace/scratch/9a092016de9b/bhb/Dissertation-Truss-Optimization
+benchmark_id | n_members | n_variables | n_load_cases | weight | total_violation | stable | feasible
+{
+  [1,1] = 10-bar
+  [2,1] = 25-bar
+  [3,1] = 72-bar
+  [4,1] = 120-bar
+  [1,2] = 10
+  [2,2] = 25
+  [3,2] = 72
+  [4,2] = 120
+  [1,3] = 20
+  [2,3] = 8
+  [3,3] = 16
+  [4,3] = 7
+  [1,4] = 1
+  [2,4] = 2
+  [3,4] = 2
+  [4,4] = 1
+  [1,5] = 1.4688e+04
+  [2,5] = 1124.5
+  [3,5] = 2559.3
+  [4,5] = 1.4211e+05
+  [1,6] = 0
+  [2,6] = 0
+  [3,6] = 0
+  [4,6] = 0
+  [1,7] = 1
+  [2,7] = 1
+  [3,7] = 1
+  [4,7] = 1
+  [1,8] = 1
+  [2,8] = 1
+  [3,8] = 1
+  [4,8] = 1
+}
+Running TenBarTrussTopology regression tests...
+All TenBarTrussTopology regression tests PASSED.
+Running dissertation benchmark framework tests...
+All dissertation benchmark framework tests PASSED.
+Running dynamic discrete steel-truss tests...
+72-bar upper catalog: W=7258.085923, g=0, f=[8.743777 8.743777 15.241464] Hz, feasible=1
+120-bar upper catalog: W=142595.537642, g=0, f=[15.575675 15.959294] Hz, feasible=1
+120-bar CSS-BBBC reference: mass=8892.328 kg, f=[9.072411 11.037739] Hz
+120-bar discrete reference check: f=[9.007084 11.083467] Hz
+72-bar QIO smoke: W=3394.925263, g=0, FE=30, modal=30, qio=6/6, feasible=1
+72-bar DiscreteLS smoke: FE=30, modal=30, ls=3/6, feasible=1
+Dynamic discrete steel-truss tests PASSED.
+Standalone project regression suite PASSED.
