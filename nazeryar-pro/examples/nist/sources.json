@@ -1,0 +1,73 @@
+{
+  "accessedAt": "2026-10-24T14:36:51.874030-07:00",
+  "sources": [
+    {
+      "id": "S1",
+      "title": "NIST - Residential Test Facility",
+      "url": "https://www.nist.gov/el/residential-test-facility",
+      "supports": "هویت پروژه، دو طبقه، چهار اتاق خواب و سه حمام؛ هدف آزمایشگاهی"
+    },
+    {
+      "id": "S2",
+      "title": "NIST - That House on the Hill (2019-02-21)",
+      "url": "https://www.nist.gov/blogs/taking-measure/house-hill-bringing-measurement-science-home",
+      "supports": "محل در گیترزبرگ، مساحت حدود ۲۵۰ مترمربع فضای مسکونی، تکمیل در ۲۰۱۲"
+    },
+    {
+      "id": "S3",
+      "title": "Pettit et al. - NIST TN 1847 (2015)",
+      "url": "https://doi.org/10.6028/NIST.TN.1847",
+      "supports": "وجود گزارش فنی طراحی؛ جایگزین نقشه مصوب پروژه نیست"
+    },
+    {
+      "id": "S4",
+      "title": "NIST official public image repository",
+      "url": "https://github.com/usnistgov/netzero/tree/master/img",
+      "supports": "منشأ سه فایل عکس همان ساختمان؛ تاریخ عکاسی و نام فرد عکاس احراز نشده"
+    },
+    {
+      "id": "S5",
+      "title": "NIST Net-Zero - Data Page",
+      "url": "https://pages.nist.gov/netzero/data.html",
+      "supports": "معرفی داده‌های آزمایشگاهی و هشدار خود ناشر درباره گسست و خطای داده"
+    },
+    {
+      "id": "S6",
+      "title": "NIST publication / image use policy",
+      "url": "https://www.nist.gov/open/license",
+      "supports": "لزوم انتساب منبع و عدم القای تأیید ناشر"
+    }
+  ],
+  "images": [
+    {
+      "id": "nist-photo-1",
+      "name": "house1.jpg",
+      "type": "image/jpeg",
+      "added": "2026-10-24T14:36:51.874030-07:00",
+      "captureTime": "",
+      "caption": "عکس عمومی 1 از همان ساختمان؛ NIST / usnistgov/netzero / img/house1.jpg. مشاهده مستقیم تنظیم‌کننده نیست. تاریخ عکاسی احراز نشده. فایل اصلی بدون تغییر محتوای تصویری بازنشر شده است.",
+      "sourceUrl": "https://github.com/usnistgov/netzero/blob/master/img/house1.jpg",
+      "sha256": "4c172f790a8e9d06b6c9a3daccf522ce268eb0c30e2664fa687d05e77d1ae92b"
+    },
+    {
+      "id": "nist-photo-2",
+      "name": "house2.jpg",
+      "type": "image/jpeg",
+      "added": "2026-10-24T14:36:51.874030-07:00",
+      "captureTime": "",
+      "caption": "عکس عمومی 2 از همان ساختمان؛ NIST / usnistgov/netzero / img/house2.jpg. مشاهده مستقیم تنظیم‌کننده نیست. تاریخ عکاسی احراز نشده. فایل اصلی بدون تغییر محتوای تصویری بازنشر شده است.",
+      "sourceUrl": "https://github.com/usnistgov/netzero/blob/master/img/house2.jpg",
+      "sha256": "42b8ed309d9ad4e2d7fc1c86f4874e96711be24dc649711f2f05b41c61250089"
+    },
+    {
+      "id": "nist-photo-3",
+      "name": "house3_2.jpg",
+      "type": "image/jpeg",
+      "added": "2026-10-24T14:36:51.874030-07:00",
+      "captureTime": "",
+      "caption": "عکس عمومی 3 از همان ساختمان؛ NIST / usnistgov/netzero / img/house3_2.jpg. مشاهده مستقیم تنظیم‌کننده نیست. تاریخ عکاسی احراز نشده. فایل اصلی بدون تغییر محتوای تصویری بازنشر شده است.",
+      "sourceUrl": "https://github.com/usnistgov/netzero/blob/master/img/house3_2.jpg",
+      "sha256": "c871e032781c2f770bd0edcfb4b6ff8e88564d0422b1d9edafc1cf448d814c28"
+    }
+  ]
+}

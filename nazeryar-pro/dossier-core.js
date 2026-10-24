@@ -2,7 +2,7 @@
 (function(root){
 'use strict';
 const fa=n=>Number(n).toLocaleString('fa-IR');
-function timeValue(r){if(Number.isFinite(r.visitTimestamp))return r.visitTimestamp;const s=r.fields?.visit||r.fields?.reportDate||r.savedAt;const n=Date.parse(s);return Number.isFinite(n)?n:Infinity}
+function timeValue(r){if(Number.isFinite(r.sortTimestamp))return r.sortTimestamp;if(Number.isFinite(r.visitTimestamp))return r.visitTimestamp;const s=r.fields?.visit||r.fields?.reportDate||r.savedAt;const n=Date.parse(s);return Number.isFinite(n)?n:Infinity}
 function sortReports(records){return [...records].sort((a,b)=>timeValue(a)-timeValue(b)||String(a.id).localeCompare(String(b.id)))}
 function labelDate(s){if(!s)return 'ثبت نشده';const d=new Date(s);return isNaN(d)?'نامعتبر':new Intl.DateTimeFormat('fa-IR',{dateStyle:'medium',timeStyle:'short'}).format(d)}
 function clean(s){return String(s??'').replace(/\r/g,'')}
@@ -18,16 +18,16 @@ async function buildDossier(records,property,adapter){
  async function line(text,size=31,color='#253b47',indent=0){await room(size*1.55);ctx.font=font(size);ctx.fillStyle=color;ctx.textAlign='right';ctx.fillText(clean(text),W-M-indent,y);y+=size*1.55;dirty=true}
  async function text(text,size=30,color='#253b47'){ctx.font=font(size);for(const raw of clean(text).split('\n')){if(!raw.trim()){y+=size*.5;continue}let current='';for(const word of raw.split(/\s+/)){const attempt=current?current+' '+word:word;ctx.font=font(size);if(ctx.measureText(attempt).width>W-2*M&&current){await line(current,size,color);current=''}ctx.font=font(size);if(ctx.measureText(word).width>W-2*M){if(current){await line(current,size,color);current=''}let part='';for(const ch of word){if(ctx.measureText(part+ch).width>W-2*M){await line(part,size,color);part=''}part+=ch}current=part}else current=current?current+' '+word:word}if(current)await line(current,size,color)}}
  async function heading(t){await room(110);y+=15;ctx.fillStyle='#edf4f4';ctx.fillRect(M,y-37,W-2*M,65);await line(t,36,'#164f56');y+=25}
- start();await line('پرونده مستندات فنی و ملکی ساختمان',54,'#164f56');await text(property.name||reports[0].fields?.project||'ساختمان',41);await line('گزارش‌های نظارت و بازدید، به ترتیب تاریخ و ساعت',30,'#70828b');y+=40;
+ start();await line('پرونده مستندات فنی و ملکی ساختمان',54,'#164f56');await text(property.name||reports[0].fields?.project||'ساختمان',41);await line('گزارش‌های ثبت‌شده، به ترتیب تاریخ و ساعت',30,'#70828b');y+=40;
  const props=[['کد پرونده / پلاک ثبتی',property.code],['مالک / نماینده',property.owner],['نشانی ساختمان',property.address],['کاربری',property.usage],['مساحت زمین',property.landArea],['زیربنای اعلام‌شده',property.builtArea],['تعداد طبقات',property.floors],['سیستم سازه',property.structure],['مرجع پروانه',property.permit],['توضیحات ملکی و حدود اطلاعات',property.notes]];
  for(const [k,v] of props)await text(k+' : '+(v||'ثبت نشده'),31);
  await text('این فایل تجمیع اطلاعات ثبت‌شده توسط کاربران است؛ جایگزین شناسنامه فنی و ملکی رسمی، تأیید مرجع ذی‌صلاح یا امضای مهندس نیست.',28,'#946c39');await text('ترتیب بازدیدها براساس تاریخ و ساعت اعلام‌شده است. زمان‌های بدون منطقه زمانی، با ساعت محلی دستگاه تفسیر می‌شوند. زمان افزودن فایل یا زمان واردشده توسط کاربر، اصالت زمان تصویربرداری را اثبات نمی‌کند.',27,'#70828b');
  await heading('فهرست زمانی گزارش‌ها');for(let i=0;i<reports.length;i++){const r=reports[i];await text(`${fa(i+1)}. ${labelDate(r.fields?.visit||r.fields?.reportDate)} | ${r.fields?.engineer||'مهندس ثبت نشده'} | ${fa(r.media?.length||0)} پیوست`,29)}
  await text('عکس‌ها در صفحات درج شده‌اند؛ اصل عکس و فیلم در پیوست داخلی PDF قرار دارد. پیوست‌ها را در نرم‌افزار سازگار با PDF مانند Adobe Acrobat Reader باز کنید. نمایش مستقیم فیلم در همه نمایشگرها پشتیبانی نمی‌شود.',28,'#70828b');
  for(let i=0;i<reports.length;i++){
- const r=reports[i];await next();await heading(`بازدید ${fa(i+1)} | ${labelDate(r.fields?.visit||r.fields?.reportDate)}`);await text(`شناسه بازدید: ${r.id}`,24,'#70828b');await text(`منطقه زمانی ثبت بازدید: ${r.visitZone||'ثبت نشده'}`,25,'#70828b');await text(`زمان بایگانی: ${labelDate(r.savedAt)} | ${r.reviewed?'بازبینی‌شده توسط کاربر':'بازبینی‌نشده'} | بدون امضا`,27,'#70828b');
- await text(r.reportText||'متن گزارش ثبت نشده است.');
- await heading('شواهد و پیوست‌های این بازدید');if(!r.media?.length)await text('پیوستی ثبت نشده است.');
+ const r=reports[i];const kind=r.recordKind==='desk_review'?'بررسی اسنادی':'بازدید';await next();await heading(`${kind} ${fa(i+1)} | ${labelDate(r.fields?.visit||r.fields?.reportDate)}`);await text(`شناسه گزارش: ${r.id}`,24,'#70828b');await text(`منطقه زمانی ثبت گزارش: ${r.visitZone||'ثبت نشده'}`,25,'#70828b');await text(`زمان بایگانی: ${labelDate(r.savedAt)} | ${r.reviewed?'بازبینی‌شده توسط کاربر':'بازبینی‌نشده'} | بدون امضا`,27,'#70828b');
+ if(r.recordKind==='desk_review')await text('نمونه مستند بر پایه منابع عمومی - بازدید میدانی انجام نشده؛ تنظیم‌کننده، ناظر این پروژه نیست.',29,'#946c39');await text(r.reportText||'متن گزارش ثبت نشده است.');
+ await heading('شواهد و پیوست‌های این گزارش');if(!r.media?.length)await text('پیوستی ثبت نشده است.');
  for(let j=0;j<(r.media||[]).length;j++){
  const m=r.media[j];if(!(m.blob instanceof Blob))throw Error('فایل پیوست قابل خواندن نیست: '+m.name);
  const video=m.type?.startsWith('video/');const ext=(m.name.match(/\.[a-zA-Z0-9]{1,8}$/)||[video?'.mp4':'.jpg'])[0];const filename=`visit-${String(i+1).padStart(3,'0')}-media-${String(j+1).padStart(3,'0')}${ext}`;
