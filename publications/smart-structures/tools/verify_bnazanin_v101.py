@@ -37,13 +37,13 @@ def run() -> int:
     if shutil.which("fc-match"):
         match = command("fc-match", "-f", "%{family}", "B Nazanin").strip()
         checks["resolved_font_family"] = match
-        checks["b_nazanin_resolved"] = bool(re.search(r"(?i)\\bb[ -]?nazanin\\b", match))
+        checks["b_nazanin_resolved"] = bool(re.search(r"(?i)\bb[ -]?nazanin\b", match))
     else:
         checks["b_nazanin_resolved"] = False
         checks["font_tool_missing"] = "fc-match"
     if checks["pdf_exists"] and shutil.which("pdfinfo"):
         info = command("pdfinfo", str(args.pdf))
-        found = re.search(r"^Pages:\\s*(\\d+)", info, re.MULTILINE)
+        found = re.search(r"^Pages:\s*(\d+)", info, re.MULTILINE)
         checks["pdf_pages"] = int(found.group(1)) if found else None
         checks["page_count_pass"] = checks["pdf_pages"] == args.expected_pages
     else:
