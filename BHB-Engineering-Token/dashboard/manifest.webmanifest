@@ -1,0 +1,19 @@
+{
+  "name": "BHB Engineering Token",
+  "short_name": "BHB Token",
+  "description": "داشبورد آزمایشی BHB روی شبکه Ethereum Sepolia",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#06111c",
+  "theme_color": "#07131f",
+  "lang": "fa",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "assets/bhb-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
