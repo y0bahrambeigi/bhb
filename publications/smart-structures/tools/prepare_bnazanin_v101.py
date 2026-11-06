@@ -96,6 +96,20 @@ def prepare(source: Path, destination: Path) -> None:
                             continue
                         set_run_font(run, FONT, 11.25 if (run.bold or row_index == 0) else 10.75)
 
+    for section in doc.sections:
+        for story in (
+            section.header, section.first_page_header, section.even_page_header,
+            section.footer, section.first_page_footer, section.even_page_footer,
+        ):
+            if story.is_linked_to_previous:
+                continue
+            for paragraph in story.paragraphs:
+                for run in paragraph.runs:
+                    if run.text and (
+                        PERSIAN_RE.search(run.text) or run.font.name in OLD_PERSIAN_FONTS
+                    ) and run.font.name != "Cambria Math":
+                        set_run_font(run, FONT)
+
     # The v1.0.0 source intentionally forced the closing quotation onto a new page.
     # For v1.0.1 keep the closing block with the bibliography so the book stays 40 pages.
     closing = next(
