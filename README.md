@@ -2,6 +2,8 @@
   <img src="assets/business-card.jpg" alt="Yousef Bahram Beigi — Professional Business Card" width="100%" />
 </div>
 
+[رزومهٔ دانشگاهی و حرفه‌ای یوسف بهرام‌بیگی](https://y0bahrambeigi.github.io/bhb/resume/)
+
 <br>
 
 [![Software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21960225.svg)](https://doi.org/10.5281/zenodo.21960225)
