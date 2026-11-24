@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>نرم‌افزار داخلی | استودیوی خرپای BMPOA</title>
+  <link rel="manifest" href="manifest-fa.webmanifest">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="استودیوی خرپا">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+  <div>
+    <small>نرم‌افزار داخلی پژوهش مهندسی سازه</small>
+    <h1>استودیوی خرپای <bdi>BMPOA</bdi></h1>
+    <p>بهینه‌سازی خرپاهای فولادی با مقاطع گسسته و قیود دینامیکی</p>
+  </div>
+  <div class="tools"><a href="index.html" class="language" lang="en" hreflang="en" dir="ltr">English</a><span id="net">در حال بررسی اتصال</span></div>
+</header>
+<main>
+  <section class="hero">
+    <div>
+      <b>نتایج پژوهش</b>
+      <h2>مقایسهٔ وزن خرپاها با بودجهٔ ارزیابی برابر</h2>
+      <p>برای هر خرپا، چهار نسخهٔ الگوریتم با پنج بذر تصادفی یکسان اجرا شده‌اند. مدل خرپا و نسخهٔ الگوریتم را انتخاب کنید تا وزن طرح‌ها و وضعیت رعایت قیود را ببینید.</p>
+    </div>
+    <div class="badge" role="status">…<br><small>در حال بررسی داده‌ها</small></div>
+  </section>
+  <section class="controls">
+    <label>مدل خرپا<select id="benchmark"><option value="120-bar">خرپای ۱۲۰ عضوی</option><option value="72-bar">خرپای ۷۲ عضوی</option></select></label>
+    <label>نسخهٔ الگوریتم<select id="variant" dir="ltr"><option>BMPOA-core</option><option>BMPOA-DiscreteLS</option><option>BMPOA-QIO</option><option>BMPOA-DiscreteLS-QIO</option></select></label>
+  </section>
+  <section id="cards" class="cards" aria-label="نتایج اجراهای انتخاب‌شده"></section>
+  <section class="panel">
+    <h3>مقایسهٔ میانگین وزن طرح‌ها (پوند‌نیرو)</h3>
+    <p>مقیاس نمودار از صفر شروع می‌شود. برای طرح‌هایی که همهٔ قیود را رعایت می‌کنند، وزن کمتر مطلوب‌تر است. پنج اجرا برای نتیجه‌گیری دربارهٔ برتری کلی یک الگوریتم کافی نیست.</p>
+    <div id="bars"></div>
+  </section>
+  <section class="panel">
+    <h3>منبع داده‌ها و مشخصات اجرا</h3>
+    <dl>
+      <dt>شناسهٔ نسخهٔ مرجع کد</dt><dd><code dir="ltr">723bdc81d198a7895ce5401c083620c709897307</code></dd>
+      <dt>بودجهٔ ارزیابی</dt><dd>۳۵٬۰۷۰ فراخوانی تابع ارزیابی در هر اجرا</dd>
+      <dt>تعداد حل‌های مودال</dt><dd>۳۵٬۰۷۰ حل در هر اجرا</dd>
+      <dt>بذرهای تصادفی</dt><dd>۲۰۲۶، ۲۰۲۷، ۲۰۲۸، ۲۰۲۹ و ۲۰۳۰</dd>
+      <dt>دامنهٔ مقایسه</dt><dd>نمودارها بر اساس نتایج اعتبارسنجی‌شده‌اند. اجراهای آزمایشی اولیه و نتایج خرپای ۱۲۰ عضوی پیش از اصلاح، از مقایسه کنار گذاشته شده‌اند.</dd>
+    </dl>
+  </section>
+  <section class="panel note"><b>محل اجرای محاسبات</b><p>این داشبورد نتایج را روی آیفون نمایش می‌دهد. اجرای بهینه‌سازی با کد اعتبارسنجی‌شدهٔ <bdi>MATLAB/Octave</bdi> روی سرور انجام می‌شود.</p></section>
+  <section class="panel">
+    <h3>دریافت داده‌ها و نصب روی آیفون</h3>
+    <p>تاریخ ثبت نسخهٔ ثابت نتایج، ۲۴ سپتامبر ۲۰۲۶ است. این مجموعه شامل تاریخچهٔ همگرایی نیست.</p>
+    <p><a href="results.csv" download>دانلود نتایج اعتبارسنجی‌شده (CSV)</a> · <a href="https://github.com/y0bahrambeigi/bhb/actions/runs/35961509977">مشاهدهٔ اجرای مرجع و فایل‌های MAT</a></p>
+    <p>در Safari روی دکمهٔ اشتراک‌گذاری بزنید و گزینهٔ <bdi lang="en">Add to Home Screen</bdi> را انتخاب کنید. برای استفادهٔ آفلاین، ابتدا صفحه را یک بار با اتصال اینترنت باز کنید.</p>
+  </section>
+</main>
+<section class="panel force-panel" id="truss-3d">
+  <h2>خرپا و نیروهای محوری اعضا</h2>
+  <div class="force-controls"><label>اجرای بهینه‌سازی (بذر و وزن نهایی)<select id="force-run" disabled></select></label><label>حالت بار استاتیکی<select id="force-case" disabled></select></label><label>واحد نیرو<select id="force-unit" dir="ltr"><option>kN</option><option>lbf</option></select></label></div>
+  <p id="force-status" role="status">در انتظار داده‌های تحلیل…</p>
+  <div id="force-results" hidden>
+    <div class="force-stage"><svg id="force-scene" viewBox="0 0 560 370" role="img" aria-label="نمای سه‌بعدی خرپا"></svg></div>
+    <div class="force-toolbar"><button type="button" data-camera="left" aria-label="چرخاندن به چپ">↶</button><button type="button" data-camera="right" aria-label="چرخاندن به راست">↷</button><button type="button" data-camera="in" aria-label="بزرگ‌نمایی">+</button><button type="button" data-camera="out" aria-label="کوچک‌نمایی">−</button><button type="button" data-camera="reset">نمای اولیه</button></div>
+    <div class="force-legend"><span class="tension">کشش (+)</span><span class="compression">فشار (−)</span><span class="neutral">نزدیک صفر</span><span class="support">تکیه‌گاه</span></div>
+    <p>برای چرخاندن، مدل را بکشید. برای خواندن نیروی محوری، روی عضو بزنید یا شمارهٔ آن را انتخاب کنید.</p>
+    <label>شمارهٔ عضو<select id="force-member"></select></label>
+    <dl id="force-inspection" aria-live="polite"></dl>
+    <p>نیروها از تحلیل استاتیکی خطیِ طرح نهایی هر اجرا به‌دست آمده‌اند. هندسه در وضعیت تغییرشکل‌نیافته نمایش داده می‌شود. شدت رنگ با قدرمطلق نیرو در همان حالت بار تغییر می‌کند. <a href="https://github.com/y0bahrambeigi/bhb/blob/723bdc81d198a7895ce5401c083620c709897307/Dissertation-Truss-Optimization/problems/DiscreteDynamicSteelTruss.m">مدل و بارگذاری مرجع</a></p>
+  </div>
+</section>
+<footer>بهینه‌سازی خرپا با الگوریتم <bdi>BMPOA</bdi></footer>
+<script src="force-view.js"></script><script src="app.js"></script>
+</body>
+</html>
