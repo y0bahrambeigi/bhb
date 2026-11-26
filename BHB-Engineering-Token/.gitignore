@@ -1,0 +1,9 @@
+node_modules/
+artifacts/
+cache/
+coverage/
+types/
+*.log
+.env
+ignition/parameters/sepolia.json
+ignition/parameters/sepolia.test.json

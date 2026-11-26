@@ -1,0 +1,47 @@
+name: BHB Engineering Token CI
+
+on:
+  push:
+    paths:
+      - "BHB-Engineering-Token/**"
+      - ".github/workflows/bhb-engineering-token-ci.yml"
+  pull_request:
+    paths:
+      - "BHB-Engineering-Token/**"
+      - ".github/workflows/bhb-engineering-token-ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bhb-token-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: BHB-Engineering-Token
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: BHB-Engineering-Token/package-lock.json
+      - name: Install pinned dependencies
+        run: npm ci
+      - name: Audit dependencies (moderate and above)
+        run: npm run audit:ci
+      - name: Compile contracts
+        run: npm run build
+      - name: Check TypeScript
+        run: npm run typecheck
+      - name: Run contract tests
+        run: npm test
+      - name: Generate contract coverage
+        run: npm run coverage
+      - name: Test deployment safety gates
+        run: npm run test:deployment
