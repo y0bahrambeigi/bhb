@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111f" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content="شبیه‌ساز آفلاین و سه‌بعدی مراحل ساخت سامانه سبک، سریع‌الاجرا و مقاوم رَسا–سِل" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="رَسا–سِل" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <title>رَسا–سِل | شبیه‌ساز ساخت آفلاین</title>
+  </head>
+  <body>
+    <div class="app-shell" id="app">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="رَسا–سِل، صفحه اصلی">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" role="img">
+              <path d="M22 3 38 12v20L22 41 6 32V12Z" />
+              <path d="m13 29 9-16 9 16M16 24h12" />
+            </svg>
+          </span>
+          <span>
+            <strong>رَسا–سِل</strong>
+            <small>Rapid Adaptive Seismic Assembly</small>
+          </span>
+        </a>
+
+        <div class="topbar-actions">
+          <span class="status-pill" id="offline-status" role="status">
+            <i aria-hidden="true"></i>
+            <span>در حال آماده‌سازی آفلاین</span>
+          </span>
+          <button class="icon-button" id="install-app" type="button" title="نصب برنامه" aria-label="نصب برنامه">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v3h14v-3" /></svg>
+          </button>
+          <button class="icon-button" id="toggle-fullscreen" type="button" title="تمام‌صفحه" aria-label="نمایش تمام‌صفحه">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5m13 5h5v-5" /></svg>
+          </button>
+          <button class="icon-button" id="show-help" type="button" title="راهنما" aria-label="نمایش راهنما">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M9.8 9a2.3 2.3 0 1 1 3.2 2.1c-.7.3-1 1-1 1.9m0 3h.01" /></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="stage-panel" aria-label="مراحل ساخت">
+          <div class="panel-heading">
+            <span class="eyebrow">توالی اجرایی</span>
+            <strong>۹ مرحله ساخت</strong>
+          </div>
+          <nav class="stage-list" id="stage-list"></nav>
+          <div class="system-card">
+            <span>منطق سامانه</span>
+            <b>سبک · خشک · تعمیرپذیر</b>
+            <small>کاهش جرم، مسیر بار افزونه و فیوز قابل‌تعویض</small>
+          </div>
+        </aside>
+
+        <section class="model-column" aria-label="مدل سه‌بعدی">
+          <div class="scene-card" id="scene-card">
+            <canvas id="rasa-canvas" aria-label="مدل سه‌بعدی ساختمان رَسا–سِل" tabindex="0"></canvas>
+            <div class="scene-scrim" aria-hidden="true"></div>
+            <div class="scene-grid" aria-hidden="true"></div>
+
+            <div class="scene-header" aria-live="polite">
+              <div>
+                <span class="eyebrow" id="stage-kicker">مرحله ۰۱ · زیرسازه</span>
+                <h1 id="stage-name">پی و جانمایی دیجیتال</h1>
+                <p id="stage-summary">شبکه‌گذاری، پی گسترده، شناژها و کنترل دقیق محل صفحات پایه</p>
+              </div>
+              <div class="progress-orb" aria-label="پیشرفت ساخت">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <circle class="progress-track" cx="24" cy="24" r="19" />
+                  <circle class="progress-value" id="progress-ring" cx="24" cy="24" r="19" />
+                </svg>
+                <b id="progress-percent">۱۱٪</b>
+              </div>
+            </div>
+
+            <div class="model-loading" id="model-loading" role="status">
+              <span class="loader-cube" aria-hidden="true"></span>
+              <b>در حال مونتاژ مدل مهندسی…</b>
+            </div>
+
+            <div class="scene-tools" role="group" aria-label="کنترل نمای سه‌بعدی">
+              <button type="button" id="explode-model" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4-8 4-8-4 8-4Zm8 9-8 4-8-4m16 5-8 4-8-4" /></svg>
+                <span>نمای انفجاری</span>
+              </button>
+              <button type="button" id="reset-camera">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 1 0 2-5.3L4 8m0-5v5h5" /></svg>
+                <span>بازنشانی</span>
+              </button>
+              <button type="button" id="toggle-auto-rotate" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8a8 8 0 0 1 13-2l2 2m-1-5 1 5-5 1M19 16a8 8 0 0 1-13 2l-2-2m1 5-1-5 5-1" /></svg>
+                <span>چرخش خودکار</span>
+              </button>
+            </div>
+
+            <div class="gesture-hint" id="gesture-hint">
+              <span>برای چرخش بکشید</span>
+              <i></i>
+              <span>برای جزئیات انتخاب کنید</span>
+            </div>
+
+            <div class="selection-card" id="selection-card" hidden aria-live="polite">
+              <button type="button" id="close-selection" aria-label="بستن جزئیات">×</button>
+              <span>جزء انتخاب‌شده</span>
+              <p id="selection-detail"></p>
+            </div>
+          </div>
+
+          <div class="transport" aria-label="کنترل‌های انیمیشن">
+            <button class="nav-button" id="next-stage" type="button" aria-label="مرحله بعد">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+            </button>
+            <button class="play-button" id="play-stages" type="button" aria-label="پخش مراحل" data-testid="play">
+              <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" /></svg>
+              <svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14m8-14v14" /></svg>
+            </button>
+            <button class="nav-button" id="previous-stage" type="button" aria-label="مرحله قبل">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+            </button>
+            <div class="timeline-wrap">
+              <input id="stage-range" type="range" min="0" max="8" step="1" value="0" aria-label="خط زمانی ساخت" />
+              <div class="timeline-dots" id="timeline-dots" aria-hidden="true"></div>
+            </div>
+            <span class="stage-counter" id="stage-counter">۰۱ / ۰۹</span>
+          </div>
+        </section>
+
+        <aside class="insight-panel" aria-label="جزئیات مهندسی مرحله">
+          <div class="panel-heading">
+            <span class="eyebrow">پرونده مهندسی</span>
+            <strong id="insight-title">کنترل زیرسازه</strong>
+          </div>
+
+          <div class="metric-grid" id="metric-grid"></div>
+
+          <section class="detail-section">
+            <h2>عملیات کلیدی</h2>
+            <ul id="stage-actions"></ul>
+          </section>
+
+          <section class="detail-section load-path-section">
+            <h2>مسیر انتقال نیرو</h2>
+            <div class="load-paths">
+              <div><i class="gravity"></i><span>ثقلی</span><b>کف ← تیر ← ستون ← پی</b></div>
+              <div><i class="seismic"></i><span>زلزله</span><b>دیافراگم ← Spine ← فیوز</b></div>
+              <div><i class="wind"></i><span>باد</span><b>پوسته ← قاب ← هسته</b></div>
+            </div>
+          </section>
+
+          <section class="detail-section standards">
+            <h2>وضعیت مدل</h2>
+            <div class="checks">
+              <span><i>✓</i> مسیر بار افزونه</span>
+              <span><i>✓</i> مونتاژ خشک</span>
+              <span><i>✓</i> قطعات قابل بازرسی</span>
+            </div>
+          </section>
+        </aside>
+      </main>
+
+      <footer class="app-footer">
+        <span>مدل مفهومی پژوهشی — نیازمند تحلیل غیرخطی و اعتبارسنجی آزمایشگاهی</span>
+        <b>تهیه، طراحی و تنظیم: یوسف بهرام بیگی</b>
+      </footer>
+    </div>
+
+    <dialog class="app-dialog" id="help-dialog">
+      <form method="dialog">
+        <button class="dialog-close" value="close" aria-label="بستن">×</button>
+        <span class="eyebrow">راهنمای سریع</span>
+        <h2>مدل را مثل یک سازه واقعی بررسی کنید</h2>
+        <div class="help-grid">
+          <div><b>چرخش</b><span>روی مدل بکشید یا با یک انگشت حرکت دهید.</span></div>
+          <div><b>بزرگ‌نمایی</b><span>اسکرول کنید یا روی نمایشگر دو انگشت را باز و بسته کنید.</span></div>
+          <div><b>بازرسی جزء</b><span>روی هر عضو کلیک کنید تا نقش مهندسی آن نمایش داده شود.</span></div>
+          <div><b>اجرای مرحله‌ای</b><span>دکمه پخش یا خط زمان را برای مشاهده توالی ساخت به‌کار ببرید.</span></div>
+        </div>
+        <div class="install-guide" id="install-guide"></div>
+      </form>
+    </dialog>
+
+    <noscript>برای اجرای مدل سه‌بعدی، JavaScript باید فعال باشد.</noscript>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
