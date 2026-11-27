@@ -1,0 +1,4 @@
+document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));document.querySelectorAll('[data-category]').forEach(card=>{card.hidden=button.dataset.filter!=='all'&&card.dataset.category!==button.dataset.filter;});}));
+const input=document.querySelector('#paper-search');
+if(input)input.addEventListener('input',()=>{let count=0;const q=input.value.trim().normalize('NFKC').replace(/ي/g,'ی').replace(/ك/g,'ک').toLowerCase();document.querySelectorAll('.paper').forEach(p=>{const s=p.textContent.normalize('NFKC').replace(/ي/g,'ی').replace(/ك/g,'ک').toLowerCase();p.hidden=!s.includes(q);if(!p.hidden)count++;});document.querySelector('#no-results').hidden=count>0;});
+document.querySelector('#print-resume')?.addEventListener('click',()=>window.print());
